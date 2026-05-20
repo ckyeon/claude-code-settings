@@ -1,0 +1,19 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Backup files produced by install.sh (these normally live in ~/.claude/,
+# but list them here defensively in case they ever land inside the repo)
+*.backup-*
+*.bak
+
+# direnv
+.envrc
+.direnv/
