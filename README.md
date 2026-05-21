@@ -128,6 +128,25 @@ Removes only the symlinks that point into this repo. If `install.sh` previously 
 - **`settings.json` not loading** — check `readlink ~/.claude/settings.json` resolves into this repo, then validate JSON with `python3 -m json.tool < ~/.claude/settings.json`.
 - **Statusline missing** — `chmod +x user/{mac,linux}/statusline-command.sh` and re-run `./install.sh`.
 
+## Provenance / Sources
+
+When you adopt a skill, command, hook, or template from another public repo, record the source so you don't lose track of where it came from. The system uses JSON sidecar files (`.provenance.json`) so the metadata never lands in Claude Code's context.
+
+Quick example:
+
+```bash
+bin/adopt --from https://github.com/example/dotfiles \
+          --commit a1b2c3d4 \
+          --path skills/notify \
+          --to user/shared/skills/notify \
+          --mode copied \
+          --license MIT
+```
+
+This copies the upstream content, writes `user/shared/skills/notify/.provenance.json`, and prints a `git commit` command for you to run. The repo-level `SOURCES.md` is a browseable index — regenerate it after adopting with `bin/sources-index`.
+
+See [`docs/PROVENANCE.md`](docs/PROVENANCE.md) for the schema, conventions, and edge cases. The tooling uses Python 3 standard library only (no external dependencies required).
+
 ## What this repo deliberately does NOT manage
 
 Claude Code creates and updates many files under `~/.claude/` at runtime. None of them are touched by this repo:

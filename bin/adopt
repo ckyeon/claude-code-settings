@@ -1,0 +1,174 @@
+#!/usr/bin/env bash
+# Adopt a skill / file / folder from an upstream repo, recording provenance
+# in a sibling/inner .provenance.json sidecar.
+#
+# Idempotent additive: re-running with the same destination appends another
+# entry to provenance[] (useful for items that draw from multiple sources).
+#
+# Does NOT commit on your behalf — prints a suggested git command at the end.
+
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+# shellcheck source=../lib/common.sh
+source "$REPO_ROOT/lib/common.sh"
+# shellcheck source=../lib/provenance.sh
+source "$REPO_ROOT/lib/provenance.sh"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  bin/adopt --from <repo-url> --commit <sha-7-to-40> --path <path-in-source-repo> \
+            --to <local-dest> --mode copied|inspired-by --license <SPDX> \
+            [--notes "..."]
+
+Adopt content from an external repo and record provenance.
+
+  --from        Upstream repository URL (https:// or git@)
+  --commit      Source commit SHA (7-40 hex chars; resolved to full 40 via ls-remote)
+  --path        Path within the source repo to the adopted content
+  --to          Local destination (folder or file). For copied mode this is
+                where content lands. For inspired-by mode this must already exist.
+  --mode        'copied' (content reproduced) | 'inspired-by' (your impl, their idea)
+  --license     SPDX identifier (e.g., MIT, Apache-2.0, GPL-3.0; Unknown / None allowed)
+  --notes       Optional free-form annotation
+
+Outputs:
+  - Writes (or appends to) <dest>/.provenance.json  (if dest is a folder)
+                       or <dest>.provenance.json    (if dest is a file)
+  - Prints a `git commit` command with trailers — you run it yourself.
+
+Refresh the index afterwards:
+  bin/sources-index
+EOF
+}
+
+# ----- Parse args -----
+FROM="" COMMIT="" PATH_IN_REPO="" TO="" MODE="" LICENSE="" NOTES=""
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --from)    FROM="${2:-}"; shift 2 ;;
+    --commit)  COMMIT="${2:-}"; shift 2 ;;
+    --path)    PATH_IN_REPO="${2:-}"; shift 2 ;;
+    --to)      TO="${2:-}"; shift 2 ;;
+    --mode)    MODE="${2:-}"; shift 2 ;;
+    --license) LICENSE="${2:-}"; shift 2 ;;
+    --notes)   NOTES="${2:-}"; shift 2 ;;
+    -h|--help) usage; exit 0 ;;
+    *)         echo "ERROR: unknown arg '$1'" >&2; echo "" >&2; usage >&2; exit 1 ;;
+  esac
+done
+
+# ----- Validate -----
+missing=""
+[ -z "$FROM" ]         && missing="$missing --from"
+[ -z "$COMMIT" ]       && missing="$missing --commit"
+[ -z "$PATH_IN_REPO" ] && missing="$missing --path"
+[ -z "$TO" ]           && missing="$missing --to"
+[ -z "$MODE" ]         && missing="$missing --mode"
+[ -z "$LICENSE" ]      && missing="$missing --license"
+if [ -n "$missing" ]; then
+  echo "ERROR: missing required arg(s):$missing" >&2
+  echo "" >&2
+  usage >&2
+  exit 1
+fi
+
+if ! [[ "$FROM" =~ ^(https?://|git@|ssh://|file://|/) ]]; then
+  echo "ERROR: --from must be a URL (http(s)://, ssh://, git@, file://) or absolute path, got: $FROM" >&2
+  exit 1
+fi
+
+# Commit SHA must be 7-40 hex chars
+if ! [[ "$COMMIT" =~ ^[0-9a-f]{7,40}$ ]]; then
+  echo "ERROR: --commit must be 7-40 lowercase hex chars, got: $COMMIT" >&2
+  exit 1
+fi
+
+validate_mode "$MODE"
+
+# ----- Clone upstream (blobless, no checkout) -----
+TMPDIR="$(mktemp -d)"
+trap 'rm -rf "$TMPDIR"' EXIT
+
+echo "Cloning $FROM (blobless)..."
+if ! git clone --quiet --filter=blob:none --no-checkout "$FROM" "$TMPDIR/clone" >/dev/null 2>&1; then
+  echo "ERROR: failed to clone $FROM" >&2
+  exit 1
+fi
+
+# ----- Resolve full SHA -----
+FULL_SHA="$(git -C "$TMPDIR/clone" rev-parse "$COMMIT" 2>/dev/null)" || {
+  echo "ERROR: commit '$COMMIT' not found in $FROM" >&2
+  exit 1
+}
+echo "  Commit: $FULL_SHA"
+
+# ----- Copy if needed -----
+if [ "$MODE" = "copied" ]; then
+  echo "Sparse-checking out $PATH_IN_REPO..."
+  git -C "$TMPDIR/clone" sparse-checkout init --cone >/dev/null
+  git -C "$TMPDIR/clone" sparse-checkout set "$PATH_IN_REPO" >/dev/null
+  git -C "$TMPDIR/clone" checkout --quiet "$FULL_SHA" >/dev/null
+
+  SRC="$TMPDIR/clone/$PATH_IN_REPO"
+  if [ ! -e "$SRC" ]; then
+    echo "ERROR: path '$PATH_IN_REPO' not found in $FROM at $FULL_SHA" >&2
+    exit 1
+  fi
+
+  mkdir -p "$(dirname "$TO")"
+  if [ -d "$SRC" ]; then
+    mkdir -p "$TO"
+    cp -R "$SRC/." "$TO/"
+    echo "Copied folder $PATH_IN_REPO → $TO"
+  else
+    cp "$SRC" "$TO"
+    echo "Copied file $PATH_IN_REPO → $TO"
+  fi
+fi
+
+# ----- Destination must exist before sidecar write -----
+if [ ! -e "$TO" ]; then
+  echo "ERROR: destination '$TO' does not exist." >&2
+  if [ "$MODE" = "inspired-by" ]; then
+    echo "  For 'inspired-by' mode, write your local implementation first." >&2
+  fi
+  exit 1
+fi
+
+# ----- Determine sidecar path -----
+if [ -d "$TO" ]; then
+  SIDECAR="$TO/.provenance.json"
+else
+  SIDECAR="$TO.provenance.json"
+fi
+
+# ----- Write/append sidecar -----
+ADOPTED_AT="$(date +%Y-%m-%d)"
+append_provenance "$SIDECAR" "$FROM" "$FULL_SHA" "$PATH_IN_REPO" "$LICENSE" "$MODE" "$ADOPTED_AT" "$NOTES"
+echo "Sidecar updated: $SIDECAR"
+
+# ----- Print commit suggestion -----
+SHORT_SHA="$(echo "$FULL_SHA" | cut -c1-8)"
+# Best-effort owner/repo extraction (e.g., github.com/foo/bar.git → foo/bar)
+REPO_SLUG="$(echo "$FROM" | sed -E 's#^.*[/:]([^/:]+/[^/]+)$#\1#' | sed 's/\.git$//')"
+DEST_NAME="$(basename "$TO")"
+
+cat <<EOF
+
+──────────────────────────────────────────────────────────────────────
+Adoption recorded. Suggested next steps:
+
+  git add "$TO" "$SIDECAR"
+  git commit \\
+    -m "Adopt $DEST_NAME from ${REPO_SLUG}@${SHORT_SHA}" \\
+    --trailer "Source-Repo: $FROM" \\
+    --trailer "Source-Commit: $FULL_SHA" \\
+    --trailer "Adopt-Mode: $MODE"
+
+Then refresh the index:
+  bin/sources-index
+──────────────────────────────────────────────────────────────────────
+EOF
