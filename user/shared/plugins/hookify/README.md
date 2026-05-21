@@ -16,9 +16,9 @@ managed by Claude Code's plugin CLI (`~/.claude/plugins/installed_plugins.json`)
 
 Hookify ships a Python codebase (`core/`, `matchers/`, `utils/`) plus hooks
 that import those modules. Splitting it by artifact type the way
-[[../skills/claude-md-improver]] was split would break it, and copying the
-whole tree here would duplicate what the official plugin marketplace already
-manages.
+[[../claude-md-management]] was briefly tried would break it, and copying
+the whole tree here would duplicate what the official plugin marketplace
+already manages.
 
 The `.provenance.json` next to this README pins the upstream commit so this
 repo's `SOURCES.md` still records that hookify is part of the user's setup.

@@ -36,17 +36,15 @@ _Last generated: 2026-05-21_
 | `project-templates/phaser/.claude/skills/v3-to-v4-migration` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/v3-to-v4-migration` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/v4-new-features` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/v4-new-features` | copied | MIT | 2026-05-21 |
 | `user/shared/CLAUDE.md` | https://github.com/multica-ai/andrej-karpathy-skills.git | `2c606141` | `CLAUDE.md` | copied | MIT | 2026-05-21 |
-| `user/shared/commands/revise-claude-md.md` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/claude-md-management/commands/revise-claude-md.md` | copied | Apache-2.0 | 2026-05-21 |
+| `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-05-21 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-05-21 |
-| `user/shared/skills/claude-md-improver` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/claude-md-management/skills/claude-md-improver` | copied | Apache-2.0 | 2026-05-21 |
 
 ## By source
 
 ### https://github.com/anthropics/claude-plugins-official.git
 
-- `user/shared/commands/revise-claude-md.md` (copied @ `6cc16f4b`, Apache-2.0)
+- `user/shared/plugins/claude-md-management` (inspired-by @ `6cc16f4b`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `6cc16f4b`, Apache-2.0)
-- `user/shared/skills/claude-md-improver` (copied @ `6cc16f4b`, Apache-2.0)
 
 ### https://github.com/multica-ai/andrej-karpathy-skills.git
 
