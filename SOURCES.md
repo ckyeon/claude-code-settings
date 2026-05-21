@@ -7,6 +7,34 @@ _Last generated: 2026-05-21_
 
 | Local path | Source | Commit | Path in source | Mode | License | Adopted |
 |---|---|---|---|---|---|---|
+| `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/actions-and-utilities` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/animations` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/animations` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/audio-and-sound` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/audio-and-sound` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/cameras` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/cameras` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/curves-and-paths` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/curves-and-paths` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/data-manager` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/data-manager` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/events-system` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/events-system` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/filters-and-postfx` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/filters-and-postfx` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/game-object-components` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/game-object-components` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/game-setup-and-config` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/game-setup-and-config` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/geometry-and-math` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/geometry-and-math` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/graphics-and-shapes` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/graphics-and-shapes` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/groups-and-containers` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/groups-and-containers` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/input-keyboard-mouse-touch` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/input-keyboard-mouse-touch` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/loading-assets` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/loading-assets` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/particles` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/particles` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/physics-arcade` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/physics-arcade` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/physics-matter` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/physics-matter` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/render-textures` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/render-textures` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/scale-and-responsive` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/scale-and-responsive` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/scenes` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/scenes` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/sprites-and-images` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/sprites-and-images` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/text-and-bitmaptext` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/text-and-bitmaptext` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/tilemaps` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/tilemaps` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/time-and-timers` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/time-and-timers` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/tweens` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/tweens` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/v3-to-v4-migration` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/v3-to-v4-migration` | copied | MIT | 2026-05-21 |
+| `project-templates/phaser/.claude/skills/v4-new-features` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/v4-new-features` | copied | MIT | 2026-05-21 |
 | `user/shared/CLAUDE.md` | https://github.com/multica-ai/andrej-karpathy-skills.git | `2c606141` | `CLAUDE.md` | copied | MIT | 2026-05-21 |
 
 ## By source
@@ -14,3 +42,34 @@ _Last generated: 2026-05-21_
 ### https://github.com/multica-ai/andrej-karpathy-skills.git
 
 - `user/shared/CLAUDE.md` (copied @ `2c606141`, MIT)
+
+### https://github.com/phaserjs/phaser
+
+- `project-templates/phaser/.claude/skills/actions-and-utilities` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/animations` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/audio-and-sound` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/cameras` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/curves-and-paths` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/data-manager` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/events-system` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/filters-and-postfx` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/game-object-components` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/game-setup-and-config` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/geometry-and-math` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/graphics-and-shapes` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/groups-and-containers` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/input-keyboard-mouse-touch` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/loading-assets` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/particles` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/physics-arcade` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/physics-matter` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/render-textures` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/scale-and-responsive` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/scenes` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/sprites-and-images` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/text-and-bitmaptext` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/tilemaps` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/time-and-timers` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/tweens` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/v3-to-v4-migration` (copied @ `7304c64e`, MIT)
+- `project-templates/phaser/.claude/skills/v4-new-features` (copied @ `7304c64e`, MIT)

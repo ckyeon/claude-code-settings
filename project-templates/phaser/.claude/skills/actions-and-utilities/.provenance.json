@@ -1,0 +1,12 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/phaserjs/phaser",
+      "commit": "7304c64effaa4a1be5b8bf02ab13143a76108a19",
+      "path": "skills/actions-and-utilities",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-05-21"
+    }
+  ]
+}
