@@ -37,6 +37,7 @@ _Last generated: 2026-05-22_
 | `project-templates/phaser/.claude/skills/v4-new-features` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/v4-new-features` | copied | MIT | 2026-05-21 |
 | `user/shared/CLAUDE.md` | https://github.com/multica-ai/andrej-karpathy-skills.git | `2c606141` | `CLAUDE.md` | copied | MIT | 2026-05-21 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `7cacc946` | `.` | inspired-by | MIT | 2026-05-22 |
+| `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `1add5fe2` | `.` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-05-21 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-05-21 |
 
@@ -46,6 +47,10 @@ _Last generated: 2026-05-22_
 
 - `user/shared/plugins/claude-md-management` (inspired-by @ `6cc16f4b`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `6cc16f4b`, Apache-2.0)
+
+### https://github.com/github/github-mcp-server
+
+- `user/shared/mcp/github` (inspired-by @ `1add5fe2`, MIT)
 
 ### https://github.com/multica-ai/andrej-karpathy-skills.git
 

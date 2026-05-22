@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/github/github-mcp-server",
+      "commit": "1add5fe231040119934d18eac6da5a2aab4cfffe",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-05-22",
+      "notes": "Official GitHub MCP server. Provenance-only — server hosted at api.githubcopilot.com/mcp/ (HTTP) or runnable via Docker (stdio). Registered per-machine via 'claude mcp add' with a GitHub PAT in the Authorization header. PAT is a secret and lives only in machine-local ~/.claude.json. Note: the claude-plugins-official 'github' plugin auto-registers the same backend as 'plugin:github:github'; this entry tracks the direct-registration workflow, not the plugin path."
+    }
+  ]
+}
