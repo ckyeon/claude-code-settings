@@ -10,12 +10,14 @@ Up-to-date, version-specific library documentation and code examples on demand. 
 
 Hosted at `https://mcp.context7.com/mcp` (HTTP transport). Requires a free API key from [context7.com/dashboard](https://context7.com/dashboard).
 
+`--header` is variadic in the CLI, so it must come **after** the positional `<name>` and URL — otherwise it greedily consumes them and you get `missing required argument 'name'`. The header value uses HTTP-style `Key: value` (colon + space), not `Key=value`.
+
 ```bash
 claude mcp add \
   --transport http \
   --scope user \
-  --header "CONTEXT7_API_KEY=<your-api-key>" \
-  context7 https://mcp.context7.com/mcp
+  context7 https://mcp.context7.com/mcp \
+  --header "CONTEXT7_API_KEY: <your-api-key>"
 ```
 
 Verify:

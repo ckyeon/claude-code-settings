@@ -14,12 +14,14 @@ Both need a GitHub Personal Access Token. Get one at <https://github.com/setting
 
 ### HTTP (recommended)
 
+`--header` is variadic in the CLI, so it must come **after** the positional `<name>` and URL — otherwise it greedily consumes them and you get `missing required argument 'name'`. The header value uses HTTP-style `Key: value` (colon + space), not `Key=value`.
+
 ```bash
 claude mcp add \
   --transport http \
   --scope user \
-  --header "Authorization=Bearer <your-github-pat>" \
-  github https://api.githubcopilot.com/mcp/
+  github https://api.githubcopilot.com/mcp/ \
+  --header "Authorization: Bearer <your-github-pat>"
 ```
 
 ### stdio (Docker)
