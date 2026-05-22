@@ -34,7 +34,7 @@ Claude Code marketplace plugins (installed via `/plugin install <name>@<marketpl
 MCP servers are registered per-machine via `claude mcp add` and their config (including API-key headers) lives in machine-local `~/.claude.json` — secrets are never committed here. To track which servers belong to the user-scope setup:
 
 1. `mkdir -p user/shared/mcp/<name> && $EDITOR user/shared/mcp/<name>/README.md`. The README must include the exact `claude mcp add ...` command with placeholder values for any secrets (e.g., `<your-api-key>`).
-2. (Optional, only if a public upstream repo exists) `bin/adopt --from <repo-url> --path <p-or-.> --to user/shared/mcp/<name> --mode inspired-by --license <SPDX>`.
+2. (Optional, only if a public upstream repo exists) `bin/adopt --from <repo-url> --path <path> --to user/shared/mcp/<name> --mode inspired-by --license <SPDX>` — use `.` for `<path>` if the entire repo is the server (as with `context7`).
 
 `install.sh` / `uninstall.sh` print `claude mcp add` / `claude mcp remove` reminders listing tracked servers. Canonical example: `user/shared/mcp/context7/`.
 
