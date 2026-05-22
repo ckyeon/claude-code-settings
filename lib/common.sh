@@ -21,3 +21,17 @@ list_tracked_plugins() {
     basename "$d"
   done
 }
+
+# Print one MCP server name per line for every user/shared/mcp/<name>/ that
+# contains a README.md. Sidecar is optional for MCP entries (hosted servers
+# without public source still get tracked via README alone). Used by install.sh /
+# uninstall.sh to surface manual `claude mcp add` hints.
+list_tracked_mcp_servers() {
+  local repo_root="$1"
+  local d
+  for d in "$repo_root"/user/shared/mcp/*/; do
+    [ -d "$d" ] || continue
+    [ -f "$d/README.md" ] || continue
+    basename "$d"
+  done
+}

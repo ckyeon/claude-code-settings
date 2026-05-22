@@ -128,6 +128,30 @@ Canonical examples in this repo:
 
 When to prefer this over **split adoption** (copying skills/commands out of a plugin): use provenance-only whenever the plugin ships through a marketplace you've already added, or when the plugin has a `.claude-plugin/plugin.json` and you want Claude Code's official loader to handle activation. Use split adoption when you want only one artifact from a plugin and don't want the rest, or when the upstream isn't a marketplace plugin at all.
 
+## Tracking MCP servers
+
+Model Context Protocol (MCP) servers are registered per-machine via `claude mcp add ...` (or via claude.ai connector activation for hosted ones), and the registration — including any API-key headers — lives in machine-local `~/.claude.json` (or `~/.claude/mcp.json` on some setups). That file holds secrets and is **never** committed here. To still record which servers belong to the user-scope setup, use the **provenance-only** pattern, mirroring how plugins are tracked:
+
+1. Create `user/shared/mcp/<name>/` with a `README.md` describing what the server provides and the exact `claude mcp add ...` registration command. Use placeholders (`<your-api-key>`) for any secret values — never paste real credentials.
+2. If the server has a public upstream repo (the server source, not the hosted backend), pin a commit via `bin/adopt --mode inspired-by`:
+
+```bash
+mkdir -p user/shared/mcp/<name>
+$EDITOR user/shared/mcp/<name>/README.md   # see canonical example below
+bin/adopt --from <upstream-repo-url> \
+          [--commit <sha>] \
+          --path <path-in-repo>            # use '.' if the whole repo is the server \
+          --to user/shared/mcp/<name> \
+          --mode inspired-by --license <SPDX>
+```
+
+For servers with no public source (hosted-only HTTP MCPs without a published repo, claude.ai connectors), skip step 2 — the README alone is enough. `list_tracked_mcp_servers` in `lib/common.sh` enumerates everything under `user/shared/mcp/*/` that has a README, so sidecar presence is optional.
+
+`install.sh` / `uninstall.sh` print MCP-name hints reminding you to run `claude mcp add` (or `claude mcp remove`) on each machine.
+
+Canonical example:
+- `user/shared/mcp/context7/` — hosted HTTP MCP server with an API-key header. README captures the registration command with `<your-api-key>` placeholder; the real key lives only in machine-local config.
+
 ## License compatibility
 
 Each provenance entry records the upstream `license`. The auto-generated `SOURCES.md` provides a single browseable attribution list, which usually satisfies MIT / Apache-2.0 / BSD attribution requirements. For GPL-licensed sources, redistribution constraints apply — `SOURCES.md` is a starting point, not a substitute for license review.

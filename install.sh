@@ -76,3 +76,15 @@ if [ -n "$PLUGIN_NAMES" ]; then
   echo "  /plugin marketplace add <source-url>      # if not yet registered"
   echo "  /plugin install <name>@<marketplace>      # per plugin above"
 fi
+
+MCP_NAMES="$(list_tracked_mcp_servers "$REPO_ROOT")"
+if [ -n "$MCP_NAMES" ]; then
+  echo ""
+  echo "MCP-tracked entries (NOT registered by this script — see user/shared/mcp/):"
+  while IFS= read -r name; do
+    echo "  - $name"
+  done <<< "$MCP_NAMES"
+  echo ""
+  echo "For each, open user/shared/mcp/<name>/README.md and run the registration"
+  echo "command shown there (typically: claude mcp add --scope user ...)."
+fi

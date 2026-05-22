@@ -55,3 +55,15 @@ if [ -n "$PLUGIN_NAMES" ]; then
   echo "To remove them, run in a Claude Code session:"
   echo "  /plugin uninstall <name>@<marketplace>    # per plugin above"
 fi
+
+MCP_NAMES="$(list_tracked_mcp_servers "$REPO_ROOT")"
+if [ -n "$MCP_NAMES" ]; then
+  echo ""
+  echo "MCP-tracked entries detected (this script does NOT remove registered MCP servers):"
+  while IFS= read -r name; do
+    echo "  - $name"
+  done <<< "$MCP_NAMES"
+  echo ""
+  echo "To remove them, run:"
+  echo "  claude mcp remove <name> -s user          # per server above"
+fi

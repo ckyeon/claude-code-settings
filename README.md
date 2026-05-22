@@ -49,7 +49,8 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 │   │   ├── hooks/              # → ~/.claude/hooks/shared
 │   │   ├── rules/              # → ~/.claude/rules
 │   │   ├── output-styles/      # → ~/.claude/output-styles
-│   │   └── plugins/            # provenance-only (not symlinked; see Provenance / Sources)
+│   │   ├── plugins/            # provenance-only (not symlinked; see Provenance / Sources)
+│   │   └── mcp/                # provenance-only MCP server tracking (not symlinked)
 │   ├── mac/
 │   │   ├── statusline-command.sh
 │   │   └── hooks/              # → ~/.claude/hooks/os (when on Mac)
@@ -175,6 +176,22 @@ bin/adopt --from https://github.com/anthropics/claude-plugins-official.git \
 
 The provenance-only directory is **not** symlinked into `~/.claude/plugins/` — that path is owned by Claude Code's plugin CLI. `install.sh` and `uninstall.sh` print reminders listing tracked plugins so you don't forget the `/plugin install` step on a fresh machine. See `user/shared/plugins/hookify/` and `user/shared/plugins/claude-md-management/` for canonical examples.
 
+### Tracking an MCP server
+
+MCP servers are registered per-machine via `claude mcp add` (or claude.ai connector activation). The registration — including API-key headers — lives in machine-local `~/.claude.json` and is a secret-bearing file, so it stays out of this repo. To record which servers belong to the user-scope setup without leaking secrets, use the same provenance-only pattern as plugins:
+
+```bash
+mkdir -p user/shared/mcp/<name>
+$EDITOR user/shared/mcp/<name>/README.md   # registration command with <your-api-key> placeholders
+# Optional: pin the upstream server source if a public repo exists
+bin/adopt --from <upstream-repo-url> \
+          --path <path-or-.> \
+          --to user/shared/mcp/<name> \
+          --mode inspired-by --license <SPDX>
+```
+
+`install.sh` / `uninstall.sh` print MCP-name reminders listing tracked servers. See `user/shared/mcp/context7/` for the canonical example (hosted HTTP MCP with an API-key header). Full schema and conventions: [`docs/PROVENANCE.md`](docs/PROVENANCE.md) § "Tracking MCP servers".
+
 ## What this repo deliberately does NOT manage
 
 Claude Code creates and updates many files under `~/.claude/` at runtime. None of them are touched by this repo:
@@ -183,6 +200,6 @@ Claude Code creates and updates many files under `~/.claude/` at runtime. None o
 - `plans/` — saved plans from sessions
 - `sessions/`, `tasks/`, `shell-snapshots/`, `paste-cache/`, `image-cache/`, `file-history/` — caches and snapshots
 - `history.jsonl`, `usage-data/`, `telemetry/`, `cache/` — telemetry/cache
-- `credentials.json`, `mcp.json` — secrets (managed out-of-band per machine)
+- `credentials.json`, `mcp.json` — secrets (managed out-of-band per machine). The non-secret half of MCP server inventory is tracked separately in `user/shared/mcp/`; see Provenance / Sources § "Tracking an MCP server".
 - `settings.local.json` — per-machine override
 - `~/.claude/plugins/` — Claude Code's own plugin CLI state (marketplaces, installed-plugin registry, cache). Distinct from `user/shared/plugins/` in this repo, which only tracks provenance for plugins you've installed via `/plugin install` (see Provenance / Sources).
