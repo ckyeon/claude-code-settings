@@ -60,6 +60,20 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
+## 5. Plan-First Collaboration
+
+**Pause before acting. Surface the plan, then execute.**
+
+For non-trivial tasks — those with multiple valid interpretations, multi-file changes, or new feature work — do not jump straight to code:
+
+- **Ask before coding.** If the request is ambiguous, ask 1-3 sharp clarifying questions before writing anything. Never pick an interpretation silently when meaningful alternatives exist.
+- **Present options for design decisions.** When the approach isn't obvious, lay out 2-3 viable approaches with explicit tradeoffs (what each one gives up) before recommending one.
+- **Explain the approach first.** Before generating code, describe in plain language how you intend to solve it. Once the approach is clear, proceed.
+
+Trivial tasks (typos, renames, simple refactors) — skip the ceremony and just do them.
+
+The test: For non-trivial work, the user should see your reasoning before they see your diff.
+
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
