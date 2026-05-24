@@ -7,8 +7,9 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 - `user/{shared,mac,linux}/` — User-scope settings; symlinked into `~/.claude/` by `./install.sh`.
 - `user/shared/plugins/` — Provenance-only for plugins installed via Claude Code's `/plugin install`. Not symlinked; see `docs/PROVENANCE.md` § "Tracking officially-installed plugins".
 - `user/shared/mcp/` — Provenance-only for MCP servers registered via `claude mcp add`. Not symlinked; see `docs/PROVENANCE.md` § "Tracking MCP servers". Secrets (API keys) stay in machine-local `~/.claude.json` and never enter this repo.
+- `.claude/skills/` — Project-scope skills (e.g., `check-updates`). Only active when working in this repo.
 - `project-templates/{_base,nodejs,python,go,phaser}/` — Templates copied into new projects via manual `cp -r` (no scaffold script).
-- `bin/adopt`, `bin/sources-index` — Provenance tooling. JSON sidecars + auto-generated `SOURCES.md`.
+- `bin/adopt`, `bin/sources-index`, `bin/check-updates` — Provenance tooling. JSON sidecars + auto-generated `SOURCES.md`.
 - `docs/PROVENANCE.md` — Schema and edge cases for provenance.
 
 ## Workflows
@@ -27,7 +28,9 @@ Claude Code marketplace plugins (installed via `/plugin install <name>@<marketpl
 1. `mkdir -p user/shared/plugins/<name> && $EDITOR user/shared/plugins/<name>/README.md`
 2. `bin/adopt --from <marketplace-repo-url> --path plugins/<name> --to user/shared/plugins/<name> --mode inspired-by --license <SPDX>`
 
-`install.sh` / `uninstall.sh` print `/plugin install` reminders listing tracked plugins. Canonical examples: `user/shared/plugins/hookify/`, `user/shared/plugins/claude-md-management/`.
+`/plugin install` updates `user/shared/settings.json` — include that file in the same commit.
+
+`install.sh` / `uninstall.sh` print `/plugin install` reminders listing tracked plugins. Canonical examples: `user/shared/plugins/hookify/`, `user/shared/plugins/claude-md-management/`, `user/shared/plugins/commit-commands/`, `user/shared/plugins/skill-creator/`.
 
 ### Track an MCP server
 
@@ -42,6 +45,10 @@ MCP servers are registered per-machine via `claude mcp add` and their config (in
 ### Add a self-authored item
 
 Just create the file or folder under `user/shared/{skills,commands,agents,hooks,rules,output-styles}/`. No sidecar — opt-in scope means "no provenance metadata" = "original work".
+
+### Check for upstream updates
+
+Run `bin/check-updates` or use the `/check-updates` skill in a Claude Code session. The script compares pinned commits against upstream HEAD; the skill also auto-investigates whether tracked paths actually changed.
 
 ### Update an adoption to a newer upstream commit
 

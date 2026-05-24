@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+# Check whether provenance-pinned upstream commits are behind HEAD.
+# Fast check only — uses git ls-remote (no clone).
+
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$REPO_ROOT"
+
+REPO_ROOT="$REPO_ROOT" python3 - <<'PYEOF'
+import json
+import os
+import re
+import subprocess
+import sys
+
+repo_root = os.environ["REPO_ROOT"]
+
+# --- Discover sidecars (same walk as bin/sources-index) ---
+items = []  # (local_path, source, commit, path, adopted_as)
+for root, dirs, files in os.walk(repo_root):
+    dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
+    for name in files:
+        if name != ".provenance.json" and not name.endswith(".provenance.json"):
+            continue
+        sidecar = os.path.join(root, name)
+        rel = os.path.relpath(sidecar, repo_root)
+        local = os.path.dirname(rel) if name == ".provenance.json" else rel[: -len(".provenance.json")]
+
+        try:
+            with open(sidecar) as f:
+                data = json.load(f)
+        except Exception as e:
+            print(f"WARN: skipping {rel}: {e}", file=sys.stderr)
+            continue
+
+        prov = data.get("provenance") if isinstance(data, dict) else None
+        if not isinstance(prov, list) or not prov:
+            continue
+
+        entry = prov[-1]  # latest entry
+        source = entry.get("source", "")
+        if not source or source == "self":
+            continue
+        items.append((
+            local,
+            source,
+            entry.get("commit", ""),
+            entry.get("path", ""),
+            entry.get("adopted-as", ""),
+        ))
+
+if not items:
+    print("No provenance entries found.")
+    sys.exit(0)
+
+# --- Deduplicate ls-remote calls by source URL ---
+sources = sorted(set(it[1] for it in items))
+print(f"Checking {len(sources)} source{'s' if len(sources) != 1 else ''}...\n")
+
+head_cache = {}  # source_url -> head_sha | None
+for src in sources:
+    try:
+        out = subprocess.check_output(
+            ["git", "ls-remote", src, "HEAD"],
+            stderr=subprocess.DEVNULL, text=True, timeout=30,
+        )
+        match = re.match(r"([0-9a-f]{40})\s", out)
+        head_cache[src] = match.group(1) if match else None
+    except Exception:
+        head_cache[src] = None
+
+# --- Group items by (source, pinned_commit) ---
+groups = {}  # (source, pinned_commit) -> [items]
+for it in items:
+    key = (it[1], it[2])
+    groups.setdefault(key, []).append(it)
+
+# --- Report ---
+slug_re = re.compile(r"https?://github\.com/([^/]+/[^/]+?)(?:\.git)?/?$")
+up_to_date = 0
+outdated = 0
+errors = 0
+
+for (source, pinned), group in sorted(groups.items()):
+    m = slug_re.match(source)
+    label = m.group(1) if m else source
+    head = head_cache.get(source)
+    short_pin = pinned[:8] if pinned else "?"
+
+    if head is None:
+        print(f"? {label:<45} unreachable")
+        errors += 1
+    elif head.startswith(pinned) or pinned.startswith(head):
+        print(f"✓ {label:<45} up to date  ({short_pin})")
+        up_to_date += 1
+    else:
+        short_head = head[:8]
+        print(f"✗ {label:<45} {short_pin} → {short_head}")
+        if len(group) <= 5:
+            names = [os.path.basename(it[0]) for it in group]
+            print(f"    {', '.join(names)}")
+        else:
+            common = os.path.commonpath([it[0] for it in group])
+            print(f"    {len(group)} items ({common}/*)")
+        outdated += 1
+
+print(f"\n{up_to_date} up to date, {outdated} outdated" +
+      (f", {errors} unreachable" if errors else ""))
+
+if errors:
+    sys.exit(2)
+elif outdated:
+    sys.exit(1)
+PYEOF
