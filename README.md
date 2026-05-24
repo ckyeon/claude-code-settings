@@ -1,8 +1,10 @@
 # coding-agent-settings
 
-Personal Claude Code settings, version-controlled across **scopes** (User / Project) and **OSes** (macOS / Linux).
+Personal Claude Code settings, version-controlled across **scopes** (User / Project) and **OSes** (macOS / Linux). Clone once, symlink everywhere.
 
 ## Quick start
+
+**Prerequisites:** Bash 4.0+, macOS or Linux.
 
 ```bash
 git clone <this-repo>
@@ -10,7 +12,24 @@ cd coding-agent-settings
 ./install.sh
 ```
 
-Existing `~/.claude/CLAUDE.md`, `settings.json`, etc. (if any) are moved to `*.backup-<timestamp>` before being replaced. Re-running `./install.sh` is safe and idempotent.
+The installer detects your OS, symlinks user-scope files into `~/.claude/`, and prints what it did:
+
+```
+Installing Claude Code user-scope settings symlinks...
+  REPO_ROOT:  /path/to/coding-agent-settings
+  CLAUDE_DIR: /Users/you/.claude
+  OS:         mac
+
+Done: 10 created, 0 backed up, 0 already linked.
+```
+
+If a file already exists at a symlink target, it is backed up as `<name>.backup-YYYYMMDD-HHMMSS` before being replaced. Re-running `./install.sh` is safe and idempotent — already-correct symlinks are skipped.
+
+Verify with:
+
+```bash
+readlink ~/.claude/settings.json   # should point into this repo
+```
 
 ## Scope model
 
@@ -38,7 +57,15 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 .
 ├── install.sh                  # idempotent OS-aware installer
 ├── uninstall.sh                # remove our symlinks, restore .backup-*
+├── CLAUDE.md                   # project-scope agent instructions (for this repo)
+├── SOURCES.md                  # auto-generated provenance index
 ├── lib/common.sh               # shared bash helpers
+├── bin/
+│   ├── adopt                   # adopt items from external repos
+│   ├── sources-index           # regenerate SOURCES.md
+│   └── check-updates           # compare pins against upstream HEAD
+├── docs/
+│   └── PROVENANCE.md           # provenance schema & conventions
 ├── user/                       # → ~/.claude/
 │   ├── shared/                 # OS-agnostic
 │   │   ├── CLAUDE.md
@@ -49,7 +76,7 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 │   │   ├── hooks/              # → ~/.claude/hooks/shared
 │   │   ├── rules/              # → ~/.claude/rules
 │   │   ├── output-styles/      # → ~/.claude/output-styles
-│   │   ├── plugins/            # provenance-only (not symlinked; see Provenance / Sources)
+│   │   ├── plugins/            # provenance-only (not symlinked; see Provenance)
 │   │   └── mcp/                # provenance-only MCP server tracking (not symlinked)
 │   ├── mac/
 │   │   ├── statusline-command.sh
@@ -61,10 +88,25 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
     ├── _base/                  # shared by every template
     ├── nodejs/
     ├── python/
-    └── go/
+    ├── go/
+    └── phaser/
 ```
 
-## Adding a skill
+## Multi-machine workflow
+
+On a second machine:
+
+```bash
+git clone <this-repo>
+cd coding-agent-settings
+./install.sh   # auto-detects OS, picks user/{mac,linux} accordingly
+```
+
+For ongoing updates: `git pull && ./install.sh` (idempotent — only re-links what changed).
+
+## Customization
+
+### Adding a skill
 
 Skills are folders containing a `SKILL.md`:
 
@@ -77,7 +119,7 @@ git commit -m "Add my-skill"
 
 The next `claude` session picks it up — no re-install needed (the symlink is live).
 
-## Adding an OS-specific hook
+### Adding an OS-specific hook
 
 ```bash
 $EDITOR user/mac/hooks/notify.sh    # macOS-only
@@ -96,45 +138,19 @@ In a new project directory:
 ```bash
 TEMPLATES=<path-to-coding-agent-settings>/project-templates
 cp -r "$TEMPLATES/_base/." .
-cp -r "$TEMPLATES/nodejs/." .                  # pick one: nodejs / python / go
+cp -r "$TEMPLATES/nodejs/." .                  # pick one: nodejs / python / go / phaser
 cat "$TEMPLATES/_base/.gitignore.snippet" >> .gitignore
 $EDITOR CLAUDE.md                              # replace {{PROJECT_NAME}}, fill in details
 git add CLAUDE.md .claude .gitignore
 ```
 
+The language-specific `CLAUDE.md` **replaces** the base version (not merged). If you need content from both, merge manually after copying.
+
 Claude Code creates `.claude/settings.local.json` on demand — it's already gitignored.
-
-## Multi-machine workflow
-
-On a second machine:
-
-```bash
-git clone <this-repo>
-cd coding-agent-settings
-./install.sh   # auto-detects OS, picks user/{mac,linux} accordingly
-```
-
-For ongoing updates: `git pull && ./install.sh` (idempotent — only re-links what changed).
-
-## Uninstall
-
-```bash
-./uninstall.sh
-```
-
-Removes only the symlinks that point into this repo. If `install.sh` previously made backups (`*.backup-<timestamp>`), the most recent one for each removed symlink is restored.
-
-## Troubleshooting
-
-- **Broken symlink in `~/.claude/`** — the repo was moved or deleted. Move it back, or run `./uninstall.sh` (it's a no-op if the symlink targets are gone) and re-clone.
-- **`settings.json` not loading** — check `readlink ~/.claude/settings.json` resolves into this repo, then validate JSON with `python3 -m json.tool < ~/.claude/settings.json`.
-- **Statusline missing** — `chmod +x user/{mac,linux}/statusline-command.sh` and re-run `./install.sh`.
 
 ## Provenance / Sources
 
-When you adopt a skill, command, hook, or template from another public repo, record the source so you don't lose track of where it came from. The system uses JSON sidecar files (`.provenance.json`) so the metadata never lands in Claude Code's context.
-
-Quick example:
+When you adopt a skill, command, hook, or template from another public repo, `bin/adopt` records the source in a JSON sidecar (`.provenance.json`):
 
 ```bash
 bin/adopt --from https://github.com/example/dotfiles \
@@ -145,61 +161,28 @@ bin/adopt --from https://github.com/example/dotfiles \
           --license MIT
 ```
 
-This copies the upstream content, writes `user/shared/skills/notify/.provenance.json`, and prints a `git commit` command for you to run. The repo-level `SOURCES.md` is a browseable index — regenerate it after adopting with `bin/sources-index`.
+This copies the upstream content, writes the sidecar, and prints a `git commit` command. `SOURCES.md` is a browsable index — regenerate with `bin/sources-index`.
 
-See [`docs/PROVENANCE.md`](docs/PROVENANCE.md) for the schema, conventions, and edge cases. The tooling uses Python 3 standard library only (no external dependencies required).
+For the full schema, plugin/MCP adoption workflows, and edge cases, see [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 
-### Adopting a Claude Code plugin
-
-Plugins from a marketplace repo (e.g., `anthropics/claude-plugins-official`) ship a `.claude-plugin/plugin.json` and often bundle skills + commands + agents + Python hooks together. There are two adoption patterns depending on whether you want to vendor source or just track that the plugin is part of your setup.
-
-**Split adoption** — extract individual artifacts. Use when the upstream plugin's pieces are independent and you want them activated through this repo's existing user-scope symlinks (`~/.claude/skills/`, `~/.claude/commands/`, …).
+## Uninstall
 
 ```bash
-bin/adopt --from https://github.com/anthropics/claude-plugins-official.git \
-          --commit <sha> \
-          --path plugins/<plugin>/skills/<skill> \
-          --to user/shared/skills/<skill> \
-          --mode copied --license Apache-2.0
+./uninstall.sh
 ```
 
-**Provenance-only** — record the upstream pin, but don't copy any source. Use when you've installed the plugin via Claude Code's official `/plugin install <name>@<marketplace>` and just want this repo to remember which commit was active.
+Removes only the symlinks that point into this repo. If `install.sh` previously made backups, the most recent `.backup-*` for each removed symlink is restored automatically.
 
-```bash
-mkdir -p user/shared/plugins/<plugin> && echo "# <plugin> (provenance-only)" > user/shared/plugins/<plugin>/README.md
-bin/adopt --from https://github.com/anthropics/claude-plugins-official.git \
-          --commit <sha> \
-          --path plugins/<plugin> \
-          --to user/shared/plugins/<plugin> \
-          --mode inspired-by --license Apache-2.0
-```
+## Troubleshooting
 
-The provenance-only directory is **not** symlinked into `~/.claude/plugins/` — that path is owned by Claude Code's plugin CLI. `install.sh` and `uninstall.sh` print reminders listing tracked plugins so you don't forget the `/plugin install` step on a fresh machine. See `user/shared/plugins/hookify/` and `user/shared/plugins/claude-md-management/` for canonical examples.
-
-### Tracking an MCP server
-
-MCP servers are registered per-machine via `claude mcp add` (or claude.ai connector activation). The registration — including API-key headers — lives in machine-local `~/.claude.json` and is a secret-bearing file, so it stays out of this repo. To record which servers belong to the user-scope setup without leaking secrets, use the same provenance-only pattern as plugins:
-
-```bash
-mkdir -p user/shared/mcp/<name>
-$EDITOR user/shared/mcp/<name>/README.md   # registration command with <your-api-key> placeholders
-# Optional: pin the upstream server source if a public repo exists
-bin/adopt --from <upstream-repo-url> \
-          --path <path-or-.> \
-          --to user/shared/mcp/<name> \
-          --mode inspired-by --license <SPDX>
-```
-
-`install.sh` / `uninstall.sh` print MCP-name reminders listing tracked servers. See `user/shared/mcp/context7/` for the canonical example (hosted HTTP MCP with an API-key header). Full schema and conventions: [`docs/PROVENANCE.md`](docs/PROVENANCE.md) § "Tracking MCP servers".
+- **Broken symlink in `~/.claude/`** — the repo was moved or deleted. Move it back, or run `./uninstall.sh` (it's a no-op if the symlink targets are gone) and re-clone.
+- **`settings.json` not loading** — check `readlink ~/.claude/settings.json` resolves into this repo, then validate JSON with `python3 -m json.tool < ~/.claude/settings.json`.
+- **Statusline missing** — `chmod +x user/{mac,linux}/statusline-command.sh` and re-run `./install.sh`.
 
 ## What this repo deliberately does NOT manage
 
 Claude Code creates and updates many files under `~/.claude/` at runtime. None of them are touched by this repo:
 
-- `projects/` — per-project chat history (typically hundreds of MB)
-- `plans/` — saved plans from sessions
-- `sessions/`, `tasks/`, `shell-snapshots/`, `paste-cache/`, `image-cache/`, `file-history/` — caches and snapshots
-- `history.jsonl`, `usage-data/`, `telemetry/`, `cache/` — telemetry/cache
-- `credentials.json`, `mcp.json` — secrets (managed out-of-band per machine). The non-secret half of MCP server inventory is tracked separately in `user/shared/mcp/`; see Provenance / Sources § "Tracking an MCP server".
-- `settings.local.json` — per-machine override
-- `~/.claude/plugins/` — Claude Code's own plugin CLI state (marketplaces, installed-plugin registry, cache). Distinct from `user/shared/plugins/` in this repo, which only tracks provenance for plugins you've installed via `/plugin install` (see Provenance / Sources).
+- **History & caches** — `projects/`, `plans/`, `sessions/`, `tasks/`, `shell-snapshots/`, `paste-cache/`, `image-cache/`, `file-history/`, `history.jsonl`, `usage-data/`, `telemetry/`, `cache/`
+- **Secrets** — `credentials.json`, `mcp.json` (managed out-of-band per machine; non-secret MCP inventory tracked separately in `user/shared/mcp/`)
+- **Runtime state** — `settings.local.json` (per-machine override), `~/.claude/plugins/` (Claude Code's own plugin CLI state, distinct from `user/shared/plugins/` which only tracks provenance)
