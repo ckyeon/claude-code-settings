@@ -8,6 +8,14 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-05-21",
       "notes": "Installed via Claude Code's official /plugin install claude-md-management@claude-plugins-official. This repo tracks provenance only; no files are copied. Plugin contents: skill (claude-md-improver) and command (revise-claude-md). Replaces the earlier split adoption at user/shared/skills/claude-md-improver/ and user/shared/commands/revise-claude-md.md, which is removed in the same commit."
+    },
+    {
+      "source": "https://github.com/anthropics/claude-plugins-official.git",
+      "commit": "3449c10cd1f254c2529a4a7e96a094ef118a00a5",
+      "path": "plugins/claude-md-management",
+      "license": "Apache-2.0",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-05-24"
     }
   ]
 }

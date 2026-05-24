@@ -8,6 +8,14 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-05-22",
       "notes": "Hosted HTTP MCP server. Registered per-machine via 'claude mcp add --transport http --scope user --header CONTEXT7_API_KEY=...'. Real API key lives only in machine-local ~/.claude.json — README here uses a placeholder."
+    },
+    {
+      "source": "https://github.com/upstash/context7",
+      "commit": "ee0bb7a65ef465053607fff8fc0aae72062a4446",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-05-24"
     }
   ]
 }
