@@ -33,7 +33,7 @@ unlink_one() {
 
 echo "Uninstalling Claude Code user-scope settings symlinks..."
 
-for p in CLAUDE.md settings.json statusline-command.sh \
+for p in CLAUDE.md settings.json statusline-command.sh subagent-statusline.sh \
          skills commands agents rules output-styles \
          hooks/shared hooks/os; do
   unlink_one "$CLAUDE_DIR/$p"

@@ -47,6 +47,7 @@ echo ""
 link_one "$REPO_ROOT/user/shared/CLAUDE.md"          "$CLAUDE_DIR/CLAUDE.md"
 link_one "$REPO_ROOT/user/shared/settings.json"      "$CLAUDE_DIR/settings.json"
 link_one "$REPO_ROOT/user/$OS/statusline-command.sh" "$CLAUDE_DIR/statusline-command.sh"
+link_one "$REPO_ROOT/user/$OS/subagent-statusline.sh" "$CLAUDE_DIR/subagent-statusline.sh"
 
 # Whole directories (shared)
 for d in skills commands agents rules output-styles; do

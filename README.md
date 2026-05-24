@@ -80,9 +80,11 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 │   │   └── mcp/                # provenance-only MCP server tracking (not symlinked)
 │   ├── mac/
 │   │   ├── statusline-command.sh
+│   │   ├── subagent-statusline.sh
 │   │   └── hooks/              # → ~/.claude/hooks/os (when on Mac)
 │   └── linux/
 │       ├── statusline-command.sh
+│       ├── subagent-statusline.sh
 │       └── hooks/              # → ~/.claude/hooks/os (when on Linux)
 └── project-templates/          # copy these into new projects
     ├── _base/                  # shared by every template
