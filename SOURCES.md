@@ -7,6 +7,13 @@ _Last generated: 2026-05-25_
 
 | Local path | Source | Commit | Path in source | Mode | License | Adopted |
 |---|---|---|---|---|---|---|
+| `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/composition-patterns` | copied | MIT | 2026-05-25 |
+| `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/deploy-to-vercel` | copied | MIT | 2026-05-25 |
+| `project-templates/nextjs/.claude/skills/next-best-practices` | https://github.com/vercel-labs/next-skills | `dc1de9ca` | `skills/next-best-practices` | copied | UNLICENSED | 2026-05-25 |
+| `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/react-best-practices` | copied | MIT | 2026-05-25 |
+| `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/react-view-transitions` | copied | MIT | 2026-05-25 |
+| `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/vercel-optimize` | copied | MIT | 2026-05-25 |
+| `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/web-design-guidelines` | copied | MIT | 2026-05-25 |
 | `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/actions-and-utilities` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/actions-and-utilities` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/animations` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/animations` | copied | MIT | 2026-05-21 |
@@ -192,6 +199,19 @@ _Last generated: 2026-05-25_
 
 - `user/shared/mcp/context7` (inspired-by @ `7cacc946`, MIT)
 - `user/shared/mcp/context7` (inspired-by @ `ee0bb7a6`, MIT)
+
+### https://github.com/vercel-labs/agent-skills
+
+- `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `18a24346`, MIT)
+- `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `18a24346`, MIT)
+- `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `18a24346`, MIT)
+- `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `18a24346`, MIT)
+- `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `18a24346`, MIT)
+- `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `18a24346`, MIT)
+
+### https://github.com/vercel-labs/next-skills
+
+- `project-templates/nextjs/.claude/skills/next-best-practices` (copied @ `dc1de9ca`, UNLICENSED)
 
 ### self
 

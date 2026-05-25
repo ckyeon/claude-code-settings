@@ -1,0 +1,12 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/vercel-labs/next-skills",
+      "commit": "dc1de9caf7612d73f56a8dec3cb1bd6c9ec096b9",
+      "path": "skills/next-best-practices",
+      "license": "UNLICENSED",
+      "adopted-as": "copied",
+      "adopted-at": "2026-05-25"
+    }
+  ]
+}

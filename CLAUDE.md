@@ -8,7 +8,7 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 - `user/shared/plugins/` — Provenance-only for plugins installed via Claude Code's `/plugin install`. Not symlinked; see `docs/PROVENANCE.md` § "Tracking officially-installed plugins".
 - `user/shared/mcp/` — Provenance-only for MCP servers registered via `claude mcp add`. Not symlinked; see `docs/PROVENANCE.md` § "Tracking MCP servers". Secrets (API keys) stay in machine-local `~/.claude.json` and never enter this repo.
 - `.claude/skills/` — Project-scope skills (e.g., `check-updates`). Only active when working in this repo.
-- `project-templates/{_base,nodejs,python,go,phaser}/` — Templates copied into new projects via manual `cp -r` (no scaffold script).
+- `project-templates/{_base,nodejs,nextjs,python,go,phaser}/` — Templates copied into new projects via manual `cp -r` (no scaffold script).
 - `bin/adopt`, `bin/sources-index`, `bin/check-updates` — Provenance tooling. JSON sidecars + auto-generated `SOURCES.md`.
 - `docs/PROVENANCE.md` — Schema and edge cases for provenance.
 

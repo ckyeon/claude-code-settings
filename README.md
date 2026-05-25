@@ -89,6 +89,7 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 └── project-templates/          # copy these into new projects
     ├── _base/                  # shared by every template
     ├── nodejs/
+    ├── nextjs/
     ├── python/
     ├── go/
     └── phaser/
@@ -140,7 +141,7 @@ In a new project directory:
 ```bash
 TEMPLATES=<path-to-coding-agent-settings>/project-templates
 cp -r "$TEMPLATES/_base/." .
-cp -r "$TEMPLATES/nodejs/." .                  # pick one: nodejs / python / go / phaser
+cp -r "$TEMPLATES/nodejs/." .                  # pick one: nodejs / nextjs / python / go / phaser
 cat "$TEMPLATES/_base/.gitignore.snippet" >> .gitignore
 $EDITOR CLAUDE.md                              # replace {{PROJECT_NAME}}, fill in details
 git add CLAUDE.md .claude .gitignore

@@ -26,4 +26,5 @@ managed by Claude Code's plugin CLI.
 
 Project-scope only (not user-scope). Enabled in:
 - `project-templates/nodejs/.claude/settings.json`
+- `project-templates/nextjs/.claude/settings.json`
 - `project-templates/phaser/.claude/settings.json`

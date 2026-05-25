@@ -1,0 +1,12 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/vercel-labs/agent-skills",
+      "commit": "18a24346600009dc3fcb99e4b2cd83b301601775",
+      "path": "skills/composition-patterns",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-05-25"
+    }
+  ]
+}
