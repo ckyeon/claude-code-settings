@@ -76,6 +76,7 @@ _Last generated: 2026-05-25_
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-05-21 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-05-24 |
+| `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `1b527e2e` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-05-25 |
 | `user/shared/skills/diagnose` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/diagnose` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-05-25 |
@@ -88,6 +89,10 @@ _Last generated: 2026-05-25_
 | `user/shared/skills/zoom-out` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/zoom-out` | copied | MIT | 2026-05-25 |
 
 ## By source
+
+### https://github.com/anthropics/claude-plugins-official
+
+- `user/shared/plugins/typescript-lsp` (inspired-by @ `1b527e2e`, Apache-2.0)
 
 ### https://github.com/anthropics/claude-plugins-official.git
 

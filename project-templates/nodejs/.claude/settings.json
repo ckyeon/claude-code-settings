@@ -8,5 +8,8 @@
       "Bash(yarn:*)"
     ],
     "deny": []
+  },
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true
   }
 }
