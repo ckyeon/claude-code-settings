@@ -16,6 +16,14 @@
       "license": "MIT",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-05-24"
+    },
+    {
+      "source": "https://github.com/upstash/context7",
+      "commit": "7e956e594584db4b1b66a3a4a07781e92b4d7e45",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-05-28"
     }
   ]
 }
