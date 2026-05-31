@@ -53,11 +53,7 @@ Run `bin/check-updates` or use the `/check-updates` skill in a Claude Code sessi
 
 ### Record a decision
 
-Record in `docs/adr/` when a future session would re-ask "why?" — i.e. the rationale isn't obvious from the code, config, or git history alone — **and** at least one of:
-
-- The decision was informed by external evidence (docs, research, benchmarks).
-- It affects how agents interact with this repo's content (CLAUDE.md, skills, workflows, templates).
-- A real alternative was considered and rejected.
+Record an ADR in `docs/adr/` for **every** change to this repo — the user wants a complete history of decision records, not a selective log. When in doubt, write one. Scale the depth to the decision: a trivial change gets a one-line ADR, a consequential one gets the optional sections below.
 
 Steps:
 
