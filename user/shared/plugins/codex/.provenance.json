@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/openai/codex-plugin-cc.git",
+      "commit": "807e03ac9d5aa23bc395fdec8c3767500a86b3cf",
+      "path": "plugins/codex",
+      "license": "Apache-2.0",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-06-01",
+      "notes": "Installed via /plugin install codex@openai-codex from the third-party openai-codex marketplace (/plugin marketplace add openai/codex-plugin-cc). Provenance only; no files copied. Ships /codex:* commands (review, adversarial-review, rescue, status, result, cancel, setup), the codex:codex-rescue subagent, and an optional Stop-hook review gate."
+    }
+  ]
+}
