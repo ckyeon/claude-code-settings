@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/Lum1104/Understand-Anything",
+      "commit": "7a3b7511b26a1816be3b6cc5683b34779e0abce9",
+      "path": "understand-anything-plugin",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-06-04",
+      "notes": "Installed via /plugin install understand-anything from the third-party understand-anything marketplace (/plugin marketplace add Lum1104/Understand-Anything). Provenance only; no files copied. Ships /understand and /understand-dashboard plus bundled agents/hooks/skills and a TS pnpm-workspace runtime."
+    }
+  ]
+}
