@@ -8,6 +8,14 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-06-04",
       "notes": "Installed via /plugin install understand-anything from the third-party understand-anything marketplace (/plugin marketplace add Lum1104/Understand-Anything). Provenance only; no files copied. Ships /understand and /understand-dashboard plus bundled agents/hooks/skills and a TS pnpm-workspace runtime."
+    },
+    {
+      "source": "https://github.com/Lum1104/Understand-Anything",
+      "commit": "5c1e35f90be029efb012a41e1122b08abef5cbb2",
+      "path": "understand-anything-plugin",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-06-09"
     }
   ]
 }

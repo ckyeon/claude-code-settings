@@ -8,6 +8,14 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-05-22",
       "notes": "Stdio MCP server. Registered per-machine via 'claude mcp add fetch --scope user -- uvx mcp-server-fetch'. No secrets required."
+    },
+    {
+      "source": "https://github.com/modelcontextprotocol/servers",
+      "commit": "275175cda17ca9c49920ceed2bcf27e12e59f8b2",
+      "path": "src/fetch",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-06-09"
     }
   ]
 }

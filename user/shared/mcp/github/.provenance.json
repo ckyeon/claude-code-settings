@@ -16,6 +16,14 @@
       "license": "MIT",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-05-28"
+    },
+    {
+      "source": "https://github.com/github/github-mcp-server",
+      "commit": "457f59932ac041c9276e03e634b0e0c30f19ba3e",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-06-09"
     }
   ]
 }
