@@ -224,6 +224,14 @@ if [ "$MODE" = "copied" ]; then
 
   mkdir -p "$(dirname "$TO")"
   if [ -d "$SRC" ]; then
+    # Re-adoption: drop what upstream no longer ships before copying. `cp -R`
+    # only overwrites, so without this every file deleted upstream lingers
+    # locally forever. Gated on an existing sidecar so a mistyped --to can
+    # never wipe a directory this repo doesn't already own.
+    if [ -f "$TO/.provenance.json" ]; then
+      find "$TO" -mindepth 1 -maxdepth 1 ! -name '.provenance.json' -exec rm -rf {} +
+      echo "Pruned $TO (kept .provenance.json)"
+    fi
     mkdir -p "$TO"
     cp -R "$SRC/." "$TO/"
     echo "Copied folder $PATH_IN_REPO → $TO"
