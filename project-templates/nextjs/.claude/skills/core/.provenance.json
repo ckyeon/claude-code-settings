@@ -15,6 +15,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-06-09"
+    },
+    {
+      "source": "https://github.com/vercel-labs/agent-browser",
+      "commit": "e40e62d7c8378549646c9a36615c0a960a1378e8",
+      "path": "skill-data/core",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-07-16"
     }
   ]
 }

@@ -8,6 +8,14 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-06-01",
       "notes": "Installed via /plugin install codex@openai-codex from the third-party openai-codex marketplace (/plugin marketplace add openai/codex-plugin-cc). Provenance only; no files copied. Ships /codex:* commands (review, adversarial-review, rescue, status, result, cancel, setup), the codex:codex-rescue subagent, and an optional Stop-hook review gate."
+    },
+    {
+      "source": "https://github.com/openai/codex-plugin-cc.git",
+      "commit": "db52e28f4d9ded852ab3942cea316258ae4ef346",
+      "path": "plugins/codex",
+      "license": "Apache-2.0",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-07-16"
     }
   ]
 }

@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/vercel/next.js",
+      "commit": "50925bb80a1e5ac78b3c8067011fcd9eced580f0",
+      "path": "skills/next-partial-prefetching-adoption",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-07-16",
+      "notes": "Adopted after vercel-labs/next-skills was emptied — the Next.js skills moved into the framework repo to stay version-matched. Replaces the retired next-best-practices skill."
+    }
+  ]
+}

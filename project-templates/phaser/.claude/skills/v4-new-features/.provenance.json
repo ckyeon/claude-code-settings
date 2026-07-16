@@ -23,6 +23,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-06-09"
+    },
+    {
+      "source": "https://github.com/phaserjs/phaser",
+      "commit": "41be1e462bc600064e498cba370bfa8c5c055a22",
+      "path": "skills/v4-new-features",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-07-16"
     }
   ]
 }

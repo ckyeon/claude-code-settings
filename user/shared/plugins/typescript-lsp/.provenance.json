@@ -7,6 +7,14 @@
       "license": "Apache-2.0",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-05-25"
+    },
+    {
+      "source": "https://github.com/anthropics/claude-plugins-official",
+      "commit": "b5eddebc6444d73108941ee698f25fa8759b8710",
+      "path": "plugins/typescript-lsp",
+      "license": "Apache-2.0",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-07-16"
     }
   ]
 }

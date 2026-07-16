@@ -1,5 +1,10 @@
 # Sync outdated provenance pins to upstream (2026-06-09 check-updates)
 
+> **Status:** partially superseded by [[0010-sync-pin-only-items-to-head]]
+> (2026-07-16). The decision to leave pin-only items untouched — and the
+> consequence below that they keep reporting outdated — no longer holds; they are
+> now synced. The rest of this record stands.
+
 A `/check-updates` run on 2026-06-09 found 11 of 13 tracked sources behind upstream
 HEAD. Deep investigation (`git log <pin>..<head> -- <path>`) showed only **8 items
 had real commits to their tracked path**; the rest were pin-lag with byte-identical

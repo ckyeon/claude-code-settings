@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "e9fcdf95b402d360f90f1db8d776d5dd450f9234",
+      "path": "skills/engineering/to-tickets",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-07-16",
+      "notes": "Replaces user/shared/skills/to-issues, which upstream removed in the /to-spec + /to-tickets reorganisation."
+    }
+  ]
+}
