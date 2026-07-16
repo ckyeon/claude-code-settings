@@ -31,5 +31,6 @@
     }
   },
   "skipDangerousModePermissionPrompt": true,
-  "theme": "dark"
+  "theme": "dark",
+  "tui": "fullscreen"
 }
