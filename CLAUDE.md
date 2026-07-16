@@ -29,7 +29,9 @@ Claude Code marketplace plugins (installed via `/plugin install <name>@<marketpl
 1. `mkdir -p user/shared/plugins/<name> && $EDITOR user/shared/plugins/<name>/README.md`
 2. `bin/adopt --from <marketplace-repo-url> --path plugins/<name> --to user/shared/plugins/<name> --mode inspired-by --license <SPDX>`
 
-`/plugin install` updates `user/shared/settings.json` — include that file in the same commit.
+`/plugin install` updates `user/shared/settings.json` — include that file in the same commit. Those entries are load-bearing beyond activation: `install.sh` / `uninstall.sh` resolve each plugin's marketplace from `enabledPlugins` and each third-party marketplace's repo from `extraKnownMarketplaces` to print exact commands. A plugin tracked under `user/shared/plugins/` but missing from every `enabledPlugins` (user scope, or a project template's) prints as a warning instead of a usable command.
+
+Third-party marketplaces must be registered per-machine with `/plugin marketplace add <owner>/<repo>` before `/plugin install` — `extraKnownMarketplaces` does not do it for you. Note the argument is the repo, not the marketplace name (`openai/codex-plugin-cc`, not `openai-codex`).
 
 `install.sh` / `uninstall.sh` print `/plugin install` reminders listing tracked plugins. Canonical examples: `user/shared/plugins/hookify/`, `user/shared/plugins/claude-md-management/`, `user/shared/plugins/commit-commands/`, `user/shared/plugins/skill-creator/`.
 

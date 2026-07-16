@@ -120,7 +120,9 @@ bin/adopt --from <marketplace-repo-url> \
           --mode inspired-by --license <SPDX>
 ```
 
-This produces a sidecar with `adopted-as: "inspired-by"` and no source files. `bin/sources-index` lists the entry alongside `copied` ones; `install.sh` / `uninstall.sh` print plugin-name hints reminding you to run `/plugin install` (or `/plugin uninstall`) separately in a Claude Code session.
+This produces a sidecar with `adopted-as: "inspired-by"` and no source files. `bin/sources-index` lists the entry alongside `copied` ones; `install.sh` / `uninstall.sh` print the exact `/plugin marketplace add` + `/plugin install` (or `/plugin uninstall`) commands to run separately in a Claude Code session.
+
+The sidecar deliberately does **not** record the marketplace — that lives in `settings.json` (`enabledPlugins` for the plugin's marketplace, `extraKnownMarketplaces` for a third-party marketplace's repo), and the install scripts read it from there. Duplicating it into the sidecar would let the two disagree, and it can't be derived from the sidecar's `source` URL: `openai/codex-plugin-cc` is registered as the `openai-codex` marketplace.
 
 Canonical examples in this repo:
 - `user/shared/plugins/hookify/` — plugin whose Python codebase cannot be split sensibly

@@ -44,16 +44,19 @@ rmdir "$CLAUDE_DIR/hooks" 2>/dev/null || true
 
 echo "Done: $removed removed, $restored backups restored, $skipped not ours / already gone."
 
-PLUGIN_NAMES="$(list_tracked_plugins "$REPO_ROOT")"
-if [ -n "$PLUGIN_NAMES" ]; then
+PLUGIN_ROWS="$(list_tracked_plugins "$REPO_ROOT")"
+if [ -n "$PLUGIN_ROWS" ]; then
   echo ""
   echo "Plugin-tracked entries detected (this script does NOT remove Claude Code-installed plugins):"
-  while IFS= read -r name; do
-    echo "  - $name"
-  done <<< "$PLUGIN_NAMES"
   echo ""
   echo "To remove them, run in a Claude Code session:"
-  echo "  /plugin uninstall <name>@<marketplace>    # per plugin above"
+  while IFS="$FIELD_SEP" read -r name marketplace source scope; do
+    if [ -n "$marketplace" ]; then
+      echo "  /plugin uninstall $name@$marketplace"
+    else
+      echo "  # $name — marketplace unknown; check user/shared/plugins/$name/README.md"
+    fi
+  done <<< "$PLUGIN_ROWS"
 fi
 
 MCP_NAMES="$(list_tracked_mcp_servers "$REPO_ROOT")"

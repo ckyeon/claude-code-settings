@@ -65,17 +65,34 @@ if [ "$backed_up" -gt 0 ]; then
   echo "Tip: review backups with: find $CLAUDE_DIR -maxdepth 2 -name '*.backup-$TS'"
 fi
 
-PLUGIN_NAMES="$(list_tracked_plugins "$REPO_ROOT")"
-if [ -n "$PLUGIN_NAMES" ]; then
+PLUGIN_ROWS="$(list_tracked_plugins "$REPO_ROOT")"
+if [ -n "$PLUGIN_ROWS" ]; then
   echo ""
   echo "Plugin-tracked entries (NOT installed by this script — see user/shared/plugins/):"
-  while IFS= read -r name; do
-    echo "  - $name"
-  done <<< "$PLUGIN_NAMES"
   echo ""
   echo "Inside a Claude Code session, run:"
-  echo "  /plugin marketplace add <source-url>      # if not yet registered"
-  echo "  /plugin install <name>@<marketplace>      # per plugin above"
+  prev_marketplace="__none__"
+  while IFS="$FIELD_SEP" read -r name marketplace source scope; do
+    if [ "$marketplace" != "$prev_marketplace" ]; then
+      echo ""
+      if [ -z "$marketplace" ]; then
+        echo "  # No settings.json enables these — add them to enabledPlugins, or install by hand:"
+      elif [ -n "$source" ]; then
+        echo "  # $marketplace (third-party marketplace — add it before installing)"
+        echo "  /plugin marketplace add $source"
+      else
+        echo "  # $marketplace (built-in marketplace — no 'marketplace add' needed)"
+      fi
+      prev_marketplace="$marketplace"
+    fi
+    if [ -z "$marketplace" ]; then
+      echo "  #   - $name"
+    elif [ "$scope" = "project" ]; then
+      echo "  /plugin install $name@$marketplace   # project-scope only (see user/shared/plugins/$name/README.md)"
+    else
+      echo "  /plugin install $name@$marketplace"
+    fi
+  done <<< "$PLUGIN_ROWS"
 fi
 
 MCP_NAMES="$(list_tracked_mcp_servers "$REPO_ROOT")"
