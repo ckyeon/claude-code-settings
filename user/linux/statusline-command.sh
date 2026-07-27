@@ -5,13 +5,42 @@
 
 input=$(cat)
 
-cwd=$(echo "$input" | jq -r '.workspace.current_dir // empty')
-model=$(echo "$input" | jq -r '.model.display_name // empty')
-used=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
-effort=$(echo "$input" | jq -r '.effort.level // empty')
-git_wt=$(echo "$input" | jq -r '.workspace.git_worktree // empty')
-pr_num=$(echo "$input" | jq -r '.pr.number // empty')
-pr_state=$(echo "$input" | jq -r '.pr.review_state // empty')
+# Field extraction runs through python3, not jq: jq is not guaranteed to be
+# installed and this repo keeps its dependencies to bash + the python3 stdlib.
+# One field per line, so an absent field stays an empty line and the reads below
+# keep their positions.
+{
+  read -r cwd; read -r model; read -r used; read -r effort
+  read -r git_wt; read -r pr_num; read -r pr_state
+} < <(printf '%s' "$input" | python3 -c '
+import json, sys
+
+try:
+    data = json.load(sys.stdin)
+except Exception:
+    data = {}
+
+def get(*path):
+    cur = data
+    for key in path:
+        if not isinstance(cur, dict):
+            return ""
+        cur = cur.get(key)
+    if cur is None or cur is False:
+        return ""
+    return str(cur).replace("\n", " ")
+
+for path in (
+    ("workspace", "current_dir"),
+    ("model", "display_name"),
+    ("context_window", "used_percentage"),
+    ("effort", "level"),
+    ("workspace", "git_worktree"),
+    ("pr", "number"),
+    ("pr", "review_state"),
+):
+    print(get(*path))
+')
 
 blue='\033[34m'; magenta='\033[35m'; yellow='\033[33m'
 cyan='\033[36m'; green='\033[32m'; red='\033[31m'

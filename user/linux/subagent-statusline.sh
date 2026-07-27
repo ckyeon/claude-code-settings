@@ -1,51 +1,68 @@
 #!/usr/bin/env bash
 # Sub-agent status line for Claude Code.
-# Receives JSON with tasks array, outputs one JSON line per task.
+# Receives JSON with a tasks array, outputs one JSON line per task.
+#
+# Parsing and serialisation both go through python3. jq is not guaranteed to be
+# installed, and hand-built JSON breaks silently on a task name containing a
+# quote or a backslash -- json.dumps escapes those, and the ESC in the colour
+# codes, correctly.
 
-input=$(cat)
+exec python3 -c '
+import json, sys, time
 
-# Color codes land verbatim inside the JSON string emitted below, so they must be
-# JSON escapes, not shell escapes: \033 is not a legal JSON escape, \u001b is.
-green='\u001b[32m'; grey='\u001b[90m'; red='\u001b[31m'
-bold='\u001b[1m'; reset='\u001b[0m'
+GREEN = "\u001b[32m"
+GREY = "\u001b[90m"
+RED = "\u001b[31m"
+BOLD = "\u001b[1m"
+RESET = "\u001b[0m"
+DOT = "\u25cf"
 
-now=$(date +%s)
+STATUS_COLOUR = {
+    "running": GREEN,
+    "completed": GREY,
+    "error": RED,
+    "failed": RED,
+}
 
-echo "$input" | jq -c '.tasks[]?' | while IFS= read -r task; do
-  id=$(echo "$task" | jq -r '.id')
-  name=$(echo "$task" | jq -r '.name // "unnamed"')
-  status=$(echo "$task" | jq -r '.status // "unknown"')
-  tokens=$(echo "$task" | jq -r '.tokenCount // 0')
-  start=$(echo "$task" | jq -r '.startTime // 0')
+try:
+    data = json.load(sys.stdin)
+except Exception:
+    sys.exit(0)
 
-  case "$status" in
-    running)   dot="${green}●${reset}"; stxt="${green}${status}${reset}" ;;
-    completed) dot="${grey}●${reset}";  stxt="${grey}${status}${reset}" ;;
-    error|failed) dot="${red}●${reset}"; stxt="${red}${status}${reset}" ;;
-    *)         dot="${grey}●${reset}";  stxt="${grey}${status}${reset}" ;;
-  esac
+now = time.time()
 
-  if [ "$tokens" -ge 1000 ]; then
-    tok_str="$(echo "scale=1; $tokens / 1000" | bc)k"
-  else
-    tok_str="${tokens}"
-  fi
+for task in data.get("tasks") or []:
+    if not isinstance(task, dict):
+        continue
 
-  elapsed=""
-  if [ "$start" -gt 0 ]; then
-    diff=$((now - start))
-    mins=$((diff / 60))
-    secs=$((diff % 60))
-    if [ "$mins" -gt 0 ]; then
-      elapsed="${mins}m ${secs}s"
-    else
-      elapsed="${secs}s"
-    fi
-  fi
+    status = str(task.get("status") or "unknown")
+    colour = STATUS_COLOUR.get(status, GREY)
+    name = str(task.get("name") or "unnamed")
 
-  content="${dot} ${stxt}  ${bold}${name}${reset}"
-  [ -n "$tok_str" ] && [ "$tokens" -gt 0 ] && content="${content}  ${grey}${tok_str} tokens${reset}"
-  [ -n "$elapsed" ] && content="${content}  ${grey}${elapsed}${reset}"
+    parts = [
+        colour + DOT + RESET + " " + colour + status + RESET,
+        BOLD + name + RESET,
+    ]
 
-  printf '{"id":"%s","content":"%s"}\n' "$id" "$content"
-done
+    try:
+        tokens = int(task.get("tokenCount") or 0)
+    except (TypeError, ValueError):
+        tokens = 0
+    if tokens > 0:
+        shown = "%.1fk" % (tokens / 1000) if tokens >= 1000 else str(tokens)
+        parts.append(GREY + shown + " tokens" + RESET)
+
+    try:
+        start = float(task.get("startTime") or 0)
+    except (TypeError, ValueError):
+        start = 0.0
+    if start > 0:
+        mins, secs = divmod(int(now - start), 60)
+        human = "%dm %ds" % (mins, secs) if mins else "%ds" % secs
+        parts.append(GREY + human + RESET)
+
+    print(json.dumps(
+        {"id": str(task.get("id") or ""), "content": "  ".join(parts)},
+        ensure_ascii=False,
+    ))
+'
