@@ -4,8 +4,10 @@
 
 input=$(cat)
 
-green='\033[32m'; grey='\033[90m'; red='\033[31m'
-bold='\033[1m'; reset='\033[0m'
+# Color codes land verbatim inside the JSON string emitted below, so they must be
+# JSON escapes, not shell escapes: \033 is not a legal JSON escape, \u001b is.
+green='\u001b[32m'; grey='\u001b[90m'; red='\u001b[31m'
+bold='\u001b[1m'; reset='\u001b[0m'
 
 now=$(date +%s)
 
