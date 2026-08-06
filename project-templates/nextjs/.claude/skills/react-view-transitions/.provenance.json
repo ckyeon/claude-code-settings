@@ -15,6 +15,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-07-16"
+    },
+    {
+      "source": "https://github.com/vercel-labs/agent-skills",
+      "commit": "7c180d9044c9ae2b442b567aad4e42a28dd5ed62",
+      "path": "skills/react-view-transitions",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-08-05"
     }
   ]
 }

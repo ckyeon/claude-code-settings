@@ -8,6 +8,14 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-05-22",
       "notes": "Stdio MCP server. Registered per-machine via 'claude mcp add sequential-thinking --scope user -- npx -y @modelcontextprotocol/server-sequential-thinking'. No secrets required."
+    },
+    {
+      "source": "https://github.com/modelcontextprotocol/servers",
+      "commit": "76d64c822f5125032f89eb71dbdb94e42b434821",
+      "path": "src/sequentialthinking",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-08-05"
     }
   ]
 }

@@ -8,6 +8,14 @@
       "adopted-as": "copied",
       "adopted-at": "2026-07-16",
       "notes": "Adopted after vercel-labs/next-skills was emptied — the Next.js skills moved into the framework repo to stay version-matched. Replaces the retired next-best-practices skill."
+    },
+    {
+      "source": "https://github.com/vercel/next.js",
+      "commit": "ab09c1f4b45d2ee316353ff4352d7efbbef396b2",
+      "path": "skills/next-dev-loop",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-08-05"
     }
   ]
 }
