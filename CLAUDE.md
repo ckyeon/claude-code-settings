@@ -18,8 +18,8 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 
 ### Adopt an external item
 
-1. `bin/adopt --from <url> [--commit <sha>] --path <p> --to <dest> --mode copied|inspired-by --license <SPDX> [--notes "..."]`. Omitting `--commit` pins to upstream HEAD. Auto-runs `bin/sources-index` unless `--no-index`.
-2. Review the diff and the new `.provenance.json` sidecar.
+1. `bin/adopt --from <url> [--commit <sha>] --path <p> --to <dest> --mode copied|inspired-by --license <SPDX> [--notes "..."]`. Omitting `--commit` pins to upstream HEAD. Auto-runs `bin/sources-index` unless `--no-index`, then `bin/check-integrity` unless `--no-check`.
+2. Review the diff and the new `.provenance.json` sidecar. **If the integrity check warned, resolve it before committing** — usually it means the item delegates to a skill you haven't adopted yet.
 3. Commit using the printed `git commit ... --trailer ...` form (include `SOURCES.md`), or pass `--commit-now` to step 1 to skip the copy-paste.
 4. Push only on explicit user request.
 
@@ -65,7 +65,9 @@ Two failure classes it catches:
 - **Skill cross-references** — a `` `/name` `` written next to the noun "skill" must resolve to an installed skill (this repo's `user/shared/skills/`, or one vendored in an installed plugin). Errors are high-precision; a second, softer pass warns on other unresolved `` `/token` `` refs.
 - **Provenance sidecars** — valid JSON, non-empty `provenance[]`, required fields present. `"source": "self"` entries are exempt from `commit` / `path` / `license` (see `docs/PROVENANCE.md` § "Edge cases").
 
-**When adopting an item, adopt what it delegates to.** Upstream categories don't always match: `grilling` lives under `skills/productivity/` while the skills that call it are in `skills/engineering/`. Run `bin/check-integrity` after every adoption.
+**When adopting an item, adopt what it delegates to.** Upstream categories don't always match: `grilling` lives under `skills/productivity/` while the skills that call it are in `skills/engineering/`, which is all the original adoption walked. `bin/adopt` now runs this check itself and warns before you commit (suppress with `--no-check`) — the rule is enforced by the tool, not by remembering it.
+
+A warning mid-chain is expected: adopting the first of three dependencies leaves the other two unresolved. Finish the chain, then confirm `bin/check-integrity` is clean.
 
 ### Record a decision
 

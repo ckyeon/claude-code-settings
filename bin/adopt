@@ -5,7 +5,8 @@
 # Idempotent additive: re-running with the same destination appends another
 # entry to provenance[] (useful for items that draw from multiple sources).
 #
-# Auto-refreshes SOURCES.md at the end (suppress with --no-index).
+# Auto-refreshes SOURCES.md at the end (suppress with --no-index) and verifies
+# the result with bin/check-integrity (suppress with --no-check).
 # Does NOT commit on your behalf by default — prints a suggested git command.
 # Pass --commit-now to have this script create the commit itself.
 
@@ -22,7 +23,8 @@ usage() {
 Usage:
   bin/adopt --from <repo-url> [--commit <sha>] --path <path-in-source-repo> \
             --to <local-dest> --mode copied|inspired-by --license <SPDX> \
-            [--notes "..."] [--no-index] [--commit-now] [--allow-duplicate]
+            [--notes "..."] [--no-index] [--no-check] [--commit-now] \
+            [--allow-duplicate]
 
 Adopt content from an external repo and record provenance.
 
@@ -37,6 +39,7 @@ Adopt content from an external repo and record provenance.
   --license           SPDX identifier (MIT, Apache-2.0, GPL-3.0; Unknown / None allowed)
   --notes             Optional free-form annotation
   --no-index          Skip the automatic bin/sources-index refresh at the end
+  --no-check          Skip the automatic bin/check-integrity run at the end
   --commit-now        Create the suggested git commit automatically. Requires
                       the working tree to be clean apart from this adoption.
   --allow-duplicate   Suppress the warning when --mode copied targets a plugin
@@ -47,6 +50,8 @@ Outputs:
   - Writes (or appends to) <dest>/.provenance.json (folder dest) or
     <dest>.provenance.json (file dest)
   - Refreshes SOURCES.md (unless --no-index)
+  - Runs bin/check-integrity and warns if the adopted item references
+    skills that are not installed (unless --no-check)
   - Prints a `git commit` command with trailers, or creates the commit
     directly when --commit-now is passed.
 EOF
@@ -54,7 +59,7 @@ EOF
 
 # ----- Parse args -----
 FROM="" COMMIT="" PATH_IN_REPO="" TO="" MODE="" LICENSE="" NOTES=""
-NO_INDEX=0 COMMIT_NOW=0 ALLOW_DUPLICATE=0
+NO_INDEX=0 NO_CHECK=0 COMMIT_NOW=0 ALLOW_DUPLICATE=0
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -66,6 +71,7 @@ while [ $# -gt 0 ]; do
     --license)          LICENSE="${2:-}"; shift 2 ;;
     --notes)            NOTES="${2:-}"; shift 2 ;;
     --no-index)         NO_INDEX=1; shift ;;
+    --no-check)         NO_CHECK=1; shift ;;
     --commit-now)       COMMIT_NOW=1; shift ;;
     --allow-duplicate)  ALLOW_DUPLICATE=1; shift ;;
     -h|--help)          usage; exit 0 ;;
@@ -265,6 +271,34 @@ echo "Sidecar updated: $SIDECAR"
 # ----- Auto-refresh SOURCES.md -----
 if [ "$NO_INDEX" -eq 0 ]; then
   "$REPO_ROOT/bin/sources-index"
+fi
+
+# ----- Verify the adopted item's references resolve -----
+# Guards the failure this repo already hit: adopting a wrapper whose delegates
+# were never adopted. Warns, never fails — a dependency chain is legitimately
+# unresolved until its last link lands, and the adoption itself did succeed.
+if [ "$NO_CHECK" -eq 0 ] && [ -x "$REPO_ROOT/bin/check-integrity" ]; then
+  echo ""
+  if CHECK_OUT="$("$REPO_ROOT/bin/check-integrity" 2>&1)"; then
+    echo "Integrity check: clean."
+  else
+    echo "$CHECK_OUT"
+    cat <<'EOF'
+
+──────────────────────────────────────────────────────────────────────
+WARNING: integrity check failed after this adoption.
+
+If the errors name skills this item delegates to, adopt those too. An
+item whose delegates are missing is inert, and stays inert through every
+future re-sync — check-updates will keep reporting it as up to date.
+
+Upstream may file the delegates under a different category than the item
+you just adopted, so search the whole source repo, not one directory.
+
+Re-run bin/check-integrity once the chain is complete.
+──────────────────────────────────────────────────────────────────────
+EOF
+  fi
 fi
 
 # ----- Compose commit metadata -----
