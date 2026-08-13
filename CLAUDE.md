@@ -8,6 +8,7 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 - `user/shared/plugins/` — Provenance-only for plugins installed via Claude Code's `/plugin install`. Not symlinked; see `docs/PROVENANCE.md` § "Tracking officially-installed plugins".
 - `user/shared/mcp/` — Provenance-only for MCP servers registered via `claude mcp add`. Not symlinked; see `docs/PROVENANCE.md` § "Tracking MCP servers". Secrets (API keys) stay in machine-local `~/.claude.json` and never enter this repo.
 - `.claude/skills/` — Project-scope skills (e.g., `check-updates`). Only active when working in this repo.
+- `.claude/settings.json`, `.claude/hooks/` — Project-scope config. A `Stop` hook runs `bin/check-integrity` when a session here ends and asks Claude to fix any errors before stopping. Only active in this repo.
 - `project-templates/{_base,nodejs,nextjs,python,go,phaser}/` — Templates copied into new projects via manual `cp -r` (no scaffold script).
 - `bin/adopt`, `bin/sources-index`, `bin/check-updates` — Provenance tooling. JSON sidecars + auto-generated `SOURCES.md`.
 - `bin/check-integrity` — Static validation. Catches items whose dependencies were never adopted; complements `check-updates` (freshness) with a function check.
@@ -68,6 +69,8 @@ Two failure classes it catches:
 **When adopting an item, adopt what it delegates to.** Upstream categories don't always match: `grilling` lives under `skills/productivity/` while the skills that call it are in `skills/engineering/`, which is all the original adoption walked. `bin/adopt` now runs this check itself and warns before you commit (suppress with `--no-check`) — the rule is enforced by the tool, not by remembering it.
 
 A warning mid-chain is expected: adopting the first of three dependencies leaves the other two unresolved. Finish the chain, then confirm `bin/check-integrity` is clean.
+
+**Changes that never touch `bin/adopt`** — a hand-written skill, an edited `SKILL.md`, a deleted skill that others still reference — are covered by the project-scope `Stop` hook in `.claude/settings.json`. It runs the same check when a session here ends and blocks once, feeding the errors back so they get fixed while the session is still open. It stays silent when clean, and downgrades to a plain message if `stop_hook_active` is already set, so it cannot loop.
 
 ### Record a decision
 
