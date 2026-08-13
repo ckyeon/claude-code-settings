@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "8b78b531ab965735c5dc74f6f7a219e1e37326df",
+      "path": "skills/engineering/domain-modeling",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-08-13",
+      "notes": "Dependency of grill-with-docs, improve-codebase-architecture and triage"
+    }
+  ]
+}
