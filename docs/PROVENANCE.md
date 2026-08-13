@@ -167,6 +167,7 @@ Each provenance entry records the upstream `license`. The auto-generated `SOURCE
 | Upstream has new commits since adoption | Currently manual. Re-run `bin/adopt` with the newer commit; the new entry is appended (older entry retained as history). |
 | Adopted from a private repo | Same flow. The full SHA is recorded; viewers without access to the private repo can still see the metadata. |
 | Tags only, no commit SHA available | Pick the commit the tag pointed to at the time. Tags can move; record the SHA, not the tag. |
+| Adopted content rewritten far enough that upstream no longer describes it | Append an entry with `"source": "self"` and `"adopted-as": "inspired-by"`, and use `notes` to say what changed and why. `commit` / `path` / `license` are omitted — there is nothing upstream left to pin. Written by hand; `bin/adopt` does not produce these. Example: `user/shared/CLAUDE.md.provenance.json`. |
 
 ## Files in this system
 
@@ -174,6 +175,7 @@ Each provenance entry records the upstream `license`. The auto-generated `SOURCE
 |---|---|
 | `bin/adopt` | Adoption helper — record sources |
 | `bin/sources-index` | Regenerate `SOURCES.md` |
+| `bin/check-integrity` | Static validation of sidecars and skill cross-references |
 | `lib/provenance.sh` | Shared helpers (used by both binaries) |
 | `SOURCES.md` | Auto-generated index, committed alongside content |
 | `docs/PROVENANCE.md` | This document |

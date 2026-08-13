@@ -1,0 +1,165 @@
+#!/usr/bin/env bash
+# Static integrity checks for repo-managed items. No network, no LLM, no side effects.
+# Catches the class of defect where an adopted item outlives its dependencies.
+#
+# Usage: bin/check-integrity [--strict]
+#   --strict   treat warnings as failures too
+#
+# Exit: 0 clean, 1 errors found (or warnings under --strict).
+
+set -euo pipefail
+
+STRICT=0
+for arg in "$@"; do
+  case "$arg" in
+    --strict) STRICT=1 ;;
+    -h|--help) sed -n '2,9p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    *) echo "ERROR: unknown argument: $arg" >&2; exit 2 ;;
+  esac
+done
+
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$REPO_ROOT"
+
+REPO_ROOT="$REPO_ROOT" STRICT="$STRICT" python3 - <<'PYEOF'
+import json
+import os
+import re
+import sys
+
+repo_root = os.environ["REPO_ROOT"]
+strict = os.environ["STRICT"] == "1"
+skills_dir = os.path.join(repo_root, "user", "shared", "skills")
+
+errors = []   # (rel_path, line, message)
+warnings = []
+
+def rel(p):
+    return os.path.relpath(p, repo_root)
+
+# --- Inventory: which skill names can a reference resolve to? ---
+# Repo-managed skills, plus skills vendored inside installed plugins (their
+# cache lives outside this repo, so treat a hit there as "resolvable").
+skill_names = set()
+if os.path.isdir(skills_dir):
+    skill_names = {
+        d for d in os.listdir(skills_dir)
+        if os.path.isfile(os.path.join(skills_dir, d, "SKILL.md"))
+    }
+
+plugin_cache = os.path.expanduser("~/.claude/plugins/cache")
+if os.path.isdir(plugin_cache):
+    for root, dirs, files in os.walk(plugin_cache):
+        if "SKILL.md" in files:
+            skill_names.add(os.path.basename(root))
+            dirs[:] = []
+
+# Bare `/token` refs that are not skill references. Filesystem roots and the
+# Claude Code built-ins that skills legitimately name in prose.
+NOT_A_SKILL = {
+    "tmp", "usr", "etc", "var", "opt", "home", "bin", "lib", "dev", "proc",
+    "goal", "plan", "settings", "workflows", "auto-approve", "config",
+    "help", "clear", "compact", "review", "init", "agents", "docs", "cli",
+}
+
+# --- Frontmatter ---
+def parse_frontmatter(text):
+    m = re.match(r"^---\n(.*?)\n---\n?", text, re.S)
+    if not m:
+        return None, text
+    fields = {}
+    for fm in re.finditer(r"^([a-zA-Z][\w-]*):[ \t]*(.*?)(?=\n[a-zA-Z][\w-]*:|\Z)",
+                          m.group(1), re.S | re.M):
+        fields[fm.group(1)] = fm.group(2).strip()
+    return fields, text[m.end():]
+
+# A reference is a skill reference when the noun "skill"/"skills" follows the
+# backticked token(s). High precision: prose like `/tmp` never matches.
+SKILL_REF = re.compile(
+    r"((?:`/[a-z][a-z0-9-]*`(?:\s*(?:,|and)\s*)?)+)\s+skills?\b"
+)
+ANY_REF = re.compile(r"`/([a-z][a-z0-9-]*)`")
+MD_LINK = re.compile(r"\]\(([^)]+)\)")
+
+for name in sorted(skill_names & set(os.listdir(skills_dir) if os.path.isdir(skills_dir) else [])):
+    sdir = os.path.join(skills_dir, name)
+    path = os.path.join(sdir, "SKILL.md")
+    text = open(path, encoding="utf-8").read()
+    fields, body = parse_frontmatter(text)
+    r = rel(path)
+
+    if fields is None:
+        errors.append((r, 1, "frontmatter block missing"))
+        continue
+    if fields.get("name") != name:
+        errors.append((r, 1, f"frontmatter name {fields.get('name')!r} != directory {name!r}"))
+    if not fields.get("description"):
+        errors.append((r, 1, "description missing or empty"))
+
+    for i, line in enumerate(body.splitlines(), start=1):
+        referenced = set()
+        for m in SKILL_REF.finditer(line):
+            for ref in ANY_REF.finditer(m.group(1)):
+                referenced.add(ref.group(1))
+                if ref.group(1) not in skill_names:
+                    errors.append((r, i, f"references skill `/{ref.group(1)}` — not installed"))
+        # Softer net: a backticked /token that is neither a known skill, a
+        # built-in, nor a filesystem path. Recall for refs worded differently.
+        for m in ANY_REF.finditer(line):
+            tok = m.group(1)
+            if tok in referenced or tok in skill_names or tok in NOT_A_SKILL:
+                continue
+            warnings.append((r, i, f"unresolved reference `/{tok}` — skill? typo?"))
+
+        for m in MD_LINK.finditer(line):
+            target = m.group(1).split("#")[0].strip()
+            if not target or "://" in target or target.startswith("#"):
+                continue
+            if not os.path.exists(os.path.join(sdir, target)):
+                errors.append((r, i, f"broken link: {target}"))
+
+# --- Provenance sidecars (same walk as bin/sources-index) ---
+REQUIRED = ("source", "commit", "path", "license", "adopted-as")
+for root, dirs, files in os.walk(repo_root):
+    dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
+    for fname in files:
+        if fname != ".provenance.json" and not fname.endswith(".provenance.json"):
+            continue
+        p = os.path.join(root, fname)
+        r = rel(p)
+        try:
+            data = json.load(open(p, encoding="utf-8"))
+        except Exception as e:
+            errors.append((r, 1, f"invalid JSON: {e}"))
+            continue
+        prov = data.get("provenance") if isinstance(data, dict) else None
+        if not isinstance(prov, list) or not prov:
+            errors.append((r, 1, "provenance[] missing or empty"))
+            continue
+        for idx, entry in enumerate(prov):
+            # `source: "self"` marks a deliberate divergence from upstream — the
+            # content is now ours, so there is no commit/path/license to pin.
+            required = ("source", "adopted-as") if entry.get("source") == "self" else REQUIRED
+            missing = [k for k in required if not entry.get(k)]
+            if missing:
+                errors.append((r, 1, f"provenance[{idx}] missing: {', '.join(missing)}"))
+
+# --- Report ---
+def emit(label, items):
+    if not items:
+        return
+    print(f"\n{label} ({len(items)})")
+    for path, line, msg in items:
+        print(f"  {path}:{line}  {msg}")
+
+print(f"Checked {len(skill_names & set(os.listdir(skills_dir)))} skills in {rel(skills_dir)}")
+emit("ERRORS", errors)
+emit("WARNINGS", warnings)
+
+if not errors and not warnings:
+    print("\nClean.")
+elif not errors:
+    print(f"\n{len(warnings)} warning(s), no errors.")
+
+sys.exit(1 if errors or (strict and warnings) else 0)
+PYEOF

@@ -10,6 +10,7 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 - `.claude/skills/` — Project-scope skills (e.g., `check-updates`). Only active when working in this repo.
 - `project-templates/{_base,nodejs,nextjs,python,go,phaser}/` — Templates copied into new projects via manual `cp -r` (no scaffold script).
 - `bin/adopt`, `bin/sources-index`, `bin/check-updates` — Provenance tooling. JSON sidecars + auto-generated `SOURCES.md`.
+- `bin/check-integrity` — Static validation. Catches items whose dependencies were never adopted; complements `check-updates` (freshness) with a function check.
 - `docs/PROVENANCE.md` — Schema and edge cases for provenance.
 - `docs/adr/` — Architecture Decision Records for this repo's own operational decisions.
 
@@ -52,6 +53,19 @@ Just create the file or folder under `user/shared/{skills,commands,agents,hooks,
 ### Check for upstream updates
 
 Run `bin/check-updates` or use the `/check-updates` skill in a Claude Code session. The script compares pinned commits against upstream HEAD; the skill also auto-investigates whether tracked paths actually changed.
+
+### Check that adopted items still work
+
+Run `bin/check-integrity` (add `--strict` to fail on warnings too). It is static, offline, and deterministic — no LLM, no network, no side effects — so it is safe to run on every change.
+
+`check-updates` answers "is this pinned to the latest upstream?"; `check-integrity` answers "does this still function?". An item can be perfectly fresh and completely broken: `grill-with-docs` was re-synced four times while both skills it delegates to were absent (ADR 0020).
+
+Two failure classes it catches:
+
+- **Skill cross-references** — a `` `/name` `` written next to the noun "skill" must resolve to an installed skill (this repo's `user/shared/skills/`, or one vendored in an installed plugin). Errors are high-precision; a second, softer pass warns on other unresolved `` `/token` `` refs.
+- **Provenance sidecars** — valid JSON, non-empty `provenance[]`, required fields present. `"source": "self"` entries are exempt from `commit` / `path` / `license` (see `docs/PROVENANCE.md` § "Edge cases").
+
+**When adopting an item, adopt what it delegates to.** Upstream categories don't always match: `grilling` lives under `skills/productivity/` while the skills that call it are in `skills/engineering/`. Run `bin/check-integrity` after every adoption.
 
 ### Record a decision
 

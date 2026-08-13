@@ -63,7 +63,8 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 ├── bin/
 │   ├── adopt                   # adopt items from external repos
 │   ├── sources-index           # regenerate SOURCES.md
-│   └── check-updates           # compare pins against upstream HEAD
+│   ├── check-updates           # compare pins against upstream HEAD
+│   └── check-integrity         # static checks: refs resolve, sidecars valid
 ├── docs/
 │   └── PROVENANCE.md           # provenance schema & conventions
 ├── user/                       # → ~/.claude/
@@ -167,6 +168,17 @@ bin/adopt --from https://github.com/example/dotfiles \
 This copies the upstream content, writes the sidecar, and prints a `git commit` command. `SOURCES.md` is a browsable index — regenerate with `bin/sources-index`.
 
 For the full schema, plugin/MCP adoption workflows, and edge cases, see [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
+
+### Checking adopted items
+
+Two checks answer different questions:
+
+```bash
+bin/check-updates      # is the pin behind upstream HEAD?
+bin/check-integrity    # do cross-references resolve and sidecars validate?
+```
+
+An item can be fresh and still broken — a skill that delegates to another skill you never adopted stays "up to date" forever. `bin/check-integrity` is static and offline, so run it after every adoption. `--strict` fails on warnings too.
 
 ## Uninstall
 
