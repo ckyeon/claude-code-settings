@@ -1,6 +1,6 @@
 # 2026-08-31 회사 맥북 반납 — 개인 데이터 반출 기록과 복원 runbook
 
-퇴사로 회사 맥북을 초기화·반납한다. 목표는 두 방향 모두다: **개인 데이터는 빠짐없이 가져가고, 회사(gigr) 데이터는 가져가지 않는다.** 그중 최우선은 진행 중인 개인 프로젝트(llm-wiki·toego·agent·claude-code-settings)의 **작업 연속성**이고, 연속성의 주 수단은 각 repo 안의 문서다(§5 재개 지점) — 세션 아카이브는 보조 기록이다. 이 repo가 새 머신에서 가장 먼저 clone하는 부트스트랩 지점이므로 runbook을 여기에 둔다. 결정 기록은 [ADR 0024](adr/0024-notebook-migration-runbook.md), [ADR 0025](adr/0025-offboarding-revision.md), [ADR 0026](adr/0026-continuity-first.md).
+퇴사로 회사 맥북을 초기화·반납한다. 목표는 두 방향 모두다: **이어갈 개인 작업은 빠짐없이 가져가고, 회사(gigr) 데이터는 가져가지 않는다.** 그중 최우선은 진행 중인 개인 프로젝트(llm-wiki·toego·agent·claude-code-settings)의 **작업 연속성**이고, 연속성의 주 수단은 각 repo 안의 문서다(§5 재개 지점) — 세션 아카이브는 보조 기록이다. 이 repo가 새 머신에서 가장 먼저 clone하는 부트스트랩 지점이므로 runbook을 여기에 둔다. 결정 기록은 [ADR 0024](adr/0024-notebook-migration-runbook.md), [ADR 0025](adr/0025-offboarding-revision.md), [ADR 0026](adr/0026-continuity-first.md).
 
 분리 기준: 회사 **작업물**(gigr 프로젝트의 세션·파일 편집 이력·프롬프트·plan)은 제외한다. 개인 세션 안에 gigr라는 이름이 지나가듯 등장하는 것(예: 이 마이그레이션 세션의 디렉터리 목록)까지는 걷어내지 않는다 — 작업물과 언급을 구분한다.
 
@@ -39,16 +39,9 @@ tar tzf ~/claude-backup-$(date +%F).tgz | grep -i gigr && echo "FAIL: gigr leake
 
 이 절차는 2026-08-31에 리허설로 검증했다 (ADR 0025). 아카이브는 **개인 클라우드에 암호화해서** 올린다 (`zip -e` 또는 age — 세션 transcript에는 붙여넣은 키 같은 secret이 남아 있을 수 있다). 외장 디스크 사본까지 두면 더 좋다.
 
-## 3. 파일로만 옮기는 디렉터리 (git repo 없음)
+## 3. git repo 없는 디렉터리 — 반출하지 않기로 결정 (2026-08-31)
 
-| 디렉터리 | 용량 | 내용 | 처리 |
-|---|---|---|---|
-| `workspace/cs231n_2017` | 3.9G | `kor/`, `videos/` 강의 영상 | 개인. 재다운로드 가능하면 생략 가능 |
-| `workspace/hackers` | 840M | `listening-player/`, `mp3/` | 개인. 복사 |
-| `workspace/learn` | 151M | `claude-agent-lab` (git repo 아님) | 개인. 복사 |
-| `workspace/datagrip-projects` | 3.4M | `labbylab`, `playad`, `yajasu` SQL | **`playad`는 회사(gigr) DB 프로젝트 — 제외.** `labbylab`·`yajasu`는 복사 전에 개인 여부 직접 확인 |
-
-중첩된 git repo가 없는 것은 확인함 (2026-08-31). Desktop·Documents·사진·브라우저 데이터 등 workspace 밖 개인 파일은 이 runbook 범위 밖이다 — 따로 챙길 것.
+`cs231n_2017`(3.9G, 강의 영상)·`hackers`(840M)·`learn`(151M)·`datagrip-projects`(3.4M)는 **가져가지 않는다** — 진행 중인 작업이 아니라 자료 보관이고, 필요해지면 재다운로드·재구성이 가능한 수준이라 판단했다. 이 결정으로 `datagrip-projects` 내부의 개인/회사 분류 문제(`playad`는 회사 DB)도 함께 소멸한다. Desktop·Documents·사진·브라우저 데이터 등 workspace 밖 개인 파일은 이 runbook 범위 밖이다 — 따로 챙길 것.
 
 ## 4. 새 맥 복원 절차
 
@@ -67,7 +60,6 @@ tar tzf ~/claude-backup-$(date +%F).tgz | grep -i gigr && echo "FAIL: gigr leake
    - `/plugin marketplace add ...` → `/plugin install ...`
    - `claude mcp add ...` — 정확한 명령은 `user/shared/mcp/*/README.md`에 있다.
 6. 나머지 repo clone: `agent`, `llm-wiki`, `toego`, `mattpocock-skills` (§1의 remote).
-7. §3 디렉터리를 외장/클라우드에서 복사.
 
 git identity, `gh auth login`, SSH 키, MCP OAuth(linear 등) 같은 인증·키 재설정은 필요해질 때 그때그때 직접 한다 — runbook이 관리하지 않는다.
 
@@ -88,8 +80,8 @@ git identity, `gh auth login`, SSH 키, MCP OAuth(linear 등) 같은 인증·키
 - `~/.claude/file-history/` — 세션 UUID 단위라 gigr 파일 편집 내용이 분리 불가로 섞여 있다. 개인 세션 rewind를 포기하고 통째로 제외.
 - `~/.claude.json` — gigr 프로젝트 항목과 머신 로컬 상태 혼재. MCP는 §4-5로 재등록하고, 프로젝트 신뢰는 새 맥에서 처음 열 때 다시 수락하면 된다.
 - `~/.claude/history.jsonl`의 gigr 줄(81%), `~/.claude/plans/`의 gigr 관련 plan 1개 — §2 스크립트가 걸러낸다.
-- `workspace/datagrip-projects/playad`, `~/.ssh`의 GCE 키, JetBrains 설정의 회사 DB 데이터소스.
-- gigr 저장소 자체의 미커밋·미푸시 정리는 이 runbook 범위 밖 — **반납 전 별도 점검 필요.**
+- `~/.ssh`의 GCE 키, JetBrains 설정의 회사 DB 데이터소스.
+- gigr 저장소 인수인계는 **완료** (2026-08-31 확인).
 
 **개인 설정이지만 폐기하기로 한 것:**
 
