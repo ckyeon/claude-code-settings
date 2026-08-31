@@ -1,8 +1,10 @@
-# 2026-08-31 노트북 초기화 — 마이그레이션 기록과 복원 runbook
+# 2026-08-31 회사 맥북 반납 — 개인 데이터 반출 기록과 복원 runbook
 
-이전 맥북을 초기화하기 전에 개인 프로젝트(gigr 제외)의 상태를 정리한 기록과, 새 맥북에서 복원하는 절차. 이 repo가 새 머신에서 가장 먼저 clone하는 부트스트랩 지점이므로 여기에 둔다. 결정 기록은 [ADR 0024](adr/0024-notebook-migration-runbook.md).
+퇴사로 회사 맥북을 초기화·반납한다. 목표는 두 방향 모두다: **개인 데이터는 빠짐없이 가져가고, 회사(gigr) 데이터는 가져가지 않는다.** 이 repo가 새 머신에서 가장 먼저 clone하는 부트스트랩 지점이므로 runbook을 여기에 둔다. 결정 기록은 [ADR 0024](adr/0024-notebook-migration-runbook.md)와 [ADR 0025](adr/0025-offboarding-revision.md).
 
-## 1. 초기화 전에 끝낸 정리
+분리 기준: 회사 **작업물**(gigr 프로젝트의 세션·파일 편집 이력·프롬프트·plan)은 제외한다. 개인 세션 안에 gigr라는 이름이 지나가듯 등장하는 것(예: 이 마이그레이션 세션의 디렉터리 목록)까지는 걷어내지 않는다 — 작업물과 언급을 구분한다.
+
+## 1. 반납 전에 끝낸 정리
 
 | repo | remote | 정리 내용 |
 |---|---|---|
@@ -12,46 +14,51 @@
 | mattpocock-skills | github.com/ckyeon/mattpocock-skills | 미커밋 없음. 설치 산출물 `.agents/`·`skills-lock.json`은 삭제 — 필요하면 `setup-matt-pocock-skills` 스킬로 재생성 |
 | agent | github.com/ckyeon/agent | clean, 전 브랜치 푸시됨. 정리 불필요 |
 
-## 2. 백업 아카이브 — 초기화 **직전에** 실행
+## 2. 백업 아카이브 — 반납 **직전에** 실행
 
-repo에 안 담기는 Claude Code 로컬 상태를 묶는다. gigr 세션은 제외.
+repo에 안 담기는 Claude Code 로컬 상태 중 **개인 것만** 골라 묶는다. 한 줄 tar로는 안 되고(gigr가 `history.jsonl` 줄 단위, `plans/` 파일 단위로 섞여 있다) staging을 거친다:
 
 ```bash
-cd /Users/ckyeon && tar czf ~/claude-backup-$(date +%F).tgz \
-  --exclude='.claude/projects/-Users-ckyeon-workspace-gigr*' \
-  .claude/projects .claude/history.jsonl .claude/plans .claude/file-history .claude.json
+STAGE=$(mktemp -d) && mkdir -p "$STAGE/.claude"
+
+# 세션 기록 — gigr 프로젝트 디렉터리 제외
+rsync -a --exclude='-Users-ckyeon-workspace-gigr*' ~/.claude/projects "$STAGE/.claude/"
+
+# 프롬프트 히스토리 — gigr 세션 줄 제거 (2026-08-31 기준 4,394줄 중 3,542줄이 gigr)
+grep -v 'workspace/gigr' ~/.claude/history.jsonl > "$STAGE/.claude/history.jsonl"
+
+# plan — gigr/GiverGround 언급 파일 제거
+cp -R ~/.claude/plans "$STAGE/.claude/plans"
+grep -El 'gigr|GiverGround' "$STAGE/.claude/plans"/* 2>/dev/null | tr '\n' '\0' | xargs -0 rm -f
+
+tar czf ~/claude-backup-$(date +%F).tgz -C "$STAGE" .claude && rm -rf "$STAGE"
+
+# 검증: 아카이브 안에 gigr 경로가 없어야 한다
+tar tzf ~/claude-backup-$(date +%F).tgz | grep -i gigr && echo "FAIL: gigr leaked" || echo "OK"
 ```
 
-담기는 것과 이유:
+이 절차는 2026-08-31에 리허설로 검증했다 (ADR 0025). 아카이브는 개인 외장 디스크나 개인 클라우드로 옮긴다. **세션 transcript에는 붙여넣은 키 같은 secret이 남아 있을 수 있으니, 클라우드에 올릴 거면 암호화한다** (`zip -e` 또는 age).
 
-- `.claude/projects/` — 프로젝트별 세션 대화 기록(`claude --resume` 대상). 메모리 디렉터리도 이 안에 있다(2026-08-31 시점 비어 있음).
-- `.claude/history.jsonl` — 프롬프트 입력 히스토리.
-- `.claude/plans/` — plan mode 저장분.
-- `.claude/file-history/` — 세션 rewind용 파일 편집 히스토리 (선택 — 빼도 세션 열람에는 지장 없음).
-- `.claude.json` — MCP 등록, 프로젝트별 신뢰/허용 상태. **gigr 항목과 machine-local secret이 섞여 있을 수 있으니 새 맥이 개인용이면 통째로 복원하지 말고 참고용으로만 보관** — MCP는 §4-5로 재등록하면 된다.
-
-만든 아카이브는 외장 디스크나 클라우드에 복사한다. gigr 관련 백업은 이 runbook의 범위 밖.
-
-## 3. 파일로만 옮기는 디렉터리 (git repo 없음, 총 ~4.9G)
+## 3. 파일로만 옮기는 디렉터리 (git repo 없음)
 
 | 디렉터리 | 용량 | 내용 | 처리 |
 |---|---|---|---|
-| `workspace/cs231n_2017` | 3.9G | `kor/`, `videos/` 강의 영상 | 재다운로드 가능하면 생략 가능 |
-| `workspace/hackers` | 840M | `listening-player/`, `mp3/` | 복사 |
-| `workspace/learn` | 151M | `claude-agent-lab` (git repo 아님) | 복사 |
-| `workspace/datagrip-projects` | 3.4M | `labbylab`, `playad`, `yajasu` SQL | `playad`는 회사 관련 여부 확인 후 분리 |
+| `workspace/cs231n_2017` | 3.9G | `kor/`, `videos/` 강의 영상 | 개인. 재다운로드 가능하면 생략 가능 |
+| `workspace/hackers` | 840M | `listening-player/`, `mp3/` | 개인. 복사 |
+| `workspace/learn` | 151M | `claude-agent-lab` (git repo 아님) | 개인. 복사 |
+| `workspace/datagrip-projects` | 3.4M | `labbylab`, `playad`, `yajasu` SQL | **`playad`는 회사(gigr) DB 프로젝트 — 제외.** `labbylab`·`yajasu`는 복사 전에 개인 여부 직접 확인 |
 
-중첩된 git repo가 없는 것은 확인함 (2026-08-31).
+중첩된 git repo가 없는 것은 확인함 (2026-08-31). Desktop·Documents·사진·브라우저 데이터 등 workspace 밖 개인 파일은 이 runbook 범위 밖이다 — 따로 챙길 것.
 
 ## 4. 새 맥 복원 절차
 
-1. Claude Code 설치 후 로그인. 인증 토큰은 macOS Keychain에 있었으므로 이전되지 않는다 — 재로그인이 정상이다.
+1. Claude Code 설치 후 로그인.
 2. 이 repo를 clone:
    ```bash
    mkdir -p ~/workspace && git clone https://github.com/ckyeon/claude-code-settings ~/workspace/claude-code-settings
    ```
 3. `./install.sh` 실행 — `~/.claude/`의 CLAUDE.md·settings.json·agents·commands·skills·rules·output-styles·hooks·statusline 2종을 이 repo로 향하는 symlink로 구성한다. 실행 전 기존 `~/.claude/` 내용을 백업하니 안내를 읽고 진행.
-4. 백업 아카이브 복원:
+4. 백업 아카이브 복원 — 아카이브에는 `.claude/projects`·`history.jsonl`·`plans`만 들어 있으므로 그대로 풀면 된다:
    ```bash
    cd ~ && tar xzf claude-backup-<날짜>.tgz
    ```
@@ -59,13 +66,24 @@ cd /Users/ckyeon && tar czf ~/claude-backup-$(date +%F).tgz \
 5. `install.sh`가 출력하는 리마인더대로 plugin과 MCP를 재등록:
    - `/plugin marketplace add ...` → `/plugin install ...`
    - `claude mcp add ...` — 정확한 명령은 `user/shared/mcp/*/README.md`에 있다.
-   - linear는 등록 후 세션에서 `/mcp` → `linear` → Authenticate로 OAuth 인증 한 번 필요.
 6. 나머지 repo clone: `agent`, `llm-wiki`, `toego`, `mattpocock-skills` (§1의 remote).
 7. §3 디렉터리를 외장/클라우드에서 복사.
 
-## 5. 옮기지 않기로 한 것
+git identity, `gh auth login`, SSH 키, MCP OAuth(linear 등) 같은 인증·키 재설정은 필요해질 때 그때그때 직접 한다 — runbook이 관리하지 않는다.
 
-- **`user/shared/settings.json` 미커밋 수정분 — 의도적으로 폐기** (2026-08-31 사용자 결정). 개인 선호와 회사(GiverGround) 관련 autoMode 설정이 섞여 있었다. 새 맥에서 필요하면 `/config`로 재설정할 항목: `model: claude-fable-5[1m]`, `language: Korean`, `effortLevel: xhigh`, `voice: {enabled, mode: hold}`, `agentPushNotifEnabled: true`. autoMode environment 블록(GiverGround/phaser-template 전용)은 개인 맥에는 불필요.
-- `~/.claude/plugins/` (477M), `cache/`, `jobs/`, `shell-snapshots/`, `paste-cache/`, `daemon*`, `telemetry/` — 재설치·재생성되는 상태라 백업하지 않는다.
+## 5. 가져가지 않는 것
+
+**회사 데이터라서 (의도적으로 두고 간다):**
+
+- `~/.claude/projects/-Users-ckyeon-workspace-gigr*` — gigr 세션 전부.
+- `~/.claude/file-history/` — 세션 UUID 단위라 gigr 파일 편집 내용이 분리 불가로 섞여 있다. 개인 세션 rewind를 포기하고 통째로 제외.
+- `~/.claude.json` — gigr 프로젝트 항목과 머신 로컬 상태 혼재. MCP는 §4-5로 재등록하고, 프로젝트 신뢰는 새 맥에서 처음 열 때 다시 수락하면 된다.
+- `~/.claude/history.jsonl`의 gigr 줄(81%), `~/.claude/plans/`의 gigr 관련 plan 1개 — §2 스크립트가 걸러낸다.
+- `workspace/datagrip-projects/playad`, `~/.ssh`의 GCE 키, JetBrains 설정의 회사 DB 데이터소스.
+- gigr 저장소 자체의 미커밋·미푸시 정리는 이 runbook 범위 밖 — **반납 전 별도 점검 필요.**
+
+**개인 설정이지만 폐기하기로 한 것:**
+
+- **`user/shared/settings.json` 미커밋 수정분** (2026-08-31 사용자 결정). 개인 선호와 회사(GiverGround) autoMode 설정이 섞여 있었다. 새 맥에서 필요하면 `/config`로 재설정할 항목: `model: claude-fable-5[1m]`, `language: Korean`, `effortLevel: xhigh`, `voice: {enabled, mode: hold}`, `agentPushNotifEnabled: true`.
+- `~/.claude/plugins/` (477M), `cache/`, `jobs/`, `shell-snapshots/`, `paste-cache/`, `daemon*`, `telemetry/` — 재설치·재생성되는 상태.
 - Keychain의 로그인 토큰 — 재로그인으로 대체.
-- `~/.claude/projects/-Users-ckyeon-workspace-toy-project-*` — 디스크에 더 이상 없는 옛 프로젝트의 세션. 아카이브에는 포함되지만 resume 대상 코드가 없으므로 열람용이다.
