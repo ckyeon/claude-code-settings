@@ -1,6 +1,6 @@
 # 2026-08-31 회사 맥북 반납 — 개인 데이터 반출 기록과 복원 runbook
 
-퇴사로 회사 맥북을 초기화·반납한다. 목표는 두 방향 모두다: **개인 데이터는 빠짐없이 가져가고, 회사(gigr) 데이터는 가져가지 않는다.** 이 repo가 새 머신에서 가장 먼저 clone하는 부트스트랩 지점이므로 runbook을 여기에 둔다. 결정 기록은 [ADR 0024](adr/0024-notebook-migration-runbook.md)와 [ADR 0025](adr/0025-offboarding-revision.md).
+퇴사로 회사 맥북을 초기화·반납한다. 목표는 두 방향 모두다: **개인 데이터는 빠짐없이 가져가고, 회사(gigr) 데이터는 가져가지 않는다.** 그중 최우선은 진행 중인 개인 프로젝트(llm-wiki·toego·agent·claude-code-settings)의 **작업 연속성**이고, 연속성의 주 수단은 각 repo 안의 문서다(§5 재개 지점) — 세션 아카이브는 보조 기록이다. 이 repo가 새 머신에서 가장 먼저 clone하는 부트스트랩 지점이므로 runbook을 여기에 둔다. 결정 기록은 [ADR 0024](adr/0024-notebook-migration-runbook.md), [ADR 0025](adr/0025-offboarding-revision.md), [ADR 0026](adr/0026-continuity-first.md).
 
 분리 기준: 회사 **작업물**(gigr 프로젝트의 세션·파일 편집 이력·프롬프트·plan)은 제외한다. 개인 세션 안에 gigr라는 이름이 지나가듯 등장하는 것(예: 이 마이그레이션 세션의 디렉터리 목록)까지는 걷어내지 않는다 — 작업물과 언급을 구분한다.
 
@@ -8,7 +8,7 @@
 
 | repo | remote | 정리 내용 |
 |---|---|---|
-| claude-code-settings | github.com/ckyeon/claude-code-settings | ADR 0023 + `user/shared/mcp/linear/` 커밋. **settings.json 미커밋 수정분은 폐기** (§5) |
+| claude-code-settings | github.com/ckyeon/claude-code-settings | ADR 0023 + `user/shared/mcp/linear/` 커밋. **settings.json 미커밋 수정분은 폐기** (§6) |
 | llm-wiki | github.com/ckyeon/llm-wiki | `raw/humanities/` 장자강좌 5~10강 원문 10개를 `wiki/batch-zhuangzi-2-4-2026-08-26` 브랜치에 커밋·푸시 (`31420b9`). 아직 ingest 전 소스 |
 | toego | github.com/ckyeon/toego | main(`330002e`) 푸시 + 로컬 전용 브랜치 2개 푸시: `prototype/p4-p5-measure`, `prototype/recalibrate-2026-08-24` |
 | mattpocock-skills | github.com/ckyeon/mattpocock-skills | 미커밋 없음. 설치 산출물 `.agents/`·`skills-lock.json`은 삭제 — 필요하면 `setup-matt-pocock-skills` 스킬로 재생성 |
@@ -37,7 +37,7 @@ tar czf ~/claude-backup-$(date +%F).tgz -C "$STAGE" .claude && rm -rf "$STAGE"
 tar tzf ~/claude-backup-$(date +%F).tgz | grep -i gigr && echo "FAIL: gigr leaked" || echo "OK"
 ```
 
-이 절차는 2026-08-31에 리허설로 검증했다 (ADR 0025). 아카이브는 개인 외장 디스크나 개인 클라우드로 옮긴다. **세션 transcript에는 붙여넣은 키 같은 secret이 남아 있을 수 있으니, 클라우드에 올릴 거면 암호화한다** (`zip -e` 또는 age).
+이 절차는 2026-08-31에 리허설로 검증했다 (ADR 0025). 아카이브는 **개인 클라우드에 암호화해서** 올린다 (`zip -e` 또는 age — 세션 transcript에는 붙여넣은 키 같은 secret이 남아 있을 수 있다). 외장 디스크 사본까지 두면 더 좋다.
 
 ## 3. 파일로만 옮기는 디렉터리 (git repo 없음)
 
@@ -52,7 +52,7 @@ tar tzf ~/claude-backup-$(date +%F).tgz | grep -i gigr && echo "FAIL: gigr leake
 
 ## 4. 새 맥 복원 절차
 
-1. Claude Code 설치 후 로그인.
+1. 새 맥의 username은 `ckyeon`으로 만든다 (4단계 세션 resume의 전제). Claude Code 설치 후 **개인 계정으로** 로그인 — 회사 계정(kyle@gigr.ai)은 퇴사로 소멸하며, 거기 묶인 claude.ai 대화 이력·커넥터·구독은 반출 불가로 간주한다.
 2. 이 repo를 clone:
    ```bash
    mkdir -p ~/workspace && git clone https://github.com/ckyeon/claude-code-settings ~/workspace/claude-code-settings
@@ -71,7 +71,16 @@ tar tzf ~/claude-backup-$(date +%F).tgz | grep -i gigr && echo "FAIL: gigr leake
 
 git identity, `gh auth login`, SSH 키, MCP OAuth(linear 등) 같은 인증·키 재설정은 필요해질 때 그때그때 직접 한다 — runbook이 관리하지 않는다.
 
-## 5. 가져가지 않는 것
+## 5. 프로젝트별 재개 지점 (2026-08-31 기준)
+
+연속성의 원본. 세션을 열어보지 않아도 여기서 바로 이어갈 수 있다.
+
+- **llm-wiki** — ① 열린 auto PR #51(자동 유지보수 2026-08-30) 리뷰·머지 대기. ② 다음 작업: 배치 2차(5·6·7강) 인제스트 — `wiki/humanities/humanities-index.md`의 "미인제스트 raw 백로그"가 원본. ③ 승격 대기 3건도 같은 index에. **매일 09:00 KST 자동 유지보수 routine은 개인 claude.ai 계정에 있어 퇴사와 무관하게 계속 돈다.** 재생성이 필요해지면: 절차 원본은 repo의 `auto-maintain` 스킬이므로, 스킬을 가리키는 얇은 프롬프트로 routine만 다시 만들면 된다.
+- **toego** — P5 낱말 심사 대기 132건(고유 82형). `PROJECT.md` 5.5절("심사 전")이 원본, 심사 시트는 `.toego/sheets/p5-words-2026-08-26.html`. 두 prototype 브랜치는 근거 보존용이라 머지 대상이 아니다.
+- **agent** — 커리큘럼 리뷰 2차까지 머지 완료(PR #6, 2026-08-18). 코드는 M1 미착수 — `CURRICULUM.md`의 마일스톤 완료 기준에서 재개.
+- **claude-code-settings** — 진행형. 이 runbook과 ADR들이 마지막 작업.
+
+## 6. 가져가지 않는 것
 
 **회사 데이터라서 (의도적으로 두고 간다):**
 
