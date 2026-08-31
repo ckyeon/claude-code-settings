@@ -37,7 +37,7 @@ tar czf ~/claude-backup-$(date +%F).tgz -C "$STAGE" .claude && rm -rf "$STAGE"
 tar tzf ~/claude-backup-$(date +%F).tgz | grep -i gigr && echo "FAIL: gigr leaked" || echo "OK"
 ```
 
-이 절차는 2026-08-31에 리허설로 검증했다 (ADR 0025). 아카이브는 **개인 클라우드에 암호화해서** 올린다 (`zip -e` 또는 age — 세션 transcript에는 붙여넣은 키 같은 secret이 남아 있을 수 있다). 외장 디스크 사본까지 두면 더 좋다.
+이 절차는 2026-08-31에 리허설로 검증했고, 같은 날 본 실행으로 `~/claude-backup-2026-08-31.tgz`(64M)를 만들었다. 아카이브는 **개인 클라우드에 평문으로** 올린다 — 암호화는 생략하기로 결정 (2026-08-31, ADR 0028). 근거: 흔한 토큰 형식(Anthropic·GitHub·AWS 키, private key, Slack 토큰) 스캔에서 본인 자격증명 0건 — 유일한 매치는 subagent가 읽어온 외부 README에 제3자가 흘린 GitHub PAT였다. 외장 디스크 사본까지 두면 더 좋다.
 
 ## 3. git repo 없는 디렉터리 — 반출하지 않기로 결정 (2026-08-31)
 
