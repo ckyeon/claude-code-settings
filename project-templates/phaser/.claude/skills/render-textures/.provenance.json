@@ -23,6 +23,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-07-16"
+    },
+    {
+      "source": "https://github.com/phaserjs/phaser",
+      "commit": "02d8931b626d9764c133cbb3fbf99966c03c757c",
+      "path": "skills/render-textures",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-09-01"
     }
   ]
 }

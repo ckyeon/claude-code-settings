@@ -23,6 +23,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-08-05"
+    },
+    {
+      "source": "https://github.com/vercel-labs/agent-skills",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "path": "skills/deploy-to-vercel",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-09-01"
     }
   ]
 }

@@ -10,6 +10,7 @@ _Last generated: 2026-09-01_
 | `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/composition-patterns` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/composition-patterns` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/composition-patterns` | copied | MIT | 2026-08-05 |
+| `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/composition-patterns` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `4ad28489` | `skill-data/core` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `328ce8a9` | `skill-data/core` | copied | MIT | 2026-06-09 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `e40e62d7` | `skill-data/core` | copied | MIT | 2026-07-16 |
@@ -18,9 +19,11 @@ _Last generated: 2026-09-01_
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/deploy-to-vercel` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/deploy-to-vercel` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/deploy-to-vercel` | copied | MIT | 2026-08-05 |
+| `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/deploy-to-vercel` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `4ad28489` | `skill-data/dogfood` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `e40e62d7` | `skill-data/dogfood` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `acbc22bd` | `skill-data/dogfood` | copied | MIT | 2026-08-05 |
+| `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `eb05921b` | `skill-data/dogfood` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-cache-components-adoption` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-cache-components-adoption` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `1076c474` | `skills/next-cache-components-adoption` | copied | MIT | 2026-09-01 |
@@ -36,6 +39,7 @@ _Last generated: 2026-09-01_
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/react-best-practices` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/react-best-practices` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/react-best-practices` | copied | MIT | 2026-08-05 |
+| `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/react-best-practices` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/react-view-transitions` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/react-view-transitions` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/react-view-transitions` | copied | MIT | 2026-08-05 |
@@ -44,94 +48,124 @@ _Last generated: 2026-09-01_
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `18011566` | `skills/vercel-optimize` | copied | MIT | 2026-05-28 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/vercel-optimize` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/vercel-optimize` | copied | MIT | 2026-08-05 |
+| `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/vercel-optimize` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/web-design-guidelines` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/web-design-guidelines` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/web-design-guidelines` | copied | MIT | 2026-08-05 |
+| `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/web-design-guidelines` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/actions-and-utilities` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/actions-and-utilities` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/actions-and-utilities` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/actions-and-utilities` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/animations` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/animations` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/animations` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/animations` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/animations` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/animations` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/animations` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/animations` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/audio-and-sound` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/audio-and-sound` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/audio-and-sound` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/audio-and-sound` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/audio-and-sound` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/audio-and-sound` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/audio-and-sound` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/audio-and-sound` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/cameras` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/cameras` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/cameras` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/cameras` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/cameras` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/cameras` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/cameras` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/cameras` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/curves-and-paths` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/curves-and-paths` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/curves-and-paths` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/curves-and-paths` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/curves-and-paths` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/curves-and-paths` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/curves-and-paths` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/curves-and-paths` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/data-manager` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/data-manager` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/data-manager` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/data-manager` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/data-manager` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/data-manager` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/data-manager` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/data-manager` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/events-system` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/events-system` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/events-system` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/events-system` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/events-system` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/events-system` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/events-system` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/events-system` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/filters-and-postfx` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/filters-and-postfx` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/filters-and-postfx` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/filters-and-postfx` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/filters-and-postfx` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/filters-and-postfx` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/filters-and-postfx` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/filters-and-postfx` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/game-object-components` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/game-object-components` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/game-object-components` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/game-object-components` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/game-object-components` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/game-object-components` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/game-object-components` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/game-object-components` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/game-setup-and-config` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/game-setup-and-config` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/game-setup-and-config` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/game-setup-and-config` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/game-setup-and-config` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/game-setup-and-config` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/game-setup-and-config` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/game-setup-and-config` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/geometry-and-math` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/geometry-and-math` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/geometry-and-math` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/geometry-and-math` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/geometry-and-math` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/geometry-and-math` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/geometry-and-math` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/geometry-and-math` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/graphics-and-shapes` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/graphics-and-shapes` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/graphics-and-shapes` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/graphics-and-shapes` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/graphics-and-shapes` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/graphics-and-shapes` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/graphics-and-shapes` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/graphics-and-shapes` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/groups-and-containers` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/groups-and-containers` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/groups-and-containers` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/groups-and-containers` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/groups-and-containers` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/groups-and-containers` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/groups-and-containers` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/groups-and-containers` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/input-keyboard-mouse-touch` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/input-keyboard-mouse-touch` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/input-keyboard-mouse-touch` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/input-keyboard-mouse-touch` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/input-keyboard-mouse-touch` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/input-keyboard-mouse-touch` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/input-keyboard-mouse-touch` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/input-keyboard-mouse-touch` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/loading-assets` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/loading-assets` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/loading-assets` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/loading-assets` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/loading-assets` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/loading-assets` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/loading-assets` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/loading-assets` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/particles` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/particles` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/particles` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/particles` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/particles` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/particles` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/particles` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/particles` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/physics-arcade` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/physics-arcade` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/physics-arcade` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/physics-arcade` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/physics-arcade` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/physics-arcade` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/physics-arcade` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/physics-arcade` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/physics-matter` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/physics-matter` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/physics-matter` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/physics-matter` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/physics-matter` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/physics-matter` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/physics-matter` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/physics-matter` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/render-textures` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/render-textures` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/render-textures` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/render-textures` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/render-textures` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/render-textures` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/render-textures` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/render-textures` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/scale-and-responsive` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/scale-and-responsive` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/scale-and-responsive` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/scale-and-responsive` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/scale-and-responsive` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/scale-and-responsive` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/scale-and-responsive` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/scale-and-responsive` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/scenes` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/scenes` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/scenes` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/scenes` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/scenes` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/scenes` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/scenes` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/scenes` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/sprites-and-images` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/sprites-and-images` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/sprites-and-images` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/sprites-and-images` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/sprites-and-images` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/sprites-and-images` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/sprites-and-images` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/sprites-and-images` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/text-and-bitmaptext` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/text-and-bitmaptext` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/text-and-bitmaptext` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/text-and-bitmaptext` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/text-and-bitmaptext` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/text-and-bitmaptext` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/text-and-bitmaptext` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/text-and-bitmaptext` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/tilemaps` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/tilemaps` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/tilemaps` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/tilemaps` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/tilemaps` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/tilemaps` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/tilemaps` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/tilemaps` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/time-and-timers` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/time-and-timers` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/time-and-timers` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/time-and-timers` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/time-and-timers` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/time-and-timers` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/time-and-timers` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/time-and-timers` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/tweens` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/tweens` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/tweens` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/tweens` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/tweens` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/tweens` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/tweens` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/tweens` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/v3-to-v4-migration` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/v3-to-v4-migration` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/v3-to-v4-migration` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/v3-to-v4-migration` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/v3-to-v4-migration` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/v3-to-v4-migration` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/v3-to-v4-migration` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/v3-to-v4-migration` | copied | MIT | 2026-09-01 |
 | `project-templates/phaser/.claude/skills/v4-new-features` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/v4-new-features` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/v4-new-features` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/v4-new-features` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/v4-new-features` | https://github.com/phaserjs/phaser | `9e67ded9` | `skills/v4-new-features` | copied | MIT | 2026-06-09 |
 | `project-templates/phaser/.claude/skills/v4-new-features` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/v4-new-features` | copied | MIT | 2026-07-16 |
+| `project-templates/phaser/.claude/skills/v4-new-features` | https://github.com/phaserjs/phaser | `02d8931b` | `skills/v4-new-features` | copied | MIT | 2026-09-01 |
 | `user/shared/CLAUDE.md` | https://github.com/multica-ai/andrej-karpathy-skills.git | `2c606141` | `CLAUDE.md` | copied | MIT | 2026-05-21 |
 | `user/shared/CLAUDE.md` | self | `?` | `?` | inspired-by | ? | 2026-05-24 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `7cacc946` | `.` | inspired-by | MIT | 2026-05-22 |
@@ -156,21 +190,26 @@ _Last generated: 2026-09-01_
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `60f5e338` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-08-05 |
+| `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `ed404106` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-09-01 |
 | `user/shared/plugins/codex` | https://github.com/openai/codex-plugin-cc.git | `807e03ac` | `plugins/codex` | inspired-by | Apache-2.0 | 2026-06-01 |
 | `user/shared/plugins/codex` | https://github.com/openai/codex-plugin-cc.git | `db52e28f` | `plugins/codex` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official.git | `60f5e338` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-08-05 |
+| `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official.git | `ed404106` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-09-01 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-05-21 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `60f5e338` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-08-05 |
+| `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `ed404106` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-09-01 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `60f5e338` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-08-05 |
+| `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `ed404106` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-09-01 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `1b527e2e` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-05-25 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `b5eddebc` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `60f5e338` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-08-05 |
+| `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `ed404106` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-09-01 |
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `7a3b7511` | `understand-anything-plugin` | inspired-by | MIT | 2026-06-04 |
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `5c1e35f9` | `understand-anything-plugin` | inspired-by | MIT | 2026-06-09 |
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `83a9b288` | `understand-anything-plugin` | inspired-by | MIT | 2026-07-16 |
@@ -232,6 +271,7 @@ _Last generated: 2026-09-01_
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `1b527e2e`, Apache-2.0)
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `b5eddebc`, Apache-2.0)
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `60f5e338`, Apache-2.0)
+- `user/shared/plugins/typescript-lsp` (inspired-by @ `ed404106`, Apache-2.0)
 
 ### https://github.com/anthropics/claude-plugins-official.git
 
@@ -239,16 +279,20 @@ _Last generated: 2026-09-01_
 - `user/shared/plugins/claude-md-management` (inspired-by @ `3449c10c`, Apache-2.0)
 - `user/shared/plugins/claude-md-management` (inspired-by @ `b5eddebc`, Apache-2.0)
 - `user/shared/plugins/claude-md-management` (inspired-by @ `60f5e338`, Apache-2.0)
+- `user/shared/plugins/claude-md-management` (inspired-by @ `ed404106`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `3449c10c`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `b5eddebc`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `60f5e338`, Apache-2.0)
+- `user/shared/plugins/commit-commands` (inspired-by @ `ed404106`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `6cc16f4b`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `3449c10c`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `b5eddebc`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `60f5e338`, Apache-2.0)
+- `user/shared/plugins/hookify` (inspired-by @ `ed404106`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `3449c10c`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `b5eddebc`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `60f5e338`, Apache-2.0)
+- `user/shared/plugins/skill-creator` (inspired-by @ `ed404106`, Apache-2.0)
 
 ### https://github.com/github/github-mcp-server
 
@@ -325,88 +369,116 @@ _Last generated: 2026-09-01_
 - `project-templates/phaser/.claude/skills/actions-and-utilities` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/actions-and-utilities` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/actions-and-utilities` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/actions-and-utilities` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/animations` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/animations` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/animations` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/animations` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/audio-and-sound` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/audio-and-sound` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/audio-and-sound` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/audio-and-sound` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/cameras` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/cameras` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/cameras` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/cameras` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/curves-and-paths` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/curves-and-paths` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/curves-and-paths` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/curves-and-paths` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/data-manager` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/data-manager` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/data-manager` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/data-manager` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/events-system` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/events-system` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/events-system` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/events-system` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/filters-and-postfx` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/filters-and-postfx` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/filters-and-postfx` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/filters-and-postfx` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/game-object-components` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/game-object-components` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/game-object-components` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/game-object-components` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/game-setup-and-config` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/game-setup-and-config` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/game-setup-and-config` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/game-setup-and-config` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/geometry-and-math` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/geometry-and-math` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/geometry-and-math` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/geometry-and-math` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/graphics-and-shapes` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/graphics-and-shapes` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/graphics-and-shapes` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/graphics-and-shapes` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/groups-and-containers` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/groups-and-containers` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/groups-and-containers` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/groups-and-containers` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/input-keyboard-mouse-touch` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/input-keyboard-mouse-touch` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/input-keyboard-mouse-touch` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/input-keyboard-mouse-touch` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/loading-assets` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/loading-assets` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/loading-assets` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/loading-assets` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/particles` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/particles` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/particles` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/particles` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/physics-arcade` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/physics-arcade` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/physics-arcade` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/physics-arcade` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/physics-matter` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/physics-matter` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/physics-matter` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/physics-matter` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/render-textures` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/render-textures` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/render-textures` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/render-textures` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/scale-and-responsive` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/scale-and-responsive` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/scale-and-responsive` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/scale-and-responsive` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/scenes` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/scenes` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/scenes` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/scenes` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/sprites-and-images` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/sprites-and-images` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/sprites-and-images` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/sprites-and-images` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/text-and-bitmaptext` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/text-and-bitmaptext` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/text-and-bitmaptext` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/text-and-bitmaptext` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/tilemaps` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/tilemaps` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/tilemaps` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/tilemaps` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/time-and-timers` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/time-and-timers` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/time-and-timers` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/time-and-timers` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/tweens` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/tweens` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/tweens` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/tweens` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/v3-to-v4-migration` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/v3-to-v4-migration` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/v3-to-v4-migration` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/v3-to-v4-migration` (copied @ `02d8931b`, MIT)
 - `project-templates/phaser/.claude/skills/v4-new-features` (copied @ `7304c64e`, MIT)
 - `project-templates/phaser/.claude/skills/v4-new-features` (copied @ `3d6ad031`, MIT)
 - `project-templates/phaser/.claude/skills/v4-new-features` (copied @ `9e67ded9`, MIT)
 - `project-templates/phaser/.claude/skills/v4-new-features` (copied @ `41be1e46`, MIT)
+- `project-templates/phaser/.claude/skills/v4-new-features` (copied @ `02d8931b`, MIT)
 
 ### https://github.com/upstash/context7
 
@@ -427,18 +499,22 @@ _Last generated: 2026-09-01_
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `4ad28489`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `e40e62d7`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `acbc22bd`, MIT)
+- `project-templates/nextjs/.claude/skills/dogfood` (copied @ `eb05921b`, MIT)
 
 ### https://github.com/vercel-labs/agent-skills
 
 - `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `7c180d90`, MIT)
+- `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `063bee94`, MIT)
 - `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `7c180d90`, MIT)
+- `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `063bee94`, MIT)
 - `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `7c180d90`, MIT)
+- `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `063bee94`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `7c180d90`, MIT)
@@ -447,9 +523,11 @@ _Last generated: 2026-09-01_
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `18011566`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `7c180d90`, MIT)
+- `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `063bee94`, MIT)
 - `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `7c180d90`, MIT)
+- `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `063bee94`, MIT)
 
 ### https://github.com/vercel/next.js
 
