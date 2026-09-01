@@ -1,0 +1,3 @@
+# 0034 — Document GitHub MCP PAT types and scopes in the provenance README
+
+Setting up the github MCP server on the new machine required digging through the upstream repo to learn which PAT type and scopes to grant — the README only said "whatever scopes match your use case". The scope guidance from upstream `docs/scope-filtering.md` (verified at the pinned commit `febc3293`) is now summarized in `user/shared/mcp/github/README.md`: classic vs fine-grained behavior (tool filtering vs API-enforced), the `repo` baseline, when `read:org`/`workflow` and the toolset-specific scopes matter, the scope hierarchy, and the `X-OAuth-Scopes` curl check. Next machine setup should not need the upstream excursion.

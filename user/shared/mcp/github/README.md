@@ -6,11 +6,38 @@ This directory exists for provenance tracking only. The GitHub MCP server is **n
 
 GitHub operations from inside Claude Code: repositories, issues, pull requests, code search, CI/CD checks, security alerts, releases, and more. Authoritative replacement for ad-hoc `gh` CLI shelling out.
 
+## PAT type and scopes
+
+Verified against upstream `docs/scope-filtering.md` at the pinned commit (`febc3293`). Two token types behave differently with this server:
+
+| Type | Prefix | Server behavior |
+|---|---|---|
+| **Classic PAT** | `ghp_` | Reads the token's OAuth scopes at startup (`X-OAuth-Scopes` header) and **hides tools** the token can't use |
+| **Fine-grained PAT** | `github_pat_` | No scope detection — **all tools shown**; the GitHub API rejects calls the token lacks permission for |
+
+Scopes to grant when issuing a **classic** token at <https://github.com/settings/tokens>:
+
+- `repo` — the baseline; without it every write tool is hidden (upstream's own troubleshooting starts with "verify PAT has `repo` scope"). Implicitly includes `public_repo` and `security_events`.
+- `read:org` — org-level reads (e.g. listing an organization's issue fields/types).
+- `workflow` — only needed when a file write touches `.github/workflows/`; the server requests it on top of `repo` just for those calls.
+- `gist`, `notifications`, `project`, `admin:org` — only if you use the matching toolsets. Hierarchy: `admin:org` ⊃ `write:org` ⊃ `read:org`, and `project` ⊃ `read:project`.
+
+Per-tool scope requirements are listed in the upstream [README's tools section](https://github.com/github/github-mcp-server#tools). Check what an existing token actually has:
+
+```bash
+curl -sI -H "Authorization: Bearer <your-github-pat>" \
+  https://api.github.com/user | grep -i x-oauth-scopes
+```
+
+A **fine-grained** token trades tool filtering for tighter blast radius: select the specific repositories and grant the permission categories (Contents, Issues, Pull requests, ...) matching the tools you intend to use — mistakes surface as API errors at call time, not as hidden tools.
+
+For everyday use here (repos, issues, PRs, CI), `repo` + `read:org` + `workflow` on a classic PAT is the practical minimum to start from.
+
 ## How it's actually registered
 
 Two transports. **HTTP is recommended** (no Docker required, lower latency); stdio is the fallback when running entirely locally.
 
-Both need a GitHub Personal Access Token. Get one at <https://github.com/settings/tokens> — fine-grained tokens are preferred, with whatever repository/issue scopes match your use case.
+Both need a GitHub Personal Access Token — see the previous section for which type and which scopes to grant when issuing it.
 
 ### HTTP (recommended)
 
