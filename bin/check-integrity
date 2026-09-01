@@ -79,6 +79,15 @@ SKILL_REF = re.compile(
     r"((?:`/[a-z][a-z0-9-]*`(?:\s*(?:,|and)\s*)?)+)\s+skills?\b"
 )
 ANY_REF = re.compile(r"`/([a-z][a-z0-9-]*)`")
+# Second phrasing in the wild (mattpocock/skills since d28dfdc): cross-skill
+# calls written as `call the Skill tool with "name"` / `Call the Skill tool
+# twice, for "a" and "b"` — quoted names near the phrase "Skill tool".
+SKILL_TOOL_REF = re.compile(
+    r"Skill tool\b[^\"`]{0,40}?((?:\"[a-z][a-z0-9-]*\"(?:\s*(?:,|and|or)\s*)*)+)"
+)
+QUOTED_NAME = re.compile(r"\"([a-z][a-z0-9-]*)\"")
+# Documentation placeholders, not real skill names.
+QUOTED_PLACEHOLDERS = {"name", "skill-name"}
 MD_LINK = re.compile(r"\]\(([^)]+)\)")
 
 for name in sorted(skill_names & set(os.listdir(skills_dir) if os.path.isdir(skills_dir) else [])):
@@ -103,6 +112,14 @@ for name in sorted(skill_names & set(os.listdir(skills_dir) if os.path.isdir(ski
                 referenced.add(ref.group(1))
                 if ref.group(1) not in skill_names:
                     errors.append((r, i, f"references skill `/{ref.group(1)}` — not installed"))
+        for m in SKILL_TOOL_REF.finditer(line):
+            for ref in QUOTED_NAME.finditer(m.group(1)):
+                tok = ref.group(1)
+                if tok in QUOTED_PLACEHOLDERS:
+                    continue
+                referenced.add(tok)
+                if tok not in skill_names:
+                    errors.append((r, i, f'references skill "{tok}" (Skill tool call) — not installed'))
         # Softer net: a backticked /token that is neither a known skill, a
         # built-in, nor a filesystem path. Recall for refs worded differently.
         for m in ANY_REF.finditer(line):

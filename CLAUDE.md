@@ -63,7 +63,7 @@ Run `bin/check-integrity` (add `--strict` to fail on warnings too). It is static
 
 Two failure classes it catches:
 
-- **Skill cross-references** — a `` `/name` `` written next to the noun "skill" must resolve to an installed skill (this repo's `user/shared/skills/`, or one vendored in an installed plugin). Errors are high-precision; a second, softer pass warns on other unresolved `` `/token` `` refs.
+- **Skill cross-references** — a `` `/name` `` written next to the noun "skill", or a quoted name near the phrase "Skill tool" (`call the Skill tool with "name"`), must resolve to an installed skill (this repo's `user/shared/skills/`, or one vendored in an installed plugin). Errors are high-precision; a second, softer pass warns on other unresolved `` `/token` `` refs.
 - **Provenance sidecars** — valid JSON, non-empty `provenance[]`, required fields present. `"source": "self"` entries are exempt from `commit` / `path` / `license` (see `docs/PROVENANCE.md` § "Edge cases").
 
 **When adopting an item, adopt what it delegates to.** Upstream categories don't always match: `grilling` lives under `skills/productivity/` while the skills that call it are in `skills/engineering/`, which is all the original adoption walked. `bin/adopt` now runs this check itself and warns before you commit (suppress with `--no-check`) — the rule is enforced by the tool, not by remembering it.

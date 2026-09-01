@@ -1,0 +1,3 @@
+# 0030 — Teach check-integrity the quoted Skill-tool reference phrasing
+
+Upstream mattpocock/skills rewrote its cross-skill references from `` `/name` `` prose to `call the Skill tool with "name"` (commits d28dfdc, fcf0071, 447ca70). `bin/check-integrity` only matched the backticked form, so re-adopting those skills would have silently removed integrity coverage for their dependencies — the exact blind spot behind ADR 0020. The scanner now also treats quoted lowercase names within 40 characters after the phrase "Skill tool" as skill references (same error path, `"name"`/`"skill-name"` excluded as documentation placeholders). Landed before the mattpocock re-adoption so coverage never lapses.
