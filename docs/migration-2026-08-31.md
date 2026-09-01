@@ -88,3 +88,14 @@ git identity, `gh auth login`, SSH 키, MCP OAuth(linear 등) 같은 인증·키
 - **`user/shared/settings.json` 미커밋 수정분** (2026-08-31 사용자 결정). 개인 선호와 회사(GiverGround) autoMode 설정이 섞여 있었다. 새 맥에서 필요하면 `/config`로 재설정할 항목: `model: claude-fable-5[1m]`, `language: Korean`, `effortLevel: xhigh`, `voice: {enabled, mode: hold}`, `agentPushNotifEnabled: true`.
 - `~/.claude/plugins/` (477M), `cache/`, `jobs/`, `shell-snapshots/`, `paste-cache/`, `daemon*`, `telemetry/` — 재설치·재생성되는 상태.
 - Keychain의 로그인 토큰 — 재로그인으로 대체.
+
+## 7. 복원 완료 (2026-09-01)
+
+새 맥북에서 §4 절차를 전부 실행했다. 계획과 달랐던 지점만 기록한다:
+
+- **§4-4 아카이브 복원**: `tar xzf`를 홈에 그대로 풀지 않고 staging에서 병합했다 — 새 맥에서 이미 생긴 당일 `history.jsonl`(복원 세션 자신의 기록)을 아카이브가 덮어쓰기 때문. 아카이브 861줄 + 당일 11줄 = 872줄로 병합, projects는 UUID 충돌 없음을 확인 후 rsync 병합.
+- **§4-5 MCP**: `uvx`/`npx`가 새 맥에 없어 `brew install uv node`가 선행됐다. context7은 업스트림이 공식 헤더명을 `X-Context7-API-Key`로 바꿔 README에 반영했고(ADR 0031), github은 PAT scope를 업스트림에서 확인해 문서화했다(ADR 0034) — 다음 머신은 이 README들만 보면 된다.
+- **§6 settings.json**: 폐기했던 개인 선호를 `/config` 재설정 대신 repo의 `user/shared/settings.json`에 병합·커밋했다(ADR 0032) — 다음 머신부터는 `install.sh`만으로 복원된다.
+- **§5 재개 지점 검증**: llm-wiki PR #51 여전히 열려 있음(자동 유지보수 routine은 예측대로 계속 돌았다 — #50은 8/27 머지됨), toego 심사 시트·prototype 브랜치·agent CURRICULUM.md 전부 제자리.
+
+아카이브 원본은 `~/Downloads/claude-backup-2026-08-31.tgz`(64M) + 개인 클라우드 사본. 이 문서는 이것으로 종결.
