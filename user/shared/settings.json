@@ -32,5 +32,13 @@
   },
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
-  "tui": "fullscreen"
+  "tui": "fullscreen",
+  "model": "claude-fable-5[1m]",
+  "effortLevel": "xhigh",
+  "language": "Korean",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
+  "agentPushNotifEnabled": true
 }

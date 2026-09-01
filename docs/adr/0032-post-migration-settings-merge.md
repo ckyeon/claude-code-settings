@@ -1,0 +1,3 @@
+# 0032 — Fold the post-migration personal preferences into the managed settings.json
+
+The offboarding discarded uncommitted settings.json modifications (ADR 0025 §6), leaving model/effort/language/voice/push-notification preferences to be re-established on the new machine. On 2026-09-01, first boot of the new MacBook, they were merged into the repo-managed `user/shared/settings.json` instead of being reconfigured ad hoc: `model: claude-fable-5[1m]`, `effortLevel: xhigh`, `language: Korean`, `voice: {enabled, mode: hold}`, `agentPushNotifEnabled: true`. The committed `theme: dark` was kept over the fresh install's transient `auto`. Future machines get these via `install.sh` with no manual step.
