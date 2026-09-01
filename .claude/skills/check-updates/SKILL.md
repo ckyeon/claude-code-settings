@@ -5,7 +5,9 @@ description: Check upstream freshness of provenance-tracked items and investigat
 
 # check-updates
 
-Check whether provenance-pinned upstream commits are behind HEAD, then investigate whether the tracked paths actually changed.
+Check whether provenance-pinned upstream commits are behind HEAD, then investigate whether the tracked paths actually changed and how much the changes matter.
+
+The deterministic work (clones, logs, diffs) lives in `bin/check-updates`; this skill adds the judgment layer on top via subagents, keeping raw git output out of the main session's context.
 
 ## Workflow
 
@@ -17,46 +19,50 @@ Run the script from the repo root:
 bin/check-updates
 ```
 
-This compares pinned commits against upstream HEAD via `git ls-remote` (no clone). It outputs items grouped by source repo, marking each as up-to-date or outdated. Exit code 1 means some items are outdated.
+This compares pinned commits against upstream HEAD via `git ls-remote` (no clone). Exit code 1 means some items are outdated.
 
 If everything is up to date, report that and stop.
 
-### Step 2 — Deep investigation (outdated items only)
+### Step 2 — Deep scan (outdated items only)
 
-For each unique outdated source repo, clone blobless into a temp dir:
-
-```bash
-TMPDIR=$(mktemp -d)
-git clone --filter=blob:none --no-checkout <source_url> "$TMPDIR"
+```
+bin/check-updates --deep
 ```
 
-Then for each outdated item from that repo, check whether the tracked path actually changed:
+This re-runs the fast check, then clones each outdated source blobless into a temp workdir, and for every outdated item runs `git log <pin>..<head> -- <path>` to classify it:
 
-```bash
-git -C "$TMPDIR" log --oneline <pinned_sha>..<head_sha> -- <path_in_source>
-```
+- **changed** — the tracked path has real commits. The workdir gets `items/<dest>/log.txt`, plus `items/<dest>/upstream.diff` (`git diff <pin> <head> -- <path>`) for `copied` items.
+- **pin-only** — the pin is behind but the tracked path is untouched.
 
-If the log is empty, the tracked path had no changes — the pin is behind but the content is identical. If the log has commits, those are real changes to the tracked content.
+The workdir path is printed at the end and contains `deep.json` (machine-readable records: local path, source, pin, head, mode, license, commit count, status, item dir) plus the clones themselves. Do not re-derive any of this by hand in the main session — read `deep.json` for the facts.
 
-Clean up each temp dir when done: `rm -rf "$TMPDIR"`
+### Step 3 — Judgment fan-out (changed items only)
 
-### Step 3 — Present results
+Pin-only items need no judgment. For **changed** items, spawn one subagent per source repo that has them — all in a single message so they run in parallel. Each agent gets:
+
+- the repo label and its clone dir under `<workdir>/clones/`
+- the list of its changed items: local dest, `item_dir` (log.txt / upstream.diff), mode, pinned and head SHAs
+
+Instruct each agent to:
+
+1. Read `log.txt` and `upstream.diff` for each item; run extra `git` commands in the clone if the diff alone is ambiguous. For `copied` items it may also compare against the local dest to spot local drift.
+2. Classify each item's change: **substantive** (behavior/content meaningfully different) vs **cosmetic** (formatting, phrasing, em-dashes).
+3. Flag risks — especially changes to how skills reference other skills (`/name` phrasing), which interact with `bin/check-integrity`'s cross-reference scan, and any new dependency an updated item delegates to (the "adopt what it delegates to" rule).
+4. Return ONLY a compact summary: per item, a verdict, a 1-2 line rationale, and any risk flags. Never dump diffs or full logs back.
+
+### Step 4 — Present results
 
 Group findings into two categories:
 
-**업데이트 필요** — items where the tracked path has actual commits:
-- Show the commit list from `git log`
-- For `copied` items: emphasize that local files may be stale since they were copied from upstream
-- For `inspired-by` items: note that upstream content changed; the provenance pin should be updated
+**업데이트 필요** — changed items, enriched with the agents' verdicts (substantive vs cosmetic, risk flags). For `copied` items emphasize that local files are stale; for `inspired-by` items only the provenance pin needs updating.
 
-**pin만 뒤처짐 (실질 변경 없음)** — items where the path had no changes:
-- These can be updated to the latest pin for accuracy, but there's no urgency
+**pin만 뒤처짐 (실질 변경 없음)** — pin-only items. These can be re-pinned for accuracy, but there's no urgency.
 
-When many items share the same source and pin (e.g., 27 phaser skills), summarize them as a group rather than listing each individually.
+When many items share the same source and pin (e.g., 28 phaser skills), summarize them as a group rather than listing each individually.
 
-### Step 4 — Offer next steps
+### Step 5 — Offer next steps
 
-For items with real changes, suggest the `bin/adopt` command to update:
+For items worth updating, suggest the `bin/adopt` command:
 
 ```bash
 bin/adopt \
@@ -68,6 +74,6 @@ bin/adopt \
   --license <SPDX>
 ```
 
-For `copied` items, this also pulls the new file contents. For `inspired-by` items, it updates only the provenance pin.
+For `copied` items this also pulls the new file contents; for `inspired-by` items it updates only the provenance pin.
 
-Wait for the user to decide which items to update — do not run `bin/adopt` automatically.
+Wait for the user to decide which items to update — do not run `bin/adopt` automatically. Once decisions are made (or the session moves on), clean up the workdir: `rm -rf <workdir>`.

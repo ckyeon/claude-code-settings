@@ -1,23 +1,44 @@
 #!/usr/bin/env bash
 # Check whether provenance-pinned upstream commits are behind HEAD.
-# Fast check only — uses git ls-remote (no clone).
+#
+#   bin/check-updates          Fast check only — git ls-remote, no clone.
+#   bin/check-updates --deep   Also clone outdated sources (blobless) and check
+#                              whether each tracked path actually changed.
+#                              Leaves clones + per-item logs/diffs in a temp
+#                              workdir (printed at the end) for further
+#                              inspection; caller is responsible for cleanup.
 
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_ROOT"
 
-REPO_ROOT="$REPO_ROOT" python3 - <<'PYEOF'
+DEEP=0
+for arg in "$@"; do
+  case "$arg" in
+    --deep) DEEP=1 ;;
+    -h|--help)
+      sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//'
+      exit 0
+      ;;
+    *) echo "unknown argument: $arg" >&2; exit 2 ;;
+  esac
+done
+
+REPO_ROOT="$REPO_ROOT" DEEP="$DEEP" python3 - <<'PYEOF'
 import json
 import os
 import re
 import subprocess
 import sys
+import tempfile
+from concurrent.futures import ThreadPoolExecutor
 
 repo_root = os.environ["REPO_ROOT"]
+deep = os.environ.get("DEEP") == "1"
 
 # --- Discover sidecars (same walk as bin/sources-index) ---
-items = []  # (local_path, source, commit, path, adopted_as)
+items = []  # dicts: local, source, commit, path, adopted_as, license
 for root, dirs, files in os.walk(repo_root):
     dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
     for name in files:
@@ -42,20 +63,21 @@ for root, dirs, files in os.walk(repo_root):
         source = entry.get("source", "")
         if not source or source == "self":
             continue
-        items.append((
-            local,
-            source,
-            entry.get("commit", ""),
-            entry.get("path", ""),
-            entry.get("adopted-as", ""),
-        ))
+        items.append({
+            "local": local,
+            "source": source,
+            "commit": entry.get("commit", ""),
+            "path": entry.get("path", ""),
+            "adopted_as": entry.get("adopted-as", ""),
+            "license": entry.get("license", ""),
+        })
 
 if not items:
     print("No provenance entries found.")
     sys.exit(0)
 
 # --- Deduplicate ls-remote calls by source URL ---
-sources = sorted(set(it[1] for it in items))
+sources = sorted(set(it["source"] for it in items))
 print(f"Checking {len(sources)} source{'s' if len(sources) != 1 else ''}...\n")
 
 head_cache = {}  # source_url -> head_sha | None
@@ -73,18 +95,23 @@ for src in sources:
 # --- Group items by (source, pinned_commit) ---
 groups = {}  # (source, pinned_commit) -> [items]
 for it in items:
-    key = (it[1], it[2])
+    key = (it["source"], it["commit"])
     groups.setdefault(key, []).append(it)
 
-# --- Report ---
+# --- Fast report ---
 slug_re = re.compile(r"https?://github\.com/([^/]+/[^/]+?)(?:\.git)?/?$")
+
+def label_of(source):
+    m = slug_re.match(source)
+    return m.group(1) if m else source
+
 up_to_date = 0
 outdated = 0
 errors = 0
+outdated_items = []  # items whose pin is behind a reachable head
 
 for (source, pinned), group in sorted(groups.items()):
-    m = slug_re.match(source)
-    label = m.group(1) if m else source
+    label = label_of(source)
     head = head_cache.get(source)
     short_pin = pinned[:8] if pinned else "?"
 
@@ -98,18 +125,156 @@ for (source, pinned), group in sorted(groups.items()):
         short_head = head[:8]
         print(f"✗ {label:<45} {short_pin} → {short_head}")
         if len(group) <= 5:
-            names = [os.path.basename(it[0]) for it in group]
+            names = [os.path.basename(it["local"]) for it in group]
             print(f"    {', '.join(names)}")
         else:
-            common = os.path.commonpath([it[0] for it in group])
+            common = os.path.commonpath([it["local"] for it in group])
             print(f"    {len(group)} items ({common}/*)")
         outdated += 1
+        outdated_items.extend(group)
 
 print(f"\n{up_to_date} up to date, {outdated} outdated" +
       (f", {errors} unreachable" if errors else ""))
 
-if errors:
-    sys.exit(2)
-elif outdated:
-    sys.exit(1)
+exit_code = 2 if errors else (1 if outdated else 0)
+
+if not deep or not outdated_items:
+    sys.exit(exit_code)
+
+# --- Deep pass: clone outdated sources, check whether tracked paths changed ---
+workdir = tempfile.mkdtemp(prefix="check-updates-deep-")
+clones_dir = os.path.join(workdir, "clones")
+items_dir = os.path.join(workdir, "items")
+os.makedirs(clones_dir)
+os.makedirs(items_dir)
+
+def sanitize(s):
+    return re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
+
+deep_sources = sorted(set(it["source"] for it in outdated_items))
+# The same repo may be referenced under multiple URL spellings (with/without
+# .git); they share one clone, keyed by the sanitized owner/repo label.
+clone_dirs = {src: os.path.join(clones_dir, sanitize(label_of(src))) for src in deep_sources}
+to_clone = {}  # clone_dir -> representative source url
+for src in deep_sources:
+    to_clone.setdefault(clone_dirs[src], src)
+
+print(f"\nDeep check: cloning {len(to_clone)} outdated source"
+      f"{'s' if len(to_clone) != 1 else ''} (blobless)...")
+
+def clone(src):
+    try:
+        subprocess.run(
+            ["git", "clone", "--filter=blob:none", "--no-checkout", "--quiet",
+             src, clone_dirs[src]],
+            check=True, capture_output=True, text=True, timeout=600,
+        )
+        return src, None
+    except subprocess.TimeoutExpired:
+        return src, "clone timed out"
+    except subprocess.CalledProcessError as e:
+        return src, (e.stderr or "clone failed").strip().splitlines()[-1]
+
+clone_errors = {}  # clone_dir -> error
+with ThreadPoolExecutor(max_workers=min(8, len(to_clone))) as pool:
+    for src, err in pool.map(clone, to_clone.values()):
+        if err:
+            clone_errors[clone_dirs[src]] = err
+
+def git_in_clone(src, *args, timeout=120):
+    return subprocess.run(
+        ["git", "-C", clone_dirs[src], *args],
+        capture_output=True, text=True, timeout=timeout,
+    )
+
+records = []
+for it in sorted(outdated_items, key=lambda x: (x["source"], x["local"])):
+    src = it["source"]
+    head = head_cache[src]
+    rec = {
+        **it,
+        "head": head,
+        "status": None,        # changed | pin-only | error
+        "commit_count": 0,
+        "item_dir": None,
+    }
+    if clone_dirs[src] in clone_errors:
+        rec["status"] = "error"
+        rec["error"] = clone_errors[clone_dirs[src]]
+        records.append(rec)
+        continue
+
+    path = it["path"] or "."
+    log = git_in_clone(src, "log", "--oneline", f"{it['commit']}..{head}", "--", path)
+    if log.returncode != 0:
+        rec["status"] = "error"
+        rec["error"] = (log.stderr or "git log failed").strip().splitlines()[-1]
+        records.append(rec)
+        continue
+
+    lines = [l for l in log.stdout.splitlines() if l.strip()]
+    rec["commit_count"] = len(lines)
+    if not lines:
+        rec["status"] = "pin-only"
+        records.append(rec)
+        continue
+
+    rec["status"] = "changed"
+    item_dir = os.path.join(items_dir, sanitize(it["local"]))
+    os.makedirs(item_dir, exist_ok=True)
+    rec["item_dir"] = item_dir
+    with open(os.path.join(item_dir, "log.txt"), "w") as f:
+        f.write(log.stdout)
+
+    # Upstream content diff only for vendored items; for inspired-by (and
+    # whole-repo paths) the commit log is the useful signal and a diff of "."
+    # would be huge.
+    if it["adopted_as"] == "copied" and path != ".":
+        diff = git_in_clone(src, "diff", it["commit"], head, "--", path, timeout=300)
+        if diff.returncode == 0 and diff.stdout:
+            with open(os.path.join(item_dir, "upstream.diff"), "w") as f:
+                f.write(diff.stdout)
+    records.append(rec)
+
+# --- Deep report ---
+print()
+by_source = {}
+for rec in records:
+    by_source.setdefault(rec["source"], []).append(rec)
+
+changed_total = 0
+for src in sorted(by_source):
+    recs = by_source[src]
+    head = head_cache[src]
+    print(f"{label_of(src)}  → {head[:8] if head else '?'}")
+    pin_only = [r for r in recs if r["status"] == "pin-only"]
+    for rec in recs:
+        if rec["status"] == "changed":
+            changed_total += 1
+            n = rec["commit_count"]
+            print(f"  CHANGED  {n:>3} commit{'s' if n != 1 else ''}  {rec['local']}")
+        elif rec["status"] == "error":
+            print(f"  ERROR    {rec['local']}: {rec['error']}")
+    if len(pin_only) > 5:
+        common = os.path.commonpath([r["local"] for r in pin_only])
+        print(f"  pin-only     {len(pin_only)} items ({common}/*)")
+    else:
+        for rec in pin_only:
+            print(f"  pin-only     {rec['local']}")
+
+summary_path = os.path.join(workdir, "deep.json")
+with open(summary_path, "w") as f:
+    json.dump({"workdir": workdir, "items": records}, f, indent=2)
+    f.write("\n")
+
+pin_only_total = sum(1 for r in records if r["status"] == "pin-only")
+error_total = sum(1 for r in records if r["status"] == "error")
+print(f"\n{changed_total} changed, {pin_only_total} pin-only" +
+      (f", {error_total} errors" if error_total else ""))
+print(f"\nWorkdir kept for inspection (clones + per-item log.txt/upstream.diff):")
+print(f"  {workdir}")
+print(f"  {summary_path}")
+print(f"Clean up with: rm -rf {workdir}")
+
+sys.exit(2 if (errors or error_total) else (1 if outdated else 0))
 PYEOF
