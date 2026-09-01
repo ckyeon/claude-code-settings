@@ -12,6 +12,8 @@ Hosted at `https://mcp.context7.com/mcp` (HTTP transport). Requires a free API k
 
 `--header` is variadic in the CLI, so it must come **after** the positional `<name>` and URL — otherwise it greedily consumes them and you get `missing required argument 'name'`. The header value uses HTTP-style `Key: value` (colon + space), not `Key=value`.
 
+Since upstream [#3091](https://github.com/upstash/context7/pull/3091) the canonical header name is `X-Context7-API-Key` (the server also accepts `Authorization: Bearer <key>`); the older `CONTEXT7_API_KEY` form below still works but is legacy.
+
 ```bash
 claude mcp add \
   --transport http \

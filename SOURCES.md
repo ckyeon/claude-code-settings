@@ -139,15 +139,19 @@ _Last generated: 2026-09-01_
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `7e956e59` | `.` | inspired-by | MIT | 2026-05-28 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `428af3e0` | `.` | inspired-by | MIT | 2026-06-09 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `594a7313` | `.` | inspired-by | MIT | 2026-08-05 |
+| `user/shared/mcp/context7` | https://github.com/upstash/context7 | `76140fc3` | `.` | inspired-by | MIT | 2026-09-01 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `b1e1eb1a` | `src/fetch` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `275175cd` | `src/fetch` | inspired-by | MIT | 2026-06-09 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `76d64c82` | `src/fetch` | inspired-by | MIT | 2026-08-05 |
+| `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `579c3903` | `src/fetch` | inspired-by | MIT | 2026-09-01 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `1add5fe2` | `.` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `e091ea63` | `.` | inspired-by | MIT | 2026-05-28 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `457f5993` | `.` | inspired-by | MIT | 2026-06-09 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `3778a414` | `.` | inspired-by | MIT | 2026-08-05 |
+| `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `febc3293` | `.` | inspired-by | MIT | 2026-09-01 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `b1e1eb1a` | `src/sequentialthinking` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `76d64c82` | `src/sequentialthinking` | inspired-by | MIT | 2026-08-05 |
+| `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `579c3903` | `src/sequentialthinking` | inspired-by | MIT | 2026-09-01 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-05-21 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-07-16 |
@@ -171,6 +175,7 @@ _Last generated: 2026-09-01_
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `5c1e35f9` | `understand-anything-plugin` | inspired-by | MIT | 2026-06-09 |
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `83a9b288` | `understand-anything-plugin` | inspired-by | MIT | 2026-07-16 |
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `fe8c5bc5` | `understand-anything-plugin` | inspired-by | MIT | 2026-08-05 |
+| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `ba450c43` | `understand-anything-plugin` | inspired-by | MIT | 2026-09-01 |
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `8b78b531` | `skills/engineering/codebase-design` | copied | MIT | 2026-08-13 |
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/codebase-design` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-07-16 |
@@ -220,6 +225,7 @@ _Last generated: 2026-09-01_
 - `user/shared/plugins/understand-anything` (inspired-by @ `5c1e35f9`, MIT)
 - `user/shared/plugins/understand-anything` (inspired-by @ `83a9b288`, MIT)
 - `user/shared/plugins/understand-anything` (inspired-by @ `fe8c5bc5`, MIT)
+- `user/shared/plugins/understand-anything` (inspired-by @ `ba450c43`, MIT)
 
 ### https://github.com/anthropics/claude-plugins-official
 
@@ -250,6 +256,7 @@ _Last generated: 2026-09-01_
 - `user/shared/mcp/github` (inspired-by @ `e091ea63`, MIT)
 - `user/shared/mcp/github` (inspired-by @ `457f5993`, MIT)
 - `user/shared/mcp/github` (inspired-by @ `3778a414`, MIT)
+- `user/shared/mcp/github` (inspired-by @ `febc3293`, MIT)
 
 ### https://github.com/mattpocock/skills
 
@@ -299,8 +306,10 @@ _Last generated: 2026-09-01_
 - `user/shared/mcp/fetch` (inspired-by @ `b1e1eb1a`, MIT)
 - `user/shared/mcp/fetch` (inspired-by @ `275175cd`, MIT)
 - `user/shared/mcp/fetch` (inspired-by @ `76d64c82`, MIT)
+- `user/shared/mcp/fetch` (inspired-by @ `579c3903`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `b1e1eb1a`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `76d64c82`, MIT)
+- `user/shared/mcp/sequential-thinking` (inspired-by @ `579c3903`, MIT)
 
 ### https://github.com/multica-ai/andrej-karpathy-skills.git
 
@@ -406,6 +415,7 @@ _Last generated: 2026-09-01_
 - `user/shared/mcp/context7` (inspired-by @ `7e956e59`, MIT)
 - `user/shared/mcp/context7` (inspired-by @ `428af3e0`, MIT)
 - `user/shared/mcp/context7` (inspired-by @ `594a7313`, MIT)
+- `user/shared/mcp/context7` (inspired-by @ `76140fc3`, MIT)
 
 ### https://github.com/vercel-labs/agent-browser
 
