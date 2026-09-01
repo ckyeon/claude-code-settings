@@ -45,7 +45,7 @@ tar tzf ~/claude-backup-$(date +%F).tgz | grep -i gigr && echo "FAIL: gigr leake
 
 ## 4. 새 맥 복원 절차
 
-1. 새 맥의 username은 `ckyeon`으로 만든다 (4단계 세션 resume의 전제). Claude Code 설치 후 **개인 계정으로** 로그인 — 회사 계정(kyle@gigr.ai)은 퇴사로 소멸하며, 거기 묶인 claude.ai 대화 이력·커넥터·구독은 반출 불가로 간주한다.
+1. 새 맥의 username은 `ckyeon`으로 만든다 (4단계 세션 resume의 전제). Claude Code 설치 후 **개인 계정으로** 로그인 — 회사 계정은 퇴사로 소멸하며, 거기 묶인 claude.ai 대화 이력·커넥터·구독은 반출 불가로 간주한다.
 2. 이 repo를 clone:
    ```bash
    mkdir -p ~/workspace && git clone https://github.com/ckyeon/claude-code-settings ~/workspace/claude-code-settings
