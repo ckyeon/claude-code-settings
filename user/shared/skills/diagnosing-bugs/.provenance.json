@@ -16,6 +16,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-08-05"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "6654f6b60cd9d5be8b54c6fafe44346dabeb3b76",
+      "path": "skills/engineering/diagnosing-bugs",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-09-01"
     }
   ]
 }

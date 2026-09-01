@@ -8,6 +8,15 @@
       "adopted-as": "copied",
       "adopted-at": "2026-08-13",
       "notes": "Dependency of grill-with-docs, improve-codebase-architecture and triage; lives under skills/productivity upstream, not skills/engineering"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "6654f6b60cd9d5be8b54c6fafe44346dabeb3b76",
+      "path": "skills/productivity/grilling",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-09-01",
+      "notes": "Dependency of grill-with-docs, improve-codebase-architecture and triage; lives under skills/productivity upstream, not skills/engineering"
     }
   ]
 }

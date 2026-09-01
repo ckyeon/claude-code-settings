@@ -8,6 +8,14 @@
       "adopted-as": "copied",
       "adopted-at": "2026-08-13",
       "notes": "Dependency of improve-codebase-architecture and tdd (both reference the /codebase-design vocabulary)"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "6654f6b60cd9d5be8b54c6fafe44346dabeb3b76",
+      "path": "skills/engineering/codebase-design",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-09-01"
     }
   ]
 }
