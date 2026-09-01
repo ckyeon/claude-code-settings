@@ -16,6 +16,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-08-05"
+    },
+    {
+      "source": "https://github.com/vercel/next.js",
+      "commit": "1076c4745318e439062d3464a76881d2b967f886",
+      "path": "skills/next-partial-prefetching-adoption",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-09-01"
     }
   ]
 }

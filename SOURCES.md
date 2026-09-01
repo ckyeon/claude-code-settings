@@ -14,6 +14,7 @@ _Last generated: 2026-09-01_
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `328ce8a9` | `skill-data/core` | copied | MIT | 2026-06-09 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `e40e62d7` | `skill-data/core` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `acbc22bd` | `skill-data/core` | copied | MIT | 2026-08-05 |
+| `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `eb05921b` | `skill-data/core` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/deploy-to-vercel` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/deploy-to-vercel` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/deploy-to-vercel` | copied | MIT | 2026-08-05 |
@@ -22,18 +23,23 @@ _Last generated: 2026-09-01_
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `acbc22bd` | `skill-data/dogfood` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-cache-components-adoption` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-cache-components-adoption` | copied | MIT | 2026-08-05 |
+| `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `1076c474` | `skills/next-cache-components-adoption` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-08-05 |
+| `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `1076c474` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-dev-loop` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-dev-loop` | copied | MIT | 2026-08-05 |
+| `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `1076c474` | `skills/next-dev-loop` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-08-05 |
+| `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `1076c474` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/react-best-practices` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/react-best-practices` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/react-best-practices` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/react-view-transitions` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/react-view-transitions` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/react-view-transitions` | copied | MIT | 2026-08-05 |
+| `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/react-view-transitions` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/vercel-optimize` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `18011566` | `skills/vercel-optimize` | copied | MIT | 2026-05-28 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/vercel-optimize` | copied | MIT | 2026-07-16 |
@@ -407,6 +413,7 @@ _Last generated: 2026-09-01_
 - `project-templates/nextjs/.claude/skills/core` (copied @ `328ce8a9`, MIT)
 - `project-templates/nextjs/.claude/skills/core` (copied @ `e40e62d7`, MIT)
 - `project-templates/nextjs/.claude/skills/core` (copied @ `acbc22bd`, MIT)
+- `project-templates/nextjs/.claude/skills/core` (copied @ `eb05921b`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `4ad28489`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `e40e62d7`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `acbc22bd`, MIT)
@@ -425,6 +432,7 @@ _Last generated: 2026-09-01_
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `7c180d90`, MIT)
+- `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `063bee94`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `18011566`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `f8a72b96`, MIT)
@@ -437,12 +445,16 @@ _Last generated: 2026-09-01_
 
 - `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `ab09c1f4`, MIT)
+- `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `1076c474`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `ab09c1f4`, MIT)
+- `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `1076c474`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `ab09c1f4`, MIT)
+- `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `1076c474`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `ab09c1f4`, MIT)
+- `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `1076c474`, MIT)
 
 ### self
 
