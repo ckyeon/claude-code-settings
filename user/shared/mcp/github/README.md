@@ -8,7 +8,7 @@ GitHub operations from inside Claude Code: repositories, issues, pull requests, 
 
 ## PAT type and scopes
 
-Verified against upstream `docs/scope-filtering.md` at the pinned commit (`febc3293`). Two token types behave differently with this server:
+Verified against upstream `docs/scope-filtering.md` at the pinned commit (`12d16ed0`). Two token types behave differently with this server:
 
 | Type | Prefix | Server behavior |
 |---|---|---|
@@ -17,7 +17,7 @@ Verified against upstream `docs/scope-filtering.md` at the pinned commit (`febc3
 
 Scopes to grant when issuing a **classic** token at <https://github.com/settings/tokens>:
 
-- `repo` — the baseline; without it every write tool is hidden (upstream's own troubleshooting starts with "verify PAT has `repo` scope"). Implicitly includes `public_repo` and `security_events`.
+- `repo` — the baseline; without it nearly every write tool is hidden (upstream's own troubleshooting starts with "verify PAT has `repo` scope"). Since upstream `198bc16`, a `public_repo`-only token still shows a handful of public-contribution write tools (issue comments, PR creation, fork/branch/push), but their per-call auth challenges still require full `repo`. Implicitly includes `public_repo` and `security_events`.
 - `read:org` — org-level reads (e.g. listing an organization's issue fields/types).
 - `workflow` — only needed when a file write touches `.github/workflows/`; the server requests it on top of `repo` just for those calls.
 - `gist`, `notifications`, `project`, `admin:org` — only if you use the matching toolsets. Hierarchy: `admin:org` ⊃ `write:org` ⊃ `read:org`, and `project` ⊃ `read:project`.
