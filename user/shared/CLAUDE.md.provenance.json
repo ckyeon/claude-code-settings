@@ -14,6 +14,12 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-05-24",
       "notes": "Substantially rewritten: positive framing, merged sections 1+5, added trivial heuristic, added bad/good example. Based on research (Trust Over Fear arXiv:2603.14373, Compact Constraint Encoding arXiv:2604.07192, Augment Code length study)."
+    },
+    {
+      "source": "self",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-09-02",
+      "notes": "Fable 5.1 tuning for a learning user (ADR 0043): stated the file's intent as a counterweight to the harness's autonomy block; added scope/test limits, surgical edits, verify-from-docs with quotation marking, name-new-concepts, and an /ask-matt pointer. Source: platform.claude.com 'Prompting Claude Fable 5.1'."
     }
   ]
 }
