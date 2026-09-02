@@ -2,11 +2,12 @@
 # Check whether provenance-pinned upstream commits are behind HEAD.
 #
 #   bin/check-updates          Fast check only — git ls-remote, no clone.
-#   bin/check-updates --deep   Also clone outdated sources (blobless) and check
-#                              whether each tracked path actually changed.
-#                              Leaves clones + per-item logs/diffs in a temp
-#                              workdir (printed at the end) for further
-#                              inspection; caller is responsible for cleanup.
+#   bin/check-updates --deep   Also clone outdated sources (blobless), check
+#                              whether each tracked path actually changed, and
+#                              list upstream entries added/removed next to the
+#                              tracked paths (new/deleted skills). Leaves clones
+#                              + per-item logs/diffs in a temp workdir (printed
+#                              at the end); caller is responsible for cleanup.
 
 set -euo pipefail
 
@@ -236,13 +237,62 @@ for it in sorted(outdated_items, key=lambda x: (x["source"], x["local"])):
                 f.write(diff.stdout)
     records.append(rec)
 
+# --- Structural scan: upstream entries added/removed next to tracked paths ---
+# Compares pin vs head listings of each tracked path's parent dir, so entries
+# that predate the pin (deliberately not adopted) don't show up as noise.
+# Whole-repo items (path ".") are skipped — their git log already covers all.
+tracked_paths = {}  # source -> set of every tracked upstream path (all pins)
+for it in items:
+    if it["path"] and it["path"] != ".":
+        tracked_paths.setdefault(it["source"], set()).add(it["path"])
+
+def ls_entries(src, sha, root):
+    args = ["ls-tree", "--name-only", sha]
+    if root:
+        args += ["--", root.rstrip("/") + "/"]
+    res = git_in_clone(src, *args)
+    if res.returncode != 0:
+        return None
+    return {l for l in res.stdout.splitlines() if l.strip()}
+
+struct_records = []
+scan_keys = sorted({(it["source"], it["commit"]) for it in outdated_items
+                    if it["path"] and it["path"] != "."})
+for src, pin in scan_keys:
+    if clone_dirs[src] in clone_errors:
+        continue
+    head = head_cache[src]
+    roots = sorted({os.path.dirname(it["path"]) for it in outdated_items
+                    if it["source"] == src and it["commit"] == pin
+                    and it["path"] and it["path"] != "."})
+    for root in roots:
+        old = ls_entries(src, pin, root)
+        new = ls_entries(src, head, root)
+        if old is None or new is None:
+            continue
+        added = sorted(new - old)
+        removed = sorted(old - new)
+        if not added and not removed:
+            continue
+        struct_records.append({
+            "source": src, "pin": pin, "head": head, "root": root or ".",
+            "added": added, "removed": removed,
+            "removed_tracked": sorted(p for p in removed
+                                      if p in tracked_paths.get(src, set())),
+        })
+
 # --- Deep report ---
 print()
 by_source = {}
 for rec in records:
     by_source.setdefault(rec["source"], []).append(rec)
+struct_by_source = {}
+for rec in struct_records:
+    struct_by_source.setdefault(rec["source"], []).append(rec)
 
 changed_total = 0
+added_total = 0
+removed_total = 0
 for src in sorted(by_source):
     recs = by_source[src]
     head = head_cache[src]
@@ -261,15 +311,31 @@ for src in sorted(by_source):
     else:
         for rec in pin_only:
             print(f"  pin-only     {rec['local']}")
+    seen = set()  # same source may be scanned under several pins
+    for srec in struct_by_source.get(src, []):
+        for p in srec["added"]:
+            if ("added", p) not in seen:
+                seen.add(("added", p))
+                added_total += 1
+                print(f"  NEW      upstream added   {p}")
+        for p in srec["removed"]:
+            if ("removed", p) not in seen:
+                seen.add(("removed", p))
+                removed_total += 1
+                mark = "  ** adopted here **" if p in srec["removed_tracked"] else ""
+                print(f"  REMOVED  upstream removed {p}{mark}")
 
 summary_path = os.path.join(workdir, "deep.json")
 with open(summary_path, "w") as f:
-    json.dump({"workdir": workdir, "items": records}, f, indent=2)
+    json.dump({"workdir": workdir, "items": records,
+               "structure": struct_records}, f, indent=2)
     f.write("\n")
 
 pin_only_total = sum(1 for r in records if r["status"] == "pin-only")
 error_total = sum(1 for r in records if r["status"] == "error")
 print(f"\n{changed_total} changed, {pin_only_total} pin-only" +
+      (f", {added_total} upstream-new" if added_total else "") +
+      (f", {removed_total} upstream-removed" if removed_total else "") +
       (f", {error_total} errors" if error_total else ""))
 print(f"\nWorkdir kept for inspection (clones + per-item log.txt/upstream.diff):")
 print(f"  {workdir}")
