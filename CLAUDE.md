@@ -84,7 +84,7 @@ Steps:
 
 ### Update an adoption to a newer upstream commit
 
-Re-run `bin/adopt` against the same destination with the new SHA. The sidecar's `provenance[]` list gets a new entry appended; the older entry stays as history.
+Re-run `bin/adopt` against the same destination with the new SHA. The sidecar's `provenance[]` list gets a new entry appended; the older entry stays as history. `bin/adopt` compares the old and new pins itself and warns when upstream added or removed entries next to the path (new/deleted sibling skills), or when an `inspired-by` path no longer exists at the new commit — so a hand-run re-pin gets the same structural check as `check-updates --deep` (ADR 0039).
 
 ## Guardrails
 

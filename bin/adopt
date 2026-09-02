@@ -6,7 +6,9 @@
 # entry to provenance[] (useful for items that draw from multiple sources).
 #
 # Auto-refreshes SOURCES.md at the end (suppress with --no-index) and verifies
-# the result with bin/check-integrity (suppress with --no-check).
+# the result with bin/check-integrity (suppress with --no-check). On a re-pin it
+# also warns when upstream added/removed entries next to --path since the
+# previous pin, and (inspired-by) when --path no longer exists at the commit.
 # Does NOT commit on your behalf by default — prints a suggested git command.
 # Pass --commit-now to have this script create the commit itself.
 
@@ -52,6 +54,9 @@ Outputs:
   - Refreshes SOURCES.md (unless --no-index)
   - Runs bin/check-integrity and warns if the adopted item references
     skills that are not installed (unless --no-check)
+  - On a re-pin, warns when upstream added/removed entries next to --path
+    since the previous pin (new/deleted sibling skills), and in inspired-by
+    mode when --path itself no longer exists at the new commit
   - Prints a `git commit` command with trailers, or creates the commit
     directly when --commit-now is passed.
 EOF
@@ -214,6 +219,92 @@ FULL_SHA="$(git -C "$TMPDIR/clone" rev-parse "$COMMIT" 2>/dev/null)" || {
   exit 1
 }
 echo "  Commit: $FULL_SHA"
+
+# ----- Structural drift + path-existence warnings (never fail) -----
+# check-updates --deep reports new/removed upstream entries next to tracked
+# paths, but a hand-run re-pin skips that scan; the clone is already here, so
+# the same comparison costs two ls-tree calls.
+if [ "$PATH_IN_REPO" != "." ]; then
+  if [ -f "$TO/.provenance.json" ]; then
+    PRE_SIDECAR="$TO/.provenance.json"
+  elif [ -f "$TO.provenance.json" ]; then
+    PRE_SIDECAR="$TO.provenance.json"
+  else
+    PRE_SIDECAR=""
+  fi
+  CLONE_DIR="$TMPDIR/clone" SIDECAR_F="$PRE_SIDECAR" FROM_URL="$FROM" \
+  NEW_SHA="$FULL_SHA" P_PATH="$PATH_IN_REPO" P_MODE="$MODE" \
+  python3 - <<'PYEOF'
+import json, os, re, subprocess, sys
+
+clone = os.environ["CLONE_DIR"]
+new_sha = os.environ["NEW_SHA"]
+path = os.environ["P_PATH"]
+
+def git(*args):
+    return subprocess.run(["git", "-C", clone, *args],
+                          capture_output=True, text=True)
+
+def warn(msg):
+    print(msg, file=sys.stderr)
+
+# copied mode already errors on a missing path at checkout; inspired-by would
+# silently pin a vanished path without this.
+if os.environ["P_MODE"] == "inspired-by" and \
+        git("cat-file", "-e", f"{new_sha}:{path}").returncode != 0:
+    warn("")
+    warn(f"⚠  '{path}' does not exist upstream at {new_sha[:8]} — deleted or moved?")
+    warn("   Run bin/check-updates --deep (or /check-updates) before trusting this pin.")
+
+sidecar = os.environ.get("SIDECAR_F")
+if not sidecar:
+    sys.exit(0)
+
+def norm(u):
+    return re.sub(r"\.git$", "", u.rstrip("/"))
+
+old_pin = None
+try:
+    with open(sidecar) as f:
+        entries = json.load(f)["provenance"]
+    for e in reversed(entries):
+        if norm(e.get("source", "")) == norm(os.environ["FROM_URL"]) and e.get("commit"):
+            old_pin = e["commit"]
+            break
+except Exception:
+    sys.exit(0)
+
+if not old_pin or new_sha.startswith(old_pin):
+    sys.exit(0)
+if git("cat-file", "-e", f"{old_pin}^{{commit}}").returncode != 0:
+    sys.exit(0)  # old pin unreachable (rewritten history) — nothing to compare
+
+parent = os.path.dirname(path)
+def ls(sha):
+    args = ["ls-tree", "--name-only", sha]
+    if parent:
+        args += ["--", parent + "/"]
+    res = git(*args)
+    if res.returncode != 0:
+        return None
+    return {l for l in res.stdout.splitlines() if l.strip()}
+
+old, new = ls(old_pin), ls(new_sha)
+if old is None or new is None:
+    sys.exit(0)
+added = sorted(new - old)
+removed = sorted(old - new)
+if not added and not removed:
+    sys.exit(0)
+warn("")
+warn(f"⚠  Upstream structure changed next to '{path}' between {old_pin[:8]} and {new_sha[:8]}:")
+for p in added:
+    warn(f"     NEW      {p}")
+for p in removed:
+    warn(f"     REMOVED  {p}")
+warn("   Run bin/check-updates --deep (or /check-updates) to judge these.")
+PYEOF
+fi
 
 # ----- Copy if needed -----
 if [ "$MODE" = "copied" ]; then

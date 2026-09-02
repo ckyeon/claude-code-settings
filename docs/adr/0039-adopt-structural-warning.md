@@ -1,0 +1,3 @@
+# 0039 — bin/adopt가 재핀 시 upstream 구조 변화와 path 소멸을 직접 경고
+
+ADR 0037의 구조 스캔은 `check-updates --deep`을 거칠 때만 돌기 때문에, fast check만 보고 `bin/adopt`로 손 재핀하면 신규/삭제 스킬을 모른 채 pin이 넘어가는 구멍이 남아 있었다. `bin/adopt`는 모든 모드에서 이미 blobless clone을 하므로(full SHA 해석용), 같은 clone에서 `ls-tree` 두 번으로 구 pin ↔ 새 commit 사이 `--path` 부모 디렉터리의 NEW/REMOVED를 비교해 경고하도록 내장했다. 덤으로 `inspired-by` 모드는 `--path`가 새 commit에 존재하는지 확인하지 않아 사라진 path에 조용히 pin을 갱신할 수 있었는데, 이것도 경고한다. 둘 다 warn-only — integrity check를 adopt가 직접 돌리되 실패시키지 않는 기존 철학(ADR 0020 계열)과 같다. 별도 플래그 없이 항상 켜져 있다: 비용이 사실상 0이고 stderr 경고라 스크립트 사용을 방해하지 않는다. 검증은 가짜 file:// upstream으로 5개 시나리오(재핀 경고, 소멸 path 경고, 구조 변화 없는 재핀 무경고, 첫 채택 무경고, copied 복사 정상)를 통과했다.
