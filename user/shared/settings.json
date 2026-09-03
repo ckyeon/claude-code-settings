@@ -32,7 +32,7 @@
     }
   },
   "language": "Korean",
-  "effortLevel": "xhigh",
+  "effortLevel": "high",
   "modelSettings": {
     "claude-fable-5-1": {
       "effortLevel": "high"
@@ -45,5 +45,6 @@
   },
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
+  "verbose": false,
   "agentPushNotifEnabled": true
 }
