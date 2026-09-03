@@ -4,7 +4,7 @@ Claude가 쓰는 산문이 em-dash, 화살표, 세미콜론으로 절을 이어 
 
 ## Context
 
-2026-09-03 측정. `user/shared/CLAUDE.md`에 em-dash 37개, 규칙 파일에 화살표 12개, `docs/adr/` 44개 파일 전부에 em-dash, 최근 커밋 30건 중 8건에 em-dash 또는 화살표.
+2026-09-03 측정. 이 저장소 루트의 프로젝트용 `CLAUDE.md`에 em-dash 37개, `user/shared/CLAUDE.md`에 6개, 규칙 파일에 화살표 12개, `docs/adr/` 44개 파일 전부에 em-dash, 최근 커밋 30건 중 8건에 em-dash 또는 화살표.
 
 원인은 세 겹이다.
 
