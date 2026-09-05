@@ -40,6 +40,14 @@
       "license": "MIT",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-09-02"
+    },
+    {
+      "source": "https://github.com/modelcontextprotocol/servers",
+      "commit": "d73f99efbfd40c3aa1b61e88728b3d49fb52608f",
+      "path": "src/fetch",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-09-05"
     }
   ]
 }

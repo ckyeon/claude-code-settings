@@ -48,6 +48,14 @@
       "license": "Apache-2.0",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-09-02"
+    },
+    {
+      "source": "https://github.com/anthropics/claude-plugins-official",
+      "commit": "85cce0381e7860082641b59d961a2b8c368b8b79",
+      "path": "plugins/hookify",
+      "license": "Apache-2.0",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-09-05"
     }
   ]
 }
