@@ -8,7 +8,7 @@ GitHub operations from inside Claude Code: repositories, issues, pull requests, 
 
 ## PAT type and scopes
 
-Verified against upstream `docs/scope-filtering.md` at the pinned commit (`12d16ed0`). Two token types behave differently with this server:
+Verified against upstream `docs/scope-filtering.md` at the pinned commit (`9205304f`, v1.12.0). Two token types behave differently with this server:
 
 | Type | Prefix | Server behavior |
 |---|---|---|
@@ -20,7 +20,7 @@ Scopes to grant when issuing a **classic** token at <https://github.com/settings
 - `repo` — the baseline; without it nearly every write tool is hidden (upstream's own troubleshooting starts with "verify PAT has `repo` scope"). Since upstream `198bc16`, a `public_repo`-only token still shows a handful of public-contribution write tools (issue comments, PR creation, fork/branch/push), but their per-call auth challenges still require full `repo`. Implicitly includes `public_repo` and `security_events`.
 - `read:org` — org-level reads (e.g. listing an organization's issue fields/types).
 - `workflow` — only needed when a file write touches `.github/workflows/`; the server requests it on top of `repo` just for those calls.
-- `gist`, `notifications`, `project`, `admin:org` — only if you use the matching toolsets. Hierarchy: `admin:org` ⊃ `write:org` ⊃ `read:org`, and `project` ⊃ `read:project`.
+- `gist`, `notifications`, `project`, `admin:org`, `admin:enterprise` — only if you use the matching toolsets (`admin:enterprise` is for the `governance` toolset added in v1.12.0). Hierarchy: `admin:org` ⊃ `write:org` ⊃ `read:org`, `project` ⊃ `read:project`, and `admin:enterprise` ⊃ `read:enterprise`.
 
 Per-tool scope requirements are listed in the upstream [README's tools section](https://github.com/github/github-mcp-server#tools). Check what an existing token actually has:
 

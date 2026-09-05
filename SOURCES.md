@@ -16,6 +16,7 @@ _Last generated: 2026-09-05_
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `e40e62d7` | `skill-data/core` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `acbc22bd` | `skill-data/core` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `eb05921b` | `skill-data/core` | copied | MIT | 2026-09-01 |
+| `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `4a98df79` | `skill-data/core` | copied | MIT | 2026-09-05 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/deploy-to-vercel` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/deploy-to-vercel` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/deploy-to-vercel` | copied | MIT | 2026-08-05 |
@@ -180,6 +181,7 @@ _Last generated: 2026-09-05_
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `594a7313` | `.` | inspired-by | MIT | 2026-08-05 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `76140fc3` | `.` | inspired-by | MIT | 2026-09-01 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `c05c71c5` | `.` | inspired-by | MIT | 2026-09-02 |
+| `user/shared/mcp/context7` | https://github.com/upstash/context7 | `6836bb47` | `.` | inspired-by | MIT | 2026-09-05 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `b1e1eb1a` | `src/fetch` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `275175cd` | `src/fetch` | inspired-by | MIT | 2026-06-09 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `76d64c82` | `src/fetch` | inspired-by | MIT | 2026-08-05 |
@@ -191,10 +193,12 @@ _Last generated: 2026-09-05_
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `3778a414` | `.` | inspired-by | MIT | 2026-08-05 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `febc3293` | `.` | inspired-by | MIT | 2026-09-01 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `12d16ed0` | `.` | inspired-by | MIT | 2026-09-02 |
+| `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `9205304f` | `.` | inspired-by | MIT | 2026-09-05 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `b1e1eb1a` | `src/sequentialthinking` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `76d64c82` | `src/sequentialthinking` | inspired-by | MIT | 2026-08-05 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `579c3903` | `src/sequentialthinking` | inspired-by | MIT | 2026-09-01 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `2e3e4c7a` | `src/sequentialthinking` | inspired-by | MIT | 2026-09-02 |
+| `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `d73f99ef` | `src/sequentialthinking` | inspired-by | MIT | 2026-09-05 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-05-21 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-07-16 |
@@ -229,6 +233,7 @@ _Last generated: 2026-09-05_
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `83a9b288` | `understand-anything-plugin` | inspired-by | MIT | 2026-07-16 |
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `fe8c5bc5` | `understand-anything-plugin` | inspired-by | MIT | 2026-08-05 |
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `ba450c43` | `understand-anything-plugin` | inspired-by | MIT | 2026-09-01 |
+| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `787da45a` | `understand-anything-plugin` | inspired-by | MIT | 2026-09-05 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/code-review` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/code-review` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `8b78b531` | `skills/engineering/codebase-design` | copied | MIT | 2026-08-13 |
@@ -293,6 +298,7 @@ _Last generated: 2026-09-05_
 - `user/shared/plugins/understand-anything` (inspired-by @ `83a9b288`, MIT)
 - `user/shared/plugins/understand-anything` (inspired-by @ `fe8c5bc5`, MIT)
 - `user/shared/plugins/understand-anything` (inspired-by @ `ba450c43`, MIT)
+- `user/shared/plugins/understand-anything` (inspired-by @ `787da45a`, MIT)
 
 ### https://github.com/anthropics/claude-plugins-official
 
@@ -335,6 +341,7 @@ _Last generated: 2026-09-05_
 - `user/shared/mcp/github` (inspired-by @ `3778a414`, MIT)
 - `user/shared/mcp/github` (inspired-by @ `febc3293`, MIT)
 - `user/shared/mcp/github` (inspired-by @ `12d16ed0`, MIT)
+- `user/shared/mcp/github` (inspired-by @ `9205304f`, MIT)
 
 ### https://github.com/herdrdev/herdr
 
@@ -407,6 +414,7 @@ _Last generated: 2026-09-05_
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `76d64c82`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `579c3903`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `2e3e4c7a`, MIT)
+- `user/shared/mcp/sequential-thinking` (inspired-by @ `d73f99ef`, MIT)
 
 ### https://github.com/multica-ai/andrej-karpathy-skills.git
 
@@ -542,6 +550,7 @@ _Last generated: 2026-09-05_
 - `user/shared/mcp/context7` (inspired-by @ `594a7313`, MIT)
 - `user/shared/mcp/context7` (inspired-by @ `76140fc3`, MIT)
 - `user/shared/mcp/context7` (inspired-by @ `c05c71c5`, MIT)
+- `user/shared/mcp/context7` (inspired-by @ `6836bb47`, MIT)
 
 ### https://github.com/vercel-labs/agent-browser
 
@@ -550,6 +559,7 @@ _Last generated: 2026-09-05_
 - `project-templates/nextjs/.claude/skills/core` (copied @ `e40e62d7`, MIT)
 - `project-templates/nextjs/.claude/skills/core` (copied @ `acbc22bd`, MIT)
 - `project-templates/nextjs/.claude/skills/core` (copied @ `eb05921b`, MIT)
+- `project-templates/nextjs/.claude/skills/core` (copied @ `4a98df79`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `4ad28489`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `e40e62d7`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `acbc22bd`, MIT)

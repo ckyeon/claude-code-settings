@@ -40,6 +40,15 @@
       "license": "MIT",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-09-01"
+    },
+    {
+      "source": "https://github.com/Lum1104/Understand-Anything",
+      "commit": "787da45adbf18aab5c3e3e531b0374dd576f263c",
+      "path": "understand-anything-plugin",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-09-05",
+      "notes": "2.9.5: incremental-update pipeline reworked into prepare/finalize helper scripts"
     }
   ]
 }

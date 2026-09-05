@@ -48,6 +48,15 @@
       "license": "MIT",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-09-02"
+    },
+    {
+      "source": "https://github.com/github/github-mcp-server",
+      "commit": "9205304fedf10540c33ae41fcf6352fa97dcc9be",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-09-05",
+      "notes": "v1.12.0: governance toolset, enterprise scopes, per_page renamed to perPage in actions_list/projects_list"
     }
   ]
 }
