@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/herdrdev/herdr",
+      "commit": "9eb521456ac0d19d3ab3d9d7cea3cca10baa8a4c",
+      "path": "skills/herdr",
+      "license": "Apache-2.0",
+      "adopted-as": "copied",
+      "adopted-at": "2026-09-05",
+      "notes": "Herdr agent control skill. Pinned to the v0.8.2 release commit; upstream updates this file only at stable releases."
+    }
+  ]
+}
