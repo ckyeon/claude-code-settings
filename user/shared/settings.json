@@ -15,7 +15,8 @@
     "commit-commands@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "codex@openai-codex": true,
-    "understand-anything@understand-anything": true
+    "understand-anything@understand-anything": true,
+    "discord@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {

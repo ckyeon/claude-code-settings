@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/anthropics/claude-plugins-official",
+      "commit": "3ea32df27be71d78775e627df2382fc26203577f",
+      "path": "external_plugins/discord",
+      "license": "Apache-2.0",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-09-10",
+      "notes": "Installed via Claude Code's official /plugin install discord@claude-plugins-official. This repo tracks provenance only; no files are copied. Plugin contents: an MCP server (server.ts on discord.js, run under Bun via the plugin's own .mcp.json) plus skills configure and access. Note the upstream path is external_plugins/discord, not plugins/discord like the other tracked plugins. Bot token and access state live in ~/.claude/channels/discord/, which this repo does not manage."
+    }
+  ]
+}
