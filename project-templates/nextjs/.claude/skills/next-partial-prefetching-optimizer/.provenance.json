@@ -1,0 +1,12 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/vercel/next.js",
+      "commit": "bf13ab8ac8553120dd0bdf14e98bd1b085fc2a81",
+      "path": "skills/next-partial-prefetching-optimizer",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-09-17"
+    }
+  ]
+}

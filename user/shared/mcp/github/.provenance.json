@@ -57,6 +57,14 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-09-05",
       "notes": "v1.12.0: governance toolset, enterprise scopes, per_page renamed to perPage in actions_list/projects_list"
+    },
+    {
+      "source": "https://github.com/github/github-mcp-server",
+      "commit": "85598ba6e1256f7ebf4867b95d63b833c4549264",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-09-17"
     }
   ]
 }

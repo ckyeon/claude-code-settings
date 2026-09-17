@@ -15,6 +15,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-09-05"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "959a8e9f1edc3adbe2f7e3054bb6fbefa6696260",
+      "path": "skills/engineering/code-review",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-09-17"
     }
   ]
 }

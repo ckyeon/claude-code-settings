@@ -8,6 +8,15 @@
       "adopted-as": "copied",
       "adopted-at": "2026-09-05",
       "notes": "Herdr agent control skill. Pinned to the v0.8.2 release commit; upstream updates this file only at stable releases."
+    },
+    {
+      "source": "https://github.com/herdrdev/herdr",
+      "commit": "065ef9d6a531c49fb8bee7e818ef837065b21ee9",
+      "path": "skills/herdr",
+      "license": "Apache-2.0",
+      "adopted-as": "copied",
+      "adopted-at": "2026-09-17",
+      "notes": "Re-pinned to release tag v0.9.1 (not HEAD) per ADR 0051; SKILL.md identical to HEAD at this time"
     }
   ]
 }

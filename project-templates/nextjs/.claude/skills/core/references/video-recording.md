@@ -6,15 +6,26 @@ Capture browser automation as video for debugging, documentation, or verificatio
 
 ## Contents
 
+- [Requirements](#requirements)
 - [Basic Recording](#basic-recording)
 - [Recording Commands](#recording-commands)
 - [Frame Rate](#frame-rate)
+- [Visible Cursor](#visible-cursor)
+- [Contact Sheets](#contact-sheets)
 - [Use Cases](#use-cases)
 - [Best Practices](#best-practices)
 - [Output Format](#output-format)
 - [Limitations](#limitations)
 
+## Requirements
+
+Recording pipes frames into `ffmpeg`, which must be on `PATH` with the `libvpx` and `libx264` encoders. Install it with `brew install ffmpeg` (macOS) or `sudo apt install ffmpeg` (Debian/Ubuntu); `agent-browser doctor` reports it under "Recording". Nothing else in agent-browser needs ffmpeg.
+
+Supported formats are `.webm` (VP8 via libvpx) and `.mp4` (H.264 via libx264). Other extensions are handed to ffmpeg as-is with H.264 video. A path with no extension is rejected before recording starts.
+
 ## Basic Recording
+
+`record start` records the current active page as-is. Without a URL it attaches to the tab you already have open (no navigation, no new tab, page state and hydration intact). With a URL it navigates the active tab there first.
 
 ```bash
 # Launch the browser, then start recording
@@ -47,6 +58,13 @@ agent-browser record stop
 
 # Restart with new file (stops current + starts new)
 agent-browser record restart ./take2.webm --fps 60
+
+# Navigate the active tab, then record
+agent-browser record start ./output.webm https://example.com/checkout
+
+# Record in a separate tab: open it first, then start recording
+agent-browser tab new https://example.com
+agent-browser record start ./output.webm
 ```
 
 ## Frame Rate
@@ -70,7 +88,28 @@ agent-browser record stop
 agent-browser record start ./soak.webm --fps 5
 ```
 
-Frames come from Chrome's screencast, so a 60 fps take of a scroll holds 60 distinct pictures per second. While the page is static the last frame is held, so duration matches wall clock; a gap longer than five seconds is held for five and the rest left out. `record stop --json` reports `frames` (written) and `capturedFrames` (distinct frames the page produced). 60 fps roughly doubles the bitrate of 30 fps.
+The video uses the requested frame rate and holds the latest Chrome frame between repaints. `record stop --json` reports `frames` (written) and `capturedFrames` (distinct frames from Chrome).
+
+## Visible Cursor
+
+Chrome's screencast does not include the native pointer. Pass `--cursor` to add an animated pointer and click ripple rendered with the page, keeping drags synchronized in every captured frame. The temporary overlay is inert, hidden from accessibility snapshots, and removed when recording stops. Screenshots taken during the recording include it.
+
+```bash
+agent-browser record start ./walkthrough.webm --cursor
+```
+
+## Contact Sheets
+
+Pass `--contact-sheet` to create a timestamped summary with highlighted changes.
+
+```bash
+agent-browser record start ./checkout.webm --contact-sheet
+
+# Select frames when at least 2% of the image changes
+agent-browser record start ./checkout.webm --contact-sheet-threshold 0.02
+```
+
+The threshold accepts values from `0` to `1` and defaults to `0.05`. Passing `--contact-sheet-threshold` implies `--contact-sheet`. At most 100 frames are included.
 
 ## Use Cases
 
@@ -111,7 +150,7 @@ agent-browser fill @e2 "password"
 agent-browser wait 500
 
 agent-browser click @e3
-agent-browser wait --load networkidle
+agent-browser wait --url "**/dashboard"
 agent-browser wait 1000  # Show result
 
 agent-browser record stop
@@ -191,14 +230,15 @@ agent-browser record stop
 
 ## Output Format
 
-- Default format: WebM (VP8/VP9 codec)
+- Format follows the extension: `.webm` (VP8 via libvpx) or `.mp4` (H.264 via libx264); other extensions get H.264 in that container
 - Default frame rate: 30 fps (`--fps` accepts 1 to 60)
+- Optional contact sheet: timestamped PNG with changed-region highlights
 - Compatible with all modern browsers and video players
 - Compressed but high quality
 
 ## Limitations
 
 - Recording adds slight overhead to automation, and higher frame rates add more
-- Large recordings can consume significant disk space; 60 fps roughly doubles the bitrate of 30 fps
+- Large recordings can consume significant disk space
 - Distinct frames per second are bounded by how often the page repaints, so a page rendering below 60 fps records below it too
-- Some headless environments may have codec limitations
+- Some headless environments may have codec limitations; an ffmpeg built without libvpx or libx264 cannot write the matching format
