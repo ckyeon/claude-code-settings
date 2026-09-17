@@ -12,14 +12,14 @@ Hosted at `https://mcp.context7.com/mcp` (HTTP transport). Requires a free API k
 
 `--header` is variadic in the CLI, so it must come **after** the positional `<name>` and URL — otherwise it greedily consumes them and you get `missing required argument 'name'`. The header value uses HTTP-style `Key: value` (colon + space), not `Key=value`.
 
-Since upstream [#3091](https://github.com/upstash/context7/pull/3091) the canonical header name is `X-Context7-API-Key` (the server also accepts `Authorization: Bearer <key>`); the older `CONTEXT7_API_KEY` form below still works but is legacy.
+Upstream's README documents `Authorization: Bearer <key>` as the header to use. The hosted server (`packages/mcp/src/index.ts`, checked at pin `4416fb85`) also accepts `X-Context7-API-Key`, `Context7-API-Key`, `X-API-Key`, and the legacy `CONTEXT7_API_KEY` / `X_API_KEY` forms, so a machine already registered with the older `CONTEXT7_API_KEY` header keeps working and does not need re-registration.
 
 ```bash
 claude mcp add \
   --transport http \
   --scope user \
   context7 https://mcp.context7.com/mcp \
-  --header "CONTEXT7_API_KEY: <your-api-key>"
+  --header "Authorization: Bearer <your-api-key>"
 ```
 
 Verify:
@@ -38,4 +38,4 @@ claude mcp remove context7 -s user
 
 The server runs as a hosted service — copying source here wouldn't help reproduce the runtime. The `.provenance.json` next to this README pins the upstream commit so this repo's `SOURCES.md` records that context7 is part of the user's setup, and the README captures the registration command that does the actual work on each machine.
 
-The `CONTEXT7_API_KEY` header value is a secret and lives only in machine-local `~/.claude.json` (or equivalent). It is never written into this repo.
+The API key in the `Authorization` header is a secret and lives only in machine-local `~/.claude.json` (or equivalent). It is never written into this repo.
