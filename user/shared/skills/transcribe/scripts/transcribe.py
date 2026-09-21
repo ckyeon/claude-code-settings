@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """로컬 오디오·영상 파일 → Gemini API 전사 텍스트.
 
-  python3 transcribe.py <파일> [--out <경로>] [--anchors [초]] [--plain]
+  python3 transcribe.py <파일> [--out <경로>] [--anchors [초]] [--speakers] [--smart]
+                       [--lang <코드>] [--vocab <용어,...>] [--vocab-file <경로>] [--plain]
 
 경로는 Gemini 하나뿐이다 — 키(GEMINI_TRANSCRIBE_API_KEY)가 없거나 API가 실패하면
 그대로 오류로 끝난다. 폴백(Whisper 등)과 URL 다운로드는 이 스크립트 밖이다.
@@ -9,8 +10,20 @@
   --anchors [초]   문단마다 [H:MM:SS] 앵커를 단다(기본 60초). 이때만 word timestamp를
                    켠다 — 공식 문서가 "정확도를 소폭 저하시킬 수 있다"고 경고하는
                    옵션이라 앵커가 필요 없으면 끈 채로 둔다(기본).
+  --speakers       화자를 구분해 발언 차례마다 "**spk_0:** 본문" 문단을 만든다. label은
+                   익명이고 최대 8명이며, 3명 이상은 API가 실험적 기능으로 분류한다.
+                   화자 정보는 word 주석에만 실려 오므로 word timestamp도 함께 켜진다.
+                   25분 초과 파일은 청크마다 label을 새로 매기므로 c1-, c2- 접두어가 붙는다.
+  --smart          verbatim 대신 smart mode. 필러와 반복을 지우고 목록과 날짜 형식을 정리한다.
+  --lang <코드>    BCP-47 언어 코드, 쉼표로 여러 개(ko-KR,en-US). 없으면 자동 감지.
+  --vocab <용어>   인식을 보정할 고유명사와 도메인 용어, 쉼표로 구분. 최대 1,000개이고
+                   100개 안팎이 권장치다.
+  --vocab-file <경로>  한 줄에 한 용어. --vocab과 합친다.
   --out <경로>     파일로 저장(기존 파일은 덮어쓰지 않는다). 없으면 stdout.
   --plain          frontmatter 없이 본문만.
+
+API가 함께 받지 않는 조합은 요청 전에 오류로 끝난다: --smart는 --anchors, --speakers와
+함께 쓸 수 없고, --vocab과 --vocab-file도 --anchors, --speakers와 함께 쓸 수 없다.
 
 25분 초과 오디오는 ffmpeg로 청크 분할 후 순서대로 이어 붙인다(앵커 모드에서는
 오프셋 합산). 영상 컨테이너(.mp4 .mkv .mov .webm 영상)는 ffmpeg로 오디오만 뽑는다.
@@ -36,6 +49,7 @@ from datetime import date
 GEMINI_MODEL = "gemini-3.5-transcribe"
 GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta"
 CHUNK_SEC = 1500  # word timestamp 한도가 30분 — 여유를 두고 25분 청크
+VOCAB_MAX = 1000  # custom_vocabulary 상한(공식 문서)
 AUDIO_MIME = {".webm": "audio/webm", ".m4a": "audio/mp4", ".mp3": "audio/mp3",
               ".ogg": "audio/ogg", ".opus": "audio/ogg", ".aac": "audio/aac",
               ".wav": "audio/wav", ".flac": "audio/flac"}
@@ -113,13 +127,30 @@ def _gemini_upload(path: pathlib.Path, mime: str, key: str) -> str:
     return uri
 
 
-def _gemini_transcribe(uri: str, mime: str, key: str, timestamps: bool) -> dict:
-    mode: dict = {"type": "verbatim"}
-    if timestamps:
-        mode["timestamp_granularities"] = ["word"]
+def transcription_config(anchors: bool, speakers: bool, smart: bool,
+                         langs: list[str], vocab: list[str]) -> dict:
+    """CLI 선택 → 요청의 transcription_config. 순수 함수.
+    실측 2026-09-21: diarization_mode만 켜면 word_info 주석이 아예 오지 않아 화자 정보를
+    읽을 곳이 없다. 그래서 speakers도 word timestamp를 함께 켠다."""
+    mode: dict | str = "smart"
+    if not smart:
+        mode = {"type": "verbatim"}
+        if speakers:
+            mode["diarization_mode"] = "speaker"
+        if anchors or speakers:
+            mode["timestamp_granularities"] = ["word"]
+    cfg: dict = {"mode": mode}
+    if langs:
+        cfg["language_codes"] = langs
+    if vocab:
+        cfg["custom_vocabulary"] = vocab
+    return cfg
+
+
+def _gemini_transcribe(uri: str, mime: str, key: str, tcfg: dict) -> dict:
     body = {"model": GEMINI_MODEL,
             "input": [{"type": "audio", "uri": uri, "mime_type": mime}],
-            "generation_config": {"transcription_config": {"mode": mode}}}
+            "generation_config": {"transcription_config": tcfg}}
     return _curl_json(["-X", "POST", f"{GEMINI_BASE}/interactions",
                        "-H", f"x-goog-api-key: {key}", "-H", "Content-Type: application/json",
                        "--max-time", "1800", "-d", json.dumps(body)], "Gemini 전사 요청")
@@ -166,60 +197,87 @@ def _longest_nondecreasing_idx(vals: list[int]) -> list[int]:
     return out[::-1]
 
 
+Seg = tuple[int, str | None, str]  # (시작 ms, 화자 label 또는 None, 텍스트 조각)
+
+
 def chunk_segs(data: dict, offset_ms: int = 0,
-               max_ms: int = (CHUNK_SEC + 5) * 1000) -> list[tuple[int, str]]:
-    """interactions 응답 → (시작 ms + 청크 오프셋, 텍스트 조각) 목록. 순수 함수.
+               max_ms: int = (CHUNK_SEC + 5) * 1000, spk_prefix: str = "") -> list[Seg]:
+    """interactions 응답 → (시작 ms + 청크 오프셋, 화자, 텍스트 조각) 목록. 순수 함수.
 
     본문은 content[].text(정본)에서 취하고, word_info 주석은 start_index(UTF-8 바이트
-    위치) → start_offset(시각) 지도로만 쓴다. 실측: 25분 청크에서 주석이 단어를 빠뜨리고
-    오프셋이 튄다 — 주석에서 단어를 뽑으면 본문이 손실된다. 시각은 max_ms 초과를 버린 뒤
-    최장 비감소 부분수열만 인정한다(무시된 구간의 텍스트는 직전 앵커에 붙는다)."""
-    segs: list[tuple[int, str]] = []
+    위치) → start_offset(시각)과 speaker 지도로만 쓴다. 실측: 25분 청크에서 주석이 단어를
+    빠뜨리고 오프셋이 튄다 — 주석에서 단어를 뽑으면 본문이 손실된다. 시각은 max_ms 초과를
+    버린 뒤 최장 비감소 부분수열만 인정한다(무시된 구간의 텍스트는 직전 앵커에 붙는다).
+
+    자르는 지점은 인정된 시각 주석, 그리고 speaker가 직전과 달라지는 주석이다. 시각이
+    무시된 주석에서 화자가 바뀌면 직전 시각을 물려받는다. speaker가 없는 응답(화자 구분
+    off)에서는 시각 주석에서만 잘린다. label은 API의 "spk:0"을 "spk_0"으로 바꿔 쓴다 —
+    문단 표지 "**label:**"에서 쌍점이 겹치지 않게 하기 위해서다."""
+    segs: list[Seg] = []
     for step in data.get("steps", []):
         for content in step.get("content", []):
             text = content.get("text") or ""
             if not text.strip():
                 continue
             raw = text.encode("utf-8")
-            cands: list[tuple[int, int]] = []
-            for ann in sorted(content.get("annotations", []), key=lambda a: a.get("start_index", 0)):
-                if ann.get("type") != "word_info" or "start_offset" not in ann:
+            anns = [a for a in sorted(content.get("annotations", []),
+                                      key=lambda a: a.get("start_index", 0))
+                    if a.get("type") == "word_info"]
+            timed: list[tuple[int, int]] = []  # (anns 인덱스, ms)
+            for k, ann in enumerate(anns):
+                if "start_offset" not in ann:
                     continue
                 ms = _offset_ms(ann["start_offset"])
                 if ms <= max_ms:
-                    cands.append((ann.get("start_index", 0), ms))
-            marks = [cands[i] for i in _longest_nondecreasing_idx([ms for _, ms in cands])]
+                    timed.append((k, ms))
+            valid = dict(timed[i] for i in _longest_nondecreasing_idx([ms for _, ms in timed]))
+            marks: list[tuple[int, int | None, str | None]] = []
+            cur_ms: int | None = None
+            cur_spk: str | None = None
+            for k, ann in enumerate(anns):
+                spk = ann.get("speaker", cur_spk)
+                if k not in valid and spk == cur_spk:
+                    continue
+                cur_ms, cur_spk = valid.get(k, cur_ms), spk
+                marks.append((ann.get("start_index", 0), cur_ms, cur_spk))
+            first_ms = next((ms for _, ms, _ in marks if ms is not None), 0)
             if not marks or marks[0][0] > 0:
-                marks.insert(0, (0, marks[0][1] if marks else 0))
-            bounds = [i for i, _ in marks] + [len(raw)]
-            for (i, ms), j in zip(marks, bounds[1:]):
+                marks.insert(0, (0, first_ms, marks[0][2] if marks else None))
+            bounds = [i for i, _, _ in marks] + [len(raw)]
+            for (i, ms, spk), j in zip(marks, bounds[1:]):
                 piece = raw[i:j].decode("utf-8", errors="ignore").strip()
                 if piece:
-                    segs.append((offset_ms + ms, piece))
+                    label = None if spk is None else spk_prefix + spk.replace(":", "_")
+                    segs.append((offset_ms + (first_ms if ms is None else ms), label, piece))
     return segs
 
 
-def paras_from(segs: list[tuple[int, str]], para_sec: int) -> str:
-    """(시작 ms, 텍스트) 목록을 [H:MM:SS] 앵커 문단으로 조립."""
+def paras_from(segs: list[Seg], para_sec: int | None) -> str:
+    """조각 목록을 문단으로 조립. 화자가 바뀌면 새 문단이고, para_sec가 있으면 그 간격으로도
+    나누며 [H:MM:SS] 앵커를 단다. para_sec가 None이면(화자 구분만) 앵커 없이 화자로만 나눈다."""
     paras: list[str] = []
     buf: list[str] = []
     para_start_ms = 0
-    for t, text in segs:
-        if buf and t - para_start_ms >= para_sec * 1000:
-            paras.append(_para(para_start_ms, buf))
-            buf, para_start_ms = [], t
-        elif not buf:
-            para_start_ms = t
+    para_spk: str | None = None
+    for t, spk, text in segs:
+        if buf and (spk != para_spk
+                    or (para_sec is not None and t - para_start_ms >= para_sec * 1000)):
+            paras.append(_para(para_start_ms, buf, para_spk, para_sec is not None))
+            buf = []
+        if not buf:
+            para_start_ms, para_spk = t, spk
         buf.append(text)
     if buf:
-        paras.append(_para(para_start_ms, buf))
+        paras.append(_para(para_start_ms, buf, para_spk, para_sec is not None))
     return "\n\n".join(paras)
 
 
-def _para(start_ms: int, chunks: list[str]) -> str:
+def _para(start_ms: int, chunks: list[str], spk: str | None = None, stamp: bool = True) -> str:
     s = start_ms // 1000
-    stamp = f"[{s // 3600}:{s % 3600 // 60:02d}:{s % 60:02d}]"
-    return f"{stamp} " + re.sub(r"\s+", " ", " ".join(chunks)).strip()
+    head = f"[{s // 3600}:{s % 3600 // 60:02d}:{s % 60:02d}] " if stamp else ""
+    if spk is not None:
+        head += f"**{spk}:** "
+    return head + re.sub(r"\s+", " ", " ".join(chunks)).strip()
 
 
 # ---------- 오디오 준비 ----------
@@ -259,6 +317,10 @@ def _split_audio(audio: pathlib.Path, td: str) -> list[pathlib.Path]:
     return chunks
 
 
+def _split_terms(s: str, sep: str) -> list[str]:
+    return [t.strip() for t in s.split(sep) if t.strip()]
+
+
 def _gemini_key() -> str:
     key = os.environ.get("GEMINI_TRANSCRIBE_API_KEY")
     if not key:
@@ -268,11 +330,15 @@ def _gemini_key() -> str:
 
 # ---------- 전사 ----------
 
-def transcribe(src: pathlib.Path, anchors_sec: int | None,
-               dump_dir: str | None = None) -> str:
-    """파일 → 본문 문자열. anchors_sec가 None이면 timestamp 없이 청크 본문을 이어 붙인다.
+def transcribe(src: pathlib.Path, anchors_sec: int | None, tcfg: dict,
+               speakers: bool = False, dump_dir: str | None = None) -> str:
+    """파일 → 본문 문자열. 앵커도 화자 구분도 없으면 청크 본문을 그대로 이어 붙인다.
+    화자 label은 요청마다 등장 순서로 새로 매겨진다(실측 2026-09-21: 같은 두 목소리의
+    순서를 뒤집은 클립에서 먼저 말한 쪽이 spk:0이 됐다). 그래서 청크가 둘 이상이면
+    label에 c1-, c2- 접두어를 붙여 서로 다른 번호 체계임을 드러낸다.
     dump_dir은 개발용: 청크별 응답 JSON을 보존해 파서를 재전사 비용 없이 반복한다."""
     key = _gemini_key()
+    use_segs = anchors_sec is not None or speakers
     with tempfile.TemporaryDirectory() as td:
         audio = _ensure_audio(src, td)
         mime = AUDIO_MIME.get(audio.suffix.lower(), "audio/mpeg")
@@ -283,12 +349,13 @@ def transcribe(src: pathlib.Path, anchors_sec: int | None,
             if len(chunks) > 1:
                 log(f"  청크 {i + 1}/{len(chunks)} 전사 중...")
             uri = _retrying(lambda: _gemini_upload(chunk, mime, key), "업로드")
-            data = _retrying(lambda: _gemini_transcribe(uri, mime, key, anchors_sec is not None), "전사")
+            data = _retrying(lambda: _gemini_transcribe(uri, mime, key, tcfg), "전사")
             if dump_dir:
                 (pathlib.Path(dump_dir) / f"{src.stem}-chunk{i}-response.json").write_text(
                     json.dumps(data, ensure_ascii=False), encoding="utf-8")
-            if anchors_sec is not None:
-                part = chunk_segs(data, offset_ms=i * CHUNK_SEC * 1000)
+            if use_segs:
+                part = chunk_segs(data, offset_ms=i * CHUNK_SEC * 1000,
+                                  spk_prefix=f"c{i + 1}-" if len(chunks) > 1 else "")
                 segs.extend(part)
             else:
                 part = chunk_texts(data)
@@ -296,15 +363,31 @@ def transcribe(src: pathlib.Path, anchors_sec: int | None,
             if not part:
                 raise RuntimeError(f"청크 {i + 1} 응답에 전사 본문이 없다: "
                                    f"{json.dumps(data, ensure_ascii=False)[:200]}")
-    if anchors_sec is not None:
+    if use_segs:
         return paras_from(segs, anchors_sec)
     return "\n\n".join(texts)
 
 
-def frontmatter(src: pathlib.Path, anchors_sec: int | None, duration_s: float | None) -> str:
-    kind = f"Gemini API 전사 ({GEMINI_MODEL}, verbatim"
-    kind += " + word timestamps)" if anchors_sec is not None else ")"
-    note = "필러·더듬음 보존, 화자 표지 미사용(발언자 구분은 문맥)"
+def frontmatter(src: pathlib.Path, anchors_sec: int | None, duration_s: float | None,
+                tcfg: dict, speakers: bool = False) -> str:
+    smart = tcfg["mode"] == "smart"
+    opts = ["smart" if smart else "verbatim"]
+    if anchors_sec is not None or speakers:
+        opts.append("word timestamps")
+    if speakers:
+        opts.append("speaker diarization")
+    if tcfg.get("language_codes"):
+        opts.append("lang " + ",".join(tcfg["language_codes"]))
+    if tcfg.get("custom_vocabulary"):
+        opts.append(f"vocabulary {len(tcfg['custom_vocabulary'])}개")
+    kind = f"Gemini API 전사 ({GEMINI_MODEL}, {' + '.join(opts)})"
+    note = "필러와 반복 제거, 형식 정리" if smart else "필러·더듬음 보존"
+    if speakers:
+        note += ", 화자 label은 익명(spk_N)"
+        if duration_s is not None and duration_s > CHUNK_SEC:
+            note += f"이고 {CHUNK_SEC // 60}분 청크마다 새로 매긴다(c1-, c2- 접두어는 서로 다른 번호 체계)"
+    else:
+        note += ", 화자 표지 미사용(발언자 구분은 문맥)"
     if anchors_sec is not None:
         note += f", 문단은 {anchors_sec}초 단위 [H:MM:SS] 앵커"
     lines = ["---",
@@ -324,8 +407,38 @@ def main() -> None:
     ap.add_argument("--out", help="저장 경로(기존 파일은 덮어쓰지 않음). 없으면 stdout")
     ap.add_argument("--anchors", nargs="?", const=60, type=int, metavar="SEC",
                     help="[H:MM:SS] 앵커 문단(기본 60초). 지정 시에만 word timestamp를 켠다")
+    ap.add_argument("--speakers", action="store_true",
+                    help="화자 구분. 발언 차례마다 '**spk_0:**' 문단(word timestamp도 함께 켜진다)")
+    ap.add_argument("--smart", action="store_true",
+                    help="smart mode: 필러와 반복을 지우고 형식을 정리한다(기본은 verbatim)")
+    ap.add_argument("--lang", metavar="CODES", help="BCP-47 언어 코드, 쉼표 구분. 없으면 자동 감지")
+    ap.add_argument("--vocab", metavar="TERMS", help="인식 보정 용어, 쉼표 구분(최대 1,000개)")
+    ap.add_argument("--vocab-file", metavar="PATH", help="한 줄에 한 용어. --vocab과 합친다")
     ap.add_argument("--plain", action="store_true", help="frontmatter 없이 본문만")
     args = ap.parse_args()
+
+    # API가 함께 받지 않는 조합 — 조용히 한쪽을 끄지 않고 요청 전에 끝낸다.
+    word_level = [o for o, on in (("--anchors", args.anchors is not None),
+                                  ("--speakers", args.speakers)) if on]
+    has_vocab = bool(args.vocab or args.vocab_file)
+    if word_level and args.smart:
+        ap.error(f"--smart는 {', '.join(word_level)}와 함께 쓸 수 없다(API 제약)")
+    if word_level and has_vocab:
+        ap.error(f"--vocab, --vocab-file은 {', '.join(word_level)}와 함께 쓸 수 없다(API 제약)")
+
+    vocab = _split_terms(args.vocab or "", ",")
+    if args.vocab_file:
+        vf = pathlib.Path(args.vocab_file).expanduser()
+        if not vf.is_file():
+            die(f"vocab 파일이 없다: {vf}")
+        vocab += _split_terms(vf.read_text(encoding="utf-8"), "\n")
+    vocab = list(dict.fromkeys(vocab))
+    if len(vocab) > VOCAB_MAX:
+        die(f"vocab 용어가 {len(vocab):,}개다 — API 상한은 {VOCAB_MAX:,}개.")
+    if len(vocab) > 100:
+        log(f"경고: vocab 용어 {len(vocab)}개 — 공식 문서 권장치는 100개 안팎이다.")
+    tcfg = transcription_config(args.anchors is not None, args.speakers, args.smart,
+                                _split_terms(args.lang or "", ","), vocab)
 
     src = pathlib.Path(args.file).expanduser()
     if not src.is_file():
@@ -342,10 +455,11 @@ def main() -> None:
             log(f"경고: {e}")
         log(f"Gemini API 전사 중 ({GEMINI_MODEL}"
             f"{'' if duration is None else f', {int(duration // 60)}분'} — 길이에 따라 수 분)...")
-        body = transcribe(src, args.anchors)
+        body = transcribe(src, args.anchors, tcfg, args.speakers)
     except RuntimeError as e:
         die(str(e))
-    text = ("" if args.plain else frontmatter(src, args.anchors, duration)) + body + "\n"
+    text = ("" if args.plain
+            else frontmatter(src, args.anchors, duration, tcfg, args.speakers)) + body + "\n"
     if dest:
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(text, encoding="utf-8")
