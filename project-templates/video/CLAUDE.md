@@ -25,6 +25,12 @@ Video editing project. Replace `{{PROJECT_NAME}}` and fill in the sections below
   echo 'export WHISPER_MODEL=$HOME/.local/share/whisper.cpp/ggml-small.bin' >> ~/.zshrc
   ```
 - HyperFrames, for HTML-rendered animation overlays. `.claude/settings.json` enables it but does not download it: run `claude plugin install hyperframes@claude-plugins-official --scope project` once per machine. Needs Node 22+.
+- Remotion, for React-rendered animation overlays. Its plugin comes from a third-party marketplace, so add the marketplace first; keep `--scope project`, since Remotion's own docs omit it and that installs at user scope.
+  ```bash
+  claude plugin marketplace add remotion-dev/claude-code-plugin
+  claude plugin install remotion@remotion --scope project
+  ```
+  The skills are MIT. Rendering uses the `remotion` npm packages under the Remotion License: free for individuals, for-profit organizations with up to 3 employees, and non-profits; other companies need a company license (remotion.pro/license).
 - Verify: `bash .claude/skills/ffmpeg-recipes/scripts/check_env.sh`
 
 ## Conventions

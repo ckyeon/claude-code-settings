@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/remotion-dev/claude-code-plugin",
+      "commit": "a39a50197c85e9082826ecc64fec9f37a8b48bfe",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-09-27",
+      "notes": "Installed per project with claude plugin marketplace add remotion-dev/claude-code-plugin, then claude plugin install remotion@remotion --scope project. Provenance only; no files are copied. License MIT as declared in the plugin's plugin.json and marketplace.json (the repo has no LICENSE file); rendering with the remotion npm packages falls under the Remotion License instead. Plugin version 4.0.529, 12 skills, same set as remotion-dev/skills@cf49eff. Enabled only in project-templates/video/.claude/settings.json, whose extraKnownMarketplaces declares the remotion marketplace."
+    }
+  ]
+}

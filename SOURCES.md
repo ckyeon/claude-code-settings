@@ -247,6 +247,7 @@ _Last generated: 2026-09-27_
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official | `85cce038` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-09-05 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official | `ea0a38e1` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-09-17 |
 | `user/shared/plugins/hyperframes` | https://github.com/heygen-com/hyperframes | `8d2b6e7b` | `.` | inspired-by | Apache-2.0 | 2026-09-27 |
+| `user/shared/plugins/remotion` | https://github.com/remotion-dev/claude-code-plugin | `a39a5019` | `.` | inspired-by | MIT | 2026-09-27 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `60f5e338` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-08-05 |
@@ -706,6 +707,10 @@ _Last generated: 2026-09-27_
 - `project-templates/phaser/.claude/skills/v4-new-features` (copied @ `9e67ded9`, MIT)
 - `project-templates/phaser/.claude/skills/v4-new-features` (copied @ `41be1e46`, MIT)
 - `project-templates/phaser/.claude/skills/v4-new-features` (copied @ `02d8931b`, MIT)
+
+### https://github.com/remotion-dev/claude-code-plugin
+
+- `user/shared/plugins/remotion` (inspired-by @ `a39a5019`, MIT)
 
 ### https://github.com/upstash/context7
 

@@ -4,6 +4,15 @@
     "deny": []
   },
   "enabledPlugins": {
-    "hyperframes@claude-plugins-official": true
+    "hyperframes@claude-plugins-official": true,
+    "remotion@remotion": true
+  },
+  "extraKnownMarketplaces": {
+    "remotion": {
+      "source": {
+        "source": "github",
+        "repo": "remotion-dev/claude-code-plugin"
+      }
+    }
   }
 }

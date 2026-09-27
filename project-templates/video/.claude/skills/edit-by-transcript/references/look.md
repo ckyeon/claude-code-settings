@@ -36,9 +36,14 @@ frame을 뽑아 무엇이 문제인지 보고, 한 가지를 바꾸고, 다시 �
 - loudness는 전부 섞은 뒤 마지막에 한 번 맞추고(`render.py` 최종본이 한다), 구간별(말, 음악만, 마지막 화면) 수치를 따로 재서 보고한다. 마지막 화면이 말보다 15dB 작다면 버그다.
 - 음악 선택은 사용자의 몫이다. 성격이 다른 후보 두 개를 제안하고 사용자가 듣고 고르게 한다.
 
-## Animation (HyperFrames)
+## Animation (HyperFrames, Remotion)
 
-이 프로젝트는 HyperFrames plugin을 켠다(`.claude/settings.json`). HTML과 GSAP로 만든 장면을 영상으로 렌더링하는 도구다. 작성과 렌더링 방법은 plugin의 skill을 따르고, 여기에는 이 편집과 잇는 방법만 둔다.
+이 프로젝트에는 코드로 장면을 만드는 도구가 둘 있다. 작성과 렌더링 방법은 각 도구의 skill을 따르고, 여기에는 고르는 기준과 이 편집에 잇는 방법만 둔다.
+
+- **HyperFrames** (plugin, `.claude/settings.json`): HTML, CSS, GSAP로 장면을 쓴다. 제품 UI 움직임, 웹 페이지나 목업을 영상으로, 글자 animation, 투명 배경 overlay에 맞는다.
+- **Remotion** (plugin, `remotion-best-practices` skill부터): React component로 장면을 쓴다. 사용자가 React나 Remotion을 원하거나, 상태가 있는 component를 재사용하거나, 이미 Remotion으로 만든 brand 자산이 있을 때 쓴다. slot 디렉터리 안에 Remotion 프로젝트를 따로 만들고, 렌더링 결과의 길이와 해상도를 `ffprobe`로 확인한다.
+
+두 도구 모두 결과는 영상 파일 하나이고, EDL에 잇는 방법은 같다.
 
 - animation 하나마다 `edit/animations/slot_<id>/` 디렉터리를 쓴다. 배경이 투명해야 하면 webm(alpha)으로, 아니면 mp4로 렌더링한다.
 - 결과 파일을 EDL `overlays`에 넣는다: `{"file": "edit/animations/slot_1/render.webm", "start_in_output": 12.4, "duration": 5.0}`.
