@@ -1,0 +1,12 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/WyattBlue/auto-editor",
+      "commit": "7796222139b5d87fe32247f8a60a931b02006db5",
+      "path": "skills/auto-editor-export",
+      "license": "Unlicense",
+      "adopted-as": "copied",
+      "adopted-at": "2026-09-27"
+    }
+  ]
+}

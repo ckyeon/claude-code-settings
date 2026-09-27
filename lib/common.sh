@@ -20,8 +20,8 @@ detect_os() {
 # sidecar. Its marketplace comes from the `enabledPlugins` key ("<name>@<marketplace>")
 # in user/shared/settings.json, or — for project-scope plugins — in a
 # project-templates/*/.claude/settings.json. `source` is the marketplace's repo
-# from `extraKnownMarketplaces`, empty for built-in marketplaces that need no
-# `/plugin marketplace add`. Both are empty when no settings file enables the
+# from `extraKnownMarketplaces` (user settings first, then templates), empty for
+# built-in marketplaces that need no `/plugin marketplace add`. Both are empty when no settings file enables the
 # plugin, which install.sh / uninstall.sh surface as a warning.
 #
 # Rows are sorted built-in marketplaces first, then third-party, then unknown —
@@ -56,18 +56,24 @@ except OSError:
     tracked = []
 
 user_settings = load(os.path.join(repo_root, "user", "shared", "settings.json"))
+template_settings = [
+    load(p)
+    for p in sorted(glob.glob(os.path.join(repo_root, "project-templates", "*", ".claude", "settings.json")))
+]
 
 # User scope wins: a plugin enabled globally is installed regardless of template.
 enabled = {}
-for scope, settings in [("user", user_settings)] + [
-    ("project", load(p))
-    for p in sorted(glob.glob(os.path.join(repo_root, "project-templates", "*", ".claude", "settings.json")))
-]:
+for scope, settings in [("user", user_settings)] + [("project", s) for s in template_settings]:
     for key in settings.get("enabledPlugins", {}):
         name, _, marketplace = key.partition("@")
         enabled.setdefault(name, (marketplace, scope))
 
-marketplaces = user_settings.get("extraKnownMarketplaces", {})
+# A template-only plugin can come from a third-party marketplace that only the
+# template declares, so templates contribute marketplaces too.
+marketplaces = dict(user_settings.get("extraKnownMarketplaces", {}))
+for settings in template_settings:
+    for name, spec in settings.get("extraKnownMarketplaces", {}).items():
+        marketplaces.setdefault(name, spec)
 
 
 def source_of(marketplace):

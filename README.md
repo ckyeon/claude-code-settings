@@ -93,7 +93,8 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
     ├── nextjs/
     ├── python/
     ├── go/
-    └── phaser/
+    ├── phaser/
+    └── video/
 ```
 
 ## Multi-machine workflow
@@ -142,8 +143,8 @@ In a new project directory:
 ```bash
 TEMPLATES=<path-to-coding-agent-settings>/project-templates
 cp -r "$TEMPLATES/_base/." .
-cp -r "$TEMPLATES/nodejs/." .                  # pick one: nodejs / nextjs / python / go / phaser
-cat "$TEMPLATES/_base/.gitignore.snippet" >> .gitignore
+cp -r "$TEMPLATES/nodejs/." .                  # pick one: nodejs / nextjs / python / go / phaser / video
+cat "$TEMPLATES/_base/.gitignore.snippet" >> .gitignore   # video: append video/.gitignore.snippet instead (media files)
 $EDITOR CLAUDE.md                              # replace {{PROJECT_NAME}}, fill in details
 git add CLAUDE.md .claude .gitignore
 ```

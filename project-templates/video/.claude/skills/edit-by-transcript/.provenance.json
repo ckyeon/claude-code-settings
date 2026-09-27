@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/browser-use/video-use",
+      "commit": "b877063835e6ea6e457124da7e28a0ae26691dc3",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-09-27",
+      "notes": "Method and hard rules adapted from video-use's SKILL.md and helpers (transcribe, pack_transcripts, render, timeline_view, grade presets), rewritten for this template: transcription moved from ElevenLabs Scribe to local auto-editor whisper (word-level JSON, filler-preserving prompts); helpers are Python stdlib plus ffmpeg (no librosa, matplotlib, PIL); cut edges go inside measured silences because ASR times drifted up to ~0.5 s in testing; segments are frame-aligned with PCM audio until the final encode to remove one-frame gaps at joins; subtitles pick words by the EDL quote. The grade preset strings in references/look.md are copied verbatim from helpers/grade.py. skills/manim-video was not adopted."
+    }
+  ]
+}
