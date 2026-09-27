@@ -23,6 +23,20 @@ claude plugin install remotion@remotion --scope project
 
 Remotion's docs (remotion.dev/docs/ai/claude-code-plugin) give these two commands without `--scope`, which installs at user scope and turns the plugin on in every project. The template's `.claude/settings.json` lists the marketplace under `extraKnownMarketplaces`, which lets `install.sh` print the `marketplace add` line, but does not register it on the machine.
 
+### If the install fails with `Host key verification failed`
+
+The marketplace lists the plugin as a `github` source, which Claude Code may clone over SSH. On a machine whose `~/.ssh/known_hosts` has no github.com key, the install fails with `No ED25519 host key is known for github.com and you have requested strict checking` (seen 2026-09-27). Force HTTPS for that one command:
+
+```
+CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 claude plugin install remotion@remotion --scope project
+```
+
+The Claude Code docs describe the variable: "Set `CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1` to skip that check and always clone over HTTPS." HyperFrames does not hit this because its marketplace entry is an `https://` URL source.
+
+### `marketplace add` edits this repo
+
+`claude plugin marketplace add remotion-dev/claude-code-plugin` records the marketplace under `extraKnownMarketplaces` in user settings and prints `(declared in user settings)`. `~/.claude/settings.json` is a symlink to `user/shared/settings.json`, so the command leaves an uncommitted change in this repo. Commit it. The `openai-codex` and `understand-anything` marketplaces are recorded there the same way, and the entry only locates the marketplace; the plugin stays enabled only through the template's `enabledPlugins`.
+
 ## Where it's enabled
 
 Project-scope only (not user-scope). Enabled in:

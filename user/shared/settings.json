@@ -45,6 +45,12 @@
         "source": "github",
         "repo": "Lum1104/Understand-Anything"
       }
+    },
+    "remotion": {
+      "source": {
+        "source": "github",
+        "repo": "remotion-dev/claude-code-plugin"
+      }
     }
   },
   "language": "Korean",
