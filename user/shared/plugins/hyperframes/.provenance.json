@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/heygen-com/hyperframes",
+      "commit": "8d2b6e7bdc1c2c26d1abf64ef075c00a1bb230a2",
+      "path": ".",
+      "license": "Apache-2.0",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-09-27",
+      "notes": "Installed via Claude Code's official claude plugin install hyperframes@claude-plugins-official --scope project. Provenance only; no files are copied. The claude-plugins-official marketplace lists this plugin as a url source (https://github.com/heygen-com/hyperframes.git) pinned to this sha; the plugin root is the repo root (.claude-plugin/plugin.json, version 0.8.61). Enabled only in project-templates/video/.claude/settings.json."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [],
+    "deny": []
+  },
+  "enabledPlugins": {
+    "hyperframes@claude-plugins-official": true
+  }
+}
