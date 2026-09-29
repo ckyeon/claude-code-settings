@@ -145,6 +145,10 @@ for name in sorted(skill_names & set(os.listdir(skills_dir) if os.path.isdir(ski
 
 # --- Provenance sidecars (same walk as bin/sources-index) ---
 REQUIRED = ("source", "commit", "path", "license", "adopted-as")
+# Top-level keys some tool reads. Anything else is ignored everywhere, so a
+# misspelled "track" would silently compare against HEAD again (ADR 0066).
+TOP_LEVEL_KEYS = ("provenance", "track")
+TRACKS = ("release", "marketplace")  # must match bin/check-updates
 for root, dirs, files in os.walk(repo_root):
     dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
     for fname in files:
@@ -161,6 +165,11 @@ for root, dirs, files in os.walk(repo_root):
         if not isinstance(prov, list) or not prov:
             errors.append((r, 1, "provenance[] missing or empty"))
             continue
+        unknown = sorted(k for k in data if k not in TOP_LEVEL_KEYS)
+        if unknown:
+            errors.append((r, 1, f"unknown top-level key(s): {', '.join(unknown)}"))
+        if "track" in data and data["track"] not in TRACKS:
+            errors.append((r, 1, f"track {data['track']!r} is not one of: {', '.join(TRACKS)}"))
         for idx, entry in enumerate(prov):
             # `source: "self"` marks a deliberate divergence from upstream — the
             # content is now ours, so there is no commit/path/license to pin.
