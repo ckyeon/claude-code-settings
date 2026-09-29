@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [],
+    "deny": []
+  },
+  "enabledPlugins": {
+    "clangd-lsp@claude-plugins-official": true
+  }
+}

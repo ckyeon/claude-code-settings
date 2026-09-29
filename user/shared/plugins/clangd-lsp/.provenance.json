@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/anthropics/claude-plugins-official",
+      "commit": "fa59bc9037741ecfa131aa27938272605710d7b2",
+      "path": "plugins/clangd-lsp",
+      "license": "Apache-2.0",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-09-29",
+      "notes": "Installed via claude plugin install clangd-lsp@claude-plugins-official --scope project. Provenance only; no files are copied. First installed at user scope on 2026-09-28 (plugin 1.0.0) and swept into commit 92f49b6 unnoticed; moved to project scope via project-templates/cpp."
+    }
+  ]
+}
