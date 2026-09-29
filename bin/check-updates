@@ -188,6 +188,13 @@ def git_in_clone(src, *args, timeout=120):
         capture_output=True, text=True, timeout=timeout,
     )
 
+def object_at(src, sha, path):
+    """Tree/blob SHA of path at sha, or None if absent. Trees are present in a
+    blobless clone, so this never fetches file contents."""
+    spec = f"{sha}^{{tree}}" if path == "." else f"{sha}:{path}"
+    res = git_in_clone(src, "rev-parse", "--verify", "--quiet", spec)
+    return res.stdout.strip() if res.returncode == 0 else None
+
 records = []
 for it in sorted(outdated_items, key=lambda x: (x["source"], x["local"])):
     src = it["source"]
@@ -215,10 +222,29 @@ for it in sorted(outdated_items, key=lambda x: (x["source"], x["local"])):
 
     lines = [l for l in log.stdout.splitlines() if l.strip()]
     rec["commit_count"] = len(lines)
-    if not lines:
+    # Decide by content, not history. When the pin is off head's ancestry
+    # (e.g. a release tag cut on a side branch), `pin..head` lists commits
+    # even if the path ended up identical, and misses changes that exist only
+    # on the pin's side. Fall back to the log when the path is absent at
+    # either end.
+    old_obj = object_at(src, it["commit"], path)
+    new_obj = object_at(src, head, path)
+    if old_obj and new_obj:
+        unchanged = old_obj == new_obj
+    else:
+        unchanged = not lines
+    if unchanged:
         rec["status"] = "pin-only"
         records.append(rec)
         continue
+
+    if not lines:
+        # Content differs but pin..head is empty: the pin is on a side branch.
+        # Show both sides (< pin-only, > head-only).
+        log = git_in_clone(src, "log", "--oneline", "--left-right",
+                           f"{it['commit']}...{head}", "--", path)
+        lines = [l for l in log.stdout.splitlines() if l.strip()]
+        rec["commit_count"] = len(lines)
 
     rec["status"] = "changed"
     item_dir = os.path.join(items_dir, sanitize(it["local"]))

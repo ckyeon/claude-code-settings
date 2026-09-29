@@ -29,10 +29,10 @@ If everything is up to date, report that and stop.
 bin/check-updates --deep
 ```
 
-This re-runs the fast check, then clones each outdated source blobless into a temp workdir, and for every outdated item runs `git log <pin>..<head> -- <path>` to classify it:
+This re-runs the fast check, then clones each outdated source blobless into a temp workdir, and for every outdated item compares the tracked path's tree (or blob) SHA at pin and head to classify it:
 
-- **changed** — the tracked path has real commits. The workdir gets `items/<dest>/log.txt`, plus `items/<dest>/upstream.diff` (`git diff <pin> <head> -- <path>`) for `copied` items.
-- **pin-only** — the pin is behind but the tracked path is untouched.
+- **changed** — the tracked path's content differs. The workdir gets `items/<dest>/log.txt` (`git log <pin>..<head> -- <path>`), plus `items/<dest>/upstream.diff` (`git diff <pin> <head> -- <path>`) for `copied` items. When the pin sits on a side branch and only the pin's side changed the path, `log.txt` is a `--left-right <pin>...<head>` log instead, where `<` marks pin-side commits.
+- **pin-only** — the pin is behind but the tracked path's content is identical. This holds even when `git log <pin>..<head>` lists commits, as with a release tag cut on a side branch whose edit reached main as a different commit.
 
 It also scans **upstream structure**: for each outdated source, the parent directories of tracked paths are listed at pin vs head, and the report shows entries the upstream **added** (`NEW` — e.g. a new skill next to ones adopted here) or **removed** (`REMOVED`, with `** adopted here **` when the removed entry is one this repo adopted). Comparing pin vs head means entries that predate the pin — deliberately not adopted — never show up as noise. Whole-repo items (`path: "."`) are skipped; their git log already covers everything.
 
