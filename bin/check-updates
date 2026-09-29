@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Check whether provenance-pinned upstream commits are behind HEAD.
+# Check whether provenance-pinned upstream commits are behind HEAD (or behind
+# the release or marketplace sha that a sidecar's top-level "track" names).
 #
 #   bin/check-updates          Fast check only — git ls-remote, no clone.
 #   bin/check-updates --deep   Also clone outdated sources (blobless), check
@@ -19,7 +20,7 @@ for arg in "$@"; do
   case "$arg" in
     --deep) DEEP=1 ;;
     -h|--help)
-      sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//'
+      sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'
       exit 0
       ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
@@ -71,6 +72,7 @@ for root, dirs, files in os.walk(repo_root):
             "path": entry.get("path", ""),
             "adopted_as": entry.get("adopted-as", ""),
             "license": entry.get("license", ""),
+            "track": data.get("track", ""),
         })
 
 if not items:
@@ -93,10 +95,116 @@ for src in sources:
     except Exception:
         head_cache[src] = None
 
-# --- Group items by (source, pinned_commit) ---
-groups = {}  # (source, pinned_commit) -> [items]
+# --- Resolve each item's comparison target ---
+# Default is upstream HEAD. A sidecar's top-level "track" names another target
+# for items deliberately pinned off HEAD (ADR 0065):
+#   "release"      the source's newest stable vX.Y.Z tag
+#   "marketplace"  the sha the plugin's marketplace pins it to
+# A failed lookup reports the item as unreachable rather than falling back to
+# HEAD, which would bring back the false "outdated" this exists to remove.
+STABLE_TAG = re.compile(r"^v?(\d+)\.(\d+)\.(\d+)$")
+# Built-in marketplaces have no extraKnownMarketplaces entry to read a repo from.
+BUILTIN_MARKETPLACES = {
+    "claude-plugins-official": "https://github.com/anthropics/claude-plugins-official",
+}
+
+def latest_release(src):
+    try:
+        out = subprocess.check_output(
+            ["git", "ls-remote", "--tags", src],
+            stderr=subprocess.DEVNULL, text=True, timeout=30,
+        )
+    except Exception:
+        return None, "tag lookup failed"
+    tags = {}  # tag name -> commit sha (the peeled ^{} line wins for annotated tags)
+    for line in out.splitlines():
+        sha, _, ref = line.partition("\t")
+        name = ref[len("refs/tags/"):]
+        peeled = name.endswith("^{}")
+        if peeled:
+            name = name[:-3]
+        if STABLE_TAG.match(name) and (peeled or name not in tags):
+            tags[name] = sha
+    if not tags:
+        return None, "no stable release tag"
+    best = max(tags, key=lambda n: tuple(int(x) for x in STABLE_TAG.match(n).groups()))
+    return tags[best], f"release {best}"
+
+plugin_marketplaces = None  # plugin name -> (marketplace, marketplace repo)
+marketplace_json = {}       # marketplace url -> parsed marketplace.json | None
+
+def marketplace_pin(name):
+    global plugin_marketplaces
+    if plugin_marketplaces is None:
+        # Same resolution install.sh uses: enabledPlugins + extraKnownMarketplaces.
+        res = subprocess.run(
+            ["bash", "-c", 'source "$1/lib/common.sh" && list_tracked_plugins "$1"',
+             "_", repo_root],
+            capture_output=True, text=True,
+        )
+        plugin_marketplaces = {}
+        for row in res.stdout.splitlines():
+            pname, market, repo, _ = row.split("|")
+            plugin_marketplaces[pname] = (market, repo)
+    market, repo = plugin_marketplaces.get(name, ("", ""))
+    if not market:
+        return None, "marketplace unknown (not in any enabledPlugins)"
+    url = BUILTIN_MARKETPLACES.get(market) or (
+        repo if "://" in repo else f"https://github.com/{repo}" if repo else "")
+    if not url:
+        return None, f"no repo known for marketplace {market}"
+    if url not in marketplace_json:
+        marketplace_json[url] = None
+        with tempfile.TemporaryDirectory() as tmp:
+            clone = subprocess.run(
+                ["git", "clone", "--depth", "1", "--filter=blob:none", "--no-checkout",
+                 "--quiet", url, tmp],
+                capture_output=True, text=True, timeout=120,
+            )
+            if clone.returncode == 0:
+                show = subprocess.run(
+                    ["git", "-C", tmp, "show", "HEAD:.claude-plugin/marketplace.json"],
+                    capture_output=True, text=True, timeout=60,
+                )
+                if show.returncode == 0:
+                    try:
+                        marketplace_json[url] = json.loads(show.stdout)
+                    except ValueError:
+                        pass
+    data = marketplace_json[url]
+    if data is None:
+        return None, f"could not read {market} marketplace.json"
+    for plugin in data.get("plugins", []):
+        if plugin.get("name") == name:
+            source = plugin.get("source")
+            if isinstance(source, dict) and source.get("sha"):
+                return source["sha"], f"{market} pin"
+            return None, f"{market} does not pin a sha for {name}"
+    return None, f"{name} not listed in {market}"
+
+target_cache = {}
 for it in items:
-    key = (it["source"], it["commit"])
+    track = it["track"]
+    if not track:
+        it["target"], it["target_note"] = head_cache.get(it["source"]), ""
+        continue
+    if track == "release":
+        key = ("release", it["source"])
+        if key not in target_cache:
+            target_cache[key] = latest_release(it["source"])
+    elif track == "marketplace":
+        key = ("marketplace", os.path.basename(it["local"]))
+        if key not in target_cache:
+            target_cache[key] = marketplace_pin(key[1])
+    else:
+        key = ("unknown", track)
+        target_cache[key] = (None, f"unknown track {track!r}")
+    it["target"], it["target_note"] = target_cache[key]
+
+# --- Group items by (source, pinned_commit, target) ---
+groups = {}  # (source, pinned_commit, target, target_note) -> [items]
+for it in items:
+    key = (it["source"], it["commit"], it["target"], it["target_note"])
     groups.setdefault(key, []).append(it)
 
 # --- Fast report ---
@@ -111,20 +219,20 @@ outdated = 0
 errors = 0
 outdated_items = []  # items whose pin is behind a reachable head
 
-for (source, pinned), group in sorted(groups.items()):
+for (source, pinned, head, note), group in sorted(groups.items(), key=lambda kv: kv[0][:2]):
     label = label_of(source)
-    head = head_cache.get(source)
     short_pin = pinned[:8] if pinned else "?"
+    suffix = f"  [{note}]" if note else ""
 
     if head is None:
-        print(f"? {label:<45} unreachable")
+        print(f"? {label:<45} {note or 'unreachable'}")
         errors += 1
     elif head.startswith(pinned) or pinned.startswith(head):
-        print(f"✓ {label:<45} up to date  ({short_pin})")
+        print(f"✓ {label:<45} up to date  ({short_pin}){suffix}")
         up_to_date += 1
     else:
         short_head = head[:8]
-        print(f"✗ {label:<45} {short_pin} → {short_head}")
+        print(f"✗ {label:<45} {short_pin} → {short_head}{suffix}")
         if len(group) <= 5:
             names = [os.path.basename(it["local"]) for it in group]
             print(f"    {', '.join(names)}")
@@ -198,10 +306,10 @@ def object_at(src, sha, path):
 records = []
 for it in sorted(outdated_items, key=lambda x: (x["source"], x["local"])):
     src = it["source"]
-    head = head_cache[src]
+    head = it["target"]
     rec = {
         **it,
-        "head": head,
+        "head": head,  # the comparison target; upstream HEAD unless "track" is set
         "status": None,        # changed | pin-only | error
         "commit_count": 0,
         "item_dir": None,
@@ -282,14 +390,14 @@ def ls_entries(src, sha, root):
     return {l for l in res.stdout.splitlines() if l.strip()}
 
 struct_records = []
-scan_keys = sorted({(it["source"], it["commit"]) for it in outdated_items
+scan_keys = sorted({(it["source"], it["commit"], it["target"]) for it in outdated_items
                     if it["path"] and it["path"] != "."})
-for src, pin in scan_keys:
+for src, pin, head in scan_keys:
     if clone_dirs[src] in clone_errors:
         continue
-    head = head_cache[src]
     roots = sorted({os.path.dirname(it["path"]) for it in outdated_items
                     if it["source"] == src and it["commit"] == pin
+                    and it["target"] == head
                     and it["path"] and it["path"] != "."})
     for root in roots:
         old = ls_entries(src, pin, root)
@@ -321,8 +429,8 @@ added_total = 0
 removed_total = 0
 for src in sorted(by_source):
     recs = by_source[src]
-    head = head_cache[src]
-    print(f"{label_of(src)}  → {head[:8] if head else '?'}")
+    targets = ", ".join(sorted({r["head"][:8] for r in recs}))
+    print(f"{label_of(src)}  → {targets}")
     pin_only = [r for r in recs if r["status"] == "pin-only"]
     for rec in recs:
         if rec["status"] == "changed":

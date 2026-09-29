@@ -21,6 +21,8 @@ bin/check-updates
 
 This compares pinned commits against upstream HEAD via `git ls-remote` (no clone). Exit code 1 means some items are outdated.
 
+Items whose sidecar sets a top-level `track` are compared against a different target, labeled on their line: `[release vX.Y.Z]` for the newest stable tag, `[<marketplace> pin]` for the sha their marketplace pins (see `docs/PROVENANCE.md`). A `?` line means the target could not be found, and the line gives the reason. Report it as unresolved, not as up to date.
+
 If everything is up to date, report that and stop.
 
 ### Step 2 — Deep scan (outdated items only)
@@ -81,7 +83,7 @@ bin/adopt \
   --license <SPDX>
 ```
 
-For `copied` items this also pulls the new file contents; for `inspired-by` items it updates only the provenance pin.
+For `copied` items this also pulls the new file contents; for `inspired-by` items it updates only the provenance pin. For an item with `track`, `<new_head_sha>` is the target the report printed (the `head` field in `deep.json`), not upstream HEAD.
 
 For `NEW` entries worth adopting, the same `bin/adopt` command works — `--path` is the new upstream path. For `REMOVED` entries that are adopted here, lay out the options: keep the local copy as an orphaned fork (the sidecar stays as history), delete it, or re-adopt from the renamed/moved path the agent found.
 

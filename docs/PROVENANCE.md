@@ -69,6 +69,25 @@ When an item draws from multiple upstream sources (combining ideas from several 
 }
 ```
 
+## Pinning to something other than upstream HEAD
+
+`bin/check-updates` compares each item's latest pin against upstream HEAD by default. Some items are deliberately pinned elsewhere, and against HEAD they would show as outdated forever. For those, add an optional top-level `track` key next to `provenance`:
+
+```json
+{
+  "track": "release",
+  "provenance": [ ... ]
+}
+```
+
+| `track` | What `check-updates` compares the pin against | Example |
+|---|---|---|
+| absent | upstream HEAD | most items |
+| `release` | the source's newest stable tag named `vX.Y.Z` or `X.Y.Z`. Pre-release suffixes and other tag names are ignored. | `user/shared/skills/herdr/` (ADR 0051) |
+| `marketplace` | the `sha` the plugin's marketplace pins it to in `.claude-plugin/marketplace.json`. The marketplace is found through `enabledPlugins`, the same way `install.sh` finds it, so only `user/shared/plugins/<name>/` items can use this. | `user/shared/plugins/hyperframes/` |
+
+`track` sits at the top level rather than in a `provenance[]` entry, so re-pinning with `bin/adopt` keeps it. `bin/adopt` does not read it. When re-pinning a tracked item, pass the target that `check-updates` printed as `--commit`, because omitting `--commit` pins to HEAD. When the target cannot be found (no stable tag, unknown marketplace, a marketplace entry without a `sha`, or an unknown `track` value), `check-updates` reports the item as `?` with the reason instead of falling back to HEAD.
+
 ## Using `bin/adopt`
 
 ```bash

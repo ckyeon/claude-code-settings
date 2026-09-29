@@ -53,7 +53,7 @@ Just create the file or folder under `user/shared/{skills,commands,agents,hooks,
 
 ### Check for upstream updates
 
-Run `bin/check-updates` or use the `/check-updates` skill in a Claude Code session. The script compares pinned commits against upstream HEAD. In `--deep` mode it also reports upstream entries added or removed next to tracked paths, meaning new or deleted skills, with a warning when a removed entry is adopted here. The skill layers judgment on top: whether tracked paths actually changed, and what the structural changes mean.
+Run `bin/check-updates` or use the `/check-updates` skill in a Claude Code session. The script compares pinned commits against upstream HEAD, or against the newest stable release or the marketplace's pinned sha when a sidecar sets a top-level `track` (see `docs/PROVENANCE.md`). In `--deep` mode it also reports upstream entries added or removed next to tracked paths, meaning new or deleted skills, with a warning when a removed entry is adopted here. The skill layers judgment on top: whether tracked paths actually changed, and what the structural changes mean.
 
 ### Check that adopted items still work
 
