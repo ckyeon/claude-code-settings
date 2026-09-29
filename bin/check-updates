@@ -2,7 +2,8 @@
 # Check whether provenance-pinned upstream commits are behind HEAD (or behind
 # the release or marketplace sha that a sidecar's top-level "track" names).
 #
-#   bin/check-updates          Fast check only — git ls-remote, no clone.
+#   bin/check-updates          Fast check — git ls-remote, no clone except a
+#                              shallow clone for marketplace-tracked items.
 #   bin/check-updates --deep   Also clone outdated sources (blobless), check
 #                              whether each tracked path actually changed, and
 #                              list upstream entries added/removed next to the
@@ -20,7 +21,7 @@ for arg in "$@"; do
   case "$arg" in
     --deep) DEEP=1 ;;
     -h|--help)
-      sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'
+      sed -n '2,12p' "$0" | sed 's/^# \{0,1\}//'
       exit 0
       ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
@@ -40,7 +41,7 @@ repo_root = os.environ["REPO_ROOT"]
 deep = os.environ.get("DEEP") == "1"
 
 # --- Discover sidecars (same walk as bin/sources-index) ---
-items = []  # dicts: local, source, commit, path, adopted_as, license
+items = []  # dicts: local, source, commit, path, adopted_as, license, track, and later target, target_note
 for root, dirs, files in os.walk(repo_root):
     dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
     for name in files:
@@ -102,7 +103,7 @@ for src in sources:
 #   "marketplace"  the sha the plugin's marketplace pins it to
 # A failed lookup reports the item as unreachable rather than falling back to
 # HEAD, which would bring back the false "outdated" this exists to remove.
-STABLE_TAG = re.compile(r"^v?(\d+)\.(\d+)\.(\d+)$")
+STABLE_TAG = re.compile(r"^v(\d+)\.(\d+)\.(\d+)$")
 # Built-in marketplaces have no extraKnownMarketplaces entry to read a repo from.
 BUILTIN_MARKETPLACES = {
     "claude-plugins-official": "https://github.com/anthropics/claude-plugins-official",
@@ -116,7 +117,7 @@ def latest_release(src):
         )
     except Exception:
         return None, "tag lookup failed"
-    tags = {}  # tag name -> commit sha (the peeled ^{} line wins for annotated tags)
+    tags = {}  # tag name -> commit sha. For annotated tags the peeled ^{} line wins.
     for line in out.splitlines():
         sha, _, ref = line.partition("\t")
         name = ref[len("refs/tags/"):]
@@ -137,15 +138,24 @@ def marketplace_pin(name):
     global plugin_marketplaces
     if plugin_marketplaces is None:
         # Same resolution install.sh uses: enabledPlugins + extraKnownMarketplaces.
-        res = subprocess.run(
-            ["bash", "-c", 'source "$1/lib/common.sh" && list_tracked_plugins "$1"',
-             "_", repo_root],
-            capture_output=True, text=True,
-        )
         plugin_marketplaces = {}
-        for row in res.stdout.splitlines():
-            pname, market, repo, _ = row.split("|")
-            plugin_marketplaces[pname] = (market, repo)
+        try:
+            res = subprocess.run(
+                ["bash", "-c", 'source "$1/lib/common.sh" && list_tracked_plugins "$1"',
+                 "_", repo_root],
+                capture_output=True, text=True, timeout=30,
+            )
+            listed = res.returncode == 0
+        except subprocess.TimeoutExpired:
+            listed = False
+        if not listed:
+            print("WARN: list_tracked_plugins failed, so marketplace-tracked items stay unresolved",
+                  file=sys.stderr)
+        else:
+            for row in res.stdout.splitlines():
+                fields = row.split("|")
+                if len(fields) == 4:
+                    plugin_marketplaces[fields[0]] = (fields[1], fields[2])
     market, repo = plugin_marketplaces.get(name, ("", ""))
     if not market:
         return None, "marketplace unknown (not in any enabledPlugins)"
@@ -155,22 +165,22 @@ def marketplace_pin(name):
         return None, f"no repo known for marketplace {market}"
     if url not in marketplace_json:
         marketplace_json[url] = None
-        with tempfile.TemporaryDirectory() as tmp:
-            clone = subprocess.run(
-                ["git", "clone", "--depth", "1", "--filter=blob:none", "--no-checkout",
-                 "--quiet", url, tmp],
-                capture_output=True, text=True, timeout=120,
-            )
-            if clone.returncode == 0:
-                show = subprocess.run(
-                    ["git", "-C", tmp, "show", "HEAD:.claude-plugin/marketplace.json"],
-                    capture_output=True, text=True, timeout=60,
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                clone = subprocess.run(
+                    ["git", "clone", "--depth", "1", "--filter=blob:none", "--no-checkout",
+                     "--quiet", url, tmp],
+                    capture_output=True, text=True, timeout=120,
                 )
-                if show.returncode == 0:
-                    try:
+                if clone.returncode == 0:
+                    show = subprocess.run(
+                        ["git", "-C", tmp, "show", "HEAD:.claude-plugin/marketplace.json"],
+                        capture_output=True, text=True, timeout=60,
+                    )
+                    if show.returncode == 0:
                         marketplace_json[url] = json.loads(show.stdout)
-                    except ValueError:
-                        pass
+        except (subprocess.TimeoutExpired, ValueError):
+            pass  # left as None, reported below as unreadable
     data = marketplace_json[url]
     if data is None:
         return None, f"could not read {market} marketplace.json"
@@ -297,7 +307,7 @@ def git_in_clone(src, *args, timeout=120):
     )
 
 def object_at(src, sha, path):
-    """Tree/blob SHA of path at sha, or None if absent. Trees are present in a
+    """Tree or blob SHA of path at sha, or None if absent. Trees are present in a
     blobless clone, so this never fetches file contents."""
     spec = f"{sha}^{{tree}}" if path == "." else f"{sha}:{path}"
     res = git_in_clone(src, "rev-parse", "--verify", "--quiet", spec)
@@ -309,7 +319,7 @@ for it in sorted(outdated_items, key=lambda x: (x["source"], x["local"])):
     head = it["target"]
     rec = {
         **it,
-        "head": head,  # the comparison target; upstream HEAD unless "track" is set
+        "head": head,          # comparison target, upstream HEAD unless "track" is set
         "status": None,        # changed | pin-only | error
         "commit_count": 0,
         "item_dir": None,

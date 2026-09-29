@@ -5,7 +5,7 @@ description: Check upstream freshness of provenance-tracked items, investigate w
 
 # check-updates
 
-Check whether provenance-pinned upstream commits are behind HEAD, then investigate whether the tracked paths actually changed, how much the changes matter, and how the source repos themselves evolved around them (skills added or removed next to adopted ones).
+Check whether provenance-pinned upstream commits are behind their comparison target (upstream HEAD, or the release or marketplace sha a sidecar's `track` names), then investigate whether the tracked paths actually changed, how much the changes matter, and how the source repos themselves evolved around them (skills added or removed next to adopted ones).
 
 The deterministic work (clones, logs, diffs) lives in `bin/check-updates`; this skill adds the judgment layer on top via subagents, keeping raw git output out of the main session's context.
 
@@ -19,7 +19,7 @@ Run the script from the repo root:
 bin/check-updates
 ```
 
-This compares pinned commits against upstream HEAD via `git ls-remote` (no clone). Exit code 1 means some items are outdated.
+This compares pinned commits against upstream HEAD via `git ls-remote`, without cloning except a shallow marketplace clone for items tracked by marketplace. Exit code 1 means some items are outdated.
 
 Items whose sidecar sets a top-level `track` are compared against a different target, labeled on their line: `[release vX.Y.Z]` for the newest stable tag, `[<marketplace> pin]` for the sha their marketplace pins (see `docs/PROVENANCE.md`). A `?` line means the target could not be found, and the line gives the reason. Report it as unresolved, not as up to date.
 
