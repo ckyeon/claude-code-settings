@@ -34,25 +34,30 @@ _Last generated: 2026-09-29_
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `483f8420` | `skills/next-cache-components-adoption` | copied | MIT | 2026-09-02 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `6685283f` | `skills/next-cache-components-adoption` | copied | MIT | 2026-09-05 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `bf13ab8a` | `skills/next-cache-components-adoption` | copied | MIT | 2026-09-17 |
+| `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `63bb9d6a` | `skills/next-cache-components-adoption` | copied | MIT | 2026-09-29 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `1076c474` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `483f8420` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-09-02 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `6685283f` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-09-05 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `bf13ab8a` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-09-17 |
+| `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `63bb9d6a` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-09-29 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-dev-loop` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-dev-loop` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `1076c474` | `skills/next-dev-loop` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `483f8420` | `skills/next-dev-loop` | copied | MIT | 2026-09-02 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `6685283f` | `skills/next-dev-loop` | copied | MIT | 2026-09-05 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `bf13ab8a` | `skills/next-dev-loop` | copied | MIT | 2026-09-17 |
+| `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `63bb9d6a` | `skills/next-dev-loop` | copied | MIT | 2026-09-29 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `1076c474` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `483f8420` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-09-02 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `6685283f` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-09-06 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `bf13ab8a` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-09-17 |
+| `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `63bb9d6a` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-09-29 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `bf13ab8a` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-09-17 |
+| `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `63bb9d6a` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-09-29 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/react-best-practices` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/react-best-practices` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/react-best-practices` | copied | MIT | 2026-08-05 |
@@ -778,25 +783,30 @@ _Last generated: 2026-09-29_
 - `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `483f8420`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `6685283f`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `bf13ab8a`, MIT)
+- `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `63bb9d6a`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `ab09c1f4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `1076c474`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `483f8420`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `6685283f`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `bf13ab8a`, MIT)
+- `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `63bb9d6a`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `ab09c1f4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `1076c474`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `483f8420`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `6685283f`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `bf13ab8a`, MIT)
+- `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `63bb9d6a`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `ab09c1f4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `1076c474`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `483f8420`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `6685283f`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `bf13ab8a`, MIT)
+- `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `63bb9d6a`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `bf13ab8a`, MIT)
+- `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `63bb9d6a`, MIT)
 
 ### self
 
