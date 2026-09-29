@@ -17,3 +17,13 @@ Thumbs.db
 # direnv
 .envrc
 .direnv/
+
+# Claude Code's claude.ai skill sync cache. ~/.claude/skills is a symlink to
+# user/shared/skills, so the sync lands inside the repo.
+user/shared/skills/synced/
+
+# Codex project files generated at Codex install by copying this repo's
+# Claude config (CLAUDE.md, check-updates skill, Stop hook). Machine-local.
+AGENTS.md
+.agents/
+.codex/
