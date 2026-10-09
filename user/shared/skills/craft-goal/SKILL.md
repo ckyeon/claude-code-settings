@@ -25,7 +25,7 @@ Before asking the user anything, silently gather project context. Read what's av
 **Project structure:**
 - Top-level directory listing — understand the shape of the codebase
 - `docs/` or `docs/adr/` — architectural decisions and context
-- `CONTEXT.md` — domain glossary if available
+- `GLOSSARY.md` — domain glossary if available
 
 **Session context:**
 - What has the user been working on in this conversation?

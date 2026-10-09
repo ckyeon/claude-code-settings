@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "49dd158d1076134a641b33efb035946536778336",
+      "path": "skills/engineering/pr",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-10-09",
+      "notes": "Model-invoked PR body skill; its frontmatter credits the Humanlayer show-me skill."
+    }
+  ]
+}

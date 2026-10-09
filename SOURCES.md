@@ -303,25 +303,31 @@ _Last generated: 2026-10-09_
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/ask-matt` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/code-review` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/code-review` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/code-review` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/code-review` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/code-review` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/code-review` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/code-review` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/code-review` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `8b78b531` | `skills/engineering/codebase-design` | copied | MIT | 2026-08-13 |
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/codebase-design` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/codebase-design` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/codebase-design` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/codebase-design` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-08-05 |
 | `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/domain-modeling` | https://github.com/mattpocock/skills | `8b78b531` | `skills/engineering/domain-modeling` | copied | MIT | 2026-08-13 |
 | `user/shared/skills/domain-modeling` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/domain-modeling` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/domain-modeling` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/domain-modeling` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/domain-modeling` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/domain-modeling` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/domain-modeling` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/domain-modeling` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/grill-me` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/grill-me` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/grill-me` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/grill-me` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/grill-me` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/grill-me` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/grill-me` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/grill-me` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `2bf70051` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-06-09 |
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-07-16 |
@@ -329,83 +335,104 @@ _Last generated: 2026-10-09_
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/grilling` | https://github.com/mattpocock/skills | `8b78b531` | `skills/productivity/grilling` | copied | MIT | 2026-08-13 |
 | `user/shared/skills/grilling` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/grilling` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/grilling` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/grilling` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/grilling` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/grilling` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/grilling` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/grilling` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/handoff` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/handoff` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/handoff` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/handoff` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/handoff` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/handoff` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/handoff` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/handoff` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/herdr` | https://github.com/herdrdev/herdr | `9eb52145` | `skills/herdr` | copied | Apache-2.0 | 2026-09-05 |
 | `user/shared/skills/herdr` | https://github.com/herdrdev/herdr | `065ef9d6` | `skills/herdr` | copied | Apache-2.0 | 2026-09-17 |
 | `user/shared/skills/herdr` | https://github.com/herdrdev/herdr | `7b116c05` | `skills/herdr` | copied | Apache-2.0 | 2026-10-09 |
+| `user/shared/skills/implement-spec` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/implement-spec` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/implement` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/implement` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/implement` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/implement` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/implement` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/implement` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/implement` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/implement` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-08-05 |
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-10-09 |
+| `user/shared/skills/pr` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/pr` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/prototype` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/prototype` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/prototype` | copied | MIT | 2026-08-05 |
 | `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/prototype` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/prototype` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/prototype` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/prototype` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/research` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/research` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/research` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/research` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/research` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/research` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/research` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/research` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/resolving-merge-conflicts` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/resolving-merge-conflicts` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/resolving-merge-conflicts` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/resolving-merge-conflicts` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/resolving-merge-conflicts` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/resolving-merge-conflicts` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/retro` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/retro` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-08-05 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/tdd` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/tdd` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/tdd` | copied | MIT | 2026-08-05 |
 | `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/tdd` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/tdd` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/tdd` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/tdd` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/teach` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/teach` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/teach` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/teach` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/teach` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/teach` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/teach` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/teach` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/to-questionnaire` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/to-questionnaire` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/to-questionnaire` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/to-questionnaire` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/to-questionnaire` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/to-questionnaire` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/to-questionnaire` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/to-questionnaire` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/to-spec` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/to-spec` | copied | MIT | 2026-08-05 |
 | `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/to-spec` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/to-spec` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/to-spec` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/to-spec` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/to-tickets` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/to-tickets` | copied | MIT | 2026-08-05 |
 | `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/to-tickets` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/to-tickets` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/to-tickets` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/to-tickets` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/triage` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/triage` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/triage` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/triage` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/triage` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/triage` | copied | MIT | 2026-08-05 |
 | `user/shared/skills/triage` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/triage` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/triage` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/triage` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/triage` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/triage` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/triage` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/triage` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/wait-what` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/wait-what` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/wait-what` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/wait-what` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/wait-what` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/wait-what` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/wait-what` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/wait-what` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/wayfinder` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/wayfinder` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/wayfinder` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/wayfinder` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/wayfinder` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/wayfinder` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/wayfinder` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/wayfinder` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/wizard` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/wizard` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/wizard` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/wizard` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/wizard` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/wizard` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/wizard` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/wizard` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/writing-for-agents` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/writing-for-agents` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/writing-for-agents` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/writing-for-agents` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/writing-for-agents` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/writing-for-agents` | copied | MIT | 2026-09-17 |
+| `user/shared/skills/writing-for-agents` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/writing-for-agents` | copied | MIT | 2026-10-09 |
 
 ## By source
 
@@ -516,25 +543,31 @@ _Last generated: 2026-10-09_
 - `user/shared/skills/ask-matt` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/ask-matt` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/ask-matt` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/ask-matt` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/code-review` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/code-review` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/code-review` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/code-review` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/codebase-design` (copied @ `8b78b531`, MIT)
 - `user/shared/skills/codebase-design` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/codebase-design` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/codebase-design` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/codebase-design` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/diagnosing-bugs` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/diagnosing-bugs` (copied @ `2ffb184f`, MIT)
 - `user/shared/skills/diagnosing-bugs` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/diagnosing-bugs` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/diagnosing-bugs` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/diagnosing-bugs` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/domain-modeling` (copied @ `8b78b531`, MIT)
 - `user/shared/skills/domain-modeling` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/domain-modeling` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/domain-modeling` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/domain-modeling` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/grill-me` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/grill-me` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/grill-me` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/grill-me` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/grill-with-docs` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/grill-with-docs` (copied @ `2bf70051`, MIT)
 - `user/shared/skills/grill-with-docs` (copied @ `e9fcdf95`, MIT)
@@ -542,80 +575,101 @@ _Last generated: 2026-10-09_
 - `user/shared/skills/grill-with-docs` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/grill-with-docs` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/grill-with-docs` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/grill-with-docs` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/grilling` (copied @ `8b78b531`, MIT)
 - `user/shared/skills/grilling` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/grilling` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/grilling` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/grilling` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/handoff` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/handoff` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/handoff` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/handoff` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/implement` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/implement` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/implement` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/implement` (copied @ `49dd158d`, MIT)
+- `user/shared/skills/implement-spec` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/improve-codebase-architecture` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/improve-codebase-architecture` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/improve-codebase-architecture` (copied @ `2ffb184f`, MIT)
 - `user/shared/skills/improve-codebase-architecture` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/improve-codebase-architecture` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/improve-codebase-architecture` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/improve-codebase-architecture` (copied @ `49dd158d`, MIT)
+- `user/shared/skills/pr` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/prototype` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/prototype` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/prototype` (copied @ `2ffb184f`, MIT)
 - `user/shared/skills/prototype` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/prototype` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/prototype` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/prototype` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/research` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/research` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/research` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/research` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/resolving-merge-conflicts` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/resolving-merge-conflicts` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/resolving-merge-conflicts` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/retro` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `2ffb184f`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/setup-matt-pocock-skills` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/tdd` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/tdd` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/tdd` (copied @ `2ffb184f`, MIT)
 - `user/shared/skills/tdd` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/tdd` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/tdd` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/tdd` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/teach` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/teach` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/teach` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/teach` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/to-questionnaire` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/to-questionnaire` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/to-questionnaire` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/to-questionnaire` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/to-spec` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/to-spec` (copied @ `2ffb184f`, MIT)
 - `user/shared/skills/to-spec` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/to-spec` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/to-spec` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/to-spec` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/to-tickets` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/to-tickets` (copied @ `2ffb184f`, MIT)
 - `user/shared/skills/to-tickets` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/to-tickets` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/to-tickets` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/to-tickets` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/triage` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/triage` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/triage` (copied @ `2ffb184f`, MIT)
 - `user/shared/skills/triage` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/triage` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/triage` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/triage` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/wait-what` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/wait-what` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/wait-what` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/wait-what` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/wayfinder` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/wayfinder` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/wayfinder` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/wayfinder` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/wizard` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/wizard` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/wizard` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/wizard` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/writing-for-agents` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/writing-for-agents` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/writing-for-agents` (copied @ `959a8e9f`, MIT)
+- `user/shared/skills/writing-for-agents` (copied @ `49dd158d`, MIT)
 
 ### https://github.com/modelcontextprotocol/servers
 
