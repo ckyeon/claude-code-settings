@@ -235,6 +235,7 @@ if [ "$PATH_IN_REPO" != "." ]; then
   else
     PRE_SIDECAR=""
   fi
+  REPO_ROOT="$REPO_ROOT" PYTHONDONTWRITEBYTECODE=1 \
   CLONE_DIR="$TMPDIR/clone" SIDECAR_F="$PRE_SIDECAR" FROM_URL="$FROM" \
   NEW_SHA="$FULL_SHA" P_PATH="$PATH_IN_REPO" P_MODE="$MODE" \
   python3 - <<'PYEOF'
@@ -299,32 +300,15 @@ added = sorted(new - old)
 removed = sorted(old - new)
 
 # Same repo-wide pass as check-updates --deep: skills and plugins added outside
-# the parent dir, found as directories that gained a marker file since the pin.
-MARKERS = ("/SKILL.md", "/.claude-plugin/plugin.json")
-
-def marker_dirs(sha):
-    res = git("ls-tree", "-r", "-z", "--name-only", sha)
-    if res.returncode != 0:
-        return None
-    return {p[:-len(m)] for p in res.stdout.split("\0")
-            for m in MARKERS if p.endswith(m)}
-
-def under(p, base):
-    return p == base or p.startswith(base + "/")
-
-def ancestors(p):
-    while "/" in p:
-        p = p.rsplit("/", 1)[0]
-        yield p
+# the parent dir. lib/structure.py holds the rules both tools share.
+sys.path.insert(0, os.path.join(os.environ["REPO_ROOT"], "lib"))
+import structure
 
 elsewhere = []
-old_m, new_m = marker_dirs(old_pin), marker_dirs(new_sha)
+old_m, new_m = structure.marker_dirs(git, old_pin), structure.marker_dirs(git, new_sha)
 if old_m is not None and new_m is not None:
-    known = set(added) | {path}
-    elsewhere = sorted(
-        d for d in new_m - old_m
-        if not any(under(d, k) for k in known)
-        and not any(a in new_m for a in ancestors(d)))
+    tracked = structure.tracked_paths(os.environ["REPO_ROOT"], os.environ["FROM_URL"]) | {path}
+    elsewhere = structure.added_elsewhere(old_m, new_m, tracked, added)
 
 if not added and not removed and not elsewhere:
     sys.exit(0)

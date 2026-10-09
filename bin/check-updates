@@ -30,7 +30,7 @@ for arg in "$@"; do
   esac
 done
 
-REPO_ROOT="$REPO_ROOT" DEEP="$DEEP" python3 - <<'PYEOF'
+REPO_ROOT="$REPO_ROOT" DEEP="$DEEP" PYTHONDONTWRITEBYTECODE=1 python3 - <<'PYEOF'
 import json
 import os
 import re
@@ -38,6 +38,9 @@ import subprocess
 import sys
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
+
+sys.path.insert(0, os.path.join(os.environ["REPO_ROOT"], "lib"))
+import structure
 
 repo_root = os.environ["REPO_ROOT"]
 deep = os.environ.get("DEEP") == "1"
@@ -391,8 +394,7 @@ for it in sorted(outdated_items, key=lambda x: (x["source"], x["local"])):
 # A second, repo-wide pass catches skills and plugins added outside those
 # parent dirs (skills/in-progress next to a tracked skills/engineering): any
 # directory that gained a SKILL.md or .claude-plugin/plugin.json between pin
-# and head. Entries the first pass already reports, entries inside a tracked
-# path, and entries nested in another skill or plugin are left out.
+# and head. lib/structure.py holds the rules for what that pass leaves out.
 tracked_paths = {}  # source -> set of every tracked upstream path (all pins)
 for it in items:
     if it["path"] and it["path"] != ".":
@@ -406,24 +408,6 @@ def ls_entries(src, sha, root):
     if res.returncode != 0:
         return None
     return {l for l in res.stdout.splitlines() if l.strip()}
-
-MARKERS = ("/SKILL.md", "/.claude-plugin/plugin.json")
-
-def marker_dirs(src, sha):
-    """Every directory holding a skill or plugin marker file at sha."""
-    res = git_in_clone(src, "ls-tree", "-r", "-z", "--name-only", sha, timeout=300)
-    if res.returncode != 0:
-        return None
-    return {p[:-len(m)] for p in res.stdout.split("\0")
-            for m in MARKERS if p.endswith(m)}
-
-def under(p, base):
-    return p == base or p.startswith(base + "/")
-
-def ancestors(p):
-    while "/" in p:
-        p = p.rsplit("/", 1)[0]
-        yield p
 
 struct_records = []
 scan_keys = sorted({(it["source"], it["commit"], it["target"]) for it in outdated_items
@@ -453,14 +437,12 @@ for src, pin, head in scan_keys:
             "removed_tracked": sorted(p for p in removed
                                       if p in tracked_paths.get(src, set())),
         })
-    old_m, new_m = marker_dirs(src, pin), marker_dirs(src, head)
+    def clone_git(*args, src=src):
+        return git_in_clone(src, *args, timeout=300)
+    old_m, new_m = structure.marker_dirs(clone_git, pin), structure.marker_dirs(clone_git, head)
     if old_m is None or new_m is None:
         continue
-    known = reported | tracked_paths.get(src, set())
-    elsewhere = sorted(
-        d for d in new_m - old_m
-        if not any(under(d, k) for k in known)
-        and not any(a in new_m for a in ancestors(d)))
+    elsewhere = structure.added_elsewhere(old_m, new_m, tracked_paths.get(src, set()), reported)
     if elsewhere:
         struct_records.append({
             "source": src, "pin": pin, "head": head, "root": ".",

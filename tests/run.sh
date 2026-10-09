@@ -55,6 +55,7 @@ skill skills/eng/b
 skill skills/eng/r
 skill skills/eng/z
 skill skills/beta/old
+skill skills/prod/p
 put plugins/p1/.claude-plugin/plugin.json "{}"
 skill plugins/p1/skills/s1
 C1="$(commit c1)"
@@ -67,6 +68,7 @@ skill skills/eng/c                      # new sibling of a tracked path
 skill skills/eng/a/sub                  # inside a tracked path
 skill skills/eng/b/deep                 # nested in an existing, unadopted skill
 skill skills/beta/new                   # new skill outside the tracked dirs
+skill skills/prod/q                     # new sibling of a tracked path pinned elsewhere
 skill plugins/p1/skills/s2              # new skill inside an existing plugin
 put plugins/p2/.claude-plugin/plugin.json "{}"
 skill plugins/p2/skills/x               # new plugin, with a skill nested in it
@@ -99,6 +101,9 @@ eq "first adoption writes one sidecar entry" "$(sidecar_entries "$REPO/user/shar
 lacks "first adoption prints no structure warning" "$out" "Upstream structure changed"
 adopt "$C1" skills/eng/r user/shared/skills/r >/dev/null
 adopt "$C1" skills/eng/z user/shared/skills/z >/dev/null
+# p lives in another tracked dir and is already at the newest commit, so the
+# source's items sit at two different pins.
+adopt "$C3" skills/prod/p user/shared/skills/p >/dev/null
 
 # check-updates needs the pre-re-pin state, so it runs before the re-pin below.
 echo "bin/check-updates"
@@ -119,6 +124,7 @@ lacks "deep skips a new skill inside an existing plugin" "$out" "plugins/p1/skil
 lacks "deep skips a new skill inside a tracked path" "$out" "skills/eng/a/sub"
 lacks "deep skips a skill nested in an unadopted skill" "$out" "skills/eng/b/deep"
 lacks "deep stays silent about entries that predate the pin" "$out" "skills/beta/old"
+lacks "deep leaves a sibling of an up-to-date tracked path alone" "$out" "skills/prod/q"
 eq "deep reports three entries outside the tracked dirs" "$(printf '%s\n' "$out" | grep -c "(outside tracked dirs)")" "3"
 deep_json="$(ls -d "$TMP"/tmp/check-updates-deep-*/deep.json 2>/dev/null | head -1)"
 scopes="$(python3 -c 'import json,sys; print(",".join(sorted(r["scope"] for r in json.load(open(sys.argv[1]))["structure"])))' "$deep_json" 2>&1)"
@@ -134,6 +140,7 @@ has "re-pin warns about a new sibling" "$out" "NEW      skills/eng/c"
 has "re-pin warns about a removed sibling" "$out" "REMOVED  skills/eng/r"
 has "re-pin warns about a new skill outside the tracked dirs" "$out" "skills/beta/new  (outside tracked dirs)"
 lacks "re-pin skips a new skill inside the adopted path" "$out" "skills/eng/a/sub"
+lacks "re-pin leaves another tracked dir's sibling alone" "$out" "skills/prod/q"
 
 out="$(adopt "$C3" skills/eng/a user/shared/skills/a)"
 lacks "re-pin with no structure change prints no warning" "$out" "Upstream structure changed"
