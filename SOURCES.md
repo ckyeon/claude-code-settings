@@ -372,9 +372,6 @@ _Last generated: 2026-10-09_
 | `user/shared/skills/research` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/research` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/research` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/research` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/research` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/research` | copied | MIT | 2026-10-09 |
-| `user/shared/skills/resolving-merge-conflicts` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/resolving-merge-conflicts` | copied | MIT | 2026-09-02 |
-| `user/shared/skills/resolving-merge-conflicts` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/resolving-merge-conflicts` | copied | MIT | 2026-09-05 |
-| `user/shared/skills/resolving-merge-conflicts` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/resolving-merge-conflicts` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/retro` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/retro` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-07-16 |
@@ -609,9 +606,6 @@ _Last generated: 2026-10-09_
 - `user/shared/skills/research` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/research` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/research` (copied @ `49dd158d`, MIT)
-- `user/shared/skills/resolving-merge-conflicts` (copied @ `6654f6b6`, MIT)
-- `user/shared/skills/resolving-merge-conflicts` (copied @ `3cca18b3`, MIT)
-- `user/shared/skills/resolving-merge-conflicts` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/retro` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `e9fcdf95`, MIT)
