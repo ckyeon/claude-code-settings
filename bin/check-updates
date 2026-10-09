@@ -33,300 +33,118 @@ done
 REPO_ROOT="$REPO_ROOT" DEEP="$DEEP" PYTHONDONTWRITEBYTECODE=1 python3 - <<'PYEOF'
 import json
 import os
-import re
-import subprocess
 import sys
 import tempfile
-from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.join(os.environ["REPO_ROOT"], "lib"))
 import sidecars
-import structure
 import targets
+import updates
 
 repo_root = os.environ["REPO_ROOT"]
 deep = os.environ.get("DEEP") == "1"
 
-# --- Read sidecars: one entry to check per current pin ---
-all_items, unreadable = sidecars.read(repo_root)
+# The deciding happens in lib/updates.py. This script only renders its records.
+items, unreadable = sidecars.read(repo_root)
 for rel, reason in unreadable:
     print(f"WARN: skipping unreadable sidecar {rel}: {reason}", file=sys.stderr)
 
-items = []  # dicts: local, source, commit, path, adopted_as, license, track, and later target, target_note
-for item in all_items:
-    for pin in item.current_pins():
-        items.append({
-            "local": item.local,
-            "source": pin["source"],
-            "commit": pin.get("commit", ""),
-            "path": pin.get("path", ""),
-            "adopted_as": pin.get("adopted-as", ""),
-            "license": pin.get("license", ""),
-            "track": item.track,
-        })
-
-if not items:
+sources = sorted({pin["source"] for item in items for pin in item.current_pins()})
+if not sources:
     print("No provenance entries found.")
     sys.exit(0)
-
-# --- Resolve each item's comparison target (lib/targets.py) ---
-sources = sorted(set(it["source"] for it in items))
 print(f"Checking {len(sources)} source{'s' if len(sources) != 1 else ''}...\n")
 
-resolver = targets.Targets(repo_root)
-for it in items:
-    it["target"], it["target_note"] = resolver.resolve(it["source"], it["track"], it["local"])
+pins = updates.check(items, targets.Targets(repo_root))
 
-# --- Group items by (source, pinned_commit, target) ---
-groups = {}  # (source, pinned_commit, target, target_note) -> [items]
-for it in items:
-    key = (it["source"], it["commit"], it["target"], it["target_note"])
-    groups.setdefault(key, []).append(it)
+# --- Fast report: one line per (source, pin, target) ---
+groups = {}
+for pin in pins:
+    key = (pin["source"], pin["commit"], pin["target"], pin["target_note"])
+    groups.setdefault(key, []).append(pin)
 
-# --- Fast report ---
-slug_re = re.compile(r"https?://github\.com/([^/]+/[^/]+?)(?:\.git)?/?$")
-
-def label_of(source):
-    m = slug_re.match(source)
-    return m.group(1) if m else source
-
-up_to_date = 0
-outdated = 0
-errors = 0
-outdated_items = []  # items whose pin is behind a reachable head
-
-for (source, pinned, head, note), group in sorted(groups.items(), key=lambda kv: kv[0][:2]):
-    label = label_of(source)
+counts = {"current": 0, "outdated": 0, "unreachable": 0}
+for (source, pinned, target, note), group in sorted(groups.items(), key=lambda kv: kv[0][:2]):
+    label = updates.label_of(source)
     short_pin = pinned[:8] if pinned else "?"
     suffix = f"  [{note}]" if note else ""
-
-    if head is None:
+    state = group[0]["state"]
+    counts[state] += 1
+    if state == "unreachable":
         print(f"? {label:<45} {note or 'unreachable'}")
-        errors += 1
-    elif head.startswith(pinned) or pinned.startswith(head):
+    elif state == "current":
         print(f"✓ {label:<45} up to date  ({short_pin}){suffix}")
-        up_to_date += 1
     else:
-        short_head = head[:8]
-        print(f"✗ {label:<45} {short_pin} → {short_head}{suffix}")
+        print(f"✗ {label:<45} {short_pin} → {target[:8]}{suffix}")
         if len(group) <= 5:
-            names = [os.path.basename(it["local"]) for it in group]
-            print(f"    {', '.join(names)}")
+            print(f"    {', '.join(os.path.basename(p['local']) for p in group)}")
         else:
-            common = os.path.commonpath([it["local"] for it in group])
+            common = os.path.commonpath([p["local"] for p in group])
             print(f"    {len(group)} items ({common}/*)")
-        outdated += 1
-        outdated_items.extend(group)
 
-print(f"\n{up_to_date} up to date, {outdated} outdated" +
-      (f", {errors} unreachable" if errors else ""))
+print(f"\n{counts['current']} up to date, {counts['outdated']} outdated" +
+      (f", {counts['unreachable']} unreachable" if counts["unreachable"] else ""))
 
-exit_code = 2 if errors else (1 if outdated else 0)
-
-if not deep or not outdated_items:
+exit_code = 2 if counts["unreachable"] else (1 if counts["outdated"] else 0)
+outdated = [p for p in pins if p["state"] == "outdated"]
+if not deep or not outdated:
     sys.exit(exit_code)
 
-# --- Deep pass: clone outdated sources, check whether tracked paths changed ---
+# --- Deep pass ---
 workdir = tempfile.mkdtemp(prefix="check-updates-deep-")
-clones_dir = os.path.join(workdir, "clones")
-items_dir = os.path.join(workdir, "items")
-os.makedirs(clones_dir)
-os.makedirs(items_dir)
+n_clones = len({updates.clone_name(p["source"]) for p in outdated})
+print(f"\nDeep check: cloning {n_clones} outdated source{'s' if n_clones != 1 else ''} (blobless)...")
+result = updates.investigate(pins, items, workdir)
+records, structure_records = result["items"], result["structure"]
 
-def sanitize(s):
-    return re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
-
-deep_sources = sorted(set(it["source"] for it in outdated_items))
-# The same repo may be referenced under multiple URL spellings (with/without
-# .git); they share one clone, keyed by the sanitized owner/repo label.
-clone_dirs = {src: os.path.join(clones_dir, sanitize(label_of(src))) for src in deep_sources}
-to_clone = {}  # clone_dir -> representative source url
-for src in deep_sources:
-    to_clone.setdefault(clone_dirs[src], src)
-
-print(f"\nDeep check: cloning {len(to_clone)} outdated source"
-      f"{'s' if len(to_clone) != 1 else ''} (blobless)...")
-
-def clone(src):
-    try:
-        subprocess.run(
-            ["git", "clone", "--filter=blob:none", "--no-checkout", "--quiet",
-             src, clone_dirs[src]],
-            check=True, capture_output=True, text=True, timeout=600,
-        )
-        return src, None
-    except subprocess.TimeoutExpired:
-        return src, "clone timed out"
-    except subprocess.CalledProcessError as e:
-        return src, (e.stderr or "clone failed").strip().splitlines()[-1]
-
-clone_errors = {}  # clone_dir -> error
-with ThreadPoolExecutor(max_workers=min(8, len(to_clone))) as pool:
-    for src, err in pool.map(clone, to_clone.values()):
-        if err:
-            clone_errors[clone_dirs[src]] = err
-
-def git_in_clone(src, *args, timeout=120):
-    return subprocess.run(
-        ["git", "-C", clone_dirs[src], *args],
-        capture_output=True, text=True, timeout=timeout,
-    )
-
-def object_at(src, sha, path):
-    """Tree or blob SHA of path at sha, or None if absent. Trees are present in a
-    blobless clone, so this never fetches file contents."""
-    spec = f"{sha}^{{tree}}" if path == "." else f"{sha}:{path}"
-    res = git_in_clone(src, "rev-parse", "--verify", "--quiet", spec)
-    return res.stdout.strip() if res.returncode == 0 else None
-
-records = []
-for it in sorted(outdated_items, key=lambda x: (x["source"], x["local"])):
-    src = it["source"]
-    head = it["target"]
-    rec = {
-        **it,
-        "head": head,          # comparison target, upstream HEAD unless "track" is set
-        "status": None,        # changed | pin-only | error
-        "commit_count": 0,
-        "item_dir": None,
-    }
-    if clone_dirs[src] in clone_errors:
-        rec["status"] = "error"
-        rec["error"] = clone_errors[clone_dirs[src]]
-        records.append(rec)
-        continue
-
-    path = it["path"] or "."
-    log = git_in_clone(src, "log", "--oneline", f"{it['commit']}..{head}", "--", path)
-    if log.returncode != 0:
-        rec["status"] = "error"
-        rec["error"] = (log.stderr or "git log failed").strip().splitlines()[-1]
-        records.append(rec)
-        continue
-
-    lines = [l for l in log.stdout.splitlines() if l.strip()]
-    rec["commit_count"] = len(lines)
-    # Decide by content, not history. When the pin is off head's ancestry
-    # (e.g. a release tag cut on a side branch), `pin..head` lists commits
-    # even if the path ended up identical, and misses changes that exist only
-    # on the pin's side. Fall back to the log when the path is absent at
-    # either end.
-    old_obj = object_at(src, it["commit"], path)
-    new_obj = object_at(src, head, path)
-    if old_obj and new_obj:
-        unchanged = old_obj == new_obj
-    else:
-        unchanged = not lines
-    if unchanged:
-        rec["status"] = "pin-only"
-        records.append(rec)
-        continue
-
-    if not lines:
-        # Content differs but pin..head is empty: the pin is on a side branch.
-        # Show both sides (< pin-only, > head-only).
-        log = git_in_clone(src, "log", "--oneline", "--left-right",
-                           f"{it['commit']}...{head}", "--", path)
-        lines = [l for l in log.stdout.splitlines() if l.strip()]
-        rec["commit_count"] = len(lines)
-
-    rec["status"] = "changed"
-    item_dir = os.path.join(items_dir, sanitize(it["local"]))
-    os.makedirs(item_dir, exist_ok=True)
-    rec["item_dir"] = item_dir
-    with open(os.path.join(item_dir, "log.txt"), "w") as f:
-        f.write(log.stdout)
-
-    # Upstream content diff only for vendored items; for inspired-by (and
-    # whole-repo paths) the commit log is the useful signal and a diff of "."
-    # would be huge.
-    if it["adopted_as"] == "copied" and path != ".":
-        diff = git_in_clone(src, "diff", it["commit"], head, "--", path, timeout=300)
-        if diff.returncode == 0 and diff.stdout:
-            with open(os.path.join(item_dir, "upstream.diff"), "w") as f:
-                f.write(diff.stdout)
-    records.append(rec)
-
-# --- Structural scan: what changed upstream around the tracked paths ---
-# One scan per (source, pin, target): the paths moving together share a
-# comparison. lib/structure.py answers what appeared or vanished next to them
-# and which skills or plugins appeared elsewhere. Whole-repo items (path ".")
-# are skipped — their git log already covers all.
-struct_records = []
-scan_keys = sorted({(it["source"], it["commit"], it["target"]) for it in outdated_items
-                    if it["path"] and it["path"] != "."})
-for src, pin, head in scan_keys:
-    if clone_dirs[src] in clone_errors:
-        continue
-    moving = sorted({it["path"] for it in outdated_items
-                     if it["source"] == src and it["commit"] == pin and it["target"] == head})
-    def clone_git(*args, src=src):
-        return git_in_clone(src, *args, timeout=300)
-    tracked = sidecars.tracked_paths(all_items, src)
-    for rec in structure.changes(clone_git, pin, head, moving, tracked):
-        struct_records.append({"source": src, "pin": pin, "head": head, **rec})
-
-# --- Deep report ---
 print()
 by_source = {}
 for rec in records:
     by_source.setdefault(rec["source"], []).append(rec)
-struct_by_source = {}
-for rec in struct_records:
-    struct_by_source.setdefault(rec["source"], []).append(rec)
+structure_by_source = {}
+for rec in structure_records:
+    structure_by_source.setdefault(rec["source"], []).append(rec)
 
-changed_total = 0
-added_total = 0
-removed_total = 0
 for src in sorted(by_source):
     recs = by_source[src]
-    targets = ", ".join(sorted({r["head"][:8] for r in recs}))
-    print(f"{label_of(src)}  → {targets}")
-    pin_only = [r for r in recs if r["status"] == "pin-only"]
+    print(f"{updates.label_of(src)}  → {', '.join(sorted({r['target'][:8] for r in recs}))}")
     for rec in recs:
         if rec["status"] == "changed":
-            changed_total += 1
             n = rec["commit_count"]
             print(f"  CHANGED  {n:>3} commit{'s' if n != 1 else ''}  {rec['local']}")
         elif rec["status"] == "error":
             print(f"  ERROR    {rec['local']}: {rec['error']}")
+    pin_only = [r for r in recs if r["status"] == "pin-only"]
     if len(pin_only) > 5:
         common = os.path.commonpath([r["local"] for r in pin_only])
         print(f"  pin-only     {len(pin_only)} items ({common}/*)")
     else:
         for rec in pin_only:
             print(f"  pin-only     {rec['local']}")
-    seen = set()  # same source may be scanned under several pins
-    for srec in struct_by_source.get(src, []):
+    for srec in structure_by_source.get(src, []):
+        mark = "  (outside tracked dirs)" if srec["scope"] == "elsewhere" else ""
         for p in srec["added"]:
-            if ("added", p) not in seen:
-                seen.add(("added", p))
-                added_total += 1
-                mark = "  (outside tracked dirs)" if srec["scope"] == "elsewhere" else ""
-                print(f"  NEW      upstream added   {p}{mark}")
+            print(f"  NEW      upstream added   {p}{mark}")
         for p in srec["removed"]:
-            if ("removed", p) not in seen:
-                seen.add(("removed", p))
-                removed_total += 1
-                mark = "  ** adopted here **" if p in srec["removed_tracked"] else ""
-                print(f"  REMOVED  upstream removed {p}{mark}")
+            mark_removed = "  ** adopted here **" if p in srec["removed_tracked"] else ""
+            print(f"  REMOVED  upstream removed {p}{mark_removed}")
 
 summary_path = os.path.join(workdir, "deep.json")
 with open(summary_path, "w") as f:
-    json.dump({"workdir": workdir, "items": records,
-               "structure": struct_records}, f, indent=2)
+    json.dump({"workdir": workdir, "items": records, "structure": structure_records}, f, indent=2)
     f.write("\n")
 
-pin_only_total = sum(1 for r in records if r["status"] == "pin-only")
-error_total = sum(1 for r in records if r["status"] == "error")
-print(f"\n{changed_total} changed, {pin_only_total} pin-only" +
+total = lambda status: sum(1 for r in records if r["status"] == status)
+added_total = sum(len(r["added"]) for r in structure_records)
+removed_total = sum(len(r["removed"]) for r in structure_records)
+print(f"\n{total('changed')} changed, {total('pin-only')} pin-only" +
       (f", {added_total} upstream-new" if added_total else "") +
       (f", {removed_total} upstream-removed" if removed_total else "") +
-      (f", {error_total} errors" if error_total else ""))
+      (f", {total('error')} errors" if total("error") else ""))
 print(f"\nWorkdir kept for inspection (clones + per-item log.txt/upstream.diff):")
 print(f"  {workdir}")
 print(f"  {summary_path}")
 print(f"Clean up with: rm -rf {workdir}")
 
-sys.exit(2 if (errors or error_total) else (1 if outdated else 0))
+sys.exit(2 if (counts["unreachable"] or total("error")) else 1)
 PYEOF

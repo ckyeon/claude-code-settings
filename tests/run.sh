@@ -93,6 +93,8 @@ has "deep reports a new skill outside the tracked dirs" "$out" "skills/beta/new 
 deep_json="$(ls -d "$TMP"/tmp/check-updates-deep-*/deep.json 2>/dev/null | head -1)"
 scopes="$(python3 -c 'import json,sys; print(",".join(sorted(r["scope"] for r in json.load(open(sys.argv[1]))["structure"])))' "$deep_json" 2>&1)"
 eq "deep.json labels each structure record with its scope" "$scopes" "elsewhere,sibling"
+fields="$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1]))["items"][0]; print("target" in r, "head" in r)' "$deep_json" 2>&1)"
+eq "deep.json names the comparison target once" "$fields" "True False"
 
 echo "bin/adopt (re-pin)"
 
@@ -119,6 +121,13 @@ adopt "$C3" skills/eng/z user/shared/skills/z >/dev/null
 rm -rf "$REPO/user/shared/skills/r"
 out="$(run bin/check-updates)"; rc=$?
 eq "fast check exits 0 when every pin matches" "$rc" "0"
+
+mkdir -p "$REPO/misc/unreachable"
+printf '{"provenance":[{"source":"file://%s/nowhere","commit":"%s","path":"x","license":"MIT","adopted-as":"inspired-by","adopted-at":"2026-01-01"}]}\n' "$TMP" "$C1" > "$REPO/misc/unreachable/.provenance.json"
+out="$(run bin/check-updates)"; rc=$?
+eq "fast check exits 2 when a source cannot be reached" "$rc" "2"
+has "the unreachable source is counted" "$out" "1 unreachable"
+rm -rf "$REPO/misc"
 
 # ----- bin/re-pin ------------------------------------------------------------
 echo "bin/re-pin"

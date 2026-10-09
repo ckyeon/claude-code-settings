@@ -43,15 +43,20 @@ It also scans **upstream structure** for each outdated source, in two passes. Bo
 
 Agents, commands, hooks, and MCP servers carry neither marker file, so the scan sees them only inside the tracked paths' parent directories. Whole-repo items (`path: "."`) are skipped because their git log already covers everything.
 
-The workdir path is printed at the end and contains `deep.json` (machine-readable records: per-item facts under `items`, structural scan results under `structure`, where each record's `scope` is `sibling` for the first pass and `elsewhere` for the second) plus the clones themselves. Do not re-derive any of this by hand in the main session — read `deep.json` for the facts.
+The workdir path is printed at the end and contains the clones plus `deep.json`, the same result as machine-readable records:
+
+- `items` — one record per outdated item: `local`, `source`, `commit` (the pin), `path`, `adopted_as`, `license`, `track`, `target` and `target_note` (the comparison target and which kind it is), `status` (`changed`, `pin-only`, or `error` with an `error` message), `commit_count`, and `item_dir` (where a changed item's `log.txt` and `upstream.diff` are).
+- `structure` — one record per scanned directory: `source`, `pin`, `target`, `root`, `scope` (`sibling` for the first pass, `elsewhere` for the second), `added`, `removed`, and `removed_tracked` (the removed entries adopted here).
+
+Do not re-derive any of this by hand in the main session — read `deep.json` for the facts.
 
 ### Step 3 — Judgment fan-out (changed items + structural changes)
 
 Pin-only items need no judgment. Spawn one subagent per source repo that has **changed** items or **structural** entries (`NEW`/`REMOVED`) — all in a single message so they run in parallel. Each agent gets:
 
 - the repo label and its clone dir under `<workdir>/clones/`
-- the list of its changed items: local dest, `item_dir` (log.txt / upstream.diff), mode, pinned and head SHAs
-- its `structure` records from `deep.json`: added/removed entries, scope, pin, head
+- the list of its changed items: local dest, `item_dir` (log.txt / upstream.diff), mode, pinned and target SHAs
+- its `structure` records from `deep.json`: added/removed entries, scope, pin, target
 
 Instruct each agent to:
 
@@ -82,7 +87,7 @@ For items worth updating, suggest `bin/re-pin` with their local paths:
 bin/re-pin <local_path> [<local_path>...]
 ```
 
-Each item moves to its comparison target, the `head` value `deep.json` reports for it, so no SHA needs copying. For `copied` items this also pulls the new file contents. For `inspired-by` items it updates only the pin. `bin/re-pin` refuses a `copied` item whose local copy differs from upstream at the old pin and lists the difference. Report that to the user rather than passing `--overwrite-local` yourself.
+Each item moves to its comparison target, the `target` value `deep.json` reports for it, so no SHA needs copying. For `copied` items this also pulls the new file contents. For `inspired-by` items it updates only the pin. `bin/re-pin` refuses a `copied` item whose local copy differs from upstream at the old pin and lists the difference. Report that to the user rather than passing `--overwrite-local` yourself.
 
 For `NEW` entries worth adopting, use `bin/adopt --from <source_url> --commit <sha> --path <upstream_path> --to <local_path> --mode copied --license <SPDX>`. For `REMOVED` entries that are adopted here, lay out the options: keep the local copy as an orphaned fork (the sidecar stays as history), delete it, or re-adopt from the renamed/moved path the agent found.
 
