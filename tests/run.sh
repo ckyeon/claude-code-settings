@@ -45,48 +45,11 @@ else
 fi
 
 # ----- Fake upstream ---------------------------------------------------------
+# tests/upstream.py builds it, the same repository the module tests use: c1 is
+# what items are first adopted from, c2 changes content and structure, and c3
+# changes nothing structural.
 UP="$TMP/upstream"
-mkdir -p "$UP"
-git_clean -C "$UP" init -q -b main
-
-put() { mkdir -p "$UP/$(dirname "$1")"; printf '%s\n' "$2" > "$UP/$1"; }
-skill() { put "$1/SKILL.md" "---
-name: $(basename "$1")
-description: fixture skill
----
-${2:-body}"; }
-commit() { git_clean -C "$UP" add -A && git_clean -C "$UP" commit -q --allow-empty -m "$1" && git_clean -C "$UP" rev-parse HEAD; }
-
-# c1: the state items are first adopted from.
-skill skills/eng/a "a v1"
-put skills/eng/a/old.md "dropped in c2"
-skill skills/eng/b
-skill skills/eng/r
-skill skills/eng/z
-skill skills/beta/old
-skill skills/prod/p
-put plugins/p1/.claude-plugin/plugin.json "{}"
-skill plugins/p1/skills/s1
-C1="$(commit c1)"
-
-# c2: content change, a removal, and additions in every position that matters.
-skill skills/eng/a "a v2"
-rm "$UP/skills/eng/a/old.md"
-rm -rf "$UP/skills/eng/r"
-skill skills/eng/c                      # new sibling of a tracked path
-skill skills/eng/a/sub                  # inside a tracked path
-skill skills/eng/b/deep                 # nested in an existing, unadopted skill
-skill skills/beta/new                   # new skill outside the tracked dirs
-skill skills/prod/q                     # new sibling of a tracked path pinned elsewhere
-skill plugins/p1/skills/s2              # new skill inside an existing plugin
-put plugins/p2/.claude-plugin/plugin.json "{}"
-skill plugins/p2/skills/x               # new plugin, with a skill nested in it
-skill "docs/ünï"                        # non-ASCII path
-C2="$(commit c2)"
-
-# c3: nothing structural changes after c2.
-C3="$(commit c3)"
-
+eval "$(python3 "$ROOT/tests/upstream.py" "$UP")"
 SRC="file://$UP"
 
 # ----- Sandbox repo ----------------------------------------------------------
@@ -127,14 +90,6 @@ has "deep marks an untouched path as pin-only" "$out" "pin-only     user/shared/
 has "deep reports a new sibling" "$out" "NEW      upstream added   skills/eng/c"
 has "deep flags a removed entry that is adopted here" "$out" "skills/eng/r  ** adopted here **"
 has "deep reports a new skill outside the tracked dirs" "$out" "skills/beta/new  (outside tracked dirs)"
-has "deep reports a new plugin once, as its outer directory" "$out" "plugins/p2  (outside tracked dirs)"
-lacks "deep folds a nested skill into its plugin" "$out" "plugins/p2/skills/x"
-lacks "deep skips a new skill inside an existing plugin" "$out" "plugins/p1/skills/s2"
-lacks "deep skips a new skill inside a tracked path" "$out" "skills/eng/a/sub"
-lacks "deep skips a skill nested in an unadopted skill" "$out" "skills/eng/b/deep"
-lacks "deep stays silent about entries that predate the pin" "$out" "skills/beta/old"
-lacks "deep leaves a sibling of an up-to-date tracked path alone" "$out" "skills/prod/q"
-eq "deep reports three entries outside the tracked dirs" "$(printf '%s\n' "$out" | grep -c "(outside tracked dirs)")" "3"
 deep_json="$(ls -d "$TMP"/tmp/check-updates-deep-*/deep.json 2>/dev/null | head -1)"
 scopes="$(python3 -c 'import json,sys; print(",".join(sorted(r["scope"] for r in json.load(open(sys.argv[1]))["structure"])))' "$deep_json" 2>&1)"
 eq "deep.json labels each structure record with its scope" "$scopes" "elsewhere,sibling"
@@ -146,10 +101,8 @@ eq "re-pin updates the content" "$(sed -n 5p "$REPO/user/shared/skills/a/SKILL.m
 eq "re-pin appends a sidecar entry" "$(sidecar_entries "$REPO/user/shared/skills/a/.provenance.json")" "2"
 if [ -e "$REPO/user/shared/skills/a/old.md" ]; then bad "re-pin prunes a file upstream deleted"; else ok "re-pin prunes a file upstream deleted"; fi
 has "re-pin warns about a new sibling" "$out" "NEW      skills/eng/c"
-has "re-pin warns about a removed sibling" "$out" "REMOVED  skills/eng/r"
+has "re-pin flags a removed sibling that is adopted here" "$out" "REMOVED  skills/eng/r  ** adopted here **"
 has "re-pin warns about a new skill outside the tracked dirs" "$out" "skills/beta/new  (outside tracked dirs)"
-lacks "re-pin skips a new skill inside the adopted path" "$out" "skills/eng/a/sub"
-lacks "re-pin leaves another tracked dir's sibling alone" "$out" "skills/prod/q"
 
 out="$(adopt "$C3" skills/eng/a user/shared/skills/a)"
 lacks "re-pin with no structure change prints no warning" "$out" "Upstream structure changed"

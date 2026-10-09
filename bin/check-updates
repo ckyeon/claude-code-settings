@@ -369,67 +369,24 @@ for it in sorted(outdated_items, key=lambda x: (x["source"], x["local"])):
                 f.write(diff.stdout)
     records.append(rec)
 
-# --- Structural scan: upstream entries added/removed next to tracked paths ---
-# Compares pin vs head listings of each tracked path's parent dir, so entries
-# that predate the pin (deliberately not adopted) don't show up as noise.
-# Whole-repo items (path ".") are skipped — their git log already covers all.
-#
-# A second, repo-wide pass catches skills and plugins added outside those
-# parent dirs (skills/in-progress next to a tracked skills/engineering): any
-# directory that gained a SKILL.md or .claude-plugin/plugin.json between pin
-# and head. lib/structure.py holds the rules for what that pass leaves out.
-def tracked_paths(src):
-    return sidecars.tracked_paths(all_items, src)
-
-def ls_entries(src, sha, root):
-    args = ["ls-tree", "--name-only", sha]
-    if root:
-        args += ["--", root.rstrip("/") + "/"]
-    res = git_in_clone(src, *args)
-    if res.returncode != 0:
-        return None
-    return {l for l in res.stdout.splitlines() if l.strip()}
-
+# --- Structural scan: what changed upstream around the tracked paths ---
+# One scan per (source, pin, target): the paths moving together share a
+# comparison. lib/structure.py answers what appeared or vanished next to them
+# and which skills or plugins appeared elsewhere. Whole-repo items (path ".")
+# are skipped — their git log already covers all.
 struct_records = []
 scan_keys = sorted({(it["source"], it["commit"], it["target"]) for it in outdated_items
                     if it["path"] and it["path"] != "."})
 for src, pin, head in scan_keys:
     if clone_dirs[src] in clone_errors:
         continue
-    roots = sorted({os.path.dirname(it["path"]) for it in outdated_items
-                    if it["source"] == src and it["commit"] == pin
-                    and it["target"] == head
-                    and it["path"] and it["path"] != "."})
-    reported = set()  # NEW entries the parent-dir pass already lists
-    for root in roots:
-        old = ls_entries(src, pin, root)
-        new = ls_entries(src, head, root)
-        if old is None or new is None:
-            continue
-        added = sorted(new - old)
-        removed = sorted(old - new)
-        if not added and not removed:
-            continue
-        reported.update(added)
-        struct_records.append({
-            "source": src, "pin": pin, "head": head, "root": root or ".",
-            "scope": "sibling",
-            "added": added, "removed": removed,
-            "removed_tracked": sorted(p for p in removed
-                                      if p in tracked_paths(src)),
-        })
+    moving = sorted({it["path"] for it in outdated_items
+                     if it["source"] == src and it["commit"] == pin and it["target"] == head})
     def clone_git(*args, src=src):
         return git_in_clone(src, *args, timeout=300)
-    old_m, new_m = structure.marker_dirs(clone_git, pin), structure.marker_dirs(clone_git, head)
-    if old_m is None or new_m is None:
-        continue
-    elsewhere = structure.added_elsewhere(old_m, new_m, tracked_paths(src), reported)
-    if elsewhere:
-        struct_records.append({
-            "source": src, "pin": pin, "head": head, "root": ".",
-            "scope": "elsewhere",
-            "added": elsewhere, "removed": [], "removed_tracked": [],
-        })
+    tracked = sidecars.tracked_paths(all_items, src)
+    for rec in structure.changes(clone_git, pin, head, moving, tracked):
+        struct_records.append({"source": src, "pin": pin, "head": head, **rec})
 
 # --- Deep report ---
 print()

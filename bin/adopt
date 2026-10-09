@@ -280,40 +280,21 @@ if not old_pin or new_sha.startswith(old_pin):
 if git("cat-file", "-e", f"{old_pin}^{{commit}}").returncode != 0:
     sys.exit(0)  # old pin unreachable (rewritten history) — nothing to compare
 
-parent = os.path.dirname(path)
-def ls(sha):
-    args = ["ls-tree", "--name-only", sha]
-    if parent:
-        args += ["--", parent + "/"]
-    res = git(*args)
-    if res.returncode != 0:
-        return None
-    return {l for l in res.stdout.splitlines() if l.strip()}
-
-old, new = ls(old_pin), ls(new_sha)
-if old is None or new is None:
-    sys.exit(0)
-added = sorted(new - old)
-removed = sorted(old - new)
-
-# Same repo-wide pass as check-updates --deep: skills and plugins added outside
-# the parent dir. lib/structure.py holds the rules both tools share.
-elsewhere = []
-old_m, new_m = structure.marker_dirs(git, old_pin), structure.marker_dirs(git, new_sha)
-if old_m is not None and new_m is not None:
-    tracked = sidecars.tracked_paths(items, os.environ["FROM_URL"]) | {path}
-    elsewhere = structure.added_elsewhere(old_m, new_m, tracked, added)
-
-if not added and not removed and not elsewhere:
+# Same answer check-updates --deep gives, for this one path.
+tracked = sidecars.tracked_paths(items, os.environ["FROM_URL"]) | {path}
+records = structure.changes(git, old_pin, new_sha, [path], tracked)
+if not records:
     sys.exit(0)
 warn("")
 warn(f"⚠  Upstream structure changed around '{path}' between {old_pin[:8]} and {new_sha[:8]}:")
-for p in added:
-    warn(f"     NEW      {p}")
-for p in elsewhere:
-    warn(f"     NEW      {p}  (outside tracked dirs)")
-for p in removed:
-    warn(f"     REMOVED  {p}")
+for rec in records:
+    mark = "  (outside tracked dirs)" if rec["scope"] == "elsewhere" else ""
+    for p in rec["added"]:
+        warn(f"     NEW      {p}{mark}")
+for rec in records:
+    for p in rec["removed"]:
+        mark = "  ** adopted here **" if p in rec["removed_tracked"] else ""
+        warn(f"     REMOVED  {p}{mark}")
 warn("   Run bin/check-updates --deep (or /check-updates) to judge these.")
 PYEOF
 fi
