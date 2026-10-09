@@ -6,32 +6,35 @@ The goal is **reproduction**: a new machine reaches the same Claude Code environ
 
 ## Quick start
 
-**Prerequisites:** Bash 3.2+, Python 3, macOS or Linux.
+These steps reproduce the setup on a new machine. **Prerequisites:** Bash 3.2+, Python 3, macOS or Linux.
 
-```bash
-git clone <this-repo>
-cd coding-agent-settings
-./install.sh
-```
+1. **Link the owned files.**
 
-The installer detects your OS, symlinks user-scope files into `~/.claude/`, and prints what it did:
+   ```bash
+   git clone <this-repo>
+   cd coding-agent-settings
+   ./install.sh
+   ```
 
-```
-Installing Claude Code user-scope settings symlinks...
-  REPO_ROOT:  /path/to/coding-agent-settings
-  CLAUDE_DIR: /Users/you/.claude
-  OS:         mac
+   The installer detects your OS and symlinks the owned files into `~/.claude/`. A file already at a symlink target is backed up as `<name>.backup-YYYYMMDD-HHMMSS` first. Re-running is safe: correct symlinks are skipped.
 
-Done: 10 created, 0 backed up, 0 already linked.
-```
+2. **Sign in.** Start `claude` and sign in. The skills, plugins, and connectors synced from claude.ai arrive with the account.
 
-If a file already exists at a symlink target, it is backed up as `<name>.backup-YYYYMMDD-HHMMSS` before being replaced. Re-running `./install.sh` is safe and idempotent — already-correct symlinks are skipped.
+3. **Install the declared plugins.** `install.sh` printed one `/plugin marketplace add` or `/plugin install` line per plugin. Run them inside a Claude Code session.
 
-Verify with:
+4. **Register the declared MCP servers.** For each name `install.sh` listed, run the `claude mcp add` command in `user/shared/mcp/<name>/README.md`.
 
-```bash
-readlink ~/.claude/settings.json   # should point into this repo
-```
+5. **Enter the secrets.** [`docs/SECRETS.md`](docs/SECRETS.md) lists each one and where it goes. Steps 3 and 4 ask for some of them as you go.
+
+6. **Confirm.**
+
+   ```bash
+   bin/check-machine
+   ```
+
+   Reproduction is complete when it reports no errors. It checks the symlinks, the plugins enabled at user scope, and the MCP registrations. It does not check secrets.
+
+To pick up later changes on a machine that is already set up: `git pull && ./install.sh`.
 
 ## Scope
 
@@ -93,7 +96,8 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 │   ├── adopt                   # adopt items from external repos
 │   ├── sources-index           # regenerate SOURCES.md
 │   ├── check-updates           # compare pins against upstream HEAD
-│   └── check-integrity         # static checks: refs resolve, sidecars valid
+│   ├── check-integrity         # static checks: refs resolve, sidecars valid, declarations complete
+│   └── check-machine           # does this machine match what the repo owns and declares?
 ├── tests/run.sh                # tests for the bin/ tools (fake upstream, temp dir)
 ├── docs/
 │   ├── PROVENANCE.md           # provenance schema & conventions
@@ -128,18 +132,6 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
     ├── video/
     └── cpp/
 ```
-
-## Multi-machine workflow
-
-On a second machine:
-
-```bash
-git clone <this-repo>
-cd coding-agent-settings
-./install.sh   # auto-detects OS, picks user/{mac,linux} accordingly
-```
-
-For ongoing updates: `git pull && ./install.sh` (idempotent — only re-links what changed).
 
 ## Customization
 

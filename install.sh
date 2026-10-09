@@ -43,21 +43,12 @@ echo "  CLAUDE_DIR: $CLAUDE_DIR"
 echo "  OS:         $OS"
 echo ""
 
-# Single files
-link_one "$REPO_ROOT/user/shared/CLAUDE.md"          "$CLAUDE_DIR/CLAUDE.md"
-link_one "$REPO_ROOT/user/shared/settings.json"      "$CLAUDE_DIR/settings.json"
-link_one "$REPO_ROOT/user/$OS/statusline-command.sh" "$CLAUDE_DIR/statusline-command.sh"
-link_one "$REPO_ROOT/user/$OS/subagent-statusline.sh" "$CLAUDE_DIR/subagent-statusline.sh"
-
-# Whole directories (shared)
-for d in skills commands agents rules output-styles; do
-  link_one "$REPO_ROOT/user/shared/$d" "$CLAUDE_DIR/$d"
-done
-
-# Hooks: 2-tier (shared + os)
+# Owned paths. The list lives in lib/common.sh so bin/check-machine verifies
+# exactly what this script links.
 mkdir -p "$CLAUDE_DIR/hooks"
-link_one "$REPO_ROOT/user/shared/hooks" "$CLAUDE_DIR/hooks/shared"
-link_one "$REPO_ROOT/user/$OS/hooks"    "$CLAUDE_DIR/hooks/os"
+while IFS="$FIELD_SEP" read -r src dest; do
+  link_one "$src" "$dest"
+done < <(list_owned_links "$REPO_ROOT" "$CLAUDE_DIR" "$OS")
 
 echo ""
 echo "Done: $created created, $backed_up backed up (suffix: .backup-$TS), $skipped already linked."
@@ -106,3 +97,8 @@ if [ -n "$MCP_NAMES" ]; then
   echo "For each, open user/shared/mcp/<name>/README.md and run the registration"
   echo "command shown there (typically: claude mcp add --scope user ...)."
 fi
+
+echo ""
+echo "Secrets are entered by hand: see docs/SECRETS.md."
+echo "When all of the above is done, run bin/check-machine. No errors means this"
+echo "machine matches what the repo owns and declares."

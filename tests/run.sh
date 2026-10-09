@@ -287,6 +287,88 @@ out="$(run bin/check-integrity)"; rc=$?
 eq "an unknown sidecar top-level key exits 1" "$rc" "1"
 has "the unknown key is named" "$out" "unknown top-level key(s): trak"
 
+# ----- install.sh and bin/check-machine --------------------------------------
+echo "install.sh and bin/check-machine"
+
+cp "$ROOT/install.sh" "$REPO/"
+mkdir -p "$REPO/user/shared/commands" "$REPO/user/shared/agents" "$REPO/user/shared/rules" \
+  "$REPO/user/shared/output-styles" "$REPO/user/shared/hooks"
+printf 'fixture\n' > "$REPO/user/shared/CLAUDE.md"
+for os in mac linux; do
+  mkdir -p "$REPO/user/$os/hooks"
+  printf '#!/bin/sh\n' > "$REPO/user/$os/statusline-command.sh"
+  printf '#!/bin/sh\n' > "$REPO/user/$os/subagent-statusline.sh"
+done
+plugin() { # plugin <name> — a declared plugin, sidecar included
+  declare_item plugins "$1" "Run: /plugin install $1@market"
+  printf '{"provenance":[{"source":"self","adopted-as":"inspired-by"}]}\n' > "$REPO/user/shared/plugins/$1/.provenance.json"
+}
+installed() { mkdir -p "$TMP/home/.claude/plugins"; printf '{"version": 2, "plugins": {%s}}\n' "$1" > "$TMP/home/.claude/plugins/installed_plugins.json"; }
+registered() { printf '{"mcpServers": {%s}}\n' "$1" > "$TMP/home/.claude.json"; }
+
+user_plugins '"good@market": true'
+plugin good
+declare_item mcp srv 'Run: claude mcp add --scope user srv https://example.invalid'
+
+out="$(run bin/check-machine)"; rc=$?
+eq "a machine with nothing installed exits 1" "$rc" "1"
+has "a missing owned path is named" "$out" "~/.claude/settings.json is missing"
+
+run ./install.sh >/dev/null
+out="$(run bin/check-machine)"; rc=$?
+lacks "install.sh links every owned path" "$out" "is missing"
+eq "missing plugins and MCP servers still exit 1" "$rc" "1"
+has "an enabled plugin that is not installed is an error" "$out" "plugin good@market is enabled at user scope but not installed"
+has "a declared MCP server that is not registered is an error" "$out" "MCP server srv is declared but not registered at user scope"
+
+installed '"good@market": [{"scope": "user"}]'
+registered '"srv": {"type": "http", "headers": {"Authorization": "Bearer SECRET-VALUE"}}'
+out="$(run bin/check-machine)"; rc=$?
+eq "a machine matching the repo exits 0" "$rc" "0"
+lacks "a matching machine reports no errors" "$out" "ERRORS"
+lacks "secret values never reach the output" "$out" "SECRET-VALUE"
+has "uncommitted changes are a warning" "$out" "uncommitted change"
+has "a missing upstream branch is a warning" "$out" "no upstream branch is set"
+out="$(run bin/check-machine --strict)"; rc=$?
+eq "--strict fails on those warnings" "$rc" "1"
+
+installed '"good@market": [{"scope": "user"}], "extra@market": [{"scope": "user"}]'
+registered '"srv": {}, "rogue": {}'
+out="$(run bin/check-machine)"; rc=$?
+eq "undeclared plugins and MCP servers only warn" "$rc" "0"
+has "the undeclared plugin is named" "$out" "plugin extra@market is installed but not declared"
+has "the undeclared MCP server is named" "$out" "MCP server rogue is registered but not declared"
+installed '"good@market": [{"scope": "user"}]'
+registered '"srv": {}'
+
+plugin proj
+mkdir -p "$REPO/project-templates/t/.claude"
+printf '{"enabledPlugins": {"proj@market": true}}\n' > "$REPO/project-templates/t/.claude/settings.json"
+out="$(run bin/check-machine)"; rc=$?
+eq "a plugin enabled only in a template need not be installed" "$rc" "0"
+
+rm "$TMP/home/.claude/CLAUDE.md"
+printf 'local copy\n' > "$TMP/home/.claude/CLAUDE.md"
+out="$(run bin/check-machine)"; rc=$?
+eq "an owned path replaced by a plain file exits 1" "$rc" "1"
+has "the replaced path is named" "$out" "~/.claude/CLAUDE.md exists but is not a symlink into this repo"
+run ./install.sh >/dev/null
+
+# With everything committed and pushed, the machine is fully reproduced.
+git_clean init -q --bare "$TMP/remote.git"
+git_clean -C "$REPO" add -A
+git_clean -C "$REPO" commit -q -m base
+git_clean -C "$REPO" remote add origin "$TMP/remote.git"
+git_clean -C "$REPO" push -q -u origin main
+out="$(run bin/check-machine --strict)"; rc=$?
+eq "a reproduced machine passes --strict" "$rc" "0"
+has "a reproduced machine reports Clean" "$out" "Clean."
+
+git_clean -C "$REPO" commit -q --allow-empty -m ahead
+out="$(run bin/check-machine)"; rc=$?
+eq "an unpushed commit only warns" "$rc" "0"
+has "the unpushed commit is counted" "$out" "1 commit not on origin/main"
+
 # ----- Summary ---------------------------------------------------------------
 echo ""
 echo "$PASS passed, $FAIL failed"

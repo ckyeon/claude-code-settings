@@ -12,6 +12,7 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 - `project-templates/`. Templates copied into new projects via manual `cp -r` (no scaffold script).
 - `bin/adopt`, `bin/sources-index`, `bin/check-updates`. Provenance tooling. JSON sidecars plus an auto-generated `SOURCES.md`.
 - `bin/check-integrity`. Static validation. Catches items whose dependencies were never adopted. Complements `check-updates` (freshness) with a function check.
+- `bin/check-machine`. Compares this machine with what the repo owns and declares. It reads machine state, so its result differs per machine and it stays out of the `Stop` hook.
 - `docs/PROVENANCE.md`. Schema and edge cases for provenance.
 - `docs/adr/`. Architecture Decision Records for this repo's own operational decisions.
 
@@ -22,6 +23,8 @@ The goal is reproduction: a new machine reaches the same Claude Code environment
 1. A setting file a person writes, holding no secret, is **owned**: it lives here and `install.sh` symlinks it.
 2. Anything a command creates on the machine is **declared**: record the item together with the command that creates it.
 3. State that Claude Code or the account writes, and every secret value, is **out of scope**.
+
+To own a new path, add it to `list_owned_links` in `lib/common.sh`: `install.sh` links from that list and `bin/check-machine` verifies it.
 
 `README.md` § "Scope" lists every item's level; update it when an item's level changes. `GLOSSARY.md` defines the terms. This repo covers Claude Code only.
 
@@ -82,6 +85,10 @@ Three failure classes it catches:
 A warning mid-chain is expected: adopting the first of three dependencies leaves the other two unresolved. Finish the chain, then confirm `bin/check-integrity` is clean.
 
 **Changes that never touch `bin/adopt`**, such as a hand-written skill, an edited `SKILL.md`, or a deleted skill that others still reference, are covered by the project-scope `Stop` hook in `.claude/settings.json`. It runs the same check when a session here ends and blocks once, feeding the errors back so they get fixed while the session is still open. It stays silent when clean, and downgrades to a plain message if `stop_hook_active` is already set, so it cannot loop.
+
+### Check a machine
+
+Run `bin/check-machine` after setting up a machine, and after adding or removing a plugin or MCP server declaration. Errors mean the machine does not match the repo: an owned path is not symlinked here, a plugin enabled at user scope is not installed, or a declared MCP server is not registered. Warnings cover plugins and MCP servers found on the machine without a declaration, uncommitted changes, and commits missing from the remote. A run with no errors is the definition of a reproduced machine, and `--strict` fails on warnings too. It reads only names from `~/.claude.json` and never looks at secrets.
 
 ### Record a decision
 

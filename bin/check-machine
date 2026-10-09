@@ -1,0 +1,159 @@
+#!/usr/bin/env bash
+# Compare this machine against what the repo owns and declares. Read-only.
+#
+# Usage: bin/check-machine [--strict]
+#   --strict   treat warnings as failures too
+#
+# Errors:   an owned path is not symlinked into this repo, a plugin enabled at
+#           user scope is not installed, a declared MCP server is not registered.
+# Warnings: a plugin or MCP server on the machine has no declaration, the repo
+#           has uncommitted changes, commits are missing from the remote.
+#
+# Exit: 0 no errors, 1 errors found (or warnings under --strict).
+# Unlike bin/check-integrity this reads machine state, so its result differs
+# per machine. Secrets are not checked (see docs/SECRETS.md).
+
+set -euo pipefail
+
+STRICT=0
+for arg in "$@"; do
+  case "$arg" in
+    --strict) STRICT=1 ;;
+    -h|--help) sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    *) echo "ERROR: unknown argument: $arg" >&2; exit 2 ;;
+  esac
+done
+
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+# shellcheck source=../lib/common.sh
+source "$REPO_ROOT/lib/common.sh"
+
+CLAUDE_DIR="$HOME/.claude"
+OS="$(detect_os)" || {
+  echo "ERROR: Unsupported OS ($(uname -s)). Only macOS and Linux are supported." >&2
+  exit 2
+}
+
+LINKS="$(list_owned_links "$REPO_ROOT" "$CLAUDE_DIR" "$OS")"
+PLUGINS="$(list_tracked_plugins "$REPO_ROOT")"
+MCP="$(list_tracked_mcp_servers "$REPO_ROOT")"
+
+REPO_ROOT="$REPO_ROOT" CLAUDE_DIR="$CLAUDE_DIR" STRICT="$STRICT" \
+LINKS="$LINKS" PLUGINS="$PLUGINS" MCP="$MCP" python3 - <<'PYEOF'
+import json
+import os
+import subprocess
+import sys
+
+repo_root = os.environ["REPO_ROOT"]
+claude_dir = os.environ["CLAUDE_DIR"]
+strict = os.environ["STRICT"] == "1"
+home = os.path.expanduser("~")
+
+errors = []
+warnings = []
+
+def rows(name):
+    return [l.split("|") for l in os.environ.get(name, "").splitlines() if l.strip()]
+
+def show(p):
+    """Shorten a path for display: repo-relative, or ~-relative."""
+    for base, prefix in ((repo_root + os.sep, ""), (home + os.sep, "~/")):
+        if p.startswith(base):
+            return prefix + p[len(base):]
+    return p
+
+def load(path):
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return None
+
+# --- Owned: each path under the Claude directory is a symlink into this repo ---
+links = rows("LINKS")
+for src, dest in links:
+    if os.path.islink(dest):
+        target = os.readlink(dest)
+        if target != src:
+            errors.append(f"{show(dest)} points to {target}, not {show(src)}")
+        elif not os.path.exists(src):
+            errors.append(f"{show(dest)} points to {show(src)}, which is missing from this repo")
+    elif os.path.exists(dest):
+        errors.append(f"{show(dest)} exists but is not a symlink into this repo")
+    else:
+        errors.append(f"{show(dest)} is missing")
+
+# --- Declared plugins: the ones enabled at user scope are installed ---
+installed = {}  # "<name>@<marketplace>" -> scopes it is installed at
+data = load(os.path.join(claude_dir, "plugins", "installed_plugins.json"))
+if isinstance(data, dict):
+    for key, entries in (data.get("plugins") or {}).items():
+        if isinstance(entries, list):
+            installed[key] = {e.get("scope") for e in entries if isinstance(e, dict)}
+
+plugins = rows("PLUGINS")  # name, marketplace, source, scope
+declared_plugins = {r[0] for r in plugins}
+for name, marketplace, _source, scope in plugins:
+    # A plugin enabled only in a project template is installed per project.
+    if scope != "user":
+        continue
+    key = f"{name}@{marketplace}"
+    if "user" not in installed.get(key, set()):
+        errors.append(f"plugin {key} is enabled at user scope but not installed")
+for key in sorted(installed):
+    if key.partition("@")[0] not in declared_plugins:
+        warnings.append(f"plugin {key} is installed but not declared under user/shared/plugins/")
+
+# --- Declared MCP servers: each is registered at user scope ---
+# Only the server names are read. The entries hold API keys.
+config = load(os.path.join(home, ".claude.json"))
+registered = set((config.get("mcpServers") or {}).keys()) if isinstance(config, dict) else set()
+declared_mcp = [l for l in os.environ.get("MCP", "").splitlines() if l.strip()]
+for name in declared_mcp:
+    if name not in registered:
+        errors.append(f"MCP server {name} is declared but not registered at user scope")
+for name in sorted(registered - set(declared_mcp)):
+    warnings.append(f"MCP server {name} is registered but not declared under user/shared/mcp/")
+
+# --- Repo state: what is not on the remote cannot be reproduced from it ---
+def git(*args):
+    return subprocess.run(["git", "-C", repo_root, *args], capture_output=True, text=True)
+
+def plural(n, word):
+    return f"{n} {word}{'' if n == 1 else 's'}"
+
+status = git("status", "--porcelain")
+if status.returncode == 0:
+    n = len([l for l in status.stdout.splitlines() if l.strip()])
+    if n:
+        warnings.append(f"{plural(n, 'uncommitted change')} in this repo")
+upstream = git("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}")
+if upstream.returncode != 0:
+    warnings.append("no upstream branch is set, so unpushed commits cannot be counted")
+else:
+    ahead = git("rev-list", "--count", "@{u}..HEAD")
+    n = int(ahead.stdout.strip() or 0) if ahead.returncode == 0 else 0
+    if n:
+        warnings.append(f"{plural(n, 'commit')} not on {upstream.stdout.strip()}")
+
+# --- Report ---
+def emit(label, items):
+    if not items:
+        return
+    print(f"\n{label} ({len(items)})")
+    for msg in items:
+        print(f"  {msg}")
+
+print(f"Checked {len(links)} owned paths, {len(plugins)} declared plugins, "
+      f"{len(declared_mcp)} declared MCP servers")
+emit("ERRORS", errors)
+emit("WARNINGS", warnings)
+
+if not errors and not warnings:
+    print("\nClean.")
+elif not errors:
+    print(f"\n{len(warnings)} warning(s), no errors.")
+
+sys.exit(1 if errors or (strict and warnings) else 0)
+PYEOF
