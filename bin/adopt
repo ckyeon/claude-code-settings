@@ -16,8 +16,6 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 # shellcheck source=../lib/common.sh
 source "$REPO_ROOT/lib/common.sh"
-# shellcheck source=../lib/provenance.sh
-source "$REPO_ROOT/lib/provenance.sh"
 
 usage() {
   cat <<'EOF'
@@ -108,7 +106,10 @@ if [ -n "$COMMIT" ] && ! [[ "$COMMIT" =~ ^[0-9a-f]{7,40}$ ]]; then
   exit 1
 fi
 
-validate_mode "$MODE"
+case "$MODE" in
+  copied|inspired-by) ;;
+  *) echo "ERROR: --mode must be 'copied' or 'inspired-by', got '$MODE'" >&2; exit 1 ;;
+esac
 
 # ----- Resolve HEAD when --commit was omitted -----
 if [ -z "$COMMIT" ]; then
@@ -237,8 +238,13 @@ if [ "$PATH_IN_REPO" != "." ]; then
   CLONE_DIR="$TMPDIR/clone" SIDECAR_F="$PRE_SIDECAR" FROM_URL="$FROM" \
   NEW_SHA="$FULL_SHA" P_PATH="$PATH_IN_REPO" P_MODE="$MODE" \
   python3 - <<'PYEOF'
-import json, os, re, subprocess, sys
+import os, subprocess, sys
 
+sys.path.insert(0, os.path.join(os.environ["REPO_ROOT"], "lib"))
+import sidecars
+import structure
+
+repo_root = os.environ["REPO_ROOT"]
 clone = os.environ["CLONE_DIR"]
 new_sha = os.environ["NEW_SHA"]
 path = os.environ["P_PATH"]
@@ -262,19 +268,12 @@ sidecar = os.environ.get("SIDECAR_F")
 if not sidecar:
     sys.exit(0)
 
-def norm(u):
-    return re.sub(r"\.git$", "", u.rstrip("/"))
-
-old_pin = None
-try:
-    with open(sidecar) as f:
-        entries = json.load(f)["provenance"]
-    for e in reversed(entries):
-        if norm(e.get("source", "")) == norm(os.environ["FROM_URL"]) and e.get("commit"):
-            old_pin = e["commit"]
-            break
-except Exception:
-    sys.exit(0)
+# The old pin is this item's current pin for the source being adopted from.
+items, _unreadable = sidecars.read(repo_root)
+this = os.path.realpath(sidecar)
+item = next((i for i in items if os.path.realpath(os.path.join(repo_root, i.sidecar)) == this), None)
+pin = item.pin_for(os.environ["FROM_URL"]) if item else None
+old_pin = pin.get("commit") if pin else None
 
 if not old_pin or new_sha.startswith(old_pin):
     sys.exit(0)
@@ -299,13 +298,10 @@ removed = sorted(old - new)
 
 # Same repo-wide pass as check-updates --deep: skills and plugins added outside
 # the parent dir. lib/structure.py holds the rules both tools share.
-sys.path.insert(0, os.path.join(os.environ["REPO_ROOT"], "lib"))
-import structure
-
 elsewhere = []
 old_m, new_m = structure.marker_dirs(git, old_pin), structure.marker_dirs(git, new_sha)
 if old_m is not None and new_m is not None:
-    tracked = structure.tracked_paths(os.environ["REPO_ROOT"], os.environ["FROM_URL"]) | {path}
+    tracked = sidecars.tracked_paths(items, os.environ["FROM_URL"]) | {path}
     elsewhere = structure.added_elsewhere(old_m, new_m, tracked, added)
 
 if not added and not removed and not elsewhere:
@@ -372,7 +368,20 @@ fi
 
 # ----- Write/append sidecar -----
 ADOPTED_AT="$(date +%Y-%m-%d)"
-append_provenance "$SIDECAR" "$FROM" "$FULL_SHA" "$PATH_IN_REPO" "$LICENSE" "$MODE" "$ADOPTED_AT" "$NOTES"
+REPO_ROOT="$REPO_ROOT" PYTHONDONTWRITEBYTECODE=1 python3 - \
+  "$SIDECAR" "$FROM" "$FULL_SHA" "$PATH_IN_REPO" "$LICENSE" "$MODE" "$ADOPTED_AT" "$NOTES" <<'PYEOF'
+import os, sys
+
+sys.path.insert(0, os.path.join(os.environ["REPO_ROOT"], "lib"))
+import sidecars
+
+path, *fields = sys.argv[1:]
+try:
+    sidecars.append(path, sidecars.new_entry(*fields))
+except ValueError as e:
+    print(f"ERROR: {e}", file=sys.stderr)
+    sys.exit(1)
+PYEOF
 echo "Sidecar updated: $SIDECAR"
 
 # ----- Auto-refresh SOURCES.md -----

@@ -33,6 +33,7 @@ skills_dir = os.path.join(repo_root, "user", "shared", "skills")
 
 sys.path.insert(0, os.path.join(repo_root, "lib"))
 import declarations
+import sidecars
 
 errors = []   # (rel_path, line, message)
 warnings = []
@@ -174,40 +175,9 @@ for scope_dir, resolvable, full in scopes:
                 if not os.path.exists(os.path.join(sdir, target)):
                     errors.append((r, i, f"broken link: {target}"))
 
-# --- Provenance sidecars (same walk as bin/sources-index) ---
-REQUIRED = ("source", "commit", "path", "license", "adopted-as")
-# Top-level keys some tool reads. Anything else is ignored everywhere, so a
-# misspelled "track" would silently compare against HEAD again (ADR 0066).
-TOP_LEVEL_KEYS = ("provenance", "track")
-TRACKS = ("release", "marketplace")  # must match bin/check-updates
-for root, dirs, files in os.walk(repo_root):
-    dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
-    for fname in files:
-        if fname != ".provenance.json" and not fname.endswith(".provenance.json"):
-            continue
-        p = os.path.join(root, fname)
-        r = rel(p)
-        try:
-            data = json.load(open(p, encoding="utf-8"))
-        except Exception as e:
-            errors.append((r, 1, f"invalid JSON: {e}"))
-            continue
-        prov = data.get("provenance") if isinstance(data, dict) else None
-        if not isinstance(prov, list) or not prov:
-            errors.append((r, 1, "provenance[] missing or empty"))
-            continue
-        unknown = sorted(k for k in data if k not in TOP_LEVEL_KEYS)
-        if unknown:
-            errors.append((r, 1, f"unknown top-level key(s): {', '.join(unknown)}"))
-        if "track" in data and data["track"] not in TRACKS:
-            errors.append((r, 1, f"track {data['track']!r} is not one of: {', '.join(TRACKS)}"))
-        for idx, entry in enumerate(prov):
-            # `source: "self"` marks a deliberate divergence from upstream — the
-            # content is now ours, so there is no commit/path/license to pin.
-            required = ("source", "adopted-as") if entry.get("source") == "self" else REQUIRED
-            missing = [k for k in required if not entry.get(k)]
-            if missing:
-                errors.append((r, 1, f"provenance[{idx}] missing: {', '.join(missing)}"))
+# --- Provenance sidecars ---
+for sidecar, problem in sidecars.validate(repo_root):
+    errors.append((sidecar, 1, problem))
 
 # --- Declarations: every declared item carries the command that creates it ---
 # A declared item is reproduced by running a command on the machine (ADR 0074),

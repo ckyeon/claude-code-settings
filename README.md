@@ -93,7 +93,7 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 ├── CLAUDE.md                   # project-scope agent instructions (for this repo)
 ├── GLOSSARY.md                 # terms: reproduce, owned, declared, out of scope
 ├── SOURCES.md                  # auto-generated provenance index
-├── lib/common.sh               # shared bash helpers
+├── lib/                        # common.sh for the bash scripts, *.py modules the tools import
 ├── bin/
 │   ├── adopt                   # adopt items from external repos
 │   ├── sources-index           # regenerate SOURCES.md

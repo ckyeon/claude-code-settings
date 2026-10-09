@@ -6,49 +6,22 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_ROOT"
 
-REPO_ROOT="$REPO_ROOT" python3 - <<'PYEOF'
-import json
+REPO_ROOT="$REPO_ROOT" PYTHONDONTWRITEBYTECODE=1 python3 - <<'PYEOF'
 import os
 import sys
 from datetime import date
 
 repo_root = os.environ["REPO_ROOT"]
 
-sidecars = []
-for root, dirs, files in os.walk(repo_root):
-    # Skip .git and other version-control noise
-    dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
-    for name in files:
-        if name == ".provenance.json" or name.endswith(".provenance.json"):
-            sidecars.append(os.path.join(root, name))
-sidecars.sort()
+sys.path.insert(0, os.path.join(repo_root, "lib"))
+import sidecars
 
-# (local_path_str, entry_dict)
-entries = []
-for s in sidecars:
-    rel = os.path.relpath(s, repo_root)
-    basename = os.path.basename(s)
-    if basename == ".provenance.json":
-        # Folder-level sidecar — describes the parent directory
-        local = os.path.dirname(rel)
-    else:
-        # File-level sidecar — describes the file sans .provenance.json suffix
-        local = rel[: -len(".provenance.json")]
+items, unreadable = sidecars.read(repo_root)
+for rel, reason in unreadable:
+    print(f"WARN: skipping unreadable sidecar {rel}: {reason}", file=sys.stderr)
 
-    try:
-        with open(s) as f:
-            data = json.load(f)
-    except Exception as e:
-        print(f"WARN: skipping malformed sidecar {rel}: {e}", file=sys.stderr)
-        continue
-
-    prov = data.get("provenance") if isinstance(data, dict) else None
-    if not isinstance(prov, list):
-        print(f"WARN: skipping {rel}: missing or non-list 'provenance' field", file=sys.stderr)
-        continue
-
-    for entry in prov:
-        entries.append((local, entry))
+# (local_path_str, entry_dict): every entry, history included
+entries = [(item.local, entry) for item in items for entry in item.entries]
 
 today = date.today().isoformat()
 lines = [
@@ -108,7 +81,7 @@ with open(os.path.join(repo_root, "SOURCES.md"), "w") as f:
     f.write("\n".join(lines))
 
 n_entries = len(entries)
-n_files = len(sidecars)
+n_files = len(items) + len(unreadable)
 print(
     "Wrote SOURCES.md ({n_e} entr{ey} across {n_f} sidecar file{s}).".format(
         n_e=n_entries,

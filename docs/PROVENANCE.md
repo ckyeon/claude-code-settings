@@ -195,7 +195,7 @@ Each provenance entry records the upstream `license`. The auto-generated `SOURCE
 | `bin/adopt` | Adoption helper — record sources |
 | `bin/sources-index` | Regenerate `SOURCES.md` |
 | `bin/check-integrity` | Static validation of sidecars and skill cross-references |
-| `lib/provenance.sh` | Shared helpers (used by both binaries) |
+| `lib/sidecars.py` | Reads, appends to, and validates sidecars. Every tool goes through it |
 | `SOURCES.md` | Auto-generated index, committed alongside content |
 | `docs/PROVENANCE.md` | This document |
 

@@ -40,45 +40,28 @@ import tempfile
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.join(os.environ["REPO_ROOT"], "lib"))
+import sidecars
 import structure
 
 repo_root = os.environ["REPO_ROOT"]
 deep = os.environ.get("DEEP") == "1"
 
-# --- Discover sidecars (same walk as bin/sources-index) ---
+# --- Read sidecars: one entry to check per current pin ---
+all_items, unreadable = sidecars.read(repo_root)
+for rel, reason in unreadable:
+    print(f"WARN: skipping unreadable sidecar {rel}: {reason}", file=sys.stderr)
+
 items = []  # dicts: local, source, commit, path, adopted_as, license, track, and later target, target_note
-for root, dirs, files in os.walk(repo_root):
-    dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
-    for name in files:
-        if name != ".provenance.json" and not name.endswith(".provenance.json"):
-            continue
-        sidecar = os.path.join(root, name)
-        rel = os.path.relpath(sidecar, repo_root)
-        local = os.path.dirname(rel) if name == ".provenance.json" else rel[: -len(".provenance.json")]
-
-        try:
-            with open(sidecar) as f:
-                data = json.load(f)
-        except Exception as e:
-            print(f"WARN: skipping {rel}: {e}", file=sys.stderr)
-            continue
-
-        prov = data.get("provenance") if isinstance(data, dict) else None
-        if not isinstance(prov, list) or not prov:
-            continue
-
-        entry = prov[-1]  # latest entry
-        source = entry.get("source", "")
-        if not source or source == "self":
-            continue
+for item in all_items:
+    for pin in item.current_pins():
         items.append({
-            "local": local,
-            "source": source,
-            "commit": entry.get("commit", ""),
-            "path": entry.get("path", ""),
-            "adopted_as": entry.get("adopted-as", ""),
-            "license": entry.get("license", ""),
-            "track": data.get("track", ""),
+            "local": item.local,
+            "source": pin["source"],
+            "commit": pin.get("commit", ""),
+            "path": pin.get("path", ""),
+            "adopted_as": pin.get("adopted-as", ""),
+            "license": pin.get("license", ""),
+            "track": item.track,
         })
 
 if not items:
@@ -395,10 +378,8 @@ for it in sorted(outdated_items, key=lambda x: (x["source"], x["local"])):
 # parent dirs (skills/in-progress next to a tracked skills/engineering): any
 # directory that gained a SKILL.md or .claude-plugin/plugin.json between pin
 # and head. lib/structure.py holds the rules for what that pass leaves out.
-tracked_paths = {}  # source -> set of every tracked upstream path (all pins)
-for it in items:
-    if it["path"] and it["path"] != ".":
-        tracked_paths.setdefault(it["source"], set()).add(it["path"])
+def tracked_paths(src):
+    return sidecars.tracked_paths(all_items, src)
 
 def ls_entries(src, sha, root):
     args = ["ls-tree", "--name-only", sha]
@@ -435,14 +416,14 @@ for src, pin, head in scan_keys:
             "scope": "sibling",
             "added": added, "removed": removed,
             "removed_tracked": sorted(p for p in removed
-                                      if p in tracked_paths.get(src, set())),
+                                      if p in tracked_paths(src)),
         })
     def clone_git(*args, src=src):
         return git_in_clone(src, *args, timeout=300)
     old_m, new_m = structure.marker_dirs(clone_git, pin), structure.marker_dirs(clone_git, head)
     if old_m is None or new_m is None:
         continue
-    elsewhere = structure.added_elsewhere(old_m, new_m, tracked_paths.get(src, set()), reported)
+    elsewhere = structure.added_elsewhere(old_m, new_m, tracked_paths(src), reported)
     if elsewhere:
         struct_records.append({
             "source": src, "pin": pin, "head": head, "root": ".",

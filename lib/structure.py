@@ -3,9 +3,7 @@
 Finds the skills and plugins an upstream added between two commits outside
 the directories the sibling pass already compares.
 """
-import json
 import os
-import re
 
 # A directory holding one of these is a skill or a plugin.
 MARKERS = ("/SKILL.md", "/.claude-plugin/plugin.json")
@@ -53,29 +51,3 @@ def added_elsewhere(old_markers, new_markers, tracked, reported):
         if not any(under(d, k) for k in known)
         and os.path.dirname(d) not in tracked_parents
         and not any(a in new_markers for a in ancestors(d)))
-
-
-def normalize(url):
-    return re.sub(r"\.git$", "", (url or "").rstrip("/"))
-
-
-def tracked_paths(repo_root, source):
-    """Upstream paths that any sidecar in the repo records for this source."""
-    want = normalize(source)
-    paths = set()
-    for root, dirs, files in os.walk(repo_root):
-        dirs[:] = [d for d in dirs if d not in (".git", "node_modules")]
-        for fname in files:
-            if not fname.endswith(".provenance.json"):
-                continue
-            try:
-                with open(os.path.join(root, fname), encoding="utf-8") as f:
-                    entries = json.load(f).get("provenance") or []
-            except (OSError, ValueError, AttributeError):
-                continue
-            for entry in entries:
-                if not isinstance(entry, dict) or normalize(entry.get("source")) != want:
-                    continue
-                if entry.get("path") and entry["path"] != ".":
-                    paths.add(entry["path"])
-    return paths

@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# Tests for the tools under bin/.
+# Tests for the tools under bin/ and the modules under lib/.
 #
-# Builds a throwaway copy of the tooling plus a fake upstream in a temp dir and
-# runs the tools there with HOME pointed at an empty directory. Nothing touches
-# the real repo, ~/.claude, or the network.
+# Two layers. The modules in lib/*.py are tested at their own interface by
+# tests/test_*.py (unittest). The tools are tested end to end here: a throwaway
+# copy of the tooling plus a fake upstream in a temp dir, run with HOME pointed
+# at an empty directory. Nothing touches the real repo, ~/.claude, or the network.
 #
 # Usage: tests/run.sh
 # Exit: 0 when every check passes, 1 otherwise.
@@ -34,6 +35,14 @@ eq() { if [ "$2" = "$3" ]; then ok "$1"; else bad "$1" "expected: $3"$'\n'"actua
 git_clean() { HOME="$TMP/home" GIT_CONFIG_NOSYSTEM=1 git -c user.name=test -c user.email=test@example.invalid "$@"; }
 # run <command...> — inside the sandbox repo, output and stderr together.
 run() { (cd "$REPO" && HOME="$TMP/home" GIT_CONFIG_NOSYSTEM=1 TMPDIR="$TMP/tmp" "$@") 2>&1; }
+
+# ----- Module tests ----------------------------------------------------------
+echo "lib modules (unittest)"
+if out="$(PYTHONDONTWRITEBYTECODE=1 python3 -W error -m unittest discover -s "$ROOT/tests" -p 'test_*.py' 2>&1)"; then
+  ok "$(printf '%s\n' "$out" | grep '^Ran ')"
+else
+  bad "module tests" "$out"
+fi
 
 # ----- Fake upstream ---------------------------------------------------------
 UP="$TMP/upstream"
@@ -295,8 +304,7 @@ d["trak"] = "release"
 json.dump(d, open(p, "w"))
 PY
 out="$(run bin/check-integrity)"; rc=$?
-eq "an unknown sidecar top-level key exits 1" "$rc" "1"
-has "the unknown key is named" "$out" "unknown top-level key(s): trak"
+eq "an invalid sidecar exits 1" "$rc" "1"
 
 # ----- install.sh and bin/check-machine --------------------------------------
 echo "install.sh and bin/check-machine"

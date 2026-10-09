@@ -14,6 +14,9 @@ Thumbs.db
 *.backup-*
 *.bak
 
+# Python bytecode (the tools set PYTHONDONTWRITEBYTECODE, this is a backstop)
+__pycache__/
+
 # direnv
 .envrc
 .direnv/
