@@ -53,7 +53,7 @@ Just create the file or folder under `user/shared/{skills,commands,agents,hooks,
 
 ### Check for upstream updates
 
-Run `bin/check-updates` or use the `/check-updates` skill in a Claude Code session. The script compares pinned commits against upstream HEAD, or against the newest stable release or the marketplace's pinned sha when a sidecar sets a top-level `track` (see `docs/PROVENANCE.md`). In `--deep` mode it also reports upstream entries added or removed next to tracked paths, meaning new or deleted skills, with a warning when a removed entry is adopted here. The skill layers judgment on top: whether tracked paths actually changed, and what the structural changes mean.
+Run `bin/check-updates` or use the `/check-updates` skill in a Claude Code session. The script compares pinned commits against upstream HEAD, or against the newest stable release or the marketplace's pinned sha when a sidecar sets a top-level `track` (see `docs/PROVENANCE.md`). In `--deep` mode it also reports upstream entries added or removed next to tracked paths, meaning new or deleted skills, with a warning when a removed entry is adopted here, plus skills and plugins added anywhere else in the source repo (ADR 0070). The skill layers judgment on top: whether tracked paths actually changed, and what the structural changes mean.
 
 ### Check that adopted items still work
 
@@ -84,7 +84,7 @@ Steps:
 
 ### Update an adoption to a newer upstream commit
 
-Re-run `bin/adopt` against the same destination with the new SHA. The sidecar's `provenance[]` list gets a new entry appended. The older entry stays as history. `bin/adopt` compares the old and new pins itself and warns when upstream added or removed entries next to the path (new or deleted sibling skills), or when an `inspired-by` path no longer exists at the new commit. A hand-run re-pin therefore gets the same structural check as `check-updates --deep` (ADR 0039).
+Re-run `bin/adopt` against the same destination with the new SHA. The sidecar's `provenance[]` list gets a new entry appended. The older entry stays as history. `bin/adopt` compares the old and new pins itself and warns when upstream added or removed entries next to the path (new or deleted sibling skills), when it added a skill or plugin elsewhere in the repo, or when an `inspired-by` path no longer exists at the new commit. A hand-run re-pin therefore gets the same structural check as `check-updates --deep` (ADR 0039, ADR 0070).
 
 ## Guardrails
 

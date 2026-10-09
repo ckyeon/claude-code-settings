@@ -8,7 +8,8 @@
 # Auto-refreshes SOURCES.md at the end (suppress with --no-index) and verifies
 # the result with bin/check-integrity (suppress with --no-check). On a re-pin it
 # also warns when upstream added/removed entries next to --path since the
-# previous pin, and (inspired-by) when --path no longer exists at the commit.
+# previous pin or added a skill or plugin elsewhere in the repo, and
+# (inspired-by) when --path no longer exists at the commit.
 # Does NOT commit on your behalf by default — prints a suggested git command.
 # Pass --commit-now to have this script create the commit itself.
 
@@ -55,8 +56,9 @@ Outputs:
   - Runs bin/check-integrity and warns if the adopted item references
     skills that are not installed (unless --no-check)
   - On a re-pin, warns when upstream added/removed entries next to --path
-    since the previous pin (new/deleted sibling skills), and in inspired-by
-    mode when --path itself no longer exists at the new commit
+    since the previous pin (new/deleted sibling skills) or added a skill or
+    plugin elsewhere in the repo, and in inspired-by mode when --path itself
+    no longer exists at the new commit
   - Prints a `git commit` command with trailers, or creates the commit
     directly when --commit-now is passed.
 EOF
@@ -222,8 +224,9 @@ echo "  Commit: $FULL_SHA"
 
 # ----- Structural drift + path-existence warnings (never fail) -----
 # check-updates --deep reports new/removed upstream entries next to tracked
-# paths, but a hand-run re-pin skips that scan; the clone is already here, so
-# the same comparison costs two ls-tree calls.
+# paths and skills or plugins added elsewhere in the repo, but a hand-run
+# re-pin skips that scan; the clone is already here, so the same comparison
+# costs four ls-tree calls.
 if [ "$PATH_IN_REPO" != "." ]; then
   if [ -f "$TO/.provenance.json" ]; then
     PRE_SIDECAR="$TO/.provenance.json"
@@ -294,12 +297,43 @@ if old is None or new is None:
     sys.exit(0)
 added = sorted(new - old)
 removed = sorted(old - new)
-if not added and not removed:
+
+# Same repo-wide pass as check-updates --deep: skills and plugins added outside
+# the parent dir, found as directories that gained a marker file since the pin.
+MARKERS = ("/SKILL.md", "/.claude-plugin/plugin.json")
+
+def marker_dirs(sha):
+    res = git("ls-tree", "-r", "-z", "--name-only", sha)
+    if res.returncode != 0:
+        return None
+    return {p[:-len(m)] for p in res.stdout.split("\0")
+            for m in MARKERS if p.endswith(m)}
+
+def under(p, base):
+    return p == base or p.startswith(base + "/")
+
+def ancestors(p):
+    while "/" in p:
+        p = p.rsplit("/", 1)[0]
+        yield p
+
+elsewhere = []
+old_m, new_m = marker_dirs(old_pin), marker_dirs(new_sha)
+if old_m is not None and new_m is not None:
+    known = set(added) | {path}
+    elsewhere = sorted(
+        d for d in new_m - old_m
+        if not any(under(d, k) for k in known)
+        and not any(a in new_m for a in ancestors(d)))
+
+if not added and not removed and not elsewhere:
     sys.exit(0)
 warn("")
-warn(f"⚠  Upstream structure changed next to '{path}' between {old_pin[:8]} and {new_sha[:8]}:")
+warn(f"⚠  Upstream structure changed around '{path}' between {old_pin[:8]} and {new_sha[:8]}:")
 for p in added:
     warn(f"     NEW      {p}")
+for p in elsewhere:
+    warn(f"     NEW      {p}  (outside tracked dirs)")
 for p in removed:
     warn(f"     REMOVED  {p}")
 warn("   Run bin/check-updates --deep (or /check-updates) to judge these.")

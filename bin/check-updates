@@ -7,9 +7,11 @@
 #   bin/check-updates --deep   Also clone outdated sources (blobless), check
 #                              whether each tracked path actually changed, and
 #                              list upstream entries added/removed next to the
-#                              tracked paths (new/deleted skills). Leaves clones
-#                              + per-item logs/diffs in a temp workdir (printed
-#                              at the end); caller is responsible for cleanup.
+#                              tracked paths (new/deleted skills), plus skills
+#                              and plugins added anywhere else in the repo.
+#                              Leaves clones + per-item logs/diffs in a temp
+#                              workdir (printed at the end); caller is
+#                              responsible for cleanup.
 
 set -euo pipefail
 
@@ -21,7 +23,7 @@ for arg in "$@"; do
   case "$arg" in
     --deep) DEEP=1 ;;
     -h|--help)
-      sed -n '2,12p' "$0" | sed 's/^# \{0,1\}//'
+      sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'
       exit 0
       ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
@@ -385,6 +387,12 @@ for it in sorted(outdated_items, key=lambda x: (x["source"], x["local"])):
 # Compares pin vs head listings of each tracked path's parent dir, so entries
 # that predate the pin (deliberately not adopted) don't show up as noise.
 # Whole-repo items (path ".") are skipped — their git log already covers all.
+#
+# A second, repo-wide pass catches skills and plugins added outside those
+# parent dirs (skills/in-progress next to a tracked skills/engineering): any
+# directory that gained a SKILL.md or .claude-plugin/plugin.json between pin
+# and head. Entries the first pass already reports, entries inside a tracked
+# path, and entries nested in another skill or plugin are left out.
 tracked_paths = {}  # source -> set of every tracked upstream path (all pins)
 for it in items:
     if it["path"] and it["path"] != ".":
@@ -399,6 +407,24 @@ def ls_entries(src, sha, root):
         return None
     return {l for l in res.stdout.splitlines() if l.strip()}
 
+MARKERS = ("/SKILL.md", "/.claude-plugin/plugin.json")
+
+def marker_dirs(src, sha):
+    """Every directory holding a skill or plugin marker file at sha."""
+    res = git_in_clone(src, "ls-tree", "-r", "-z", "--name-only", sha, timeout=300)
+    if res.returncode != 0:
+        return None
+    return {p[:-len(m)] for p in res.stdout.split("\0")
+            for m in MARKERS if p.endswith(m)}
+
+def under(p, base):
+    return p == base or p.startswith(base + "/")
+
+def ancestors(p):
+    while "/" in p:
+        p = p.rsplit("/", 1)[0]
+        yield p
+
 struct_records = []
 scan_keys = sorted({(it["source"], it["commit"], it["target"]) for it in outdated_items
                     if it["path"] and it["path"] != "."})
@@ -409,6 +435,7 @@ for src, pin, head in scan_keys:
                     if it["source"] == src and it["commit"] == pin
                     and it["target"] == head
                     and it["path"] and it["path"] != "."})
+    reported = set()  # NEW entries the parent-dir pass already lists
     for root in roots:
         old = ls_entries(src, pin, root)
         new = ls_entries(src, head, root)
@@ -418,11 +445,27 @@ for src, pin, head in scan_keys:
         removed = sorted(old - new)
         if not added and not removed:
             continue
+        reported.update(added)
         struct_records.append({
             "source": src, "pin": pin, "head": head, "root": root or ".",
+            "scope": "sibling",
             "added": added, "removed": removed,
             "removed_tracked": sorted(p for p in removed
                                       if p in tracked_paths.get(src, set())),
+        })
+    old_m, new_m = marker_dirs(src, pin), marker_dirs(src, head)
+    if old_m is None or new_m is None:
+        continue
+    known = reported | tracked_paths.get(src, set())
+    elsewhere = sorted(
+        d for d in new_m - old_m
+        if not any(under(d, k) for k in known)
+        and not any(a in new_m for a in ancestors(d)))
+    if elsewhere:
+        struct_records.append({
+            "source": src, "pin": pin, "head": head, "root": ".",
+            "scope": "elsewhere",
+            "added": elsewhere, "removed": [], "removed_tracked": [],
         })
 
 # --- Deep report ---
@@ -461,7 +504,8 @@ for src in sorted(by_source):
             if ("added", p) not in seen:
                 seen.add(("added", p))
                 added_total += 1
-                print(f"  NEW      upstream added   {p}")
+                mark = "  (outside tracked dirs)" if srec["scope"] == "elsewhere" else ""
+                print(f"  NEW      upstream added   {p}{mark}")
         for p in srec["removed"]:
             if ("removed", p) not in seen:
                 seen.add(("removed", p))
