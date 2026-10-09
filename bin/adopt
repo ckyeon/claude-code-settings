@@ -7,9 +7,7 @@
 #
 # Auto-refreshes SOURCES.md at the end (suppress with --no-index) and verifies
 # the result with bin/check-integrity (suppress with --no-check). On a re-pin it
-# also warns when upstream added/removed entries next to --path since the
-# previous pin or added a skill or plugin elsewhere in the repo, and
-# (inspired-by) when --path no longer exists at the commit.
+# also warns about upstream structure changes (--help lists them).
 # Does NOT commit on your behalf by default — prints a suggested git command.
 # Pass --commit-now to have this script create the commit itself.
 

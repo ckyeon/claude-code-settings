@@ -68,7 +68,7 @@ Group findings into three categories:
 
 **업데이트 필요** — changed items, enriched with the agents' verdicts (substantive vs cosmetic, risk flags). For `copied` items emphasize that local files are stale; for `inspired-by` items only the provenance pin needs updating.
 
-**upstream 구조 변경** — `NEW`/`REMOVED` entries, with the agents' one-line descriptions and verdicts. Lead with any `** adopted here **` removal — the local copy has lost its upstream and the user must decide what to do with it. Each `NEW` entry is its own adopt-or-skip decision: give it a line with the description and your recommendation, and ask the user about it directly, including when it matters only because an updated item routes to it. End the category with one line stating the scan's coverage: new skills and plugins were compared across each whole repo, while agents, commands, hooks, and MCP servers were compared only inside the tracked paths' parent directories.
+**upstream 구조 변경** — `NEW`/`REMOVED` entries, with the agents' one-line descriptions and verdicts. Lead with any `** adopted here **` removal — the local copy has lost its upstream and the user must decide what to do with it. Each `NEW` entry is its own adopt-or-skip decision: give it a line with the description and your recommendation, and ask the user about it directly, including when it matters only because an updated item routes to it. End the category with one line stating the scan's coverage, using the limits Step 2 describes.
 
 **pin만 뒤처짐 (실질 변경 없음)** — pin-only items. These can be re-pinned for accuracy, but there's no urgency.
 

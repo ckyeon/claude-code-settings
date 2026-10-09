@@ -1,8 +1,8 @@
-# 0069 — mattpocock 외 26개 항목을 2026-10-09 upstream으로 재pin
+# 0069 — mattpocock 외 26개 항목을 2026-10-09 upstream으로 re-pin
 
-2026-10-09 `check-updates --deep` 결과 16개 source 중 12개가 뒤처져 있었다. 변경 29건, pin만 뒤처진 22건, upstream 신규 5건, upstream 삭제 1건이었다. 이 중 `mattpocock/skills`의 25건을 뺀 26건을 재pin했다. `mattpocock/skills`에는 `CONTEXT.md`를 `GLOSSARY.md`로 바꾸는 breaking 변경과 adopt한 skill의 삭제가 섞여 있어 따로 결정한다.
+2026-10-09 `check-updates --deep` 결과 16개 source 중 12개가 뒤처져 있었다. 변경 29건, pin만 뒤처진 22건, upstream 신규 5건, upstream 삭제 1건이었다. 이 중 `mattpocock/skills`의 25건을 뺀 26건을 re-pin했다. `mattpocock/skills`에는 `CONTEXT.md`를 `GLOSSARY.md`로 바꾸는 breaking 변경과 adopt한 skill의 삭제가 섞여 있어 따로 결정한다.
 
-## 실질 변경 요약
+## 바뀐 내용
 
 copied 항목은 local 내용이 바뀌었다.
 
@@ -29,6 +29,6 @@ pin만 뒤처진 15건은 내용 변경이 없다. `claude-plugins-official` 7�
 
 ## Consequences
 
-- copied 6건은 재adopt 전 local 사본이 pin과 같았으므로 덮어쓴 local 수정은 없다.
+- copied 6건은 re-pin 전 local 사본이 pin과 같았으므로 덮어쓴 local 수정은 없다.
 - `project-templates/video/CLAUDE.md`와 `ffmpeg-recipes/references/cut-and-join.md`는 auto-editor 31.6.0에서 측정한 동작을 적고 있다. `auto-editor-effects`의 새 예시 `pixelate:1..64`는 31.7.0 이상에서만 동작하므로, video template 안에 기준 version이 둘이 됐다.
 - upstream과 어긋난 local README 세 곳은 이번 변경 이전부터 있던 것이라 고치지 않았다. `understand-anything`의 graph 경로와 marketplace owner, `remotion`의 파일 수, `github`의 pin 표기다.

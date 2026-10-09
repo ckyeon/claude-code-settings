@@ -1,6 +1,6 @@
-# linear (provenance-only, README-only)
+# linear (declared, README-only)
 
-This directory exists for tracking only. The Linear MCP server is **not** vendored here — it's a hosted HTTP MCP server operated by Linear at `mcp.linear.app`, and Linear does not publish its source. There is therefore no `.provenance.json` sidecar (nothing to pin); this README is the whole record. See [`../README.md`](../README.md) § "Adding a server", step 2.
+This directory is a declaration. The Linear MCP server is **not** vendored here — it's a hosted HTTP MCP server operated by Linear at `mcp.linear.app`, and Linear does not publish its source. There is therefore no `.provenance.json` sidecar (nothing to pin); this README is the whole record. See [`../README.md`](../README.md) § "Adding a server", step 2.
 
 Official docs: <https://linear.app/docs/mcp>.
 

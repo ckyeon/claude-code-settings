@@ -1,6 +1,6 @@
-# understand-anything (provenance-only)
+# understand-anything (declared)
 
-This directory exists for provenance tracking only. The understand-anything plugin is **not**
+This directory is a declaration. The understand-anything plugin is **not**
 vendored here.
 
 ## How it's actually installed
@@ -37,6 +37,6 @@ already manages — see [[../codex]], [[../hookify]], [[../claude-md-management]
 Node/TypeScript runtime that can't be split sensibly, the same reason [[../hookify]] is tracked
 whole.
 
-This is the second tracked plugin from a non-Anthropic marketplace (after [[../codex]]). The
+This is the second declared plugin from a non-Anthropic marketplace (after [[../codex]]). The
 `.provenance.json` next to this README pins the upstream commit so this repo's `SOURCES.md` still
 records that understand-anything is part of the user's setup.

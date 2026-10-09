@@ -1,6 +1,6 @@
-# remotion (provenance-only)
+# remotion (declared)
 
-This directory exists for provenance tracking only. The remotion plugin is **not** vendored here.
+This directory is a declaration. The remotion plugin is **not** vendored here.
 
 ## What it does
 

@@ -1,6 +1,6 @@
-# skill-creator (provenance-only)
+# skill-creator (declared)
 
-This directory exists for provenance tracking only. The skill-creator plugin is **not** vendored here.
+This directory is a declaration. The skill-creator plugin is **not** vendored here.
 
 ## How it's actually installed
 

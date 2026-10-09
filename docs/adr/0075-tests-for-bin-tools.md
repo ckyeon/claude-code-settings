@@ -4,7 +4,7 @@
 
 `tests/run.sh` 하나로 실행한다. 임시 디렉터리에 `bin/`과 `lib/`의 사본, 가짜 `file://` upstream을 만들고 그 안에서 도구를 돌린다. `HOME`을 빈 디렉터리로 바꿔서 실행하므로 실제 repo, `~/.claude`, network를 건드리지 않는다. 의존성은 bash 3.2와 Python 3 stdlib뿐이다.
 
-처음 담은 것은 기존 동작을 확인하는 40개 check다. `bin/adopt`의 첫 adopt와 재pin, upstream이 지운 파일의 정리, 구조 변화 경고, `bin/check-updates`의 fast와 deep 판정, `bin/check-integrity`의 참조 검사와 sidecar 검증을 다룬다.
+처음 담은 것은 기존 동작을 확인하는 40개 check다. `bin/adopt`의 첫 adopt와 re-pin, upstream이 지운 파일의 정리, 구조 변화 경고, `bin/check-updates`의 fast와 deep 판정, `bin/check-integrity`의 참조 검사와 sidecar 검증을 다룬다.
 
 ## Considered Options
 

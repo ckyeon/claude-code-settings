@@ -207,7 +207,7 @@ rm -rf "$REPO/user/shared/skills/caller"
 
 echo "bin/check-integrity (template skills)"
 
-tskill() { # tskill <name> <body> — a skill in the fixture template; its
+tskill() { # tskill <name> <body> — a skill in the fixture template. Its
   # frontmatter name deliberately differs from the directory, as upstreams do.
   mkdir -p "$REPO/project-templates/t/.claude/skills/$1"
   printf -- '---\nname: upstream-%s\ndescription: fixture\n---\n%s\n' "$1" "$2" \

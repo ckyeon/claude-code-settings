@@ -1,6 +1,6 @@
-# hookify (provenance-only)
+# hookify (declared)
 
-This directory exists for provenance tracking only. The hookify plugin is **not** vendored here.
+This directory is a declaration. The hookify plugin is **not** vendored here.
 
 ## How it's actually installed
 

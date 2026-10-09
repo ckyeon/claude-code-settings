@@ -1,6 +1,6 @@
-# fetch (provenance-only)
+# fetch (declared)
 
-This directory exists for provenance tracking only. The fetch MCP server is **not** vendored here — its source lives at [github.com/modelcontextprotocol/servers/tree/main/src/fetch](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch), distributed as the `mcp-server-fetch` Python package and run on-demand via `uvx`.
+This directory is a declaration. The fetch MCP server is **not** vendored here — its source lives at [github.com/modelcontextprotocol/servers/tree/main/src/fetch](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch), distributed as the `mcp-server-fetch` Python package and run on-demand via `uvx`.
 
 ## What it provides
 

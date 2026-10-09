@@ -1,6 +1,6 @@
-# user/shared/mcp/ — MCP server tracking (provenance-only)
+# user/shared/mcp/ — declared MCP servers
 
-This directory records which Model Context Protocol (MCP) servers belong to the user-scope setup, **without** copying server source or storing any secrets. The actual server registration lives in `~/.claude.json` (or `~/.claude/mcp.json` on some setups), which is machine-local and out-of-band by design — see the repo `README.md`'s "deliberately does NOT manage" list.
+This directory records which Model Context Protocol (MCP) servers belong to the user-scope setup, **without** copying server source or storing any secrets. The actual server registration lives in `~/.claude.json` (or `~/.claude/mcp.json` on some setups), which is machine-local and out of scope. See the repo `README.md` § "Scope".
 
 Mirrors the [`user/shared/plugins/`](../plugins/) pattern: one subdirectory per server, each containing a human-readable `README.md` and an optional `.provenance.json` sidecar when upstream git source exists.
 
@@ -40,8 +40,8 @@ Secrets — API keys, tokens, OAuth refresh tokens — must never appear here. T
              --license <SPDX>
    ```
    Omit `--commit` to pin upstream HEAD. For servers with no public source (claude.ai connectors, hosted-only HTTP MCPs without a published repo), skip this step — the README alone is enough.
-3. Register on this machine (or any new machine) by running the command from the new README. `install.sh` prints a reminder listing tracked servers so you don't forget.
+3. Register on this machine (or any new machine) by running the command from the new README. `install.sh` prints a reminder listing declared servers so you don't forget.
 
-## Tracked servers
+## Declared servers
 
 Run `ls user/shared/mcp/` or check `SOURCES.md` for the current set. Canonical example: [`context7/`](context7/).

@@ -33,6 +33,10 @@ _Avoid_: 관리 안 함, 미관리
 출처가 있는 항목에 대해, 마지막으로 내용을 검토한 upstream의 시점. 기기에 설치된 version을 뜻하지 않는다.
 _Avoid_: 설치 version, 현재 version
 
+**re-pin**:
+출처가 있는 항목의 pin을 더 새로운 upstream 시점으로 옮기는 일. 내용을 복사해 온 항목이면 내용도 그 시점의 것으로 바뀐다.
+_Avoid_: 재pin, 재adopt, 재동기화
+
 **추적(track)**:
-출처가 있는 항목을 upstream의 어느 시점과 비교할지 정하는 일.
+출처가 있는 항목의 upstream 경로를 pin과 비교해 지켜보는 일. 그 경로를 tracked path라고 부른다.
 _Avoid_: 목록에 올린다는 뜻으로 쓰는 추적

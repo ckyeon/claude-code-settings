@@ -19,7 +19,7 @@ repo가 선언한 plugin과 MCP server가 기기에 실제로 있는지 확인�
 - **소유 대상의 목록은 한 곳에 둔다.** `install.sh`에 있던 연결 목록을 `lib/common.sh`의 `list_owned_links`로 옮겼다. `install.sh`는 그 목록으로 연결하고 `check-machine`은 같은 목록을 검증한다.
 - **template에서만 활성화한 plugin은 설치를 요구하지 않는다.** `typescript-lsp`처럼 프로젝트마다 설치하는 plugin이다.
 - **`~/.claude.json`에서는 MCP server의 이름만 읽는다.** 항목 안에 API key가 있다. secret의 존재는 확인하지 않는다(ADR 0077).
-- **미commit 변경과 미push commit은 경고다.** 원격에 없는 것은 재현되지 않지만, push는 요청이 있을 때만 하므로(ADR 0073) 오류로 두면 작업 중에는 늘 실패한다.
+- **commit하지 않은 변경과 push하지 않은 commit은 경고다.** 원격에 없는 것은 재현되지 않지만, push는 요청이 있을 때만 하므로(ADR 0073) 오류로 두면 작업 중에는 늘 실패한다.
 
 ## Consequences
 

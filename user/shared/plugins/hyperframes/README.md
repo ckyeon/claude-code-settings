@@ -1,6 +1,6 @@
-# hyperframes (provenance-only)
+# hyperframes (declared)
 
-This directory exists for provenance tracking only. The hyperframes plugin is **not** vendored here.
+This directory is a declaration. The hyperframes plugin is **not** vendored here.
 
 ## What it does
 

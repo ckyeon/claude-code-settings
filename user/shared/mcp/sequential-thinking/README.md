@@ -1,6 +1,6 @@
-# sequential-thinking (provenance-only)
+# sequential-thinking (declared)
 
-This directory exists for provenance tracking only. The sequential-thinking MCP server is **not** vendored here — its source lives at [github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking), distributed as the `@modelcontextprotocol/server-sequential-thinking` npm package and run on-demand via `npx`.
+This directory is a declaration. The sequential-thinking MCP server is **not** vendored here — its source lives at [github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking), distributed as the `@modelcontextprotocol/server-sequential-thinking` npm package and run on-demand via `npx`.
 
 ## What it provides
 

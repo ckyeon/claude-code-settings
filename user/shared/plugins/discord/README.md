@@ -1,6 +1,6 @@
-# discord (provenance-only)
+# discord (declared)
 
-This directory exists for provenance tracking only. The discord plugin is **not** vendored here.
+This directory is a declaration. The discord plugin is **not** vendored here.
 
 ## How it's actually installed
 
@@ -18,7 +18,7 @@ managed by Claude Code's plugin CLI (`~/.claude/plugins/installed_plugins.json`)
 - Skill `/discord:configure` — saves the bot token and reports channel status
 - Skill `/discord:access` — pairing approvals, allowlists, DM and guild-channel policy
 
-## The upstream path differs from every other tracked plugin
+## The upstream path differs from every other declared plugin
 
 The others pin `plugins/<name>`. This one pins `external_plugins/discord`,
 which is where the marketplace manifest points (`"source": "./external_plugins/discord"`).

@@ -1,6 +1,6 @@
-# github (provenance-only)
+# github (declared)
 
-This directory exists for provenance tracking only. The GitHub MCP server is **not** vendored here — its source lives at [github.com/github/github-mcp-server](https://github.com/github/github-mcp-server), and the hosted backend runs at `api.githubcopilot.com/mcp/`. Same hosted endpoint also has a Docker image (`ghcr.io/github/github-mcp-server`) for local stdio mode.
+This directory is a declaration. The GitHub MCP server is **not** vendored here — its source lives at [github.com/github/github-mcp-server](https://github.com/github/github-mcp-server), and the hosted backend runs at `api.githubcopilot.com/mcp/`. Same hosted endpoint also has a Docker image (`ghcr.io/github/github-mcp-server`) for local stdio mode.
 
 ## What it provides
 

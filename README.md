@@ -59,6 +59,8 @@ This section is the single list of what sits at which level. The rule for classi
 | MCP servers | declared | `user/shared/mcp/<name>/README.md` | `claude mcp add` |
 | Secret names and where each goes | declared | [`docs/SECRETS.md`](docs/SECRETS.md) | entering each value by hand |
 
+No keybindings file exists yet. Once one is created it is owned, and it joins `list_owned_links` in `lib/common.sh`.
+
 Out of scope:
 
 - **Installed plugin versions.** The plugin CLI updates them on its own schedule. A sidecar pin records the upstream point last reviewed, not the version installed.

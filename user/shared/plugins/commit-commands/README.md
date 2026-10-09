@@ -1,6 +1,6 @@
-# commit-commands (provenance-only)
+# commit-commands (declared)
 
-This directory exists for provenance tracking only. The commit-commands plugin is **not** vendored here.
+This directory is a declaration. The commit-commands plugin is **not** vendored here.
 
 ## How it's actually installed
 

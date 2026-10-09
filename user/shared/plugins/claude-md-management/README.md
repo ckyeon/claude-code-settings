@@ -1,6 +1,6 @@
-# claude-md-management (provenance-only)
+# claude-md-management (declared)
 
-This directory exists for provenance tracking only. The claude-md-management
+This directory is a declaration. The claude-md-management
 plugin is **not** vendored here.
 
 ## How it's actually installed

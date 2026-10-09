@@ -1,6 +1,6 @@
-# codex (provenance-only)
+# codex (declared)
 
-This directory exists for provenance tracking only. The codex plugin is **not** vendored here.
+This directory is a declaration. The codex plugin is **not** vendored here.
 
 ## How it's actually installed
 
@@ -37,8 +37,8 @@ The plugin is managed by its marketplace; copying it here would duplicate what t
 marketplace already manages — see [[../hookify]], [[../claude-md-management]],
 [[../commit-commands]], and [[../skill-creator]] for the same pattern. It also
 ships a Node/TypeScript companion runtime that can't be split sensibly, the same
-reason [[../hookify]] is tracked whole.
+reason [[../hookify]] is declared whole.
 
-This is the first tracked plugin from a non-Anthropic marketplace. The
+This is the first declared plugin from a non-Anthropic marketplace. The
 `.provenance.json` next to this README pins the upstream commit so this repo's
 `SOURCES.md` still records that codex is part of the user's setup.

@@ -1,6 +1,6 @@
-# clangd-lsp (provenance-only)
+# clangd-lsp (declared)
 
-This directory exists for provenance tracking only. The clangd-lsp plugin is **not** vendored here.
+This directory is a declaration. The clangd-lsp plugin is **not** vendored here.
 
 ## What it does
 

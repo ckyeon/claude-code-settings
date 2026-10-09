@@ -1,6 +1,6 @@
-# context7 (provenance-only)
+# context7 (declared)
 
-This directory exists for provenance tracking only. The context7 MCP server is **not** vendored here — it's a hosted HTTP MCP server operated by Upstash. The upstream repo at [github.com/upstash/context7](https://github.com/upstash/context7) contains the server source.
+This directory is a declaration. The context7 MCP server is **not** vendored here — it's a hosted HTTP MCP server operated by Upstash. The upstream repo at [github.com/upstash/context7](https://github.com/upstash/context7) contains the server source.
 
 ## What it provides
 

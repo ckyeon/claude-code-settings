@@ -24,9 +24,7 @@ The goal is reproduction: a new machine reaches the same Claude Code environment
 2. Anything a command creates on the machine is **declared**: record the item together with the command that creates it.
 3. State that Claude Code or the account writes, and every secret value, is **out of scope**.
 
-To own a new path, add it to `list_owned_links` in `lib/common.sh`: `install.sh` links from that list and `bin/check-machine` verifies it.
-
-`README.md` § "Scope" lists every item's level; update it when an item's level changes. `GLOSSARY.md` defines the terms. This repo covers Claude Code only.
+`README.md` § "Scope" lists every item's level. Update it when an item's level changes. `GLOSSARY.md` defines the terms. This repo covers Claude Code only.
 
 ## Workflows
 
@@ -64,9 +62,11 @@ MCP servers are registered per-machine via `claude mcp add` and their config (in
 
 Just create the file or folder under `user/shared/{skills,commands,agents,hooks,rules,output-styles}/`. No sidecar. In an opt-in scheme, "no provenance metadata" means "original work".
 
+A kind of path `install.sh` does not link yet also goes into `list_owned_links` in `lib/common.sh`. `install.sh`, `uninstall.sh`, and `bin/check-machine` all read that list.
+
 ### Check for upstream updates
 
-Run `bin/check-updates` or use the `/check-updates` skill in a Claude Code session. The script compares pinned commits against upstream HEAD, or against the newest stable release or the marketplace's pinned sha when a sidecar sets a top-level `track` (see `docs/PROVENANCE.md`). In `--deep` mode it also reports upstream entries added or removed next to tracked paths, meaning new or deleted skills, with a warning when a removed entry is adopted here, plus skills and plugins added anywhere else in the source repo (ADR 0070). The skill layers judgment on top: whether tracked paths actually changed, and what the structural changes mean.
+Run `bin/check-updates` or use the `/check-updates` skill in a Claude Code session. The script compares pinned commits against upstream HEAD, or against the newest stable release or the marketplace's pinned sha when a sidecar sets a top-level `track` (see `docs/PROVENANCE.md`). In `--deep` mode it also reports the skills and plugins each source repo added or removed since the pin (ADR 0037, ADR 0070). The skill layers judgment on top: whether tracked paths actually changed, and what the structural changes mean.
 
 ### Check that adopted items still work
 
@@ -88,7 +88,7 @@ A warning mid-chain is expected: adopting the first of three dependencies leaves
 
 ### Check a machine
 
-Run `bin/check-machine` after setting up a machine, and after adding or removing a plugin or MCP server declaration. Errors mean the machine does not match the repo: an owned path is not symlinked here, a plugin enabled at user scope is not installed, or a declared MCP server is not registered. Warnings cover plugins and MCP servers found on the machine without a declaration, uncommitted changes, and commits missing from the remote. A run with no errors is the definition of a reproduced machine, and `--strict` fails on warnings too. It reads only names from `~/.claude.json` and never looks at secrets.
+Run `bin/check-machine` after setting up a machine, and after adding or removing a plugin or MCP server declaration. A run with no errors is the definition of a reproduced machine. `bin/check-machine --help` lists what is an error and what only warns. It reads only names from `~/.claude.json` and never looks at secrets.
 
 ### Record a decision
 
@@ -102,7 +102,7 @@ Steps:
 
 ### Update an adoption to a newer upstream commit
 
-Re-run `bin/adopt` against the same destination with the new SHA. The sidecar's `provenance[]` list gets a new entry appended. The older entry stays as history. `bin/adopt` compares the old and new pins itself and warns when upstream added or removed entries next to the path (new or deleted sibling skills), when it added a skill or plugin elsewhere in the repo, or when an `inspired-by` path no longer exists at the new commit. A hand-run re-pin therefore gets the same structural check as `check-updates --deep` (ADR 0039, ADR 0070).
+Re-run `bin/adopt` against the same destination with the new SHA. The sidecar's `provenance[]` list gets a new entry appended. The older entry stays as history. `bin/adopt` compares the old and new pins itself, so a hand-run re-pin gets the same structural check as `check-updates --deep`. It also warns when an `inspired-by` path no longer exists at the new commit (ADR 0039, ADR 0070).
 
 ## Guardrails
 

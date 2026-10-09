@@ -1,6 +1,6 @@
-# typescript-lsp (provenance-only)
+# typescript-lsp (declared)
 
-This directory exists for provenance tracking only. The typescript-lsp plugin is **not** vendored here.
+This directory is a declaration. The typescript-lsp plugin is **not** vendored here.
 
 ## What it does
 
