@@ -5,15 +5,25 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 ## Repo at a glance
 
 - `user/{shared,mac,linux}/`. User-scope settings, symlinked into `~/.claude/` by `./install.sh`.
-- `user/shared/plugins/`. Provenance-only for plugins installed via Claude Code's `/plugin install`. Not symlinked. See `docs/PROVENANCE.md` § "Tracking officially-installed plugins".
-- `user/shared/mcp/`. Provenance-only for MCP servers registered via `claude mcp add`. Not symlinked. See `docs/PROVENANCE.md` § "Tracking MCP servers". Secrets (API keys) stay in machine-local `~/.claude.json` and never enter this repo.
+- `user/shared/plugins/`. Declared plugins, installed via Claude Code's `/plugin install`. Not symlinked. See `docs/PROVENANCE.md` § "Declaring plugins".
+- `user/shared/mcp/`. Declared MCP servers, registered via `claude mcp add`. Not symlinked. See `docs/PROVENANCE.md` § "Declaring MCP servers". Secrets (API keys) stay in machine-local `~/.claude.json` and never enter this repo.
 - `.claude/skills/`. Project-scope skills (e.g., `check-updates`). Only active when working in this repo.
 - `.claude/settings.json`, `.claude/hooks/`. Project-scope config. A `Stop` hook runs `bin/check-integrity` when a session here ends and asks Claude to fix any errors before stopping. Only active in this repo.
-- `project-templates/{_base,nodejs,nextjs,python,go,phaser}/`. Templates copied into new projects via manual `cp -r` (no scaffold script).
+- `project-templates/`. Templates copied into new projects via manual `cp -r` (no scaffold script).
 - `bin/adopt`, `bin/sources-index`, `bin/check-updates`. Provenance tooling. JSON sidecars plus an auto-generated `SOURCES.md`.
 - `bin/check-integrity`. Static validation. Catches items whose dependencies were never adopted. Complements `check-updates` (freshness) with a function check.
 - `docs/PROVENANCE.md`. Schema and edge cases for provenance.
 - `docs/adr/`. Architecture Decision Records for this repo's own operational decisions.
+
+## Scope
+
+The goal is reproduction: a new machine reaches the same Claude Code environment from this repo and its docs alone. Classify anything new by this rule:
+
+1. A setting file a person writes, holding no secret, is **owned**: it lives here and `install.sh` symlinks it.
+2. Anything a command creates on the machine is **declared**: record the item together with the command that creates it.
+3. State that Claude Code or the account writes, and every secret value, is **out of scope**.
+
+`README.md` § "Scope" lists every item's level; update it when an item's level changes. `GLOSSARY.md` defines the terms. This repo covers Claude Code only.
 
 ## Workflows
 
@@ -24,28 +34,28 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 3. Commit using the printed `git commit ... --trailer ...` form (include `SOURCES.md`), or pass `--commit-now` to step 1 to skip the copy-paste.
 4. Push only on explicit user request.
 
-### Track an officially-installed plugin
+### Declare a plugin
 
-Claude Code marketplace plugins (installed via `/plugin install <name>@<marketplace>`) are activated by the plugin CLI, not by this repo's symlinks. To record provenance:
+Claude Code marketplace plugins (installed via `/plugin install <name>@<marketplace>`) are activated by the plugin CLI, not by this repo's symlinks. To declare one and record its provenance:
 
 1. `mkdir -p user/shared/plugins/<name> && $EDITOR user/shared/plugins/<name>/README.md`
 2. `bin/adopt --from <marketplace-repo-url> --path plugins/<name> --to user/shared/plugins/<name> --mode inspired-by --license <SPDX>`
 
-`/plugin install` updates `user/shared/settings.json`. Include that file in the same commit. Those entries are load-bearing beyond activation: `install.sh` and `uninstall.sh` resolve each plugin's marketplace from `enabledPlugins` and each third-party marketplace's repo from `extraKnownMarketplaces` to print exact commands. A plugin tracked under `user/shared/plugins/` but missing from every `enabledPlugins` (user scope, or a project template's) prints as a warning instead of a usable command.
+`/plugin install` updates `user/shared/settings.json`. Include that file in the same commit. Those entries are load-bearing beyond activation: `install.sh` and `uninstall.sh` resolve each plugin's marketplace from `enabledPlugins` and each third-party marketplace's repo from `extraKnownMarketplaces` to print exact commands. A plugin declared under `user/shared/plugins/` but missing from every `enabledPlugins` (user scope, or a project template's) prints as a warning instead of a usable command.
 
 Third-party marketplaces must be registered per-machine with `/plugin marketplace add <owner>/<repo>` before `/plugin install`. `extraKnownMarketplaces` does not do it for you. Note the argument is the repo, not the marketplace name (`openai/codex-plugin-cc`, not `openai-codex`).
 
-`install.sh` and `uninstall.sh` print `/plugin install` reminders listing tracked plugins. Canonical examples: `user/shared/plugins/hookify/`, `user/shared/plugins/claude-md-management/`, `user/shared/plugins/commit-commands/`, `user/shared/plugins/skill-creator/`.
+`install.sh` and `uninstall.sh` print `/plugin install` reminders listing declared plugins. Canonical examples: `user/shared/plugins/hookify/`, `user/shared/plugins/claude-md-management/`, `user/shared/plugins/commit-commands/`, `user/shared/plugins/skill-creator/`.
 
-### Track an MCP server
+### Declare an MCP server
 
-MCP servers are registered per-machine via `claude mcp add` and their config (including API-key headers) lives in machine-local `~/.claude.json`. Secrets are never committed here. To track which servers belong to the user-scope setup:
+MCP servers are registered per-machine via `claude mcp add` and their config (including API-key headers) lives in machine-local `~/.claude.json`. Secrets are never committed here. To declare which servers belong to the user-scope setup:
 
 1. `mkdir -p user/shared/mcp/<name> && $EDITOR user/shared/mcp/<name>/README.md`. The README must include the exact `claude mcp add ...` command with placeholder values for any secrets (e.g., `<your-api-key>`).
    - **Gotcha:** `--header` and `-e` are variadic. Place them **after** `<name>` and `<commandOrUrl>` (or cap with `--`), or they'll greedily consume the positionals and emit `missing required argument 'name'`. Header values use HTTP-style `"Key: value"`, not `"Key=value"`.
 2. (Optional, only if a public upstream repo exists) `bin/adopt --from <repo-url> --path <path> --to user/shared/mcp/<name> --mode inspired-by --license <SPDX>`. Use `.` for `<path>` if the entire repo is the server (as with `context7`).
 
-`install.sh` and `uninstall.sh` print `claude mcp add` and `claude mcp remove` reminders listing tracked servers. Canonical example: `user/shared/mcp/context7/`.
+`install.sh` and `uninstall.sh` print `claude mcp add` and `claude mcp remove` reminders listing declared servers. Canonical example: `user/shared/mcp/context7/`.
 
 ### Add a self-authored item
 
@@ -94,8 +104,8 @@ Re-run `bin/adopt` against the same destination with the new SHA. The sidecar's 
 - **No `git push` without an explicit request.**
 - **Dependencies stay minimal**: Python 3 stdlib + bash 3.2 only. Don't introduce `yq`, `PyYAML`, `jq`, or other external deps.
 - **Provenance lives in sidecars only.** Never inline in `SKILL.md`, agent, command, or `CLAUDE.md` frontmatter. Those files load into Claude's context when invoked, so embedded metadata becomes context noise.
-- **Two `plugins/` directories. Don't confuse them.** `~/.claude/plugins/` is Claude Code's own plugin CLI state (registry, marketplaces, cache). It is never symlinked from here. `user/shared/plugins/` in this repo is provenance-only. No source is vendored, and activation is via `/plugin install`.
-- **MCP secrets stay machine-local.** `user/shared/mcp/<name>/README.md` may contain registration commands but must use placeholders (`<your-api-key>`) for any secret values. The real `~/.claude.json` or `~/.claude/mcp.json` is on the "deliberately does NOT manage" list.
+- **Two `plugins/` directories. Don't confuse them.** `~/.claude/plugins/` is Claude Code's own plugin CLI state (registry, marketplaces, cache). It is never symlinked from here. `user/shared/plugins/` in this repo holds declarations only. No source is vendored, and activation is via `/plugin install`.
+- **MCP secrets stay machine-local.** `user/shared/mcp/<name>/README.md` may contain registration commands but must use placeholders (`<your-api-key>`) for any secret values. The real `~/.claude.json` or `~/.claude/mcp.json` is out of scope.
 
 ## References
 

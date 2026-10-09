@@ -122,11 +122,11 @@ Walks the repo for every `*.provenance.json` file and rewrites `SOURCES.md` with
 
 Run it after every `adopt`, or as a pre-commit hook if you want full automation.
 
-## Tracking officially-installed plugins
+## Declaring plugins
 
-When a Claude Code plugin (with `.claude-plugin/plugin.json`) is installed via the official marketplace flow (`/plugin install <name>@<marketplace>`), the runtime artifact lives under `~/.claude/plugins/cache/<marketplace>/<name>/<version>/` and is managed by Claude Code's plugin CLI — not by this repo. To still record which upstream commit you're pinning to, use the **provenance-only** pattern:
+When a Claude Code plugin (with `.claude-plugin/plugin.json`) is installed via the official marketplace flow (`/plugin install <name>@<marketplace>`), the runtime artifact lives under `~/.claude/plugins/cache/<marketplace>/<name>/<version>/` and is managed by Claude Code's plugin CLI — not by this repo. To declare the plugin and record which upstream commit you last reviewed, keep a directory with no source in it:
 
-1. Create `user/shared/plugins/<name>/` with a short `README.md` explaining that the directory exists for provenance only (no source vendored). The README satisfies `bin/adopt --mode inspired-by`'s "destination must exist" requirement.
+1. Create `user/shared/plugins/<name>/` with a short `README.md` explaining that the directory is a declaration (no source vendored). The README satisfies `bin/adopt --mode inspired-by`'s "destination must exist" requirement.
 2. Run `bin/adopt --mode inspired-by` against that directory with the upstream `--path plugins/<name>` and the commit SHA.
 
 ```bash
@@ -145,13 +145,13 @@ The sidecar deliberately does **not** record the marketplace — that lives in `
 
 Canonical examples in this repo:
 - `user/shared/plugins/hookify/` — plugin whose Python codebase cannot be split sensibly
-- `user/shared/plugins/claude-md-management/` — plugin that's also `/plugin install`-able; provenance-only avoids duplicating what the marketplace already manages
+- `user/shared/plugins/claude-md-management/` — plugin that's also `/plugin install`-able; declaring it avoids duplicating what the marketplace already manages
 
-When to prefer this over **split adoption** (copying skills/commands out of a plugin): use provenance-only whenever the plugin ships through a marketplace you've already added, or when the plugin has a `.claude-plugin/plugin.json` and you want Claude Code's official loader to handle activation. Use split adoption when you want only one artifact from a plugin and don't want the rest, or when the upstream isn't a marketplace plugin at all.
+When to prefer this over **split adoption** (copying skills/commands out of a plugin): declare the plugin whenever it ships through a marketplace you've already added, or when the plugin has a `.claude-plugin/plugin.json` and you want Claude Code's official loader to handle activation. Use split adoption when you want only one artifact from a plugin and don't want the rest, or when the upstream isn't a marketplace plugin at all.
 
-## Tracking MCP servers
+## Declaring MCP servers
 
-Model Context Protocol (MCP) servers are registered per-machine via `claude mcp add ...` (or via claude.ai connector activation for hosted ones), and the registration — including any API-key headers — lives in machine-local `~/.claude.json` (or `~/.claude/mcp.json` on some setups). That file holds secrets and is **never** committed here. To still record which servers belong to the user-scope setup, use the **provenance-only** pattern, mirroring how plugins are tracked:
+Model Context Protocol (MCP) servers are registered per-machine via `claude mcp add ...` (or via claude.ai connector activation for hosted ones), and the registration — including any API-key headers — lives in machine-local `~/.claude.json` (or `~/.claude/mcp.json` on some setups). That file holds secrets and is **never** committed here. To declare which servers belong to the user-scope setup, mirror how plugins are declared:
 
 1. Create `user/shared/mcp/<name>/` with a `README.md` describing what the server provides and the exact `claude mcp add ...` registration command. Use placeholders (`<your-api-key>`) for any secret values — never paste real credentials.
 2. If the server has a public upstream repo (the server source, not the hosted backend), pin a commit via `bin/adopt --mode inspired-by`:

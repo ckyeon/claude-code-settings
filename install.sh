@@ -68,7 +68,7 @@ fi
 PLUGIN_ROWS="$(list_tracked_plugins "$REPO_ROOT")"
 if [ -n "$PLUGIN_ROWS" ]; then
   echo ""
-  echo "Plugin-tracked entries (NOT installed by this script — see user/shared/plugins/):"
+  echo "Declared plugins (NOT installed by this script — see user/shared/plugins/):"
   echo ""
   echo "Inside a Claude Code session, run:"
   prev_marketplace="__none__"
@@ -98,7 +98,7 @@ fi
 MCP_NAMES="$(list_tracked_mcp_servers "$REPO_ROOT")"
 if [ -n "$MCP_NAMES" ]; then
   echo ""
-  echo "MCP-tracked entries (NOT registered by this script — see user/shared/mcp/):"
+  echo "Declared MCP servers (NOT registered by this script — see user/shared/mcp/):"
   while IFS= read -r name; do
     echo "  - $name"
   done <<< "$MCP_NAMES"

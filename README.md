@@ -2,9 +2,11 @@
 
 Personal Claude Code settings, version-controlled across **scopes** (User / Project) and **OSes** (macOS / Linux). Clone once, symlink everywhere.
 
+The goal is **reproduction**: a new machine reaches the same Claude Code environment from this repo and its docs alone.
+
 ## Quick start
 
-**Prerequisites:** Bash 4.0+, macOS or Linux.
+**Prerequisites:** Bash 3.2+, Python 3, macOS or Linux.
 
 ```bash
 git clone <this-repo>
@@ -31,19 +33,44 @@ Verify with:
 readlink ~/.claude/settings.json   # should point into this repo
 ```
 
-## Scope model
+## Scope
 
-Claude Code has three scopes. This repo manages two of them:
+This repo covers Claude Code only. Every item sits at one of three levels, defined in [`GLOSSARY.md`](GLOSSARY.md):
 
-| Scope | Lives in | Managed here? |
-|---|---|---|
-| **User** (global) | `~/.claude/` | yes — symlinked from `user/` |
-| **Project** (per-repo, committed) | `<project>/.claude/`, `<project>/CLAUDE.md` | yes — as templates in `project-templates/` |
-| **Local** (per-machine, gitignored) | `<project>/.claude/settings.local.json` | no — machine-local by design |
+- **Owned**: the file in this repo is the setting that applies. `install.sh` symlinks it into `~/.claude/`.
+- **Declared**: this repo lists the item and the command that creates it. You run that command on each machine.
+- **Out of scope**: this repo neither stores nor checks it.
+
+This section is the single list of what sits at which level. The rule for classifying something new is in [`CLAUDE.md`](CLAUDE.md) § "Scope".
+
+| Item | Level | In this repo | Reaches a machine by |
+|---|---|---|---|
+| Global instructions | owned | `user/shared/CLAUDE.md` | symlink |
+| Settings | owned | `user/shared/settings.json` | symlink |
+| Skills, commands, agents, rules, output styles | owned | `user/shared/<kind>/` | symlink |
+| Hooks | owned | `user/shared/hooks/`, `user/<os>/hooks/` | symlink |
+| Status line scripts | owned | `user/<os>/` | symlink |
+| Project templates | owned | `project-templates/` | manual copy into a new project |
+| This repo's own project config | owned | `.claude/`, `CLAUDE.md` | cloning the repo |
+| Plugins | declared | `user/shared/plugins/<name>/`, `enabledPlugins` in `settings.json` | `/plugin install` |
+| MCP servers | declared | `user/shared/mcp/<name>/README.md` | `claude mcp add` |
+
+Out of scope:
+
+- **Installed plugin versions.** The plugin CLI updates them on its own schedule. A sidecar pin records the upstream point last reviewed, not the version installed.
+- **Secret values.** They are entered per machine and never committed.
+- **`~/.claude.json`.** It holds MCP registrations with their keys and per-project state.
+- **Memory** (`~/.claude/projects/*/memory/`). It is per-machine working state. A lesson that must survive a machine change belongs in an owned file such as `CLAUDE.md` or a rule.
+- **Discord access policy** (`~/.claude/channels/`). The discord plugin's own skill writes it, and access is granted again on each machine.
+- **History, caches, sessions, telemetry**, and the plugin CLI's state under `~/.claude/plugins/`.
+- **Skills, plugins, and connectors synced from claude.ai**, plus Claude in Chrome and computer use. They follow the account on sign-in.
+- **Each project's own `.claude/` and `CLAUDE.md`**, including a project copied from a template. That project's repo owns them.
+- **`settings.local.json`.** It is the per-machine override by design.
+- **Codex configuration.**
 
 ## OS handling
 
-OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects the OS with `uname -s` and only symlinks the matching one.
+OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects the OS with `uname -s` and only symlinks the matching one. The Linux side has not been verified on a real machine yet.
 
 - `user/shared/` — everything that's the same on every machine
 - `user/mac/` — macOS-only (statusline, hooks that need `osascript`, `pbcopy`, etc.)
@@ -58,6 +85,7 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 ├── install.sh                  # idempotent OS-aware installer
 ├── uninstall.sh                # remove our symlinks, restore .backup-*
 ├── CLAUDE.md                   # project-scope agent instructions (for this repo)
+├── GLOSSARY.md                 # terms: reproduce, owned, declared, out of scope
 ├── SOURCES.md                  # auto-generated provenance index
 ├── lib/common.sh               # shared bash helpers
 ├── bin/
@@ -77,8 +105,8 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 │   │   ├── hooks/              # → ~/.claude/hooks/shared
 │   │   ├── rules/              # → ~/.claude/rules
 │   │   ├── output-styles/      # → ~/.claude/output-styles
-│   │   ├── plugins/            # provenance-only (not symlinked; see Provenance)
-│   │   └── mcp/                # provenance-only MCP server tracking (not symlinked)
+│   │   ├── plugins/            # declared plugins (not symlinked; see Scope)
+│   │   └── mcp/                # declared MCP servers (not symlinked; see Scope)
 │   ├── mac/
 │   │   ├── statusline-command.sh
 │   │   ├── subagent-statusline.sh
@@ -195,11 +223,3 @@ Removes only the symlinks that point into this repo. If `install.sh` previously 
 - **Broken symlink in `~/.claude/`** — the repo was moved or deleted. Move it back, or run `./uninstall.sh` (it's a no-op if the symlink targets are gone) and re-clone.
 - **`settings.json` not loading** — check `readlink ~/.claude/settings.json` resolves into this repo, then validate JSON with `python3 -m json.tool < ~/.claude/settings.json`.
 - **Statusline missing** — `chmod +x user/{mac,linux}/statusline-command.sh` and re-run `./install.sh`.
-
-## What this repo deliberately does NOT manage
-
-Claude Code creates and updates many files under `~/.claude/` at runtime. None of them are touched by this repo:
-
-- **History & caches** — `projects/`, `plans/`, `sessions/`, `tasks/`, `shell-snapshots/`, `paste-cache/`, `image-cache/`, `file-history/`, `history.jsonl`, `usage-data/`, `telemetry/`, `cache/`
-- **Secrets** — `credentials.json`, `mcp.json` (managed out-of-band per machine; non-secret MCP inventory tracked separately in `user/shared/mcp/`)
-- **Runtime state** — `settings.local.json` (per-machine override), `~/.claude/plugins/` (Claude Code's own plugin CLI state, distinct from `user/shared/plugins/` which only tracks provenance)

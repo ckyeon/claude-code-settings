@@ -47,7 +47,7 @@ echo "Done: $removed removed, $restored backups restored, $skipped not ours / al
 PLUGIN_ROWS="$(list_tracked_plugins "$REPO_ROOT")"
 if [ -n "$PLUGIN_ROWS" ]; then
   echo ""
-  echo "Plugin-tracked entries detected (this script does NOT remove Claude Code-installed plugins):"
+  echo "Declared plugins detected (this script does NOT remove Claude Code-installed plugins):"
   echo ""
   echo "To remove them, run in a Claude Code session:"
   while IFS="$FIELD_SEP" read -r name marketplace source scope; do
@@ -62,7 +62,7 @@ fi
 MCP_NAMES="$(list_tracked_mcp_servers "$REPO_ROOT")"
 if [ -n "$MCP_NAMES" ]; then
   echo ""
-  echo "MCP-tracked entries detected (this script does NOT remove registered MCP servers):"
+  echo "Declared MCP servers detected (this script does NOT remove registered MCP servers):"
   while IFS= read -r name; do
     echo "  - $name"
   done <<< "$MCP_NAMES"
