@@ -56,47 +56,9 @@ if [ "$backed_up" -gt 0 ]; then
   echo "Tip: review backups with: find $CLAUDE_DIR -maxdepth 2 -name '*.backup-$TS'"
 fi
 
-PLUGIN_ROWS="$(list_declared_plugins "$REPO_ROOT")"
-if [ -n "$PLUGIN_ROWS" ]; then
-  echo ""
-  echo "Declared plugins (NOT installed by this script — see user/shared/plugins/):"
-  echo ""
-  echo "Inside a Claude Code session, run:"
-  prev_marketplace="__none__"
-  while IFS="$FIELD_SEP" read -r name marketplace source scope; do
-    if [ "$marketplace" != "$prev_marketplace" ]; then
-      echo ""
-      if [ -z "$marketplace" ]; then
-        echo "  # No settings.json enables these — add them to enabledPlugins, or install by hand:"
-      elif [ -n "$source" ]; then
-        echo "  # $marketplace (third-party marketplace — add it before installing)"
-        echo "  /plugin marketplace add $source"
-      else
-        echo "  # $marketplace (built-in marketplace — no 'marketplace add' needed)"
-      fi
-      prev_marketplace="$marketplace"
-    fi
-    if [ -z "$marketplace" ]; then
-      echo "  #   - $name"
-    elif [ "$scope" = "project" ]; then
-      echo "  /plugin install $name@$marketplace   # project-scope only (see user/shared/plugins/$name/README.md)"
-    else
-      echo "  /plugin install $name@$marketplace"
-    fi
-  done <<< "$PLUGIN_ROWS"
-fi
-
-MCP_NAMES="$(list_declared_mcp_servers "$REPO_ROOT")"
-if [ -n "$MCP_NAMES" ]; then
-  echo ""
-  echo "Declared MCP servers (NOT registered by this script — see user/shared/mcp/):"
-  while IFS= read -r name; do
-    echo "  - $name"
-  done <<< "$MCP_NAMES"
-  echo ""
-  echo "For each, open user/shared/mcp/<name>/README.md and run the registration"
-  echo "command shown there (typically: claude mcp add --scope user ...)."
-fi
+# What to run for each declared plugin and MCP server. lib/declarations.py
+# words it, so the same rules decide what is declared here and in the checks.
+PYTHONDONTWRITEBYTECODE=1 python3 "$REPO_ROOT/lib/declarations.py" install-hints "$REPO_ROOT"
 
 echo ""
 echo "Secrets are entered by hand: see docs/SECRETS.md."

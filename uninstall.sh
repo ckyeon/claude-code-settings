@@ -48,29 +48,4 @@ rmdir "$CLAUDE_DIR/hooks" 2>/dev/null || true
 
 echo "Done: $removed removed, $restored backups restored, $skipped not ours / already gone."
 
-PLUGIN_ROWS="$(list_declared_plugins "$REPO_ROOT")"
-if [ -n "$PLUGIN_ROWS" ]; then
-  echo ""
-  echo "Declared plugins detected (this script does NOT remove Claude Code-installed plugins):"
-  echo ""
-  echo "To remove them, run in a Claude Code session:"
-  while IFS="$FIELD_SEP" read -r name marketplace source scope; do
-    if [ -n "$marketplace" ]; then
-      echo "  /plugin uninstall $name@$marketplace"
-    else
-      echo "  # $name — marketplace unknown; check user/shared/plugins/$name/README.md"
-    fi
-  done <<< "$PLUGIN_ROWS"
-fi
-
-MCP_NAMES="$(list_declared_mcp_servers "$REPO_ROOT")"
-if [ -n "$MCP_NAMES" ]; then
-  echo ""
-  echo "Declared MCP servers detected (this script does NOT remove registered MCP servers):"
-  while IFS= read -r name; do
-    echo "  - $name"
-  done <<< "$MCP_NAMES"
-  echo ""
-  echo "To remove them, run:"
-  echo "  claude mcp remove <name> -s user          # per server above"
-fi
+PYTHONDONTWRITEBYTECODE=1 python3 "$REPO_ROOT/lib/declarations.py" uninstall-hints "$REPO_ROOT"

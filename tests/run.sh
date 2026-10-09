@@ -286,7 +286,9 @@ out="$(run bin/check-machine)"; rc=$?
 eq "a machine with nothing installed exits 1" "$rc" "1"
 has "a missing owned path is named" "$out" "~/.claude/settings.json is missing"
 
-run ./install.sh >/dev/null
+out="$(run ./install.sh)"
+has "install.sh prints the command for a declared plugin" "$out" "  /plugin install good@market"
+has "install.sh lists a declared MCP server" "$out" "  - srv"
 out="$(run bin/check-machine)"; rc=$?
 lacks "install.sh links every owned path" "$out" "is missing"
 eq "missing plugins and MCP servers still exit 1" "$rc" "1"
@@ -385,7 +387,8 @@ printf 'mine\n' > "$TMP/home/.claude/notes.txt"
 repo_path="$(cd "$REPO" && pwd)"
 repo_links() { find "$TMP/home/.claude" -maxdepth 2 -type l -lname "$repo_path/*" | wc -l | tr -d ' '; }
 eq "before uninstall, every owned path links into the repo" "$(repo_links)" "11"
-run ./uninstall.sh >/dev/null
+out="$(run ./uninstall.sh)"
+has "uninstall.sh prints the command to remove a declared plugin" "$out" "  /plugin uninstall good@market"
 eq "uninstall.sh removes every link into the repo" "$(repo_links)" "0"
 if [ -f "$TMP/home/.claude/CLAUDE.md" ] && [ ! -L "$TMP/home/.claude/CLAUDE.md" ]; then
   ok "uninstall.sh restores the file install.sh backed up"

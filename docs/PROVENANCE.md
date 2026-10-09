@@ -166,7 +166,7 @@ bin/adopt --from <upstream-repo-url> \
           --mode inspired-by --license <SPDX>
 ```
 
-For servers with no public source (hosted-only HTTP MCPs without a published repo, claude.ai connectors), skip step 2 — the README alone is enough. `list_declared_mcp_servers` in `lib/common.sh` enumerates everything under `user/shared/mcp/*/` that has a README, so sidecar presence is optional.
+For servers with no public source (hosted-only HTTP MCPs without a published repo, claude.ai connectors), skip step 2 — the README alone is enough. `lib/declarations.py` counts every directory under `user/shared/mcp/` as a declaration, so sidecar presence is optional. `bin/check-integrity` rejects a declaration whose README is missing.
 
 `install.sh` / `uninstall.sh` print MCP-name hints reminding you to run `claude mcp add` (or `claude mcp remove`) on each machine.
 

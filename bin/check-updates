@@ -40,6 +40,7 @@ import tempfile
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.join(os.environ["REPO_ROOT"], "lib"))
+import declarations
 import sidecars
 import structure
 
@@ -126,24 +127,8 @@ def marketplace_pin(name):
     global plugin_marketplaces
     if plugin_marketplaces is None:
         # Same resolution install.sh uses: enabledPlugins + extraKnownMarketplaces.
-        plugin_marketplaces = {}
-        try:
-            res = subprocess.run(
-                ["bash", "-c", 'source "$1/lib/common.sh" && list_declared_plugins "$1"',
-                 "_", repo_root],
-                capture_output=True, text=True, timeout=30,
-            )
-            listed = res.returncode == 0
-        except subprocess.TimeoutExpired:
-            listed = False
-        if not listed:
-            print("WARN: list_declared_plugins failed, so marketplace-tracked items stay unresolved",
-                  file=sys.stderr)
-        else:
-            for row in res.stdout.splitlines():
-                fields = row.split("|")
-                if len(fields) == 4:
-                    plugin_marketplaces[fields[0]] = (fields[1], fields[2])
+        plugin_marketplaces = {row[0]: (row[1], row[2])
+                               for row in declarations.plugin_rows(repo_root)}
     market, repo = plugin_marketplaces.get(name, ("", ""))
     if not market:
         return None, "marketplace unknown (not in any enabledPlugins)"

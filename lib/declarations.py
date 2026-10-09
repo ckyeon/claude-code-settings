@@ -1,10 +1,16 @@
-"""What the repo declares: plugins and MCP servers, and where plugins are enabled.
+"""What the repo declares: plugins and MCP servers, and how each gets created.
 
-lib/common.sh, bin/check-integrity, and bin/check-machine all read these, so
-the three agree on what "declared" and "enabled" mean.
+The one place that says what "declared" and "enabled" mean, and that words
+the commands a person runs to create or remove the declared items.
+install.sh and uninstall.sh print those words, and bin/check-integrity,
+bin/check-machine, and bin/check-updates read the same answers.
+
+Run as a script, it prints the hints for the bash callers:
+    python3 lib/declarations.py install-hints|uninstall-hints <repo-root>
 """
 import json
 import os
+import sys
 
 
 def _load(path):
@@ -69,3 +75,85 @@ def marketplace_sources(repo_root):
             source = (spec or {}).get("source") or {}
             sources.setdefault(name, source.get("repo") or source.get("url") or "")
     return sources
+
+
+def plugin_rows(repo_root):
+    """[(name, marketplace, source, scope)] for every declared plugin.
+
+    marketplace is empty when no settings file mentions the plugin, and source
+    is empty for a built-in marketplace. Built-in marketplaces sort first,
+    then third-party ones, then plugins with no known marketplace, so one
+    `marketplace add` line can head each group.
+    """
+    entries = plugin_entries(repo_root)
+    sources = marketplace_sources(repo_root)
+    rows = []
+    for name in declared(repo_root, "plugins"):
+        marketplace, scope = entries.get(name, ("", ""))
+        rows.append((name, marketplace, sources.get(marketplace, "") if marketplace else "", scope))
+    rows.sort(key=lambda r: (2 if not r[1] else 1 if r[2] else 0, r[1], r[0]))
+    return rows
+
+
+def install_hints(repo_root):
+    """The lines telling a person what to run to create each declared item."""
+    lines = []
+    rows = plugin_rows(repo_root)
+    if rows:
+        lines += ["", "Declared plugins (NOT installed by this script — see user/shared/plugins/):",
+                  "", "Inside a Claude Code session, run:"]
+        previous = None
+        for name, marketplace, source, scope in rows:
+            if marketplace != previous:
+                lines.append("")
+                if not marketplace:
+                    lines.append("  # No settings.json enables these — add them to enabledPlugins, or install by hand:")
+                elif source:
+                    lines.append(f"  # {marketplace} (third-party marketplace — add it before installing)")
+                    lines.append(f"  /plugin marketplace add {source}")
+                else:
+                    lines.append(f"  # {marketplace} (built-in marketplace — no 'marketplace add' needed)")
+                previous = marketplace
+            if not marketplace:
+                lines.append(f"  #   - {name}")
+            elif scope == "project":
+                lines.append(f"  /plugin install {name}@{marketplace}   "
+                             f"# project-scope only (see user/shared/plugins/{name}/README.md)")
+            else:
+                lines.append(f"  /plugin install {name}@{marketplace}")
+    servers = declared(repo_root, "mcp")
+    if servers:
+        lines += ["", "Declared MCP servers (NOT registered by this script — see user/shared/mcp/):"]
+        lines += [f"  - {name}" for name in servers]
+        lines += ["", "For each, open user/shared/mcp/<name>/README.md and run the registration",
+                  "command shown there (typically: claude mcp add --scope user ...)."]
+    return lines
+
+
+def uninstall_hints(repo_root):
+    """The lines telling a person what to run to remove each declared item."""
+    lines = []
+    rows = plugin_rows(repo_root)
+    if rows:
+        lines += ["", "Declared plugins detected (this script does NOT remove Claude Code-installed plugins):",
+                  "", "To remove them, run in a Claude Code session:"]
+        for name, marketplace, _source, _scope in rows:
+            if marketplace:
+                lines.append(f"  /plugin uninstall {name}@{marketplace}")
+            else:
+                lines.append(f"  # {name} — marketplace unknown; check user/shared/plugins/{name}/README.md")
+    servers = declared(repo_root, "mcp")
+    if servers:
+        lines += ["", "Declared MCP servers detected (this script does NOT remove registered MCP servers):"]
+        lines += [f"  - {name}" for name in servers]
+        lines += ["", "To remove them, run:",
+                  "  claude mcp remove <name> -s user          # per server above"]
+    return lines
+
+
+if __name__ == "__main__":
+    hints = {"install-hints": install_hints, "uninstall-hints": uninstall_hints}
+    if len(sys.argv) != 3 or sys.argv[1] not in hints:
+        sys.exit("usage: declarations.py install-hints|uninstall-hints <repo-root>")
+    for line in hints[sys.argv[1]](sys.argv[2]):
+        print(line)
