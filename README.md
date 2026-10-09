@@ -96,6 +96,7 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 ├── lib/                        # common.sh for the bash scripts, *.py modules the tools import
 ├── bin/
 │   ├── adopt                   # adopt items from external repos
+│   ├── re-pin                  # move the pin of items already adopted
 │   ├── sources-index           # regenerate SOURCES.md
 │   ├── check-updates           # compare pins against upstream HEAD
 │   ├── check-integrity         # static checks: refs resolve, sidecars valid, declarations complete
@@ -192,7 +193,7 @@ bin/adopt --from https://github.com/example/dotfiles \
           --license MIT
 ```
 
-This copies the upstream content, writes the sidecar, and prints a `git commit` command. `SOURCES.md` is a browsable index — regenerate with `bin/sources-index`.
+This copies the upstream content, writes the sidecar, and prints a `git commit` command. `SOURCES.md` is a browsable index — regenerate with `bin/sources-index`. To move an adopted item to a newer upstream commit later, run `bin/re-pin <local-path>`.
 
 For the full schema, plugin/MCP adoption workflows, and edge cases, see [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 

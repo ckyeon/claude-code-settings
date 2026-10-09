@@ -76,20 +76,14 @@ When many items share the same source and pin (e.g., 28 phaser skills), summariz
 
 ### Step 5 — Offer next steps
 
-For items worth updating, suggest the `bin/adopt` command:
+For items worth updating, suggest `bin/re-pin` with their local paths:
 
 ```bash
-bin/adopt \
-  --from <source_url> \
-  --commit <new_head_sha> \
-  --path <path_in_source> \
-  --to <local_path> \
-  --mode <copied|inspired-by> \
-  --license <SPDX>
+bin/re-pin <local_path> [<local_path>...]
 ```
 
-For `copied` items this also pulls the new file contents; for `inspired-by` items it updates only the provenance pin. For an item with `track`, `<new_head_sha>` is the target the report printed (the `head` field in `deep.json`), not upstream HEAD.
+Each item moves to its comparison target, the `head` value `deep.json` reports for it, so no SHA needs copying. For `copied` items this also pulls the new file contents. For `inspired-by` items it updates only the pin. `bin/re-pin` refuses a `copied` item whose local copy differs from upstream at the old pin and lists the difference. Report that to the user rather than passing `--overwrite-local` yourself.
 
-For `NEW` entries worth adopting, the same `bin/adopt` command works — `--path` is the new upstream path. For `REMOVED` entries that are adopted here, lay out the options: keep the local copy as an orphaned fork (the sidecar stays as history), delete it, or re-adopt from the renamed/moved path the agent found.
+For `NEW` entries worth adopting, use `bin/adopt --from <source_url> --commit <sha> --path <upstream_path> --to <local_path> --mode copied --license <SPDX>`. For `REMOVED` entries that are adopted here, lay out the options: keep the local copy as an orphaned fork (the sidecar stays as history), delete it, or re-adopt from the renamed/moved path the agent found.
 
-Wait for the user to decide which items to update — do not run `bin/adopt` automatically. Once decisions are made (or the session moves on), clean up the workdir: `rm -rf <workdir>`.
+Wait for the user to decide which items to update. Run neither `bin/re-pin` nor `bin/adopt` before that. Once decisions are made (or the session moves on), clean up the workdir: `rm -rf <workdir>`.

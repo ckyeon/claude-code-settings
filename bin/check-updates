@@ -40,9 +40,9 @@ import tempfile
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.join(os.environ["REPO_ROOT"], "lib"))
-import declarations
 import sidecars
 import structure
+import targets
 
 repo_root = os.environ["REPO_ROOT"]
 deep = os.environ.get("DEEP") == "1"
@@ -69,120 +69,13 @@ if not items:
     print("No provenance entries found.")
     sys.exit(0)
 
-# --- Deduplicate ls-remote calls by source URL ---
+# --- Resolve each item's comparison target (lib/targets.py) ---
 sources = sorted(set(it["source"] for it in items))
 print(f"Checking {len(sources)} source{'s' if len(sources) != 1 else ''}...\n")
 
-head_cache = {}  # source_url -> head_sha | None
-for src in sources:
-    try:
-        out = subprocess.check_output(
-            ["git", "ls-remote", src, "HEAD"],
-            stderr=subprocess.DEVNULL, text=True, timeout=30,
-        )
-        match = re.match(r"([0-9a-f]{40})\s", out)
-        head_cache[src] = match.group(1) if match else None
-    except Exception:
-        head_cache[src] = None
-
-# --- Resolve each item's comparison target ---
-# Default is upstream HEAD. A sidecar's top-level "track" names another target
-# for items deliberately pinned off HEAD (ADR 0065):
-#   "release"      the source's newest stable vX.Y.Z tag
-#   "marketplace"  the sha the plugin's marketplace pins it to
-# A failed lookup reports the item as unreachable rather than falling back to
-# HEAD, which would bring back the false "outdated" this exists to remove.
-STABLE_TAG = re.compile(r"^v(\d+)\.(\d+)\.(\d+)$")
-# Built-in marketplaces have no extraKnownMarketplaces entry to read a repo from.
-BUILTIN_MARKETPLACES = {
-    "claude-plugins-official": "https://github.com/anthropics/claude-plugins-official",
-}
-
-def latest_release(src):
-    try:
-        out = subprocess.check_output(
-            ["git", "ls-remote", "--tags", src],
-            stderr=subprocess.DEVNULL, text=True, timeout=30,
-        )
-    except Exception:
-        return None, "tag lookup failed"
-    tags = {}  # tag name -> commit sha. For annotated tags the peeled ^{} line wins.
-    for line in out.splitlines():
-        sha, _, ref = line.partition("\t")
-        name = ref[len("refs/tags/"):]
-        peeled = name.endswith("^{}")
-        if peeled:
-            name = name[:-3]
-        if STABLE_TAG.match(name) and (peeled or name not in tags):
-            tags[name] = sha
-    if not tags:
-        return None, "no stable release tag"
-    best = max(tags, key=lambda n: tuple(int(x) for x in STABLE_TAG.match(n).groups()))
-    return tags[best], f"release {best}"
-
-plugin_marketplaces = None  # plugin name -> (marketplace, marketplace repo)
-marketplace_json = {}       # marketplace url -> parsed marketplace.json | None
-
-def marketplace_pin(name):
-    global plugin_marketplaces
-    if plugin_marketplaces is None:
-        # Same resolution install.sh uses: enabledPlugins + extraKnownMarketplaces.
-        plugin_marketplaces = {row[0]: (row[1], row[2])
-                               for row in declarations.plugin_rows(repo_root)}
-    market, repo = plugin_marketplaces.get(name, ("", ""))
-    if not market:
-        return None, "marketplace unknown (not in any enabledPlugins)"
-    url = BUILTIN_MARKETPLACES.get(market) or (
-        repo if "://" in repo else f"https://github.com/{repo}" if repo else "")
-    if not url:
-        return None, f"no repo known for marketplace {market}"
-    if url not in marketplace_json:
-        marketplace_json[url] = None
-        try:
-            with tempfile.TemporaryDirectory() as tmp:
-                clone = subprocess.run(
-                    ["git", "clone", "--depth", "1", "--filter=blob:none", "--no-checkout",
-                     "--quiet", url, tmp],
-                    capture_output=True, text=True, timeout=120,
-                )
-                if clone.returncode == 0:
-                    show = subprocess.run(
-                        ["git", "-C", tmp, "show", "HEAD:.claude-plugin/marketplace.json"],
-                        capture_output=True, text=True, timeout=60,
-                    )
-                    if show.returncode == 0:
-                        marketplace_json[url] = json.loads(show.stdout)
-        except (subprocess.TimeoutExpired, ValueError):
-            pass  # left as None, reported below as unreadable
-    data = marketplace_json[url]
-    if data is None:
-        return None, f"could not read {market} marketplace.json"
-    for plugin in data.get("plugins", []):
-        if plugin.get("name") == name:
-            source = plugin.get("source")
-            if isinstance(source, dict) and source.get("sha"):
-                return source["sha"], f"{market} pin"
-            return None, f"{market} does not pin a sha for {name}"
-    return None, f"{name} not listed in {market}"
-
-target_cache = {}
+resolver = targets.Targets(repo_root)
 for it in items:
-    track = it["track"]
-    if not track:
-        it["target"], it["target_note"] = head_cache.get(it["source"]), ""
-        continue
-    if track == "release":
-        key = ("release", it["source"])
-        if key not in target_cache:
-            target_cache[key] = latest_release(it["source"])
-    elif track == "marketplace":
-        key = ("marketplace", os.path.basename(it["local"]))
-        if key not in target_cache:
-            target_cache[key] = marketplace_pin(key[1])
-    else:
-        key = ("unknown", track)
-        target_cache[key] = (None, f"unknown track {track!r}")
-    it["target"], it["target_note"] = target_cache[key]
+    it["target"], it["target_note"] = resolver.resolve(it["source"], it["track"], it["local"])
 
 # --- Group items by (source, pinned_commit, target) ---
 groups = {}  # (source, pinned_commit, target, target_note) -> [items]

@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+# Move the pin of items this repo already tracks.
+#
+# Usage: bin/re-pin [--commit <sha>] [--notes "..."] [--overwrite-local] <item>...
+#
+#   <item>             Local path of an adopted item: a path that has a sidecar.
+#   --commit <sha>     Pin to this commit instead of the comparison target. The
+#                      items must then all come from one source.
+#   --notes "..."      Annotation recorded on each new sidecar entry.
+#   --overwrite-local  Replace a copied item even when its local copy differs
+#                      from what upstream had at the old pin.
+#
+# Without --commit each item moves to its comparison target: upstream HEAD, or
+# the newest release or marketplace pin when its sidecar sets "track". That is
+# the point bin/check-updates measures the pin against.
+#
+# A copied item's local files are replaced. Before that, the local copy is
+# compared with upstream at the old pin, and an item edited locally is left
+# alone unless --overwrite-local is given. Each source is cloned once. Items
+# are handled one by one, so a failure does not stop the others. SOURCES.md is
+# refreshed and bin/check-integrity runs once at the end.
+#
+# Exit: 0 when every item moved or was already current, 1 when any failed.
+
+set -euo pipefail
+
+for arg in "$@"; do
+  case "$arg" in
+    -h|--help) sed -n '2,23p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+  esac
+done
+
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+REPO_ROOT="$REPO_ROOT" PYTHONDONTWRITEBYTECODE=1 python3 - "$@" <<'PYEOF'
+import argparse
+import os
+import subprocess
+import sys
+
+repo_root = os.environ["REPO_ROOT"]
+sys.path.insert(0, os.path.join(repo_root, "lib"))
+import adoption
+import targets
+
+# Keep this output in order with what the tools run at the end print.
+sys.stdout.reconfigure(line_buffering=True)
+
+parser = argparse.ArgumentParser(prog="bin/re-pin", add_help=False)
+parser.add_argument("--commit")
+parser.add_argument("--notes", default="")
+parser.add_argument("--overwrite-local", action="store_true")
+parser.add_argument("items", nargs="*")
+args = parser.parse_args()
+
+if not args.items:
+    print("ERROR: name at least one item to re-pin (see bin/re-pin --help)", file=sys.stderr)
+    sys.exit(2)
+
+# Items are named by their path from the repo root, wherever this was run from.
+locals_ = []
+for raw in args.items:
+    rel = os.path.relpath(os.path.realpath(raw), os.path.realpath(repo_root))
+    if rel.startswith(".."):
+        print(f"ERROR: {raw} is outside this repo", file=sys.stderr)
+        sys.exit(2)
+    locals_.append(rel)
+
+print(f"Re-pinning {len(locals_)} item{'' if len(locals_) == 1 else 's'}...")
+try:
+    results = adoption.re_pin(repo_root, locals_, targets.Targets(repo_root),
+                              commit=args.commit, notes=args.notes,
+                              overwrite_local=args.overwrite_local)
+except adoption.AdoptionError as e:
+    print(f"ERROR: {e}", file=sys.stderr)
+    sys.exit(2)
+
+labels = {"moved": "moved  ", "current": "current", "failed": "FAILED "}
+print("")
+for r in results:
+    print(f"  {labels[r.status]}  {r.local}  {r.detail}")
+
+count = lambda status: sum(1 for r in results if r.status == status)
+print(f"\n{count('moved')} moved, {count('current')} already current, {count('failed')} failed")
+
+if count("moved"):
+    print("")
+    subprocess.run([os.path.join(repo_root, "bin", "sources-index")])
+    check = subprocess.run([os.path.join(repo_root, "bin", "check-integrity")],
+                           capture_output=True, text=True)
+    if check.returncode == 0:
+        print("Integrity check: clean.")
+    else:
+        print(check.stdout.rstrip())
+        print("\nWARNING: integrity check failed after this re-pin. If the errors name skills "
+              "an item now delegates to, adopt those too.")
+
+sys.exit(1 if count("failed") else 0)
+PYEOF

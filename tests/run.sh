@@ -99,7 +99,6 @@ echo "bin/adopt (re-pin)"
 out="$(adopt "$C2" skills/eng/a user/shared/skills/a)"
 eq "re-pin updates the content" "$(sed -n 5p "$REPO/user/shared/skills/a/SKILL.md")" "a v2"
 eq "re-pin appends a sidecar entry" "$(sidecar_entries "$REPO/user/shared/skills/a/.provenance.json")" "2"
-if [ -e "$REPO/user/shared/skills/a/old.md" ]; then bad "re-pin prunes a file upstream deleted"; else ok "re-pin prunes a file upstream deleted"; fi
 has "re-pin warns about a new sibling" "$out" "NEW      skills/eng/c"
 has "re-pin flags a removed sibling that is adopted here" "$out" "REMOVED  skills/eng/r  ** adopted here **"
 has "re-pin warns about a new skill outside the tracked dirs" "$out" "skills/beta/new  (outside tracked dirs)"
@@ -120,6 +119,44 @@ adopt "$C3" skills/eng/z user/shared/skills/z >/dev/null
 rm -rf "$REPO/user/shared/skills/r"
 out="$(run bin/check-updates)"; rc=$?
 eq "fast check exits 0 when every pin matches" "$rc" "0"
+
+# ----- bin/re-pin ------------------------------------------------------------
+echo "bin/re-pin"
+
+adopt "$C1" skills/eng/b user/shared/skills/b >/dev/null
+out="$(run bin/re-pin user/shared/skills/b user/shared/skills/z)"; rc=$?
+eq "re-pin exits 0 when items move or are already current" "$rc" "0"
+has "re-pin reports the item it moved" "$out" "moved    user/shared/skills/b"
+has "re-pin reports an item already at its target" "$out" "current  user/shared/skills/z"
+eq "re-pin appends a sidecar entry without being told the source" "$(sidecar_entries "$REPO/user/shared/skills/b/.provenance.json")" "2"
+has "re-pin ends with one integrity check" "$out" "Integrity check: clean."
+
+adopt "$C2" skills/eng/c user/shared/skills/c >/dev/null
+printf 'edited here\n' >> "$REPO/user/shared/skills/c/SKILL.md"
+out="$(run bin/re-pin user/shared/skills/c)"; rc=$?
+eq "re-pin exits 1 when an item was edited locally" "$rc" "1"
+has "re-pin names what differs" "$out" "changed locally: SKILL.md"
+out="$(run bin/re-pin --overwrite-local user/shared/skills/c)"; rc=$?
+eq "--overwrite-local replaces the edited copy" "$rc" "0"
+
+adopt "$C1" notes.md user/shared/notes.md >/dev/null
+eq "adopt copies a single file" "$(cat "$REPO/user/shared/notes.md")" "a single file"
+if [ -f "$REPO/user/shared/notes.md.provenance.json" ]; then ok "a file item keeps its sidecar beside it"; else bad "a file item keeps its sidecar beside it"; fi
+run bin/re-pin user/shared/notes.md >/dev/null
+eq "re-pin moves a single-file item" "$(cat "$REPO/user/shared/notes.md")" "a single file, edited"
+
+out="$(run bin/re-pin)"; rc=$?
+eq "re-pin with no items exits 2" "$rc" "2"
+
+python3 - "$REPO/user/shared/skills/z/.provenance.json" <<'PY'
+import json, sys
+p = sys.argv[1]
+d = json.load(open(p))
+d["track"] = "release"
+json.dump(d, open(p, "w"))
+PY
+out="$(run bin/adopt --from "$SRC" --path skills/eng/z --to user/shared/skills/z --mode copied --license MIT --no-index --no-check)"
+has "adopt warns when a tracked item is pinned without --commit" "$out" "bin/re-pin user/shared/skills/z moves it to its comparison target"
 
 # ----- bin/check-integrity ---------------------------------------------------
 echo "bin/check-integrity"

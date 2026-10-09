@@ -86,7 +86,7 @@ When an item draws from multiple upstream sources (combining ideas from several 
 | `release` | the source's newest stable tag named `vX.Y.Z`. Pre-release suffixes, unprefixed `X.Y.Z`, and other tag names are ignored. | `user/shared/skills/herdr/` (ADR 0051) |
 | `marketplace` | the `sha` the plugin's marketplace pins it to in `.claude-plugin/marketplace.json`. The marketplace is found through `enabledPlugins`, the same way `install.sh` finds it, so only `user/shared/plugins/<name>/` items can use this. | `user/shared/plugins/hyperframes/` |
 
-`track` sits at the top level rather than in a `provenance[]` entry, so re-pinning with `bin/adopt` keeps it. `bin/adopt` does not read it. When re-pinning a tracked item, pass the target that `check-updates` printed as `--commit`, because omitting `--commit` pins to HEAD. When the target cannot be found (no stable tag, unknown marketplace, a marketplace entry without a `sha`, or an unknown `track` value), `check-updates` reports the item as `?` with the reason instead of falling back to HEAD. `bin/check-integrity` rejects any top-level key other than `provenance` and `track`, so a misspelled `track` key is caught instead of silently meaning HEAD.
+`track` sits at the top level rather than in a `provenance[]` entry, so a re-pin keeps it. `bin/re-pin` reads it: without `--commit` it moves the item to the same target `check-updates` compares against. `bin/adopt` run against an existing item still pins HEAD when `--commit` is omitted, and warns when that item sets `track`. When the target cannot be found (no stable tag, unknown marketplace, a marketplace entry without a `sha`, or an unknown `track` value), `check-updates` reports the item as `?` with the reason instead of falling back to HEAD. `bin/check-integrity` rejects any top-level key other than `provenance` and `track`, so a misspelled `track` key is caught instead of silently meaning HEAD.
 
 ## Using `bin/adopt`
 
@@ -183,7 +183,7 @@ Each provenance entry records the upstream `license`. The auto-generated `SOURCE
 |---|---|
 | Rename or move an adopted item | Move the sidecar along with it. Run `bin/sources-index` to refresh. |
 | Delete an adopted item | Delete the sidecar too. Run `bin/sources-index`; the entry disappears from `SOURCES.md`. |
-| Upstream has new commits since adoption | Currently manual. Re-run `bin/adopt` with the newer commit; the new entry is appended (older entry retained as history). |
+| Upstream has new commits since adoption | Run `bin/re-pin <item>`. A new entry is appended and the older entry stays as history. |
 | Adopted from a private repo | Same flow. The full SHA is recorded; viewers without access to the private repo can still see the metadata. |
 | Tags only, no commit SHA available | Pick the commit the tag pointed to at the time. Tags can move; record the SHA, not the tag. |
 | Adopted content rewritten far enough that upstream no longer describes it | Append an entry with `"source": "self"` and `"adopted-as": "inspired-by"`, and use `notes` to say what changed and why. `commit` / `path` / `license` are omitted — there is nothing upstream left to pin. Written by hand; `bin/adopt` does not produce these. Example: `user/shared/CLAUDE.md.provenance.json`. |
@@ -193,6 +193,7 @@ Each provenance entry records the upstream `license`. The auto-generated `SOURCE
 | Path | Role |
 |---|---|
 | `bin/adopt` | Adoption helper — record sources |
+| `bin/re-pin` | Move the pin of items already recorded |
 | `bin/sources-index` | Regenerate `SOURCES.md` |
 | `bin/check-integrity` | Static validation of sidecars and skill cross-references |
 | `lib/sidecars.py` | Reads, appends to, and validates sidecars. Every tool goes through it |

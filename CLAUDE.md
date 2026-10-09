@@ -10,7 +10,7 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 - `.claude/skills/`. Project-scope skills (e.g., `check-updates`). Only active when working in this repo.
 - `.claude/settings.json`, `.claude/hooks/`. Project-scope config. A `Stop` hook runs `bin/check-integrity` when a session here ends and asks Claude to fix any errors before stopping. Only active in this repo.
 - `project-templates/`. Templates copied into new projects via manual `cp -r` (no scaffold script).
-- `bin/adopt`, `bin/sources-index`, `bin/check-updates`. Provenance tooling. JSON sidecars plus an auto-generated `SOURCES.md`.
+- `bin/adopt`, `bin/re-pin`, `bin/sources-index`, `bin/check-updates`. Provenance tooling. JSON sidecars plus an auto-generated `SOURCES.md`. `bin/adopt` records an item for the first time, and `bin/re-pin` moves the pin of one already recorded.
 - `bin/check-integrity`. Static validation. Catches items whose dependencies were never adopted. Complements `check-updates` (freshness) with a function check.
 - `bin/check-machine`. Compares this machine with what the repo owns and declares. It reads machine state, so its result differs per machine and it stays out of the `Stop` hook.
 - `docs/PROVENANCE.md`. Schema and edge cases for provenance.
@@ -32,7 +32,7 @@ The goal is reproduction: a new machine reaches the same Claude Code environment
 
 1. `bin/adopt --from <url> [--commit <sha>] --path <p> --to <dest> --mode copied|inspired-by --license <SPDX> [--notes "..."]`. Omitting `--commit` pins to upstream HEAD. Auto-runs `bin/sources-index` unless `--no-index`, then `bin/check-integrity` unless `--no-check`.
 2. Review the diff and the new `.provenance.json` sidecar. **If the integrity check warned, resolve it before committing.** Usually it means the item delegates to a skill you haven't adopted yet.
-3. Commit using the printed `git commit ... --trailer ...` form (include `SOURCES.md`), or pass `--commit-now` to step 1 to skip the copy-paste.
+3. Commit using the printed `git commit ... --trailer ...` form (include `SOURCES.md`), or pass `--commit-now` to step 1 to skip the copy-paste. The trailers are for a commit that adopts one item. A commit that adopts several names them in its message instead.
 4. Push only on explicit user request.
 
 ### Declare a plugin
@@ -100,9 +100,13 @@ Steps:
 2. Write a short title and a 1-3 sentence summary (what was decided and why). Add the optional sections Status, Considered Options, and Consequences only when they add genuine value.
 3. Commit with the change it documents.
 
-### Update an adoption to a newer upstream commit
+### Re-pin an item to a newer upstream commit
 
-Re-run `bin/adopt` against the same destination with the new SHA. The sidecar's `provenance[]` list gets a new entry appended. The older entry stays as history. `bin/adopt` compares the old and new pins itself, so a hand-run re-pin gets the same structural check as `check-updates --deep`. It also warns when an `inspired-by` path no longer exists at the new commit (ADR 0039, ADR 0070).
+Run `bin/re-pin <item>...` with the local paths of the items to move. Each goes to its comparison target: upstream HEAD, or the newest release or marketplace pin when its sidecar sets `track`. Pass `--commit <sha>` to pin somewhere else. The sidecar gets a new entry and the older one stays as history.
+
+A `copied` item's files are replaced. If its local copy differs from upstream at the old pin, that item is left alone and the difference is listed. Decide whether the local edit should survive before passing `--overwrite-local`.
+
+`bin/re-pin` clones each source once and reports upstream structure changes once per source, the same check `check-updates --deep` runs (ADR 0039, ADR 0070, ADR 0085). A re-pin commit carries no trailers: the sidecars already record each source and commit.
 
 ## Guardrails
 

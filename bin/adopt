@@ -112,7 +112,9 @@ case "$MODE" in
 esac
 
 # ----- Resolve HEAD when --commit was omitted -----
+COMMIT_GIVEN=1
 if [ -z "$COMMIT" ]; then
+  COMMIT_GIVEN=0
   echo "Resolving upstream HEAD..."
   LS_REMOTE_OUT="$(git ls-remote --symref "$FROM" HEAD 2>/dev/null)" || {
     echo "ERROR: failed to ls-remote $FROM" >&2
@@ -204,166 +206,101 @@ PYEOF
 }
 check_duplicate_install
 
-# ----- Clone upstream (blobless, no checkout) -----
-TMPDIR="$(mktemp -d)"
-trap 'rm -rf "$TMPDIR"' EXIT
+# ----- Clone once, warn about structure, copy, record (lib/adoption.py) -----
+RESULT_FILE="$(mktemp)"
+trap 'rm -f "$RESULT_FILE"' EXIT
 
-echo "Cloning $FROM (blobless)..."
-if ! git clone --quiet --filter=blob:none --no-checkout "$FROM" "$TMPDIR/clone" >/dev/null 2>&1; then
-  echo "ERROR: failed to clone $FROM" >&2
-  exit 1
-fi
+REPO_ROOT="$REPO_ROOT" RESULT_FILE="$RESULT_FILE" PYTHONDONTWRITEBYTECODE=1 \
+python3 - "$FROM" "$COMMIT" "$PATH_IN_REPO" "$TO" "$MODE" "$LICENSE" "$NOTES" "$COMMIT_GIVEN" <<'PYEOF'
+import os, sys
 
-# ----- Resolve full SHA -----
-FULL_SHA="$(git -C "$TMPDIR/clone" rev-parse "$COMMIT" 2>/dev/null)" || {
-  echo "ERROR: commit '$COMMIT' not found in $FROM" >&2
-  exit 1
-}
-echo "  Commit: $FULL_SHA"
-
-# ----- Structural drift + path-existence warnings (never fail) -----
-# check-updates --deep reports new/removed upstream entries next to tracked
-# paths and skills or plugins added elsewhere in the repo, but a hand-run
-# re-pin skips that scan; the clone is already here, so the same comparison
-# costs four ls-tree calls.
-if [ "$PATH_IN_REPO" != "." ]; then
-  if [ -f "$TO/.provenance.json" ]; then
-    PRE_SIDECAR="$TO/.provenance.json"
-  elif [ -f "$TO.provenance.json" ]; then
-    PRE_SIDECAR="$TO.provenance.json"
-  else
-    PRE_SIDECAR=""
-  fi
-  REPO_ROOT="$REPO_ROOT" PYTHONDONTWRITEBYTECODE=1 \
-  CLONE_DIR="$TMPDIR/clone" SIDECAR_F="$PRE_SIDECAR" FROM_URL="$FROM" \
-  NEW_SHA="$FULL_SHA" P_PATH="$PATH_IN_REPO" P_MODE="$MODE" \
-  python3 - <<'PYEOF'
-import os, subprocess, sys
-
-sys.path.insert(0, os.path.join(os.environ["REPO_ROOT"], "lib"))
+repo_root = os.environ["REPO_ROOT"]
+sys.path.insert(0, os.path.join(repo_root, "lib"))
+import adoption
 import sidecars
 import structure
 
-repo_root = os.environ["REPO_ROOT"]
-clone = os.environ["CLONE_DIR"]
-new_sha = os.environ["NEW_SHA"]
-path = os.environ["P_PATH"]
-
-def git(*args):
-    return subprocess.run(["git", "-C", clone, *args],
-                          capture_output=True, text=True)
+source, commit, path, dest, mode, license, notes, commit_given = sys.argv[1:]
 
 def warn(msg):
     print(msg, file=sys.stderr)
 
-# copied mode already errors on a missing path at checkout; inspired-by would
-# silently pin a vanished path without this.
-if os.environ["P_MODE"] == "inspired-by" and \
-        git("cat-file", "-e", f"{new_sha}:{path}").returncode != 0:
-    warn("")
-    warn(f"⚠  '{path}' does not exist upstream at {new_sha[:8]} — deleted or moved?")
-    warn("   Run bin/check-updates --deep (or /check-updates) before trusting this pin.")
-
-sidecar = os.environ.get("SIDECAR_F")
-if not sidecar:
-    sys.exit(0)
-
-# The old pin is this item's current pin for the source being adopted from.
-items, _unreadable = sidecars.read(repo_root)
-this = os.path.realpath(sidecar)
-item = next((i for i in items if os.path.realpath(os.path.join(repo_root, i.sidecar)) == this), None)
-pin = item.pin_for(os.environ["FROM_URL"]) if item else None
-old_pin = pin.get("commit") if pin else None
-
-if not old_pin or new_sha.startswith(old_pin):
-    sys.exit(0)
-if git("cat-file", "-e", f"{old_pin}^{{commit}}").returncode != 0:
-    sys.exit(0)  # old pin unreachable (rewritten history) — nothing to compare
-
-# Same answer check-updates --deep gives, for this one path.
-tracked = sidecars.tracked_paths(items, os.environ["FROM_URL"]) | {path}
-records = structure.changes(git, old_pin, new_sha, [path], tracked)
-if not records:
-    sys.exit(0)
-warn("")
-warn(f"⚠  Upstream structure changed around '{path}' between {old_pin[:8]} and {new_sha[:8]}:")
-for rec in records:
-    mark = "  (outside tracked dirs)" if rec["scope"] == "elsewhere" else ""
-    for p in rec["added"]:
-        warn(f"     NEW      {p}{mark}")
-for rec in records:
-    for p in rec["removed"]:
-        mark = "  ** adopted here **" if p in rec["removed_tracked"] else ""
-        warn(f"     REMOVED  {p}{mark}")
-warn("   Run bin/check-updates --deep (or /check-updates) to judge these.")
-PYEOF
-fi
-
-# ----- Copy if needed -----
-if [ "$MODE" = "copied" ]; then
-  echo "Sparse-checking out $PATH_IN_REPO..."
-  git -C "$TMPDIR/clone" sparse-checkout init --cone >/dev/null
-  git -C "$TMPDIR/clone" sparse-checkout set "$PATH_IN_REPO" >/dev/null
-  git -C "$TMPDIR/clone" checkout --quiet "$FULL_SHA" >/dev/null
-
-  SRC="$TMPDIR/clone/$PATH_IN_REPO"
-  if [ ! -e "$SRC" ]; then
-    echo "ERROR: path '$PATH_IN_REPO' not found in $FROM at $FULL_SHA" >&2
-    exit 1
-  fi
-
-  mkdir -p "$(dirname "$TO")"
-  if [ -d "$SRC" ]; then
-    # Re-adoption: drop what upstream no longer ships before copying. `cp -R`
-    # only overwrites, so without this every file deleted upstream lingers
-    # locally forever. Gated on an existing sidecar so a mistyped --to can
-    # never wipe a directory this repo doesn't already own.
-    if [ -f "$TO/.provenance.json" ]; then
-      find "$TO" -mindepth 1 -maxdepth 1 ! -name '.provenance.json' -exec rm -rf {} +
-      echo "Pruned $TO (kept .provenance.json)"
-    fi
-    mkdir -p "$TO"
-    cp -R "$SRC/." "$TO/"
-    echo "Copied folder $PATH_IN_REPO → $TO"
-  else
-    cp "$SRC" "$TO"
-    echo "Copied file $PATH_IN_REPO → $TO"
-  fi
-fi
-
-# ----- Destination must exist before sidecar write -----
-if [ ! -e "$TO" ]; then
-  echo "ERROR: destination '$TO' does not exist." >&2
-  if [ "$MODE" = "inspired-by" ]; then
-    echo "  For 'inspired-by' mode, write your local implementation first." >&2
-  fi
-  exit 1
-fi
-
-# ----- Determine sidecar path -----
-if [ -d "$TO" ]; then
-  SIDECAR="$TO/.provenance.json"
-else
-  SIDECAR="$TO.provenance.json"
-fi
-
-# ----- Write/append sidecar -----
-ADOPTED_AT="$(date +%Y-%m-%d)"
-REPO_ROOT="$REPO_ROOT" PYTHONDONTWRITEBYTECODE=1 python3 - \
-  "$SIDECAR" "$FROM" "$FULL_SHA" "$PATH_IN_REPO" "$LICENSE" "$MODE" "$ADOPTED_AT" "$NOTES" <<'PYEOF'
-import os, sys
-
-sys.path.insert(0, os.path.join(os.environ["REPO_ROOT"], "lib"))
-import sidecars
-
-path, *fields = sys.argv[1:]
-try:
-    sidecars.append(path, sidecars.new_entry(*fields))
-except ValueError as e:
-    print(f"ERROR: {e}", file=sys.stderr)
+def die(msg):
+    warn(f"ERROR: {msg}")
     sys.exit(1)
+
+print(f"Cloning {source} (blobless)...")
+try:
+    upstream = adoption.Upstream(source)
+except adoption.AdoptionError as e:
+    die(str(e))
+
+with upstream:
+    sha = upstream.resolve(commit)
+    if sha is None:
+        die(f"commit '{commit}' not found in {source}")
+    print(f"  Commit: {sha}")
+
+    # copied mode fails below on a missing path; inspired-by would silently pin
+    # a vanished path without this.
+    if mode == "inspired-by" and not upstream.has(sha, path):
+        warn("")
+        warn(f"⚠  '{path}' does not exist upstream at {sha[:8]} — deleted or moved?")
+        warn("   Run bin/check-updates --deep (or /check-updates) before trusting this pin.")
+
+    # Is this destination already an item? Then this is a re-pin done by hand.
+    items, _unreadable = sidecars.read(repo_root)
+    existing = [p for p in (os.path.join(dest, sidecars.SUFFIX), dest + sidecars.SUFFIX) if os.path.isfile(p)]
+    item = None
+    if existing:
+        this = os.path.realpath(existing[0])
+        item = next((i for i in items if os.path.realpath(os.path.join(repo_root, i.sidecar)) == this), None)
+    pin = item.pin_for(source) if item else None
+    old = pin.get("commit") if pin else None
+
+    if item and item.track and commit_given == "0":
+        warn("")
+        warn(f"⚠  {item.local} tracks its {item.track}, but no --commit was given, so this pins upstream HEAD.")
+        warn(f"   bin/re-pin {item.local} moves it to its comparison target instead.")
+
+    # The same answer check-updates --deep gives, for this one path.
+    if path != "." and old and not sha.startswith(old) and upstream.resolve(old):
+        tracked = sidecars.tracked_paths(items, source) | {path}
+        lines = adoption.structure_lines(structure.changes(upstream.git, old, sha, [path], tracked))
+        if lines:
+            warn("")
+            warn(f"⚠  Upstream structure changed around '{path}' between {old[:8]} and {sha[:8]}:")
+            for line in lines:
+                warn(f"     {line}")
+            warn("   Run bin/check-updates --deep (or /check-updates) to judge these.")
+
+    if mode == "copied":
+        print(f"Sparse-checking out {path}...")
+        try:
+            upstream.checkout(sha, [path])
+            kind, pruned = adoption.copy_in(upstream, path, dest)
+        except adoption.AdoptionError as e:
+            die(f"{e} at {sha}")
+        if pruned:
+            print(f"Pruned {dest} (kept .provenance.json)")
+        print(f"Copied {kind} {path} → {dest}")
+
+    if not os.path.lexists(dest):
+        warn(f"ERROR: destination '{dest}' does not exist.")
+        if mode == "inspired-by":
+            warn("  For 'inspired-by' mode, write your local implementation first.")
+        sys.exit(1)
+
+    try:
+        sidecar = adoption.record(dest, source, sha, path, license, mode, notes)
+    except ValueError as e:
+        die(str(e))
+    print(f"Sidecar updated: {sidecar}")
+
+with open(os.environ["RESULT_FILE"], "w") as f:
+    f.write(f"{sha}\n{sidecar}\n")
 PYEOF
-echo "Sidecar updated: $SIDECAR"
+{ read -r FULL_SHA; read -r SIDECAR; } < "$RESULT_FILE"
 
 # ----- Auto-refresh SOURCES.md -----
 if [ "$NO_INDEX" -eq 0 ]; then
