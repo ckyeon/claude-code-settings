@@ -18,6 +18,15 @@
       "adopted-as": "copied",
       "adopted-at": "2026-09-17",
       "notes": "Re-pinned to release tag v0.9.1 (not HEAD) per ADR 0051; SKILL.md identical to HEAD at this time"
+    },
+    {
+      "source": "https://github.com/herdrdev/herdr",
+      "commit": "7b116c05bfda646af39d2524c54e70c751f57ee8",
+      "path": "skills/herdr",
+      "license": "Apache-2.0",
+      "adopted-as": "copied",
+      "adopted-at": "2026-10-09",
+      "notes": "Re-pinned to release tag v0.9.3; SKILL.md adds machine status and machine reconnect guidance."
     }
   ]
 }

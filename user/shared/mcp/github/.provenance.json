@@ -65,6 +65,15 @@
       "license": "MIT",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-09-17"
+    },
+    {
+      "source": "https://github.com/github/github-mcp-server",
+      "commit": "eb47a99ddb866ca2b8a162920e6bda9521f33ebb",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-10-09",
+      "notes": "v2.0.2: typed tool outputs for MCP protocol 2026-07-28 and newer, Go module path /v2; registration command unchanged."
     }
   ]
 }

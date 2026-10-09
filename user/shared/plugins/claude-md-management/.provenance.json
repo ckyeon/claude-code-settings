@@ -64,6 +64,14 @@
       "license": "Apache-2.0",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-09-17"
+    },
+    {
+      "source": "https://github.com/anthropics/claude-plugins-official",
+      "commit": "b860d6f2554f145fe1e7ac4cdcabca0120d14030",
+      "path": "plugins/claude-md-management",
+      "license": "Apache-2.0",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-10-09"
     }
   ]
 }

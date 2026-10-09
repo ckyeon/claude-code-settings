@@ -15,6 +15,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-09-29"
+    },
+    {
+      "source": "https://github.com/vercel/next.js",
+      "commit": "5da8ef12bc6b4156dd490e58e3878e06fd7f4472",
+      "path": "skills/next-partial-prefetching-optimizer",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-10-09"
     }
   ]
 }
