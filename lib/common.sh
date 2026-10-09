@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Shared helpers for install.sh, uninstall.sh, and bin/check-machine.
 
-# Field separator for the rows list_tracked_plugins emits. Must not be an IFS
+# Field separator for the rows list_declared_plugins and list_owned_links emit. Must not be an IFS
 # whitespace character: `read` coalesces runs of those, which would swallow the
 # empty `source` field of a built-in marketplace and shift every later field.
 FIELD_SEP="|"
@@ -16,8 +16,9 @@ detect_os() {
 
 # Print one "<source>|<destination>" row per owned path: the file or directory
 # in this repo, and where it is symlinked under the Claude directory.
-# install.sh creates these links and bin/check-machine verifies them, so this
-# list is the only place that says which paths are owned.
+# install.sh creates these links, uninstall.sh removes them, and
+# bin/check-machine verifies them, so this list is the only place that says
+# which paths are owned.
 list_owned_links() {
   local repo_root="$1" claude_dir="$2" os="$3" d
   echo "$repo_root/user/shared/CLAUDE.md|$claude_dir/CLAUDE.md"
@@ -32,77 +33,37 @@ list_owned_links() {
   echo "$repo_root/user/$os/hooks|$claude_dir/hooks/os"
 }
 
-# Print one row per tracked plugin: <name>|<marketplace>|<source>|<scope>.
+# Print one row per declared plugin: <name>|<marketplace>|<source>|<scope>.
 #
-# A plugin is tracked when user/shared/plugins/<name>/ has a .provenance.json
-# sidecar. Its marketplace comes from the `enabledPlugins` key ("<name>@<marketplace>")
-# in user/shared/settings.json, or — for project-scope plugins — in a
-# project-templates/*/.claude/settings.json. `source` is the marketplace's repo
-# from `extraKnownMarketplaces` (user settings first, then templates), empty for
-# built-in marketplaces that need no `/plugin marketplace add`. Both are empty when no settings file enables the
-# plugin, which install.sh / uninstall.sh surface as a warning.
+# A plugin is declared when user/shared/plugins/<name>/ exists. Its marketplace
+# comes from an `enabledPlugins` key ("<name>@<marketplace>") in
+# user/shared/settings.json or in a project-templates/*/.claude/settings.json.
+# `source` is the marketplace's repo from `extraKnownMarketplaces`, empty for
+# built-in marketplaces that need no `/plugin marketplace add`. `scope` is
+# "user" or "project" where the plugin is switched on, and empty when no
+# settings file enables it. Marketplace and source are empty too when no
+# settings file mentions the plugin, which install.sh / uninstall.sh surface
+# as a warning. The rules live in lib/declarations.py.
 #
 # Rows are sorted built-in marketplaces first, then third-party, then unknown —
 # install.sh relies on that grouping to emit one `marketplace add` per group.
-list_tracked_plugins() {
+list_declared_plugins() {
   local repo_root="$1"
-  python3 - "$repo_root" <<'PY'
-import glob
-import json
+  PYTHONDONTWRITEBYTECODE=1 python3 - "$repo_root" <<'PY'
 import os
 import sys
 
 repo_root = sys.argv[1]
+sys.path.insert(0, os.path.join(repo_root, "lib"))
+import declarations
 
-
-def load(path):
-    try:
-        with open(path) as f:
-            return json.load(f)
-    except (OSError, ValueError):
-        return {}
-
-
-plugins_dir = os.path.join(repo_root, "user", "shared", "plugins")
-try:
-    tracked = sorted(
-        name
-        for name in os.listdir(plugins_dir)
-        if os.path.isfile(os.path.join(plugins_dir, name, ".provenance.json"))
-    )
-except OSError:
-    tracked = []
-
-user_settings = load(os.path.join(repo_root, "user", "shared", "settings.json"))
-template_settings = [
-    load(p)
-    for p in sorted(glob.glob(os.path.join(repo_root, "project-templates", "*", ".claude", "settings.json")))
-]
-
-# User scope wins: a plugin enabled globally is installed regardless of template.
-enabled = {}
-for scope, settings in [("user", user_settings)] + [("project", s) for s in template_settings]:
-    for key in settings.get("enabledPlugins", {}):
-        name, _, marketplace = key.partition("@")
-        enabled.setdefault(name, (marketplace, scope))
-
-# A template-only plugin can come from a third-party marketplace that only the
-# template declares, so templates contribute marketplaces too.
-marketplaces = dict(user_settings.get("extraKnownMarketplaces", {}))
-for settings in template_settings:
-    for name, spec in settings.get("extraKnownMarketplaces", {}).items():
-        marketplaces.setdefault(name, spec)
-
-
-def source_of(marketplace):
-    source = marketplaces.get(marketplace, {}).get("source", {})
-    return source.get("repo") or source.get("url") or ""
-
+entries = declarations.plugin_entries(repo_root)
+sources = declarations.marketplace_sources(repo_root)
 
 rows = []
-for name in tracked:
-    marketplace, scope = enabled.get(name, ("", ""))
-    rows.append((name, marketplace, source_of(marketplace) if marketplace else "", scope))
+for name in declarations.declared(repo_root, "plugins"):
+    marketplace, scope = entries.get(name, ("", ""))
+    rows.append((name, marketplace, sources.get(marketplace, "") if marketplace else "", scope))
 
 # Unknown last, then third-party, then built-in.
 rows.sort(key=lambda r: (2 if not r[1] else 1 if r[2] else 0, r[1], r[0]))
@@ -112,10 +73,10 @@ PY
 }
 
 # Print one MCP server name per line for every user/shared/mcp/<name>/ that
-# contains a README.md. Sidecar is optional for MCP entries (hosted servers
-# without public source still get tracked via README alone). Used by install.sh /
+# contains a README.md. Sidecar is optional for MCP entries (a hosted server
+# without public source is declared by its README alone). Used by install.sh /
 # uninstall.sh to surface manual `claude mcp add` hints.
-list_tracked_mcp_servers() {
+list_declared_mcp_servers() {
   local repo_root="$1"
   local d
   for d in "$repo_root"/user/shared/mcp/*/; do

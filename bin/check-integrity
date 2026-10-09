@@ -21,7 +21,7 @@ done
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_ROOT"
 
-REPO_ROOT="$REPO_ROOT" STRICT="$STRICT" python3 - <<'PYEOF'
+REPO_ROOT="$REPO_ROOT" STRICT="$STRICT" PYTHONDONTWRITEBYTECODE=1 python3 - <<'PYEOF'
 import json
 import os
 import re
@@ -30,6 +30,9 @@ import sys
 repo_root = os.environ["REPO_ROOT"]
 strict = os.environ["STRICT"] == "1"
 skills_dir = os.path.join(repo_root, "user", "shared", "skills")
+
+sys.path.insert(0, os.path.join(repo_root, "lib"))
+import declarations
 
 errors = []   # (rel_path, line, message)
 warnings = []
@@ -100,8 +103,8 @@ def local_skills(d):
     return {n for n in os.listdir(d) if os.path.isfile(os.path.join(d, n, "SKILL.md"))}
 
 # Skill directories to check, each with the names its references may resolve
-# to. A template's skills see their own template plus user scope; user-scope
-# skills never see a template's.
+# to. A template's skills see their own template plus user scope, and
+# user-scope skills never see a template's.
 #
 # Templates get the reference checks only (`full` is False). Their skills are
 # copied from upstreams whose frontmatter names and links this repo does not
@@ -114,30 +117,31 @@ if os.path.isdir(templates_dir):
         if local_skills(tdir):
             scopes.append((tdir, skill_names | local_skills(tdir), False))
 
-checked = []  # (skills_dir, count)
-for skills_dir, skill_names, full in scopes:
-    checked.append((skills_dir, len(local_skills(skills_dir))))
-    for name in sorted(local_skills(skills_dir)):
-        sdir = os.path.join(skills_dir, name)
+checked = []  # (scope_dir, count)
+for scope_dir, resolvable, full in scopes:
+    checked.append((scope_dir, len(local_skills(scope_dir))))
+    for name in sorted(local_skills(scope_dir)):
+        sdir = os.path.join(scope_dir, name)
         path = os.path.join(sdir, "SKILL.md")
         text = open(path, encoding="utf-8").read()
         fields, body = parse_frontmatter(text)
         r = rel(path)
 
-        if full and fields is None:
-            errors.append((r, 1, "frontmatter block missing"))
-            continue
-        if full and fields.get("name") != name:
-            errors.append((r, 1, f"frontmatter name {fields.get('name')!r} != directory {name!r}"))
-        if full and not fields.get("description"):
-            errors.append((r, 1, "description missing or empty"))
+        if full:
+            if fields is None:
+                errors.append((r, 1, "frontmatter block missing"))
+                continue
+            if fields.get("name") != name:
+                errors.append((r, 1, f"frontmatter name {fields.get('name')!r} != directory {name!r}"))
+            if not fields.get("description"):
+                errors.append((r, 1, "description missing or empty"))
 
         for i, line in enumerate(body.splitlines(), start=1):
             referenced = set()
             for m in SKILL_REF.finditer(line):
                 for ref in ANY_REF.finditer(m.group(1)):
                     referenced.add(ref.group(1))
-                    if ref.group(1) not in skill_names:
+                    if ref.group(1) not in resolvable:
                         errors.append((r, i, f"references skill `/{ref.group(1)}` — not installed"))
             for m in SKILL_TOOL_REF.finditer(line):
                 for ref in QUOTED_NAME.finditer(m.group(1)):
@@ -145,18 +149,19 @@ for skills_dir, skill_names, full in scopes:
                     if tok in QUOTED_PLACEHOLDERS:
                         continue
                     referenced.add(tok)
-                    if tok not in skill_names:
+                    if tok not in resolvable:
                         errors.append((r, i, f'references skill "{tok}" (Skill tool call) — not installed'))
+            if not full:
+                continue
+
             # Softer net: a backticked /token that is neither a known skill, a
             # built-in, nor a filesystem path. Recall for refs worded differently.
             for m in ANY_REF.finditer(line):
                 tok = m.group(1)
-                if not full or tok in referenced or tok in skill_names or tok in NOT_A_SKILL:
+                if tok in referenced or tok in resolvable or tok in NOT_A_SKILL:
                     continue
                 warnings.append((r, i, f"unresolved reference `/{tok}` — skill? typo?"))
 
-            if not full:
-                continue
             for m in MD_LINK.finditer(line):
                 text = m.group(1).strip()
                 target = m.group(2).split("#")[0].strip()
@@ -206,17 +211,14 @@ for root, dirs, files in os.walk(repo_root):
 
 # --- Declarations: every declared item carries the command that creates it ---
 # A declared item is reproduced by running a command on the machine (ADR 0074),
-# so a declaration without that command cannot be acted on.
-def declared(kind):
-    d = os.path.join(repo_root, "user", "shared", kind)
-    if not os.path.isdir(d):
-        return []
-    return sorted(n for n in os.listdir(d) if os.path.isdir(os.path.join(d, n)))
-
-# "plugin install" matches both the in-session `/plugin install` and the
-# `claude plugin install` CLI form.
-for kind, command in (("mcp", "claude mcp add"), ("plugins", "plugin install")):
-    for name in declared(kind):
+# so a declaration without that command cannot be acted on. "plugin install"
+# matches both the in-session `/plugin install` and the `claude plugin install`
+# CLI form.
+declared_plugins = declarations.declared(repo_root, "plugins")
+declared_mcp = declarations.declared(repo_root, "mcp")
+for kind, names, command in (("mcp", declared_mcp, "claude mcp add"),
+                             ("plugins", declared_plugins, "plugin install")):
+    for name in names:
         ddir = os.path.join(repo_root, "user", "shared", kind, name)
         readme = os.path.join(ddir, "README.md")
         if not os.path.isfile(readme):
@@ -224,28 +226,14 @@ for kind, command in (("mcp", "claude mcp add"), ("plugins", "plugin install")):
         elif command not in open(readme, encoding="utf-8").read():
             errors.append((rel(readme), 1, f"declaration lacks its `{command}` command"))
 
-# enabledPlugins keys are "<name>@<marketplace>". User scope first, then templates.
-settings_paths = [os.path.join(repo_root, "user", "shared", "settings.json")]
-if os.path.isdir(templates_dir):
-    settings_paths += [os.path.join(templates_dir, t, ".claude", "settings.json")
-                       for t in sorted(os.listdir(templates_dir))]
-enabled_anywhere, enabled_user = set(), set()
-for idx, sp in enumerate(settings_paths):
-    try:
-        plugins = json.load(open(sp, encoding="utf-8")).get("enabledPlugins") or {}
-    except (OSError, ValueError):
-        continue
-    for key, on in plugins.items():
-        plugin = key.partition("@")[0]
-        enabled_anywhere.add(plugin)
-        if idx == 0 and on:
-            enabled_user.add(plugin)
-for name in declared("plugins"):
-    if name not in enabled_anywhere:
+plugin_entries = declarations.plugin_entries(repo_root)  # name -> (marketplace, scope)
+for name in declared_plugins:
+    if not plugin_entries.get(name, ("", ""))[1]:
         warnings.append((rel(os.path.join(repo_root, "user", "shared", "plugins", name)), 1,
-                         "declared plugin is not in any settings.json enabledPlugins"))
-for name in sorted(enabled_user - set(declared("plugins"))):
-    warnings.append((rel(settings_paths[0]), 1,
+                         "declared plugin is not enabled in any settings.json"))
+enabled_user = {name for name, (_market, scope) in plugin_entries.items() if scope == "user"}
+for name in sorted(enabled_user - set(declared_plugins)):
+    warnings.append(("user/shared/settings.json", 1,
                      f"plugin {name!r} is enabled but not declared under user/shared/plugins/"))
 
 # --- Report ---
@@ -258,7 +246,7 @@ def emit(label, items):
 
 for d, n in checked:
     print(f"Checked {n} skills in {rel(d)}")
-print(f"Checked {len(declared('plugins'))} plugin and {len(declared('mcp'))} MCP server declarations")
+print(f"Checked {len(declared_plugins)} plugin and {len(declared_mcp)} MCP server declarations")
 emit("ERRORS", errors)
 emit("WARNINGS", warnings)
 

@@ -56,7 +56,7 @@ if [ "$backed_up" -gt 0 ]; then
   echo "Tip: review backups with: find $CLAUDE_DIR -maxdepth 2 -name '*.backup-$TS'"
 fi
 
-PLUGIN_ROWS="$(list_tracked_plugins "$REPO_ROOT")"
+PLUGIN_ROWS="$(list_declared_plugins "$REPO_ROOT")"
 if [ -n "$PLUGIN_ROWS" ]; then
   echo ""
   echo "Declared plugins (NOT installed by this script — see user/shared/plugins/):"
@@ -86,7 +86,7 @@ if [ -n "$PLUGIN_ROWS" ]; then
   done <<< "$PLUGIN_ROWS"
 fi
 
-MCP_NAMES="$(list_tracked_mcp_servers "$REPO_ROOT")"
+MCP_NAMES="$(list_declared_mcp_servers "$REPO_ROOT")"
 if [ -n "$MCP_NAMES" ]; then
   echo ""
   echo "Declared MCP servers (NOT registered by this script — see user/shared/mcp/):"

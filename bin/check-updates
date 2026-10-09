@@ -143,7 +143,7 @@ def marketplace_pin(name):
         plugin_marketplaces = {}
         try:
             res = subprocess.run(
-                ["bash", "-c", 'source "$1/lib/common.sh" && list_tracked_plugins "$1"',
+                ["bash", "-c", 'source "$1/lib/common.sh" && list_declared_plugins "$1"',
                  "_", repo_root],
                 capture_output=True, text=True, timeout=30,
             )
@@ -151,7 +151,7 @@ def marketplace_pin(name):
         except subprocess.TimeoutExpired:
             listed = False
         if not listed:
-            print("WARN: list_tracked_plugins failed, so marketplace-tracked items stay unresolved",
+            print("WARN: list_declared_plugins failed, so marketplace-tracked items stay unresolved",
                   file=sys.stderr)
         else:
             for row in res.stdout.splitlines():

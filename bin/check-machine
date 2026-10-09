@@ -35,11 +35,9 @@ OS="$(detect_os)" || {
 }
 
 LINKS="$(list_owned_links "$REPO_ROOT" "$CLAUDE_DIR" "$OS")"
-PLUGINS="$(list_tracked_plugins "$REPO_ROOT")"
-MCP="$(list_tracked_mcp_servers "$REPO_ROOT")"
 
-REPO_ROOT="$REPO_ROOT" CLAUDE_DIR="$CLAUDE_DIR" STRICT="$STRICT" \
-LINKS="$LINKS" PLUGINS="$PLUGINS" MCP="$MCP" python3 - <<'PYEOF'
+REPO_ROOT="$REPO_ROOT" CLAUDE_DIR="$CLAUDE_DIR" STRICT="$STRICT" LINKS="$LINKS" \
+PYTHONDONTWRITEBYTECODE=1 python3 - <<'PYEOF'
 import json
 import os
 import subprocess
@@ -50,11 +48,11 @@ claude_dir = os.environ["CLAUDE_DIR"]
 strict = os.environ["STRICT"] == "1"
 home = os.path.expanduser("~")
 
+sys.path.insert(0, os.path.join(repo_root, "lib"))
+import declarations
+
 errors = []
 warnings = []
-
-def rows(name):
-    return [l.split("|") for l in os.environ.get(name, "").splitlines() if l.strip()]
 
 def show(p):
     """Shorten a path for display: repo-relative, or ~-relative."""
@@ -71,7 +69,7 @@ def load(path):
         return None
 
 # --- Owned: each path under the Claude directory is a symlink into this repo ---
-links = rows("LINKS")
+links = [l.split("|") for l in os.environ["LINKS"].splitlines() if l.strip()]
 for src, dest in links:
     if os.path.islink(dest):
         target = os.readlink(dest)
@@ -84,7 +82,7 @@ for src, dest in links:
     else:
         errors.append(f"{show(dest)} is missing")
 
-# --- Declared plugins: the ones enabled at user scope are installed ---
+# --- Plugins: every one enabled at user scope is installed ---
 installed = {}  # "<name>@<marketplace>" -> scopes it is installed at
 data = load(os.path.join(claude_dir, "plugins", "installed_plugins.json"))
 if isinstance(data, dict):
@@ -92,15 +90,15 @@ if isinstance(data, dict):
         if isinstance(entries, list):
             installed[key] = {e.get("scope") for e in entries if isinstance(e, dict)}
 
-plugins = rows("PLUGINS")  # name, marketplace, source, scope
-declared_plugins = {r[0] for r in plugins}
-for name, marketplace, _source, scope in plugins:
-    # A plugin enabled only in a project template is installed per project.
-    if scope != "user":
-        continue
-    key = f"{name}@{marketplace}"
+# A plugin enabled only in a project template is installed per project, and one
+# whose entry is false is switched off, so neither has to be installed here.
+enabled_user = sorted(f"{name}@{marketplace}"
+                      for name, (marketplace, scope) in declarations.plugin_entries(repo_root).items()
+                      if scope == "user")
+for key in enabled_user:
     if "user" not in installed.get(key, set()):
         errors.append(f"plugin {key} is enabled at user scope but not installed")
+declared_plugins = set(declarations.declared(repo_root, "plugins"))
 for key in sorted(installed):
     if key.partition("@")[0] not in declared_plugins:
         warnings.append(f"plugin {key} is installed but not declared under user/shared/plugins/")
@@ -109,7 +107,7 @@ for key in sorted(installed):
 # Only the server names are read. The entries hold API keys.
 config = load(os.path.join(home, ".claude.json"))
 registered = set((config.get("mcpServers") or {}).keys()) if isinstance(config, dict) else set()
-declared_mcp = [l for l in os.environ.get("MCP", "").splitlines() if l.strip()]
+declared_mcp = declarations.declared(repo_root, "mcp")
 for name in declared_mcp:
     if name not in registered:
         errors.append(f"MCP server {name} is declared but not registered at user scope")
@@ -145,7 +143,7 @@ def emit(label, items):
     for msg in items:
         print(f"  {msg}")
 
-print(f"Checked {len(links)} owned paths, {len(plugins)} declared plugins, "
+print(f"Checked {len(links)} owned paths, {len(enabled_user)} plugins enabled at user scope, "
       f"{len(declared_mcp)} declared MCP servers")
 emit("ERRORS", errors)
 emit("WARNINGS", warnings)

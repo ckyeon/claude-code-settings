@@ -264,7 +264,11 @@ rm -rf "$REPO/user/shared/plugins/bare"
 declare_item plugins idle 'Run: /plugin install idle@market'
 out="$(run bin/check-integrity)"; rc=$?
 eq "a declared plugin enabled nowhere only warns" "$rc" "0"
-has "the idle plugin is named" "$out" "user/shared/plugins/idle:1  declared plugin is not in any settings.json enabledPlugins"
+has "the idle plugin is named" "$out" "user/shared/plugins/idle:1  declared plugin is not enabled in any settings.json"
+user_plugins '"good@market": true, "idle@market": false'
+out="$(run bin/check-integrity --strict)"; rc=$?
+eq "an entry set to false does not count as enabled" "$rc" "1"
+user_plugins '"good@market": true'
 mkdir -p "$REPO/project-templates/t/.claude"
 printf '{"enabledPlugins": {"idle@market": true}}\n' > "$REPO/project-templates/t/.claude/settings.json"
 out="$(run bin/check-integrity --strict)"; rc=$?
@@ -347,6 +351,41 @@ printf '{"enabledPlugins": {"proj@market": true}}\n' > "$REPO/project-templates/
 out="$(run bin/check-machine)"; rc=$?
 eq "a plugin enabled only in a template need not be installed" "$rc" "0"
 
+user_plugins '"good@market": true, "off@market": false'
+plugin off
+out="$(run bin/check-machine)"; rc=$?
+eq "a plugin switched off need not be installed" "$rc" "0"
+
+user_plugins '"good@market": true, "ghost@market": true'
+out="$(run bin/check-machine)"; rc=$?
+eq "an enabled plugin with no declaration must still be installed" "$rc" "1"
+has "the undeclared, uninstalled plugin is named" "$out" "plugin ghost@market is enabled at user scope but not installed"
+
+user_plugins '"good@market": true, "plain@market": true'
+declare_item plugins plain 'Run: /plugin install plain@market'
+out="$(run bin/check-machine)"; rc=$?
+eq "a declaration without a sidecar is still checked" "$rc" "1"
+installed '"good@market": [{"scope": "user"}], "plain@market": [{"scope": "user"}]'
+out="$(run bin/check-machine)"; rc=$?
+eq "once installed, the sidecar-less declaration passes" "$rc" "0"
+lacks "and it is not reported as undeclared" "$out" "plugin plain@market is installed but not declared"
+installed '"good@market": [{"scope": "user"}]'
+rm -rf "$REPO/user/shared/plugins/plain"
+user_plugins '"good@market": true'
+
+rm "$TMP/home/.claude/rules"
+ln -s "$TMP/elsewhere" "$TMP/home/.claude/rules"
+out="$(run bin/check-machine)"; rc=$?
+eq "an owned path linked somewhere else exits 1" "$rc" "1"
+has "the stray link is named" "$out" "~/.claude/rules points to"
+run ./install.sh >/dev/null
+
+mv "$REPO/user/shared/output-styles" "$REPO/user/shared/output-styles.moved"
+out="$(run bin/check-machine)"; rc=$?
+eq "a link whose target left the repo exits 1" "$rc" "1"
+has "the dangling link is named" "$out" "which is missing from this repo"
+mv "$REPO/user/shared/output-styles.moved" "$REPO/user/shared/output-styles"
+
 rm "$TMP/home/.claude/CLAUDE.md"
 printf 'local copy\n' > "$TMP/home/.claude/CLAUDE.md"
 out="$(run bin/check-machine)"; rc=$?
@@ -368,6 +407,24 @@ git_clean -C "$REPO" commit -q --allow-empty -m ahead
 out="$(run bin/check-machine)"; rc=$?
 eq "an unpushed commit only warns" "$rc" "0"
 has "the unpushed commit is counted" "$out" "1 commit not on origin/main"
+
+echo "uninstall.sh"
+
+cp "$ROOT/uninstall.sh" "$REPO/"
+printf 'mine\n' > "$TMP/home/.claude/notes.txt"
+# $TMP can hold a doubled slash (macOS TMPDIR ends in one), which the link
+# targets do not, so match on the normalized path.
+repo_path="$(cd "$REPO" && pwd)"
+repo_links() { find "$TMP/home/.claude" -maxdepth 2 -type l -lname "$repo_path/*" | wc -l | tr -d ' '; }
+eq "before uninstall, every owned path links into the repo" "$(repo_links)" "11"
+run ./uninstall.sh >/dev/null
+eq "uninstall.sh removes every link into the repo" "$(repo_links)" "0"
+if [ -f "$TMP/home/.claude/CLAUDE.md" ] && [ ! -L "$TMP/home/.claude/CLAUDE.md" ]; then
+  ok "uninstall.sh restores the file install.sh backed up"
+else
+  bad "uninstall.sh restores the file install.sh backed up"
+fi
+if [ -f "$TMP/home/.claude/notes.txt" ]; then ok "uninstall.sh leaves other files alone"; else bad "uninstall.sh leaves other files alone"; fi
 
 # ----- Summary ---------------------------------------------------------------
 echo ""

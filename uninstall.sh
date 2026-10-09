@@ -11,6 +11,11 @@ source "$SCRIPT_DIR/lib/common.sh"
 REPO_ROOT="$SCRIPT_DIR"
 CLAUDE_DIR="$HOME/.claude"
 
+OS="$(detect_os)" || {
+  echo "ERROR: Unsupported OS ($(uname -s)). Only macOS and Linux are supported." >&2
+  exit 1
+}
+
 removed=0
 restored=0
 skipped=0
@@ -33,18 +38,17 @@ unlink_one() {
 
 echo "Uninstalling Claude Code user-scope settings symlinks..."
 
-for p in CLAUDE.md settings.json statusline-command.sh subagent-statusline.sh \
-         skills commands agents rules output-styles \
-         hooks/shared hooks/os; do
-  unlink_one "$CLAUDE_DIR/$p"
-done
+# The same list install.sh links from, so the two cannot drift apart.
+while IFS="$FIELD_SEP" read -r _src dest; do
+  unlink_one "$dest"
+done < <(list_owned_links "$REPO_ROOT" "$CLAUDE_DIR" "$OS")
 
 # Remove ~/.claude/hooks/ only if it's now empty (we created it; leave alone if user added stuff)
 rmdir "$CLAUDE_DIR/hooks" 2>/dev/null || true
 
 echo "Done: $removed removed, $restored backups restored, $skipped not ours / already gone."
 
-PLUGIN_ROWS="$(list_tracked_plugins "$REPO_ROOT")"
+PLUGIN_ROWS="$(list_declared_plugins "$REPO_ROOT")"
 if [ -n "$PLUGIN_ROWS" ]; then
   echo ""
   echo "Declared plugins detected (this script does NOT remove Claude Code-installed plugins):"
@@ -59,7 +63,7 @@ if [ -n "$PLUGIN_ROWS" ]; then
   done <<< "$PLUGIN_ROWS"
 fi
 
-MCP_NAMES="$(list_tracked_mcp_servers "$REPO_ROOT")"
+MCP_NAMES="$(list_declared_mcp_servers "$REPO_ROOT")"
 if [ -n "$MCP_NAMES" ]; then
   echo ""
   echo "Declared MCP servers detected (this script does NOT remove registered MCP servers):"
