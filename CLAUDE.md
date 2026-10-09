@@ -88,7 +88,7 @@ Re-run `bin/adopt` against the same destination with the new SHA. The sidecar's 
 
 ## Guardrails
 
-- **No auto-commit.** Wait for an explicit commit request from the user.
+- **Commit per ADR.** When the work one ADR covers is finished and `bin/check-integrity` is clean, commit it without asking. Stage only that work's files.
 - **`./install.sh` needs explicit confirmation.** It backs up existing `~/.claude/` content (including `skills/`, which the user has many of) before symlinking. Always explain the impact and confirm before running.
 - **No `git config` changes** through tooling, including `--set-upstream`. The user manages remote configuration themselves.
 - **No `git push` without an explicit request.**
