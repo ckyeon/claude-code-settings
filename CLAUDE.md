@@ -107,7 +107,7 @@ Re-run `bin/adopt` against the same destination with the new SHA. The sidecar's 
 - **Dependencies stay minimal**: Python 3 stdlib + bash 3.2 only. Don't introduce `yq`, `PyYAML`, `jq`, or other external deps.
 - **Provenance lives in sidecars only.** Never inline in `SKILL.md`, agent, command, or `CLAUDE.md` frontmatter. Those files load into Claude's context when invoked, so embedded metadata becomes context noise.
 - **Two `plugins/` directories. Don't confuse them.** `~/.claude/plugins/` is Claude Code's own plugin CLI state (registry, marketplaces, cache). It is never symlinked from here. `user/shared/plugins/` in this repo holds declarations only. No source is vendored, and activation is via `/plugin install`.
-- **MCP secrets stay machine-local.** `user/shared/mcp/<name>/README.md` may contain registration commands but must use placeholders (`<your-api-key>`) for any secret values. The real `~/.claude.json` or `~/.claude/mcp.json` is out of scope.
+- **MCP secrets stay machine-local.** `user/shared/mcp/<name>/README.md` may contain registration commands but must use placeholders (`<your-api-key>`) for any secret values. The real `~/.claude.json` or `~/.claude/mcp.json` is out of scope. When a declaration needs a secret, add its name and location to `docs/SECRETS.md`.
 
 ## References
 

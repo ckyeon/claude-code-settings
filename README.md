@@ -54,6 +54,7 @@ This section is the single list of what sits at which level. The rule for classi
 | This repo's own project config | owned | `.claude/`, `CLAUDE.md` | cloning the repo |
 | Plugins | declared | `user/shared/plugins/<name>/`, `enabledPlugins` in `settings.json` | `/plugin install` |
 | MCP servers | declared | `user/shared/mcp/<name>/README.md` | `claude mcp add` |
+| Secret names and where each goes | declared | [`docs/SECRETS.md`](docs/SECRETS.md) | entering each value by hand |
 
 Out of scope:
 
@@ -95,7 +96,8 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 │   └── check-integrity         # static checks: refs resolve, sidecars valid
 ├── tests/run.sh                # tests for the bin/ tools (fake upstream, temp dir)
 ├── docs/
-│   └── PROVENANCE.md           # provenance schema & conventions
+│   ├── PROVENANCE.md           # provenance schema & conventions
+│   └── SECRETS.md              # which secrets the setup needs and where each goes
 ├── user/                       # → ~/.claude/
 │   ├── shared/                 # OS-agnostic
 │   │   ├── CLAUDE.md
