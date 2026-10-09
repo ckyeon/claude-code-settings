@@ -206,7 +206,7 @@ Two checks answer different questions:
 
 ```bash
 bin/check-updates      # is the pin behind upstream HEAD?
-bin/check-integrity    # do cross-references resolve and sidecars validate?
+bin/check-integrity    # do cross-references resolve, sidecars validate, declarations carry their commands?
 ```
 
 An item can be fresh and still broken — a skill that delegates to another skill you never adopted stays "up to date" forever. `bin/check-integrity` is static and offline, so run it after every adoption. `--strict` fails on warnings too.

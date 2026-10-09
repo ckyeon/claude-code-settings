@@ -187,7 +187,94 @@ eq "--strict turns the warning into a failure" "$rc" "1"
 caller 'See [the notes](missing.md).'
 out="$(run bin/check-integrity)"; rc=$?
 eq "a broken relative link exits 1" "$rc" "1"
+
+caller 'Call the Skill tool with `a` to start.'
+out="$(run bin/check-integrity)"; rc=$?
+eq "a resolvable backticked Skill tool call passes" "$rc" "0"
+
+caller 'Call the Skill tool with `ghost` to start.'
+out="$(run bin/check-integrity)"; rc=$?
+eq "an unresolved backticked Skill tool call exits 1" "$rc" "1"
+has "the backticked call is named" "$out" 'references skill "ghost" (Skill tool call)'
 rm -rf "$REPO/user/shared/skills/caller"
+
+echo "bin/check-integrity (template skills)"
+
+tskill() { # tskill <name> <body> — a skill in the fixture template; its
+  # frontmatter name deliberately differs from the directory, as upstreams do.
+  mkdir -p "$REPO/project-templates/t/.claude/skills/$1"
+  printf -- '---\nname: upstream-%s\ndescription: fixture\n---\n%s\n' "$1" "$2" \
+    > "$REPO/project-templates/t/.claude/skills/$1/SKILL.md"
+}
+
+tskill helper 'body'
+tskill main 'Call the Skill tool with "helper", then with "a".'
+out="$(run bin/check-integrity)"; rc=$?
+eq "a template skill may call a sibling and a user-scope skill" "$rc" "0"
+has "template skills are counted" "$out" "Checked 2 skills in project-templates/t/.claude/skills"
+
+tskill main 'Call the Skill tool with "ghost".'
+out="$(run bin/check-integrity)"; rc=$?
+eq "an unresolved call in a template skill exits 1" "$rc" "1"
+has "the template skill is named" "$out" "project-templates/t/.claude/skills/main/SKILL.md"
+
+tskill main 'Open `/about`, then see [the notes](missing.md).'
+out="$(run bin/check-integrity --strict)"; rc=$?
+eq "template skills skip the frontmatter, /token and link checks" "$rc" "0"
+
+tskill main 'body'
+caller 'Call the Skill tool with "helper".'
+out="$(run bin/check-integrity)"; rc=$?
+eq "a user-scope skill cannot resolve a template's skill" "$rc" "1"
+rm -rf "$REPO/user/shared/skills/caller" "$REPO/project-templates"
+
+echo "bin/check-integrity (declarations)"
+
+declare_item() { # declare_item <mcp|plugins> <name> <readme-text>
+  mkdir -p "$REPO/user/shared/$1/$2"
+  printf '%s\n' "$3" > "$REPO/user/shared/$1/$2/README.md"
+}
+user_plugins() { printf '{"enabledPlugins": {%s}}\n' "$1" > "$REPO/user/shared/settings.json"; }
+
+user_plugins '"good@market": true'
+declare_item mcp srv 'Run: claude mcp add --scope user srv https://example.invalid'
+declare_item plugins good 'Run: /plugin install good@market'
+out="$(run bin/check-integrity --strict)"; rc=$?
+eq "complete declarations pass under --strict" "$rc" "0"
+has "declarations are counted" "$out" "Checked 1 plugin and 1 MCP server declarations"
+
+declare_item mcp srv 'No command here.'
+out="$(run bin/check-integrity)"; rc=$?
+eq "an MCP declaration without its command exits 1" "$rc" "1"
+has "the missing MCP command is named" "$out" 'declaration lacks its `claude mcp add` command'
+declare_item mcp srv 'Run: claude mcp add --scope user srv https://example.invalid'
+
+declare_item plugins good 'No command here.'
+out="$(run bin/check-integrity)"; rc=$?
+eq "a plugin declaration without its command exits 1" "$rc" "1"
+declare_item plugins good 'Run: claude plugin install good@market'
+out="$(run bin/check-integrity)"; rc=$?
+eq "the claude plugin install form counts as the command" "$rc" "0"
+
+mkdir -p "$REPO/user/shared/plugins/bare"
+out="$(run bin/check-integrity)"; rc=$?
+eq "a declaration directory without a README exits 1" "$rc" "1"
+rm -rf "$REPO/user/shared/plugins/bare"
+
+declare_item plugins idle 'Run: /plugin install idle@market'
+out="$(run bin/check-integrity)"; rc=$?
+eq "a declared plugin enabled nowhere only warns" "$rc" "0"
+has "the idle plugin is named" "$out" "user/shared/plugins/idle:1  declared plugin is not in any settings.json enabledPlugins"
+mkdir -p "$REPO/project-templates/t/.claude"
+printf '{"enabledPlugins": {"idle@market": true}}\n' > "$REPO/project-templates/t/.claude/settings.json"
+out="$(run bin/check-integrity --strict)"; rc=$?
+eq "enabling it in a template settles the warning" "$rc" "0"
+
+user_plugins '"good@market": true, "stray@market": true'
+out="$(run bin/check-integrity)"; rc=$?
+eq "a plugin enabled without a declaration only warns" "$rc" "0"
+has "the undeclared plugin is named" "$out" "plugin 'stray' is enabled but not declared"
+rm -rf "$REPO/user/shared/plugins" "$REPO/user/shared/mcp" "$REPO/user/shared/settings.json" "$REPO/project-templates"
 
 python3 - "$REPO/user/shared/skills/z/.provenance.json" <<'PY'
 import json, sys
