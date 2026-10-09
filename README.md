@@ -93,6 +93,7 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 │   ├── sources-index           # regenerate SOURCES.md
 │   ├── check-updates           # compare pins against upstream HEAD
 │   └── check-integrity         # static checks: refs resolve, sidecars valid
+├── tests/run.sh                # tests for the bin/ tools (fake upstream, temp dir)
 ├── docs/
 │   └── PROVENANCE.md           # provenance schema & conventions
 ├── user/                       # → ~/.claude/

@@ -102,6 +102,7 @@ Re-run `bin/adopt` against the same destination with the new SHA. The sidecar's 
 - **`./install.sh` needs explicit confirmation.** It backs up existing `~/.claude/` content (including `skills/`, which the user has many of) before symlinking. Always explain the impact and confirm before running.
 - **No `git config` changes** through tooling, including `--set-upstream`. The user manages remote configuration themselves.
 - **No `git push` without an explicit request.**
+- **Run `tests/run.sh` after changing anything under `bin/` or `lib/`.** It exercises the tools against a fake upstream in a temp dir and touches nothing real. Add a check there for each behavior you add or fix.
 - **Dependencies stay minimal**: Python 3 stdlib + bash 3.2 only. Don't introduce `yq`, `PyYAML`, `jq`, or other external deps.
 - **Provenance lives in sidecars only.** Never inline in `SKILL.md`, agent, command, or `CLAUDE.md` frontmatter. Those files load into Claude's context when invoked, so embedded metadata becomes context noise.
 - **Two `plugins/` directories. Don't confuse them.** `~/.claude/plugins/` is Claude Code's own plugin CLI state (registry, marketplaces, cache). It is never symlinked from here. `user/shared/plugins/` in this repo holds declarations only. No source is vendored, and activation is via `/plugin install`.
