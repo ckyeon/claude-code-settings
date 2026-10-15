@@ -1,0 +1,9 @@
+{
+  "about": "code-review skill이 이 요청에 불리는가. trigger만 보므로 max_turns를 5로 묶는다.",
+  "arms": ["on"],
+  "max_turns": 5,
+  "allowed_tools": ["Bash(git log:*)", "Bash(git diff:*)", "Bash(git status:*)", "Bash(git branch:*)", "Bash(git show:*)", "Bash(git rev-parse:*)"],
+  "branch_name": "empty-stack-error",
+  "branch_message": "Raise EmptyStackError on pop from empty stack",
+  "checks": {"skill_called": "code-review"}
+}

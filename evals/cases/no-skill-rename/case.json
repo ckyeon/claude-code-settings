@@ -1,0 +1,6 @@
+{
+  "about": "어떤 skill도 불리면 안 되는 요청. 과하게 불리는지 본다.",
+  "arms": ["on"],
+  "max_turns": 5,
+  "checks": {"no_skill": true}
+}

@@ -17,6 +17,8 @@
 
 `case.json`의 `guard`에 적은 지표는 설정이 해를 끼치지 않는지 보는 지표다. 켠 쪽이 0.8 이상이면 해 없음, 끈 쪽이 0.6 이상 높으면 해로움, 그 밖은 보류다.
 
+조건이 하나뿐인 case는 비교할 대상이 없어서 통과율 자체로 판정한다(ADR 0090). 0.8 이상이면 통과, 0.2 이하면 실패, 그 사이는 보류다. skill trigger case가 여기에 해당한다. skill을 끈 조건에서는 skill이 아예 불릴 수 없으므로 비교해도 얻는 것이 없다.
+
 ## 실행
 
 ```sh
@@ -60,7 +62,9 @@ mirror 디렉터리는 `~/.claude`에서 이 repo가 소유한 항목과 `plugin
 
 `case.json`의 채점 기준은 두 종류다.
 
-- **`checks`**: 실행 기록만으로 채점한다. `no_changes`, `changed_only`, `untouched`, `skill_called`, `result_regex`, `result_absent`가 있다. `result_absent`는 최종 답변에서 code, 표, 제목을 뺀 본문에 패턴이 없으면 통과다.
+- **`checks`**: 실행 기록만으로 채점한다. `no_changes`, `changed_only`, `untouched`, `skill_called`, `no_skill`, `result_regex`, `result_absent`가 있다.
+  - `skill_called`는 skill 이름이 정확히 같아야 통과다. user skill `code-review`와 plugin skill `engineering:code-review`처럼 콜론 뒤가 같은 이름이 있기 때문이다.
+  - `result_absent`는 최종 답변에서 code, 표, 제목을 뺀 본문에 패턴이 없으면 통과다.
 - **`rubric`**: judge 모델이 예 또는 아니오로 채점한다. judge는 어느 arm의 출력인지 모른다.
 
 `guard`는 위 두 종류의 지표 이름 가운데 해를 끼치지 않는지 보는 것을 나열한다.
@@ -73,3 +77,4 @@ mirror 디렉터리는 `~/.claude`에서 이 repo가 소유한 항목과 `plugin
 - mirror arm의 하위 process는 token을 환경 변수로 물려받는다. eval은 정해 둔 git 명령 말고는 Bash를 거부하므로 모델이 이 값을 읽을 길은 막혀 있다. `allowed_tools`에 Bash를 넓게 열면 이 전제가 깨진다.
 - skill은 다른 skill과 plugin이 모두 켜진 실제 환경에서 잰다. `claude plugin eval`은 manifest가 있는 plugin만 대상으로 하고 개인 설정을 불러오지 않아서 이 목적에 맞지 않는다.
 - judge도 모델이라 틀릴 수 있다. 판정 전에 기록 일부를 직접 읽는다.
+- skill trigger case는 `max_turns` 5에서 끊으므로 대개 `is_error`로 끝난다. `summary.json`의 `errors`가 그만큼 나오는 것은 정상이다.

@@ -4,6 +4,7 @@
   "checks": {"no_changes": true},
   "rubric": [
     {"id": "asks", "text": "Before changing any file, the response asks the user at least one question, or lays out two or more approaches and asks the user to choose."},
-    {"id": "concrete", "text": "The response names concrete differences that matter for this code, such as how long cached weather stays valid, cache size, or whether failures are cached."}
+    {"id": "concrete", "text": "The response names concrete differences that matter for this code, such as how long cached weather stays valid, cache size, or whether failures are cached."},
+    {"id": "defines", "text": "When the response uses a technical term the user may not know (such as TTL or LRU), it gives a short definition the first time the term appears."}
   ]
 }

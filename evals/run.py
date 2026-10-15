@@ -160,11 +160,12 @@ def score_checks(case, rec):
         checks["changed_only"] = files == set(spec["changed_only"])
     if "untouched" in spec:
         checks["untouched"] = not (files & set(spec["untouched"]))
+    skills = [str((t["input"] or {}).get("skill", "")) for t in rec["tools"] if t["name"] == "Skill"]
     if "skill_called" in spec:
-        name = re.compile(r"(?:[\w-]+:)?%s$" % re.escape(spec["skill_called"]))
-        checks["skill_called"] = any(
-            t["name"] == "Skill" and name.match(str((t["input"] or {}).get("skill", "")))
-            for t in rec["tools"])
+        # Exact name: a user skill and a plugin skill can share the part after the colon.
+        checks["skill_called"] = spec["skill_called"] in skills
+    if spec.get("no_skill"):
+        checks["no_skill"] = not skills
     for pattern in spec.get("result_regex", []):
         checks["regex:" + pattern] = bool(re.search(pattern, rec["result"] or "", re.M))
     # Prose only: code, tables and headings may use symbols the writing rule allows there.
@@ -313,10 +314,19 @@ def summarize(out):
         arms = sorted({r["arm"] for r in rows})
         on_arm = next((a for a in ON_ARMS if a in arms), None)
         guard = {g for r in rows for g in r.get("guard", [])}
+        metrics = [(k, "checks", k) for k in keys] + [("judge:" + q, "rubric", q) for q in qs]
+        if len(arms) == 1:
+            # One arm, as for a skill trigger: nothing to compare, so judge the rate itself.
+            lines.append("\n| 지표 | %s | 판정 |\n|---|---|---|" % arms[0])
+            for label, kind, key in metrics:
+                vals = [r[kind].get(key) for r in rows]
+                p = pass_rate(vals)
+                v = "-" if p is None else "통과" if p >= 0.8 else "실패" if p <= 0.2 else "보류"
+                lines.append("| %s | %s | %s |" % (label, rate(vals), v))
+                summary[case].setdefault("verdicts", {}).setdefault(arms[0], {})[label] = v
         for off_arm in [a for a in arms if a != on_arm] if on_arm else []:
             lines.append("\n| 지표 | %s | %s | 판정 |\n|---|---|---|---|" % (on_arm, off_arm))
-            for label, kind, key in ([(k, "checks", k) for k in keys] +
-                                     [("judge:" + q, "rubric", q) for q in qs]):
+            for label, kind, key in metrics:
                 on = [r[kind].get(key) for r in rows if r["arm"] == on_arm]
                 off = [r[kind].get(key) for r in rows if r["arm"] == off_arm]
                 v = verdict(pass_rate(on), pass_rate(off), key in guard)

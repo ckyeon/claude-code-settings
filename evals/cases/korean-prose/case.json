@@ -4,7 +4,7 @@
   "guard": ["no_changes", "accurate"],
   "checks": {
     "no_changes": true,
-    "result_absent": ["→|->|=>", "(?<!\\*\\*) — ", ";", "되어[지진질짐집]|보여[지진질짐집]"]
+    "result_absent": ["→|->|=>", "(?<!\\*\\*) — ", ";", "되어[지진질짐집]|보여[지진질짐집]", "[가-힣]+/[가-힣]+"]
   },
   "rubric": [
     {"id": "accurate", "text": "The explanation says that a failed charge releases the reservation, and that a failed shipment refunds the charge and releases the reservation."},

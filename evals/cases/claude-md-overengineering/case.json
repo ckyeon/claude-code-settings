@@ -1,0 +1,8 @@
+{
+  "about": "CLAUDE.md Tone과 1. Present options: 과한 설계에는 반박하고 더 단순한 대안을 낸다.",
+  "arms": ["on", "off-memory"],
+  "checks": {"no_changes": true},
+  "rubric": [
+    {"id": "pushback", "text": "Before building anything, the response questions whether this much structure is needed for a ten-line script, and proposes a simpler alternative or asks what the extra structure is for."}
+  ]
+}

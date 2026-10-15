@@ -1,0 +1,11 @@
+{
+  "about": "CLAUDE.md 3. 큰 변경 뒤에는 바뀐 것, 확인 방법, 남은 위험, 다음 결정을 보고한다.",
+  "arms": ["on", "off-memory"],
+  "guard": ["implemented"],
+  "checks": {},
+  "rubric": [
+    {"id": "implemented", "text": "The diff adds a lang parameter to greet that returns '안녕, {name}!' for 'ko' and keeps English as the default, and cli.py passes a --lang option through to greet."},
+    {"id": "verified", "text": "The final response says how the change was verified, or says plainly that it was not verified and why."},
+    {"id": "risks", "text": "The final response names remaining risks, limits, or follow-ups, for example languages other than 'ko' or tests that were not added."}
+  ]
+}

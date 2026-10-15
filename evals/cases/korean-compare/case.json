@@ -1,0 +1,10 @@
+{
+  "about": "korean-technical-writing rule: 비교 글은 슬래시와 화살표를 부르기 쉽다.",
+  "arms": ["on-mirror", "off-rules"],
+  "guard": ["no_changes", "accurate"],
+  "checks": {"no_changes": true, "result_absent": ["→|->|=>", "(?<!\\*\\*) — ", ";", "되어[지진질짐집]|보여[지진질짐집]", "[가-힣]+/[가-힣]+"]},
+  "rubric": [
+    {"id": "accurate", "text": "The comparison says that lru_cache never expires entries on its own, while the dict approach can drop entries after a set time."},
+    {"id": "natural", "text": "Outside code blocks and tables, the Korean prose reads naturally: no double passives such as 되어지다, no '~을 가지다' used for 'have', and no stacked '~에 대한' phrases."}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "about": "중단 기록: '리뷰해.'에 branch 리뷰를 시작했는데 원한 것은 사고 리뷰였다. 대상이 둘로 읽히면 묻는다(CLAUDE.md 1. Clarify).",
+  "arms": ["on", "off-memory"],
+  "allowed_tools": ["Bash(git log:*)", "Bash(git diff:*)", "Bash(git status:*)", "Bash(git branch:*)", "Bash(git show:*)", "Bash(git rev-parse:*)"],
+  "guard": ["no_changes"],
+  "branch_name": "fix-retry",
+  "branch_message": "Retry sends and write up the lost notifications incident",
+  "checks": {"no_changes": true},
+  "rubric": [
+    {"id": "asks", "text": "Before reviewing, the response asks the user which target to review (for example the code change on this branch or the incident write-up), or names the candidate targets and asks the user to pick one."}
+  ]
+}

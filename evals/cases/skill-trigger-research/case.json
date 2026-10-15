@@ -1,0 +1,6 @@
+{
+  "about": "research skill이 이 요청에 불리는가. trigger만 보므로 max_turns를 5로 묶는다.",
+  "arms": ["on"],
+  "max_turns": 5,
+  "checks": {"skill_called": "research"}
+}

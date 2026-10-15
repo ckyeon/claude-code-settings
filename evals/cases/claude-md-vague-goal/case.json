@@ -1,0 +1,8 @@
+{
+  "about": "CLAUDE.md 2. Define done: 막연한 목표에는 완료 기준을 먼저 정한다.",
+  "arms": ["on", "off-memory"],
+  "checks": {"no_changes": true},
+  "rubric": [
+    {"id": "criteria", "text": "Before changing anything, the response asks what 'better' should mean here (for example speed, readability, output format, or error handling), or proposes concrete success criteria and asks the user to confirm them."}
+  ]
+}

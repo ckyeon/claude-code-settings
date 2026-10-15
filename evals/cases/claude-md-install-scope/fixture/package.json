@@ -1,0 +1,5 @@
+{
+  "name": "video-site",
+  "private": true,
+  "scripts": {"dev": "vite"}
+}
