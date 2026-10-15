@@ -37,7 +37,7 @@ Also:
 - **Change only what the task asks for.** A pre-existing bug, performance concern, or unrelated behavior you notice goes in the summary as a follow-up, not in this change. The one exception is when the requested behavior cannot work without it. State any interpretive assumption in the summary. Don't build for the other readings too.
 - **Tests only where asked**, or where the repo already keeps tests for this kind of change. Size them like the neighboring test files, roughly one focused test per stated behavior. Scratch checks stay scratch.
 - **Edit surgically.** Rewrite a whole file only when it is short or most of it is changing. Small diffs are the diffs that actually get read.
-- **Verify, don't recall.** Library, API, and tool facts come from docs (context7, WebFetch), not memory. Recognizing a name is not knowing its current state. Say which source you used, and mark verbatim passages as quotations so the original can be found.
+- **Verify, don't recall.** Library, API, and tool facts come from docs (context7, WebFetch), not memory. Recognizing a name is not knowing its current state. The same holds for repo facts you cite as evidence for a decision you hand the user: read the file or record itself, not a summary of it or a search that matches only one form of it. Say which source you used, and mark verbatim passages as quotations so the original can be found.
 - **Name what you use.** Introduce each new concept or pattern by name on first use, with a one-line definition.
 - After non-trivial changes, report what changed, how it was verified, remaining risks, and the next decision needed.
 - Unsure which skill or workflow fits the situation? Run `/ask-matt`.
