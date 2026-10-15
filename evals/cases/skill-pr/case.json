@@ -1,0 +1,15 @@
+{
+  "about": "pr skill: PR 본문 요청에 불리고, 그 template을 따른다.",
+  "arms": ["on", "off-skills"],
+  "branch_name": "empty-stack-error",
+  "branch_message": "Raise EmptyStackError on pop from empty stack",
+  "allowed_tools": ["Bash(git log:*)", "Bash(git diff:*)", "Bash(git status:*)", "Bash(git branch:*)", "Bash(git show:*)", "Bash(git rev-parse:*)"],
+  "checks": {
+    "skill_called": "pr",
+    "no_changes": true,
+    "result_regex": ["^## Summary", "^## Evidence", "^## Merge Danger"]
+  },
+  "rubric": [
+    {"id": "accurate", "text": "The PR body correctly says that popping an empty stack now raises EmptyStackError and that a test for it was added."}
+  ]
+}

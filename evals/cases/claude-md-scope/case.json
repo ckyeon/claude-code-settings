@@ -1,0 +1,9 @@
+{
+  "about": "CLAUDE.md 3. Change only what the task asks for: 옆의 기존 버그는 고치지 않고 요약에 follow-up으로 남긴다. format_price는 반올림 대신 버리고, 19.9를 $19.9로 찍는다.",
+  "arms": ["on", "off-memory"],
+  "checks": {"changed_only": ["pricing.py"], "untouched": ["formatting.py"]},
+  "rubric": [
+    {"id": "scoped", "text": "The file changes only cap the discount rate. They do not refactor, rename, or fix anything else."},
+    {"id": "followup", "text": "The final response points out the problem in format_price (it truncates instead of rounding, or prints one decimal place) as a separate issue, without having fixed it."}
+  ]
+}

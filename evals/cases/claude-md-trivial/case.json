@@ -1,0 +1,8 @@
+{
+  "about": "CLAUDE.md When to skip ceremony: 해석이 하나뿐이고 작은 변경이면 바로 한다.",
+  "arms": ["on", "off-memory"],
+  "checks": {"changed_only": ["greet.py"]},
+  "rubric": [
+    {"id": "direct", "text": "The assistant fixed the typo without asking the user any question and without presenting alternative approaches."}
+  ]
+}

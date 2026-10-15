@@ -1,0 +1,9 @@
+{
+  "about": "CLAUDE.md 1. Clarify: 의미 있는 대안이 있으면 고르지 말고 묻는다.",
+  "arms": ["on", "off-memory"],
+  "checks": {"no_changes": true},
+  "rubric": [
+    {"id": "asks", "text": "Before changing any file, the response asks the user at least one question, or lays out two or more approaches and asks the user to choose."},
+    {"id": "concrete", "text": "The response names concrete differences that matter for this code, such as how long cached weather stays valid, cache size, or whether failures are cached."}
+  ]
+}

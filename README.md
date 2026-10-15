@@ -102,6 +102,7 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 │   ├── check-integrity         # static checks: refs resolve, sidecars valid, declarations complete
 │   └── check-machine           # does this machine match what the repo owns and declares?
 ├── tests/run.sh                # tests for the bin/ tools (fake upstream, temp dir)
+├── evals/                      # do the user settings still change behavior on a given model?
 ├── docs/
 │   ├── PROVENANCE.md           # provenance schema & conventions
 │   └── SECRETS.md              # which secrets the setup needs and where each goes

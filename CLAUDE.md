@@ -13,6 +13,7 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 - `bin/adopt`, `bin/re-pin`, `bin/sources-index`, `bin/check-updates`. Provenance tooling. JSON sidecars plus an auto-generated `SOURCES.md`. `bin/adopt` records an item for the first time, and `bin/re-pin` moves the pin of one already recorded.
 - `bin/check-integrity`. Static validation. Catches items whose dependencies were never adopted. Complements `check-updates` (freshness) with a function check.
 - `bin/check-machine`. Compares this machine with what the repo owns and declares. It reads machine state, so its result differs per machine and it stays out of the `Stop` hook.
+- `evals/`. Runs fixed tasks with and without parts of the user-scope settings, to judge whether each part still changes behavior on a given model. Run it when a new model ships. It spends the subscription's usage limit, so it never runs from a hook. See `evals/README.md`.
 - `docs/PROVENANCE.md`. Schema and edge cases for provenance.
 - `docs/adr/`. Architecture Decision Records for this repo's own operational decisions.
 
