@@ -8,10 +8,19 @@
 | **중복** | 끈 조건도 이미 점수가 높아 차이가 없다 | 삭제 후보. context 비용만 남는다 |
 | **무효** | 두 조건 모두 낮아 차이가 없거나, 켠 쪽이 더 나쁘다 | 문구를 고치거나 삭제한다 |
 
+`summarize`가 지표마다 켠 조건과 끈 조건의 통과율로 판정을 계산한다(ADR 0088). 숫자는 조건마다 5회 실행을 기준으로 정했다.
+
+- 유지: 켠 쪽 통과율이 끈 쪽보다 0.6 이상 높다
+- 중복: 두 쪽 모두 0.8 이상이다
+- 무효: 두 쪽 모두 0.2 이하이거나, 끈 쪽이 0.6 이상 높다
+- 어디에도 해당하지 않으면 보류다. 반복 횟수를 늘려 다시 잰다
+
+`case.json`의 `guard`에 적은 지표는 설정이 해를 끼치지 않는지 보는 지표다. 켠 쪽이 0.8 이상이면 해 없음, 끈 쪽이 0.6 이상 높으면 해로움, 그 밖은 보류다.
+
 ## 실행
 
 ```sh
-evals/run.py run --model '<정확한 모델 ID>' --effort <level> --runs 3 --jobs 4
+evals/run.py run --model '<정확한 모델 ID>' --effort <level> --jobs 4
 evals/run.py summarize evals/results/<dir>
 ```
 
@@ -49,6 +58,8 @@ evals/run.py summarize evals/results/<dir>
 
 - **`checks`**: 실행 기록만으로 채점한다. `no_changes`, `changed_only`, `untouched`, `skill_called`, `result_regex`가 있다.
 - **`rubric`**: judge 모델이 예 또는 아니오로 채점한다. judge는 어느 arm의 출력인지 모른다.
+
+`guard`는 위 두 종류의 지표 이름 가운데 해를 끼치지 않는지 보는 것을 나열한다.
 
 과제나 채점 기준을 고친 뒤의 결과는 이전 모델의 결과와 직접 비교하지 않는다.
 

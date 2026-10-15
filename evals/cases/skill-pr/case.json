@@ -4,6 +4,7 @@
   "branch_name": "empty-stack-error",
   "branch_message": "Raise EmptyStackError on pop from empty stack",
   "allowed_tools": ["Bash(git log:*)", "Bash(git diff:*)", "Bash(git status:*)", "Bash(git branch:*)", "Bash(git show:*)", "Bash(git rev-parse:*)"],
+  "guard": ["no_changes"],
   "checks": {
     "skill_called": "pr",
     "no_changes": true,

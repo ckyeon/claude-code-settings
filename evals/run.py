@@ -34,6 +34,7 @@ ARMS = {
     "off-skills": ({}, ["--disable-slash-commands"]),
     "off-all": ({}, ["--safe-mode"]),
 }
+ON_ARMS = ("on", "on-mirror")
 BASE_TOOLS = ["Edit", "Write", "Skill"]
 GIT = ["git", "-c", "user.name=eval", "-c", "user.email=eval@example.invalid",
        "-c", "commit.gpgsign=false", "-c", "init.defaultBranch=main"]
@@ -194,6 +195,7 @@ def run_one(case, arm, i, args, out):
         "diff": git(work, "diff", "--cached")[:20000],
         "stderr": stderr[-2000:],
     }
+    rec["guard"] = case.get("guard", [])
     rec["checks"] = score_checks(case, rec)
     rec["rubric"], rec["rubric_reasons"] = judge(case, rec, args, args.work_root)
     if not args.keep_work:
@@ -215,6 +217,29 @@ def mean_sd(values, fmt):
         return "-"
     sd = statistics.stdev(vals) if len(vals) > 1 else 0.0
     return (fmt + " ± " + fmt) % (statistics.mean(vals), sd)
+
+
+def pass_rate(values):
+    vals = [v for v in values if v is not None]
+    return sum(vals) / len(vals) if vals else None
+
+
+def verdict(on, off, guard):
+    """Judge one metric from its pass rates with the setting on and off (ADR 0088)."""
+    if on is None or off is None:
+        return "-"
+    if guard:
+        # The setting should not make this worse.
+        if on >= 0.8:
+            return "해 없음"
+        return "해로움" if off - on >= 0.6 else "보류"
+    if on - off >= 0.6:
+        return "유지"
+    if on >= 0.8 and off >= 0.8:
+        return "중복"
+    if (on <= 0.2 and off <= 0.2) or off - on >= 0.6:
+        return "무효"
+    return "보류"
 
 
 def summarize(out):
@@ -246,6 +271,19 @@ def summarize(out):
                 "models": sorted({m for r in rs for m in r["models"]}),
                 "cost_usd": [r["cost_usd"] for r in rs],
             }
+        arms = sorted({r["arm"] for r in rows})
+        on_arm = next((a for a in ON_ARMS if a in arms), None)
+        guard = {g for r in rows for g in r.get("guard", [])}
+        for off_arm in [a for a in arms if a != on_arm] if on_arm else []:
+            lines.append("\n| 지표 | %s | %s | 판정 |\n|---|---|---|---|" % (on_arm, off_arm))
+            for label, kind, key in ([(k, "checks", k) for k in keys] +
+                                     [("judge:" + q, "rubric", q) for q in qs]):
+                on = [r[kind].get(key) for r in rows if r["arm"] == on_arm]
+                off = [r[kind].get(key) for r in rows if r["arm"] == off_arm]
+                v = verdict(pass_rate(on), pass_rate(off), key in guard)
+                lines.append("| %s%s | %s | %s | %s |" % (
+                    label, " (guard)" if key in guard else "", rate(on), rate(off), v))
+                summary[case].setdefault("verdicts", {}).setdefault(off_arm, {})[label] = v
     text = "\n".join(lines).strip() + "\n"
     (out / "summary.md").write_text(text)
     (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1))
@@ -259,7 +297,7 @@ def main():
     r.add_argument("--model", required=True, help="exact model id under test")
     r.add_argument("--effort", help="effort level, pinned for every arm")
     r.add_argument("--judge-model", default="claude-haiku-5-5")
-    r.add_argument("--runs", type=int, default=3)
+    r.add_argument("--runs", type=int, default=5)
     r.add_argument("--case", default="*", help="glob over case names")
     r.add_argument("--arms", nargs="+", help="override each case's arms")
     r.add_argument("--jobs", type=int, default=1)
