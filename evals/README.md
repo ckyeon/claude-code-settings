@@ -76,6 +76,7 @@ mirror 디렉터리는 `~/.claude`에서 이 repo가 소유한 항목과 `plugin
 ## 한계
 
 - `-p`는 한 turn으로 끝난다. "질문하고 멈췄는가"까지만 볼 수 있고, 그 질문이 최종 결과를 낫게 했는지는 보지 못한다.
+- 같은 이유로 앞선 대화 맥락을 따르는지도 잴 수 없다. 사고 이야기를 하던 session에서 "리뷰해."를 branch 리뷰로 읽은 중단 기록은 case로 만들지 못했다(ADR 0092).
 - mirror arm의 하위 process는 token을 환경 변수로 물려받는다. eval은 정해 둔 git 명령 말고는 Bash를 거부하므로 모델이 이 값을 읽을 길은 막혀 있다. `allowed_tools`에 Bash를 넓게 열면 이 전제가 깨진다.
 - skill은 다른 skill과 plugin이 모두 켜진 실제 환경에서 잰다. `claude plugin eval`은 manifest가 있는 plugin만 대상으로 하고 개인 설정을 불러오지 않아서 이 목적에 맞지 않는다.
 - judge도 모델이라 틀릴 수 있다. 판정 전에 기록 일부를 직접 읽는다.

@@ -7,6 +7,7 @@
 - `is_error` 23회: skill trigger case와 `no-skill-typo`, `no-skill-rename`이 `max_turns` 5에서 끊긴 것이다. runner 오류는 없다
 - 채점: 한국어 case의 대시 검사는 라벨 구분자를 빼도록 고친 기준으로 기록을 다시 채점했다(ADR 0091). 바뀐 것은 `on-mirror`의 2회이고 판정은 그대로다
 - 판정 해석은 ADR 0091에 있다. 특히 `claude-md-review-target`의 무효는 case 설계 문제로 본다
+- `claude-md-review-target`은 ADR 0092에서 case 목록에서 뺐다. 아래 그 절은 다음 모델과 비교하지 않는다
 
 ## claude-md-ambiguous
 
