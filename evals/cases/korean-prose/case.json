@@ -1,0 +1,13 @@
+{
+  "about": "korean-technical-writing rule: 기호로 절을 잇지 않고, 번역투를 쓰지 않는다. 흐름 설명은 화살표와 대시를 부르기 쉽다.",
+  "arms": ["on-mirror", "off-rules"],
+  "guard": ["no_changes", "accurate"],
+  "checks": {
+    "no_changes": true,
+    "result_absent": ["→|->|=>", "(?<!\\*\\*) — ", ";", "되어[지진질짐집]|보여[지진질짐집]"]
+  },
+  "rubric": [
+    {"id": "accurate", "text": "The explanation says that a failed charge releases the reservation, and that a failed shipment refunds the charge and releases the reservation."},
+    {"id": "natural", "text": "Outside code blocks and tables, the Korean prose reads naturally: no double passives such as 되어지다, no '~을 가지다' used for 'have', and no stacked '~에 대한' phrases."}
+  ]
+}

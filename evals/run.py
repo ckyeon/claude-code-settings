@@ -34,6 +34,14 @@ ARMS = {
     "off-skills": ({}, ["--disable-slash-commands"]),
     "off-all": ({}, ["--safe-mode"]),
 }
+# Arms that run from a config dir mirroring ~/.claude minus the listed entries.
+# A fresh config dir has its own Keychain entry, so these arms sign in with a
+# long-lived token (docs/SECRETS.md). Compare them with each other, not with "on".
+# MIRROR_ENTRIES names what list_owned_links in lib/common.sh links, plus plugins/.
+MIRROR_ARMS = {"on-mirror": [], "off-rules": ["rules"]}
+MIRROR_ENTRIES = ["CLAUDE.md", "settings.json", "statusline-command.sh", "subagent-statusline.sh",
+                  "skills", "commands", "agents", "rules", "output-styles", "hooks", "plugins"]
+TOKEN_SERVICE = "claude-code-evals-oauth-token"
 ON_ARMS = ("on", "on-mirror")
 BASE_TOOLS = ["Edit", "Write", "Skill"]
 GIT = ["git", "-c", "user.name=eval", "-c", "user.email=eval@example.invalid",
@@ -80,6 +88,31 @@ def load_cases(pattern):
         case["prompt"] = (d / "prompt.md").read_text().strip()
         cases.append(case)
     return cases
+
+
+def oauth_token():
+    token = os.environ.get("CLAUDE_CODE_OAUTH_TOKEN")
+    if not token:
+        try:
+            token = subprocess.run(["security", "find-generic-password", "-s", TOKEN_SERVICE, "-w"],
+                                   capture_output=True, text=True, check=True).stdout.strip()
+        except (OSError, subprocess.CalledProcessError):
+            sys.exit("mirror arms need a token in the Keychain item %r (docs/SECRETS.md)" % TOKEN_SERVICE)
+    return token
+
+
+def make_mirrors(arms, base):
+    """Build one config dir per mirror arm under base and return each arm's (env, flags)."""
+    token, home, made = oauth_token(), Path.home() / ".claude", {}
+    for arm in arms:
+        d = base / arm
+        d.mkdir(parents=True)
+        for name in MIRROR_ENTRIES:
+            if name not in MIRROR_ARMS[arm] and (home / name).exists():
+                (d / name).symlink_to(home / name)
+        (d / ".claude.json").write_text(json.dumps({"hasCompletedOnboarding": True}))
+        made[arm] = ({"CLAUDE_CONFIG_DIR": str(d), "CLAUDE_CODE_OAUTH_TOKEN": token}, [])
+    return made
 
 
 def git(work, *args):
@@ -134,6 +167,11 @@ def score_checks(case, rec):
             for t in rec["tools"])
     for pattern in spec.get("result_regex", []):
         checks["regex:" + pattern] = bool(re.search(pattern, rec["result"] or "", re.M))
+    # Prose only: code, tables and headings may use symbols the writing rule allows there.
+    prose = re.sub(r"```.*?```|`[^`\n]*`", "", rec["result"] or "", flags=re.S)
+    prose = "\n".join(l for l in prose.splitlines() if not l.lstrip().startswith(("|", "#")))
+    for pattern in spec.get("result_absent", []):
+        checks["absent:" + pattern] = not re.search(pattern, prose)
     return checks
 
 
@@ -148,7 +186,8 @@ def judge(case, rec, args, cwd):
     cmd = ["claude", "-p", prompt, "--safe-mode", "--model", args.judge_model,
            "--output-format", "json", "--json-schema", json.dumps(JUDGE_SCHEMA),
            "--no-session-persistence", "--strict-mcp-config", "--max-turns", "3"]
-    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=300)
+    proc = subprocess.run(cmd, cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True,
+                          text=True, timeout=300)
     try:
         answers = json.loads(proc.stdout)["structured_output"]["answers"]
     except (ValueError, KeyError, TypeError):
@@ -160,7 +199,7 @@ def judge(case, rec, args, cwd):
 
 def run_one(case, arm, i, args, out):
     work = prepare(case, args.work_root)
-    env_extra, flags = ARMS[arm]
+    env_extra, flags = args.arm_env[arm]
     env = dict(os.environ, CLAUDE_CODE_DISABLE_AUTO_MEMORY="1", **env_extra)
     cmd = (["claude", "-p", case["prompt"],
             "--allowedTools"] + BASE_TOOLS + case.get("allowed_tools", []) +
@@ -169,7 +208,7 @@ def run_one(case, arm, i, args, out):
             "--max-turns", str(case.get("max_turns", 15))] +
            (["--effort", args.effort] if args.effort else []) + flags)
     try:
-        proc = subprocess.run(cmd, cwd=work, env=env, capture_output=True, text=True,
+        proc = subprocess.run(cmd, cwd=work, env=env, stdin=subprocess.DEVNULL, capture_output=True, text=True,
                               timeout=case.get("timeout_seconds", 900))
         stdout, stderr = proc.stdout, proc.stderr
     except subprocess.TimeoutExpired as e:
@@ -319,6 +358,15 @@ def main():
         for case in load_cases(args.case):
             for arm in args.arms or case["arms"]:
                 jobs.append((case, arm, i))
+    used = {a for _, a, _ in jobs}
+    unknown = used - set(ARMS) - set(MIRROR_ARMS)
+    if unknown:
+        sys.exit("unknown arms: %s" % ", ".join(sorted(unknown)))
+    args.arm_env = dict(ARMS)
+    mirrors = sorted(used & set(MIRROR_ARMS))
+    if mirrors:
+        mirror_base = Path(tempfile.mkdtemp(prefix="mirrors-", dir=args.work_root))
+        args.arm_env.update(make_mirrors(mirrors, mirror_base))
     with concurrent.futures.ThreadPoolExecutor(args.jobs) as pool:
         futures = {pool.submit(run_one, c, a, i, args, out): (c["name"], a, i) for c, a, i in jobs}
         for f in concurrent.futures.as_completed(futures):
@@ -328,6 +376,8 @@ def main():
                 print("done %s %s #%d checks=%s rubric=%s" % (name, arm, i, rec["checks"], rec["rubric"]), flush=True)
             except Exception as e:
                 print("FAIL %s %s #%d: %r" % (name, arm, i, e), file=sys.stderr, flush=True)
+    if mirrors and not args.keep_work:
+        shutil.rmtree(mirror_base, ignore_errors=True)
     print(summarize(out), end="")
     print("results: %s" % out)
 

@@ -37,6 +37,10 @@ evals/run.py summarize evals/results/<dir>
 | `off-memory` | `CLAUDE.md`와 `rules/` | `CLAUDE_CODE_DISABLE_CLAUDE_MDS=1` |
 | `off-skills` | 모든 skill | `--disable-slash-commands` |
 | `off-all` | 모든 customization | `--safe-mode` |
+| `on-mirror` | 없음. `off-rules`와 비교하는 기준 | mirror 디렉터리와 token |
+| `off-rules` | `rules/` | `rules`를 뺀 mirror 디렉터리와 token |
+
+mirror 디렉터리는 `~/.claude`에서 이 repo가 소유한 항목과 `plugins/`만 symlink해 만든 config 디렉터리이고, `CLAUDE_CONFIG_DIR`로 넘긴다. config 디렉터리가 다르면 Keychain 항목도 달라 로그인이 풀리므로, 이 두 arm은 `claude setup-token`으로 만든 token으로 로그인한다(`docs/SECRETS.md`). 인증 방식이 `on`과 다르므로 mirror arm끼리만 비교한다.
 
 모든 arm에 공통으로 적용하는 것:
 - `--model`과 `--effort` 고정
@@ -56,7 +60,7 @@ evals/run.py summarize evals/results/<dir>
 
 `case.json`의 채점 기준은 두 종류다.
 
-- **`checks`**: 실행 기록만으로 채점한다. `no_changes`, `changed_only`, `untouched`, `skill_called`, `result_regex`가 있다.
+- **`checks`**: 실행 기록만으로 채점한다. `no_changes`, `changed_only`, `untouched`, `skill_called`, `result_regex`, `result_absent`가 있다. `result_absent`는 최종 답변에서 code, 표, 제목을 뺀 본문에 패턴이 없으면 통과다.
 - **`rubric`**: judge 모델이 예 또는 아니오로 채점한다. judge는 어느 arm의 출력인지 모른다.
 
 `guard`는 위 두 종류의 지표 이름 가운데 해를 끼치지 않는지 보는 것을 나열한다.
@@ -66,6 +70,6 @@ evals/run.py summarize evals/results/<dir>
 ## 한계
 
 - `-p`는 한 turn으로 끝난다. "질문하고 멈췄는가"까지만 볼 수 있고, 그 질문이 최종 결과를 낫게 했는지는 보지 못한다.
-- 한국어 rule만 따로 끄는 arm은 없다. 별도 `CLAUDE_CONFIG_DIR`이 필요한데, 그 디렉터리는 Keychain 항목이 달라 로그인을 새로 해야 한다.
+- mirror arm의 하위 process는 token을 환경 변수로 물려받는다. eval은 정해 둔 git 명령 말고는 Bash를 거부하므로 모델이 이 값을 읽을 길은 막혀 있다. `allowed_tools`에 Bash를 넓게 열면 이 전제가 깨진다.
 - skill은 다른 skill과 plugin이 모두 켜진 실제 환경에서 잰다. `claude plugin eval`은 manifest가 있는 plugin만 대상으로 하고 개인 설정을 불러오지 않아서 이 목적에 맞지 않는다.
 - judge도 모델이라 틀릴 수 있다. 판정 전에 기록 일부를 직접 읽는다.
