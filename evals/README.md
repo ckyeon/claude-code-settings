@@ -30,6 +30,7 @@ evals/run.py summarize evals/results/<dir>
 - 실행은 구독 로그인으로 돌고, 평소 작업과 같은 사용 한도를 나눠 쓴다.
 - 결과는 `evals/results/`에 쌓이고 git은 이 디렉터리를 무시한다.
 - 과제는 실행마다 임시 디렉터리에 새로 만든 git repo에서 돈다. `--work-root`로 위치를 바꾼다.
+- 판정을 확인한 요약은 `history/<날짜>-<모델>-<effort>.md`에 남기고 commit한다. `results/`의 기록 전체는 commit하지 않는다.
 
 ## 조건(arm)
 
@@ -49,6 +50,7 @@ mirror 디렉터리는 `~/.claude`에서 이 repo가 소유한 항목과 `plugin
 - `--no-session-persistence`: 실험 session이 transcript와 `/insights` 통계에 섞이지 않는다
 - `--strict-mcp-config`: MCP server를 띄우지 않는다
 - `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1`
+- Claude Code가 자기 session에 붙이는 환경 변수(`CLAUDECODE`, `CLAUDE_`로 시작하는 것 등)를 뺀다. Claude Code session 안에서 eval을 띄워도 terminal에서 띄운 것과 같은 환경에서 돈다
 - Edit, Write, Skill과 case의 `allowed_tools`만 미리 허용한다. 읽기 도구는 원래 허락이 필요 없고, 그 밖의 Bash 명령은 거부된다
 
 ## case
@@ -64,7 +66,7 @@ mirror 디렉터리는 `~/.claude`에서 이 repo가 소유한 항목과 `plugin
 
 - **`checks`**: 실행 기록만으로 채점한다. `no_changes`, `changed_only`, `untouched`, `skill_called`, `no_skill`, `result_regex`, `result_absent`가 있다.
   - `skill_called`는 skill 이름이 정확히 같아야 통과다. user skill `code-review`와 plugin skill `engineering:code-review`처럼 콜론 뒤가 같은 이름이 있기 때문이다.
-  - `result_absent`는 최종 답변에서 code, 표, 제목을 뺀 본문에 패턴이 없으면 통과다.
+  - `result_absent`는 최종 답변에서 code, 표, 제목, 라벨 구분자(`**용어** — 설명`)를 뺀 본문에 패턴이 없으면 통과다.
 - **`rubric`**: judge 모델이 예 또는 아니오로 채점한다. judge는 어느 arm의 출력인지 모른다.
 
 `guard`는 위 두 종류의 지표 이름 가운데 해를 끼치지 않는지 보는 것을 나열한다.
@@ -77,4 +79,5 @@ mirror 디렉터리는 `~/.claude`에서 이 repo가 소유한 항목과 `plugin
 - mirror arm의 하위 process는 token을 환경 변수로 물려받는다. eval은 정해 둔 git 명령 말고는 Bash를 거부하므로 모델이 이 값을 읽을 길은 막혀 있다. `allowed_tools`에 Bash를 넓게 열면 이 전제가 깨진다.
 - skill은 다른 skill과 plugin이 모두 켜진 실제 환경에서 잰다. `claude plugin eval`은 manifest가 있는 plugin만 대상으로 하고 개인 설정을 불러오지 않아서 이 목적에 맞지 않는다.
 - judge도 모델이라 틀릴 수 있다. 판정 전에 기록 일부를 직접 읽는다.
-- skill trigger case는 `max_turns` 5에서 끊으므로 대개 `is_error`로 끝난다. `summary.json`의 `errors`가 그만큼 나오는 것은 정상이다.
+- skill trigger case와 `no-skill-*` case는 `max_turns` 5에서 끊으므로 `is_error`로 끝나는 일이 많다. `summary.json`의 `errors`가 그만큼 나오는 것은 정상이다.
+- Edit와 Write는 경로 제한 없이 허용한다. 모델이 repo 밖에 검증용 script를 쓰는 일이 있는데, 변경 집계는 repo 안만 보므로 지표에 잡히지 않는다.

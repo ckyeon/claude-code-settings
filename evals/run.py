@@ -44,6 +44,10 @@ MIRROR_ENTRIES = ["CLAUDE.md", "settings.json", "statusline-command.sh", "subage
 TOKEN_SERVICE = "claude-code-evals-oauth-token"
 ON_ARMS = ("on", "on-mirror")
 BASE_TOOLS = ["Edit", "Write", "Skill"]
+# Children start without Claude Code's own variables. Started inside a session,
+# they would otherwise share its session id, scratchpad and effort.
+CHILD_ENV = {k: v for k, v in os.environ.items()
+             if k not in ("CLAUDECODE", "AI_AGENT") and not k.startswith(("CLAUDE_", "CODEX_COMPANION_"))}
 GIT = ["git", "-c", "user.name=eval", "-c", "user.email=eval@example.invalid",
        "-c", "commit.gpgsign=false", "-c", "init.defaultBranch=main"]
 
@@ -168,9 +172,11 @@ def score_checks(case, rec):
         checks["no_skill"] = not skills
     for pattern in spec.get("result_regex", []):
         checks["regex:" + pattern] = bool(re.search(pattern, rec["result"] or "", re.M))
-    # Prose only: code, tables and headings may use symbols the writing rule allows there.
+    # Prose only: code, tables, headings and label separators ("**term** (note) — ")
+    # may use symbols the writing rule allows there.
     prose = re.sub(r"```.*?```|`[^`\n]*`", "", rec["result"] or "", flags=re.S)
     prose = "\n".join(l for l in prose.splitlines() if not l.lstrip().startswith(("|", "#")))
+    prose = re.sub(r"(?m)^(\s*(?:[-*]|\d+\.)?\s*\*\*[^*\n]+\*\*[^\n—]{0,40}?) — ", r"\1 ", prose)
     for pattern in spec.get("result_absent", []):
         checks["absent:" + pattern] = not re.search(pattern, prose)
     return checks
@@ -187,7 +193,7 @@ def judge(case, rec, args, cwd):
     cmd = ["claude", "-p", prompt, "--safe-mode", "--model", args.judge_model,
            "--output-format", "json", "--json-schema", json.dumps(JUDGE_SCHEMA),
            "--no-session-persistence", "--strict-mcp-config", "--max-turns", "3"]
-    proc = subprocess.run(cmd, cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True,
+    proc = subprocess.run(cmd, cwd=cwd, env=CHILD_ENV, stdin=subprocess.DEVNULL, capture_output=True,
                           text=True, timeout=300)
     try:
         answers = json.loads(proc.stdout)["structured_output"]["answers"]
@@ -201,7 +207,7 @@ def judge(case, rec, args, cwd):
 def run_one(case, arm, i, args, out):
     work = prepare(case, args.work_root)
     env_extra, flags = args.arm_env[arm]
-    env = dict(os.environ, CLAUDE_CODE_DISABLE_AUTO_MEMORY="1", **env_extra)
+    env = dict(CHILD_ENV, CLAUDE_CODE_DISABLE_AUTO_MEMORY="1", **env_extra)
     cmd = (["claude", "-p", case["prompt"],
             "--allowedTools"] + BASE_TOOLS + case.get("allowed_tools", []) +
            ["--output-format", "stream-json", "--verbose", "--no-session-persistence",
