@@ -27,6 +27,14 @@
       "adopted-as": "copied",
       "adopted-at": "2026-10-09",
       "notes": "Re-pinned to release tag v0.9.3; SKILL.md adds machine status and machine reconnect guidance."
+    },
+    {
+      "source": "https://github.com/herdrdev/herdr",
+      "commit": "2ecf19a92fc3a7fff75b6ce3655ef04f4625ec01",
+      "path": "skills/herdr",
+      "license": "Apache-2.0",
+      "adopted-as": "copied",
+      "adopted-at": "2026-10-15"
     }
   ]
 }

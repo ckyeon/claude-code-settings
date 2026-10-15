@@ -65,6 +65,14 @@
       "adopted-as": "copied",
       "adopted-at": "2026-10-09",
       "notes": "Re-pinned to release tag v0.38.2; commands.md and authentication.md document auth login hardening and new BROWSER_USE_* env vars."
+    },
+    {
+      "source": "https://github.com/vercel-labs/agent-browser",
+      "commit": "1165952d74ceed98fdc2dd97190ad41f44dd0e24",
+      "path": "skill-data/core",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-10-15"
     }
   ]
 }

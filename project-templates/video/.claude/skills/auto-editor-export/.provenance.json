@@ -15,6 +15,14 @@
       "license": "Unlicense",
       "adopted-as": "copied",
       "adopted-at": "2026-10-09"
+    },
+    {
+      "source": "https://github.com/WyattBlue/auto-editor",
+      "commit": "44bf4ec3dfffdd1bb5410b06dc9f0365d8f6bbbc",
+      "path": "skills/auto-editor-export",
+      "license": "Unlicense",
+      "adopted-as": "copied",
+      "adopted-at": "2026-10-15"
     }
   ]
 }

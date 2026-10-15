@@ -81,6 +81,14 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-10-09",
       "notes": "@upstash/context7-mcp 4.2.0: HTTP /mcp requires a credential by default; registration command unchanged."
+    },
+    {
+      "source": "https://github.com/upstash/context7",
+      "commit": "ef472a4912d594fdd193a5f929fab4c62796e287",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-10-15"
     }
   ]
 }

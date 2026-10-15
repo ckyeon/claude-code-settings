@@ -17,6 +17,14 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-10-09",
       "notes": "Plugin 4.0.534: same 12 skills; preview-first guidance, render only on explicit request."
+    },
+    {
+      "source": "https://github.com/remotion-dev/claude-code-plugin",
+      "commit": "2d5b9c18f278ffe2a2d506c2d9b67c18568e4d24",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-10-15"
     }
   ]
 }
