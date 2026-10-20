@@ -15,4 +15,8 @@
 ## Consequences
 
 - 막아야 할 명령 5개(`reset --hard`, `clean -fd`, `checkout -- src/`, `checkout --force`, ref 없는 `restore`)와 통과시킬 명령 5개를 3.9.6과 3.14.8에서 돌렸다. 두 버전 모두 10개가 기대대로 나왔다.
-- 이 hook을 시험하는 코드는 repo에 없다. `tests/run.sh`는 `bin/`와 `lib/`만 다룬다. hook에 3.10 이상에서만 도는 문법을 쓰면 아무것도 그것을 잡지 못한다.
+- 이 hook을 시험하는 코드는 repo에 없다. `tests/run.sh`는 `bin/`와 `lib/`만 다룬다. 지금은 시험을 더하지 않는다. 이유는 셋이다.
+  - 크래시는 Bash를 실행할 때마다 에러로 보이므로 시험 없이도 드러난다. 이번에도 그 에러를 보고 원인을 찾았다.
+  - `tests/run.sh`는 PATH의 `python3`를 쓰므로 3.9에서 돌린다고 보장할 수 없다.
+  - 이번 원인은 코드가 아니라 기계 환경의 변화였다.
+- 조용히 생기는 위험은 판단 로직이 틀어지는 경우다. hook의 판단 로직을 다음에 고칠 때 두 가지를 함께 한다. 막을 명령과 통과시킬 명령의 case를 `tests/run.sh`에 넣고, CLAUDE.md의 "Run `tests/run.sh` after changing anything under `bin/` or `lib/`" guardrail에 `user/shared/hooks/`를 더한다.
