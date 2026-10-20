@@ -74,5 +74,11 @@
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
   "verbose": false,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "autoMode": {
+    "environment": [
+      "$defaults",
+      "**Repository visibility**: github.com/ckyeon/claude-code-settings is PUBLIC, so any commit or push there is publishing. Other repos follow the default rule."
+    ]
+  }
 }
