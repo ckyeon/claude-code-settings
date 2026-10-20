@@ -19,6 +19,8 @@ stdin으로 Bash tool의 입력 JSON을 받고, 막을 명령이면 permissionDe
 다만 그 파일을 만드는 heredoc은 Bash tool을 지나므로 만드는 자리에서 걸린다.
 """
 
+from __future__ import annotations
+
 import json
 import re
 import shlex
