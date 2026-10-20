@@ -47,6 +47,8 @@ Claude Code marketplace plugins (installed via `/plugin install <name>@<marketpl
 
 Third-party marketplaces must be registered per-machine with `/plugin marketplace add <owner>/<repo>` before `/plugin install`. `extraKnownMarketplaces` does not do it for you. Note the argument is the repo, not the marketplace name (`openai/codex-plugin-cc`, not `openai-codex`).
 
+`marketplace add` declares the marketplace in user settings by default, and user settings is `user/shared/settings.json`. A marketplace that only one project outside this repo uses belongs to that project: run `claude plugin marketplace add <owner>/<repo> --scope project` from the project's directory. To move a declaration that already landed here, add it at project scope first, then run `claude plugin marketplace remove <name> --scope user`. Removing the last declaration of a marketplace uninstalls every plugin installed from it (ADR 0095).
+
 `install.sh` and `uninstall.sh` print `/plugin install` reminders listing declared plugins. Canonical examples: `user/shared/plugins/hookify/`, `user/shared/plugins/claude-md-management/`, `user/shared/plugins/commit-commands/`, `user/shared/plugins/skill-creator/`.
 
 ### Declare an MCP server
