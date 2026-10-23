@@ -9,7 +9,7 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 - `user/shared/mcp/`. Declared MCP servers, registered via `claude mcp add`. Not symlinked. See `docs/PROVENANCE.md` § "Declaring MCP servers". Secrets (API keys) stay in machine-local `~/.claude.json` and never enter this repo.
 - `.claude/skills/`. Project-scope skills (e.g., `check-updates`). Only active when working in this repo.
 - `.claude/settings.json`, `.claude/hooks/`. Project-scope config. A `Stop` hook runs `bin/check-integrity` when a session here ends and asks Claude to fix any errors before stopping. Only active in this repo.
-- `project-templates/`. Templates copied into new projects via manual `cp -r` (no scaffold script).
+- `project-templates/`. Templates copied into a project once by `bin/apply-template`. In a session, the user-scope skill `apply-project-template` runs it, and a `SessionStart` hook (`user/shared/hooks/suggest-project-template.py`) tells Claude when a directory looks like a new project (ADR 0097).
 - `bin/adopt`, `bin/re-pin`, `bin/sources-index`, `bin/check-updates`. Provenance tooling. JSON sidecars plus an auto-generated `SOURCES.md`. `bin/adopt` records an item for the first time, and `bin/re-pin` moves the pin of one already recorded.
 - `bin/check-integrity`. Static validation. Catches items whose dependencies were never adopted. Complements `check-updates` (freshness) with a function check.
 - `bin/check-machine`. Compares this machine with what the repo owns and declares. It reads machine state, so its result differs per machine and it stays out of the `Stop` hook.
@@ -117,7 +117,7 @@ A `copied` item's files are replaced. If its local copy differs from upstream at
 - **`./install.sh` needs explicit confirmation.** It backs up existing `~/.claude/` content (including `skills/`, which the user has many of) before symlinking. Always explain the impact and confirm before running.
 - **No `git config` changes** through tooling, including `--set-upstream`. The user manages remote configuration themselves.
 - **No `git push` without an explicit request.**
-- **Run `tests/run.sh` after changing anything under `bin/` or `lib/`.** It exercises the tools against a fake upstream in a temp dir and touches nothing real. Add a check there for each behavior you add or fix.
+- **Run `tests/run.sh` after changing anything under `bin/`, `lib/`, or `user/shared/hooks/`.** It exercises the tools against a fake upstream in a temp dir and touches nothing real. Add a check there for each behavior you add or fix.
 - **Dependencies stay minimal**: Python 3 stdlib + bash 3.2 only. Don't introduce `yq`, `PyYAML`, `jq`, or other external deps.
 - **Provenance lives in sidecars only.** Never inline in `SKILL.md`, agent, command, or `CLAUDE.md` frontmatter. Those files load into Claude's context when invoked, so embedded metadata becomes context noise.
 - **Two `plugins/` directories. Don't confuse them.** `~/.claude/plugins/` is Claude Code's own plugin CLI state (registry, marketplaces, cache). It is never symlinked from here. `user/shared/plugins/` in this repo holds declarations only. No source is vendored, and activation is via `/plugin install`.

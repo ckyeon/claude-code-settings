@@ -64,6 +64,7 @@ NOT_A_SKILL = {
     "tmp", "usr", "etc", "var", "opt", "home", "bin", "lib", "dev", "proc",
     "goal", "plan", "settings", "workflows", "auto-approve", "config",
     "help", "clear", "compact", "review", "init", "agents", "docs", "cli",
+    "reload-plugins",
 }
 
 # --- Frontmatter ---

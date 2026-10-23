@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+"""Copy a project template into a project directory, once (ADR 0097).
+
+The `_base` template goes in first and the kind's template on top of it, so a
+path both have keeps the kind's file. Provenance sidecars stay in this repo,
+and `.gitignore.snippet` is appended to `.gitignore` instead of being copied.
+
+Nothing is copied when any file the template would write already exists, or
+when a directory on the way to one is a symlink. The skill
+`apply-project-template` reaches this script through a symlink in its folder,
+so the repo is found from this file's resolved path, not from `$0`.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import shutil
+import sys
+from pathlib import Path
+
+TEMPLATES = Path(__file__).resolve().parent.parent / "project-templates"
+SNIPPET = ".gitignore.snippet"
+NOT_COPIED = {".provenance.json", SNIPPET}
+PLACEHOLDER = "{{PROJECT_NAME}}"
+
+
+def kinds() -> list[str]:
+    return sorted(p.name for p in TEMPLATES.iterdir() if p.is_dir() and not p.name.startswith("_"))
+
+
+def plan(kind: str) -> dict[str, Path]:
+    """Relative path in the project -> template file it comes from."""
+    files = {}
+    for layer in (TEMPLATES / "_base", TEMPLATES / kind):
+        for dirpath, _, names in os.walk(layer):
+            for name in names:
+                if name not in NOT_COPIED:
+                    src = Path(dirpath) / name
+                    files[src.relative_to(layer).as_posix()] = src
+    return files
+
+
+def conflicts(target: Path, rels: list[str]) -> list[str]:
+    found = set()
+    for rel in rels:
+        parts = rel.split("/")
+        for i in range(1, len(parts)):
+            parent = target.joinpath(*parts[:i])
+            if parent.is_symlink():
+                found.add("/".join(parts[:i]) + " is a symlink")
+            elif os.path.lexists(parent) and not parent.is_dir():
+                found.add("/".join(parts[:i]) + " is not a directory")
+        if os.path.lexists(target / rel):
+            found.add(rel + " already exists")
+    return sorted(found)
+
+
+def append_gitignore(target: Path, snippet: Path) -> int:
+    """Append the snippet's patterns that `.gitignore` lacks. Returns how many were added."""
+    path = target / ".gitignore"
+    existing = path.read_text().splitlines() if path.exists() else []
+    lines = snippet.read_text().splitlines()
+    new = [l for l in lines if l.strip() and not l.startswith("#") and l not in existing]
+    if not new:
+        return 0
+    kept = [l for l in lines if l not in existing or not l.strip() or l.startswith("#")]
+    text = path.read_text() if path.exists() else ""
+    if text and not text.endswith("\n"):
+        text += "\n"
+    if text:
+        text += "\n"
+    path.write_text(text + "\n".join(kept).strip("\n") + "\n")
+    return len(new)
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(
+        prog="apply-template",
+        description="Copy a project template from this repo into a project directory.",
+        epilog="Exit: 0 applied, 1 nothing copied because of a conflict, 2 usage error.")
+    ap.add_argument("kind", help="one of: " + ", ".join(kinds()))
+    ap.add_argument("dir", nargs="?", default=".", help="project directory (default: current directory)")
+    ap.add_argument("--name", help="replaces %s in CLAUDE.md (default: the directory's name)" % PLACEHOLDER)
+    args = ap.parse_args()
+
+    if args.kind not in kinds():
+        ap.error("unknown kind %r; choose one of: %s" % (args.kind, ", ".join(kinds())))
+    target = Path(args.dir)
+    if not target.is_dir():
+        ap.error("%s is not a directory" % args.dir)
+
+    files = plan(args.kind)
+    found = conflicts(target, sorted(files))
+    if found:
+        print("Nothing copied. These paths are in the way:", file=sys.stderr)
+        for line in found:
+            print("  " + line, file=sys.stderr)
+        return 1
+
+    for rel, src in files.items():
+        dest = target / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(src, dest)
+
+    claude_md = target / "CLAUDE.md"
+    if claude_md.exists():
+        text = claude_md.read_text().replace(PLACEHOLDER, args.name or target.resolve().name)
+        if os.path.lexists(target / "AGENTS.md"):
+            text = "@AGENTS.md\n\n" + text
+        claude_md.write_text(text)
+
+    snippet = TEMPLATES / args.kind / SNIPPET
+    added = append_gitignore(target, snippet if snippet.exists() else TEMPLATES / "_base" / SNIPPET)
+
+    print("Applied the %s template to %s: %d files, %d .gitignore lines."
+          % (args.kind, target.resolve(), len(files), added))
+    settings = target / ".claude" / "settings.json"
+    plugins = [k for k, on in json.loads(settings.read_text()).get("enabledPlugins", {}).items() if on] \
+        if settings.exists() else []
+    if plugins:
+        print("Install these plugins at project scope: " + ", ".join(plugins))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# Tests for the tools under bin/ and the modules under lib/.
+# Tests for the tools under bin/, the modules under lib/, and the hooks under
+# user/shared/hooks/.
 #
-# Two layers. The modules in lib/*.py are tested at their own interface by
-# tests/test_*.py (unittest). The tools are tested end to end here: a throwaway
+# Two layers. The modules in lib/*.py and the hooks are tested at their own
+# interface by tests/test_*.py (unittest). The tools are tested end to end here: a throwaway
 # copy of the tooling plus a fake upstream in a temp dir, run with HOME pointed
 # at an empty directory. Nothing touches the real repo, ~/.claude, or the network.
 #
@@ -198,6 +199,10 @@ eq "a bare unresolved /token only warns" "$rc" "0"
 has "the warning names the token" "$out" 'unresolved reference `/ghost`'
 out="$(run bin/check-integrity --strict)"; rc=$?
 eq "--strict turns the warning into a failure" "$rc" "1"
+
+caller 'Then run `/reload-plugins`.'
+out="$(run bin/check-integrity --strict)"; rc=$?
+eq "a Claude Code built-in is not a skill reference" "$rc" "0"
 
 caller 'See [the notes](missing.md).'
 out="$(run bin/check-integrity)"; rc=$?
@@ -442,6 +447,68 @@ else
   bad "uninstall.sh restores the file install.sh backed up"
 fi
 if [ -f "$TMP/home/.claude/notes.txt" ]; then ok "uninstall.sh leaves other files alone"; else bad "uninstall.sh leaves other files alone"; fi
+
+# ----- bin/apply-template ----------------------------------------------------
+echo "bin/apply-template"
+
+T="$REPO/project-templates"
+mkdir -p "$T/_base/.claude/agents" "$T/web/.claude/skills/s"
+printf '# {{PROJECT_NAME}}\nbase\n' > "$T/_base/CLAUDE.md"
+printf '{}\n' > "$T/_base/.claude/settings.json"
+: > "$T/_base/.claude/agents/.gitkeep"
+printf '.claude/settings.local.json\n' > "$T/_base/.gitignore.snippet"
+printf '# {{PROJECT_NAME}}\nweb\n' > "$T/web/CLAUDE.md"
+printf '{"enabledPlugins": {"lsp@market": true, "off@market": false}}\n' > "$T/web/.claude/settings.json"
+printf 'skill\n' > "$T/web/.claude/skills/s/SKILL.md"
+printf '{}\n' > "$T/web/.claude/skills/s/.provenance.json"
+printf '.claude/settings.local.json\n\n# media\n*.mp4\n' > "$T/web/.gitignore.snippet"
+# The skill reaches the script through a symlink in its own folder.
+mkdir -p "$TMP/skill"
+ln -s "$REPO/bin/apply-template" "$TMP/skill/apply-template"
+
+P="$TMP/projects/site"
+mkdir -p "$P"
+printf 'node_modules/\n.claude/settings.local.json\n' > "$P/.gitignore"
+printf 'rules\n' > "$P/AGENTS.md"
+out="$("$TMP/skill/apply-template" web "$P" 2>&1)"; rc=$?
+eq "run through a symlink, it finds the templates and applies one" "$rc" "0"
+has "the kind's CLAUDE.md replaces the base one" "$(cat "$P/CLAUDE.md")" "web"
+if [ -f "$P/.claude/agents/.gitkeep" ]; then ok "base files are copied too"; else bad "base files are copied too"; fi
+eq "provenance sidecars are not copied" "$(find "$P" -name .provenance.json | wc -l | tr -d ' ')" "0"
+if [ -e "$P/.gitignore.snippet" ]; then bad "the snippet is not copied as a file"; else ok "the snippet is not copied as a file"; fi
+eq "a .gitignore line already there is not added again" "$(grep -c '^.claude/settings.local.json$' "$P/.gitignore")" "1"
+has "the kind's snippet is appended" "$(cat "$P/.gitignore")" "*.mp4"
+eq "an existing AGENTS.md is imported on the first line" "$(head -1 "$P/CLAUDE.md")" "@AGENTS.md"
+has "the placeholder becomes the directory name" "$(cat "$P/CLAUDE.md")" "# site"
+has "enabled plugins are listed for installing" "$out" "Install these plugins at project scope: lsp@market"
+lacks "disabled plugins are not listed" "$out" "off@market"
+
+P="$TMP/projects/other"
+mkdir -p "$P"
+out="$("$TMP/skill/apply-template" t "$P" --name Named 2>&1)"; rc=$?
+eq "a kind with only settings applies" "$rc" "0"
+eq "without AGENTS.md the title stays first, named by --name" "$(head -1 "$P/CLAUDE.md")" "# Named"
+eq "a kind without a snippet appends the base one" "$(cat "$P/.gitignore")" ".claude/settings.local.json"
+
+P="$TMP/projects/taken"
+mkdir -p "$P"
+printf 'mine\n' > "$P/CLAUDE.md"
+out="$("$TMP/skill/apply-template" web "$P" 2>&1)"; rc=$?
+eq "an existing file stops the copy with exit 1" "$rc" "1"
+has "the file in the way is named" "$out" "CLAUDE.md already exists"
+if [ -e "$P/.claude" ]; then bad "nothing is copied when a file is in the way"; else ok "nothing is copied when a file is in the way"; fi
+
+P="$TMP/projects/linked"
+mkdir -p "$P/.claude" "$TMP/elsewhere-skills"
+ln -s "$TMP/elsewhere-skills" "$P/.claude/skills"
+out="$("$TMP/skill/apply-template" web "$P" 2>&1)"; rc=$?
+eq "a symlink on the way stops the copy with exit 1" "$rc" "1"
+has "the symlink is named" "$out" ".claude/skills is a symlink"
+eq "nothing is written through the symlink" "$(ls -A "$TMP/elsewhere-skills" | wc -l | tr -d ' ')" "0"
+
+out="$("$TMP/skill/apply-template" _base "$TMP/projects/site" 2>&1)"; rc=$?
+eq "the base template is not a kind" "$rc" "2"
+has "the kinds are listed" "$out" "choose one of: t, web"
 
 # ----- Summary ---------------------------------------------------------------
 echo ""

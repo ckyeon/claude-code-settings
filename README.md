@@ -53,7 +53,7 @@ This section is the single list of what sits at which level. The rule for classi
 | Skills, commands, agents, rules, output styles | owned | `user/shared/<kind>/` | symlink |
 | Hooks | owned | `user/shared/hooks/`, `user/<os>/hooks/` | symlink |
 | Status line scripts | owned | `user/<os>/` | symlink |
-| Project templates | owned | `project-templates/` | manual copy into a new project |
+| Project templates | owned | `project-templates/` | `bin/apply-template`, once per project |
 | This repo's own project config | owned | `.claude/`, `CLAUDE.md` | cloning the repo |
 | Plugins | declared | `user/shared/plugins/<name>/`, `enabledPlugins` in `settings.json` | `/plugin install` |
 | MCP servers | declared | `user/shared/mcp/<name>/README.md` | `claude mcp add` |
@@ -95,13 +95,14 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 ├── SOURCES.md                  # auto-generated provenance index
 ├── lib/                        # common.sh for the bash scripts, *.py modules the tools import
 ├── bin/
+│   ├── apply-template          # copy a project template into a project
 │   ├── adopt                   # adopt items from external repos
 │   ├── re-pin                  # move the pin of items already adopted
 │   ├── sources-index           # regenerate SOURCES.md
 │   ├── check-updates           # compare pins against upstream HEAD
 │   ├── check-integrity         # static checks: refs resolve, sidecars valid, declarations complete
 │   └── check-machine           # does this machine match what the repo owns and declares?
-├── tests/run.sh                # tests for the bin/ tools (fake upstream, temp dir)
+├── tests/run.sh                # tests for the bin/ tools and the hooks (fake upstream, temp dir)
 ├── evals/                      # do the user settings still change behavior on a given model?
 ├── docs/
 │   ├── PROVENANCE.md           # provenance schema & conventions
@@ -126,7 +127,7 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 │       ├── statusline-command.sh
 │       ├── subagent-statusline.sh
 │       └── hooks/              # → ~/.claude/hooks/os (when on Linux)
-└── project-templates/          # copy these into new projects
+└── project-templates/          # copied into a project by bin/apply-template
     ├── _base/                  # shared by every template
     ├── nodejs/
     ├── nextjs/
@@ -166,18 +167,25 @@ Reference from `user/shared/settings.json` as `~/.claude/hooks/os/notify.sh` —
 
 ## Using a project template
 
-In a new project directory:
+In a Claude Code session you rarely run this yourself. When a session starts in a directory that looks like a new project, a `SessionStart` hook tells Claude, and Claude offers the matching template once the project's kind is clear. The `apply-project-template` skill holds the steps, including how to run a scaffolder such as create-next-app first. Ask for it directly to apply a template to a project you already have.
+
+By hand, from the project's directory:
 
 ```bash
-TEMPLATES=<path-to-coding-agent-settings>/project-templates
-cp -r "$TEMPLATES/_base/." .
-cp -r "$TEMPLATES/nodejs/." .                  # pick one: nodejs / nextjs / python / go / phaser / video / cpp
-cat "$TEMPLATES/_base/.gitignore.snippet" >> .gitignore   # video: append video/.gitignore.snippet instead (media files)
-$EDITOR CLAUDE.md                              # replace {{PROJECT_NAME}}, fill in details
+<path-to-coding-agent-settings>/bin/apply-template nodejs   # one of: nodejs, nextjs, python, go, phaser, video, cpp
+claude plugin install <plugin>@<marketplace> --scope project   # for each plugin it lists
+$EDITOR CLAUDE.md                                            # fill in the template's sections
 git add CLAUDE.md .claude .gitignore
 ```
 
-The language-specific `CLAUDE.md` **replaces** the base version (not merged). If you need content from both, merge manually after copying.
+`bin/apply-template` copies `_base` and then the kind's template over it, so the kind's `CLAUDE.md` **replaces** the base one (not merged). It also does the following:
+
+- Leaves `.provenance.json` sidecars in this repo.
+- Appends the kind's `.gitignore.snippet`, or the base one, without repeating lines `.gitignore` already has.
+- Replaces `{{PROJECT_NAME}}` with the directory name.
+- Puts `@AGENTS.md` on the first line of `CLAUDE.md` when the project has an `AGENTS.md`.
+
+If a file it would write already exists, or a directory on the way is a symlink, it copies nothing and lists the paths. `--help` covers the options.
 
 Claude Code creates `.claude/settings.local.json` on demand — it's already gitignored.
 

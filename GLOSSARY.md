@@ -52,3 +52,21 @@ _Avoid_: 재pin, 재adopt, 재동기화
 **추적(track)**:
 출처가 있는 항목의 upstream 경로를 pin과 비교해 지켜보는 일. 그 경로를 tracked path라고 부르며, 현재 pin이 가리키는 경로만 해당한다. 마지막 기록이 `self`인 항목은 upstream과 갈라선 것이라 추적하지 않는다.
 _Avoid_: 목록에 올린다는 뜻으로 쓰는 추적
+
+### 프로젝트 template
+
+**template**:
+새 프로젝트에 복사해 넣는 project scope 설정 묶음. 프로젝트 종류마다 하나씩 있고, 종류별 template과 함께 넣는 기본 template이 따로 있다.
+_Avoid_: scaffold, boilerplate
+
+**새 프로젝트(new project)**:
+Claude가 먼저 template 적용을 제안하는 프로젝트. 사용자가 지금 만들기 시작했고 아직 project scope 설정이 없는 프로젝트다. 설정 없이 이미 써 오던 프로젝트는 포함하지 않는다.
+_Avoid_: 빈 프로젝트, 신규 repo
+
+**프로젝트 종류(project kind)**:
+어느 template을 쓸지 가르는 기준. 기술 스택일 수도 있고 영상 편집 같은 작업 종류일 수도 있다.
+_Avoid_: 기술 스택, stack
+
+**template 적용**:
+template을 프로젝트에 한 번 복사해 넣는 일. 보통 새 프로젝트를 만들 때 하고, 사용자가 요청하면 이미 써 오던 프로젝트에도 한다. 복사한 파일은 그 프로젝트의 것이 되고, template이 나중에 바뀌어도 따라 바뀌지 않는다.
+_Avoid_: 반영, 동기화, template 설치
