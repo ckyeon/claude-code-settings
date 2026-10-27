@@ -510,6 +510,33 @@ out="$("$TMP/skill/apply-template" _base "$TMP/projects/site" 2>&1)"; rc=$?
 eq "the base template is not a kind" "$rc" "2"
 has "the kinds are listed" "$out" "choose one of: t, web"
 
+# ----- bin/suggest-setting ---------------------------------------------------
+echo "bin/suggest-setting"
+
+# The skill reaches the script through a symlink in its own folder, and runs it
+# from the project the suggestion comes from.
+ln -s "$REPO/bin/suggest-setting" "$TMP/skill/suggest-setting"
+suggest() { (cd "$TMP/projects/site" && "$TMP/skill/suggest-setting" "$@") 2>&1; }
+inbox_count() { find "$REPO/inbox" -name '*.md' 2>/dev/null | wc -l | tr -d ' '; }
+
+out="$(printf '## 관찰\nthe skill skipped a step\n' | suggest --title "Fix the tdd skill" --target skills/tdd/SKILL.md)"; rc=$?
+eq "run through a symlink, it records a suggestion" "$rc" "0"
+eq "the suggestion is one file in the repo's inbox" "$(inbox_count)" "1"
+f="$(find "$REPO/inbox" -name '*.md' | head -1)"
+has "the printed path names the file" "$out" "$(basename "$f")"
+s="$(cat "$f")"
+eq "the title is the heading" "$(head -1 "$f")" "# Fix the tdd skill"
+has "the current directory is recorded as the origin" "$s" "projects/site"
+has "each target is recorded" "$s" "- 대상: skills/tdd/SKILL.md"
+has "the body from stdin is kept" "$s" "the skill skipped a step"
+
+printf 'again\n' | suggest --title "Fix the tdd skill" >/dev/null
+eq "a second suggestion with the same title gets its own file" "$(inbox_count)" "2"
+
+out="$(printf '' | suggest --title "Empty")"; rc=$?
+eq "an empty body is a usage error" "$rc" "2"
+eq "nothing is written for an empty body" "$(inbox_count)" "2"
+
 # ----- Summary ---------------------------------------------------------------
 echo ""
 echo "$PASS passed, $FAIL failed"

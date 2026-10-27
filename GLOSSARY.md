@@ -70,3 +70,13 @@ _Avoid_: 기술 스택, stack
 **template 적용**:
 template을 프로젝트에 한 번 복사해 넣는 일. 보통 새 프로젝트를 만들 때 하고, 사용자가 요청하면 이미 써 오던 프로젝트에도 한다. 복사한 파일은 그 프로젝트의 것이 되고, template이 나중에 바뀌어도 따라 바뀌지 않는다.
 _Avoid_: 반영, 동기화, template 설치
+
+### 건의
+
+**건의(suggestion)**:
+다른 프로젝트의 세션이 사용자 설정에서 고칠 점을 찾아 이 repo에 남긴 기록. 건의 하나가 inbox의 파일 하나다. 이 repo에서 받아들이면 ADR과 commit으로 이어지고, 받아들이든 아니든 처리가 끝나면 지운다.
+_Avoid_: 요청, issue, ticket
+
+**inbox**:
+처리하지 않은 건의를 모아 두는 `inbox/` 디렉터리. 이 기기에만 있고 commit하지 않으므로 범위 밖이다.
+_Avoid_: 큐, backlog

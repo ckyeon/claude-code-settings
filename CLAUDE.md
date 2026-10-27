@@ -10,6 +10,7 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 - `.claude/skills/`. Project-scope skills (e.g., `check-updates`). Only active when working in this repo.
 - `.claude/settings.json`, `.claude/hooks/`. Project-scope config. A `Stop` hook runs `bin/check-integrity` when a session here ends and asks Claude to fix any errors before stopping. Only active in this repo.
 - `project-templates/`. Templates copied into a project once by `bin/apply-template`. In a session, the user-scope skill `apply-project-template` runs it, and a `SessionStart` hook (`user/shared/hooks/suggest-project-template.py`) tells Claude when a directory looks like a new project (ADR 0097).
+- `inbox/`. Suggestions that sessions in other projects leave for this repo through the user-scope skill `suggest-setting` and `bin/suggest-setting`. Gitignored and machine-local. See § "Process suggestions" (ADR 0098).
 - `bin/adopt`, `bin/re-pin`, `bin/sources-index`, `bin/check-updates`. Provenance tooling. JSON sidecars plus an auto-generated `SOURCES.md`. `bin/adopt` records an item for the first time, and `bin/re-pin` moves the pin of one already recorded.
 - `bin/check-integrity`. Static validation. Catches items whose dependencies were never adopted. Complements `check-updates` (freshness) with a function check.
 - `bin/check-machine`. Compares this machine with what the repo owns and declares. It reads machine state, so its result differs per machine and it stays out of the `Stop` hook.
@@ -110,6 +111,15 @@ Run `bin/re-pin <item>...` with the local paths of the items to move. Each goes 
 A `copied` item's files are replaced. If its local copy differs from upstream at the old pin, that item is left alone and the difference is listed. Decide whether the local edit should survive before passing `--overwrite-local`.
 
 `bin/re-pin` clones each source once and reports upstream structure changes once per source, the same check `check-updates --deep` runs (ADR 0039, ADR 0070, ADR 0085). A re-pin commit carries no trailers: the sidecars already record each source and commit.
+
+### Process suggestions
+
+Sessions in other projects leave suggestions in `inbox/`, one Markdown file each. A project-scope `SessionStart` hook reports how many are waiting. Process them when the user asks:
+
+1. Read the suggestions oldest first, and check each against the current files. The setting may have changed since the suggestion was written.
+2. Recommend one outcome per suggestion: take it as written, take it changed, or drop it. The user decides.
+3. Carry out a taken suggestion through the usual workflow, ADR and commit included. This repo is public, so the ADR states the setting's problem in its own terms and keeps the other project's names, paths, and code out.
+4. Delete each suggestion file once its change is committed or the user drops it.
 
 ## Guardrails
 

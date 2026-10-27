@@ -25,6 +25,10 @@ __pycache__/
 # user/shared/skills, so the sync lands inside the repo.
 user/shared/skills/synced/
 
+# Suggestions from sessions in other projects (ADR 0098). Machine-local: a
+# suggestion may quote another project, and this repo is public.
+inbox/
+
 # Codex project files generated at Codex install by copying this repo's
 # Claude config (CLAUDE.md, check-updates skill, Stop hook). Machine-local.
 AGENTS.md

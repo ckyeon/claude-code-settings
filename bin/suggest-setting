@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+"""Record a suggestion for this settings repo in its inbox (ADR 0098).
+
+A session in another project that finds something to change in the user
+settings leaves it here, and a session in this repo processes it. Each
+suggestion is one Markdown file under `inbox/`, so two sessions writing at once
+never touch the same file. `inbox/` is gitignored: a suggestion may quote
+another project, and this repo is public.
+
+The skill `suggest-setting` reaches this script through a symlink in its
+folder, so the repo is found from this file's resolved path, not from `$0`.
+The project the suggestion comes from is the current directory.
+"""
+
+from __future__ import annotations
+
+import argparse
+import itertools
+import os
+import re
+import sys
+import time
+from pathlib import Path
+
+INBOX = Path(__file__).resolve().parent.parent / "inbox"
+
+
+def slug(title: str) -> str:
+    return re.sub(r"\W+", "-", title.lower()).strip("-")[:40].rstrip("-") or "suggestion"
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(
+        prog="suggest-setting",
+        description="Record a suggestion for this settings repo. The body is read from stdin.",
+        epilog="Exit: 0 recorded, 2 usage error.")
+    ap.add_argument("--title", required=True, help="one line naming the change")
+    ap.add_argument("--target", action="append", default=[],
+                    help="a setting the suggestion is about, relative to ~/.claude (repeatable)")
+    args = ap.parse_args()
+
+    title = args.title.strip()
+    if not title or "\n" in title:
+        ap.error("--title must be one non-empty line")
+    body = sys.stdin.read().strip()
+    if not body:
+        ap.error("the body on stdin is empty")
+
+    now = time.localtime()
+    head = ["# " + title, "", "- 날짜: " + time.strftime("%Y-%m-%d %H:%M", now), "- 출발 프로젝트: " + os.getcwd()]
+    head += ["- 대상: " + t for t in args.target]
+    text = "\n".join(head) + "\n\n" + body + "\n"
+
+    INBOX.mkdir(exist_ok=True)
+    stem = time.strftime("%Y%m%d-%H%M%S", now) + "-" + slug(title)
+    for n in itertools.count(1):
+        path = INBOX / (stem + (".md" if n == 1 else "-%d.md" % n))
+        try:
+            with path.open("x", encoding="utf-8") as f:
+                f.write(text)
+        except FileExistsError:
+            continue
+        print(path)
+        return 0
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

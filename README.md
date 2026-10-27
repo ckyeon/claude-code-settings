@@ -72,6 +72,7 @@ Out of scope:
 - **Skills, plugins, and connectors synced from claude.ai**, plus Claude in Chrome and computer use. They follow the account on sign-in.
 - **Each project's own `.claude/` and `CLAUDE.md`**, including a project copied from a template. That project's repo owns them.
 - **`settings.local.json`.** It is the per-machine override by design.
+- **The suggestion inbox** (`inbox/`). Sessions in other projects write it through `bin/suggest-setting`, and it is gitignored. A suggestion lasts until it is processed here, and the change it leads to is recorded in an ADR.
 - **Codex configuration.**
 
 ## OS handling
@@ -101,7 +102,8 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 │   ├── sources-index           # regenerate SOURCES.md
 │   ├── check-updates           # compare pins against upstream HEAD
 │   ├── check-integrity         # static checks: refs resolve, sidecars valid, declarations complete
-│   └── check-machine           # does this machine match what the repo owns and declares?
+│   ├── check-machine           # does this machine match what the repo owns and declares?
+│   └── suggest-setting         # leave a suggestion in inbox/ from a session in another project
 ├── tests/run.sh                # tests for the bin/ tools and the hooks (fake upstream, temp dir)
 ├── evals/                      # do the user settings still change behavior on a given model?
 ├── docs/
