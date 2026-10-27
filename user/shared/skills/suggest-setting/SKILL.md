@@ -1,6 +1,6 @@
 ---
 name: suggest-setting
-description: 사용자 설정(`~/.claude`의 CLAUDE.md, rules, skills, hooks, settings.json)에 고칠 점을 설정 repo의 inbox에 건의로 남긴다. 다른 프로젝트 세션에서 사용자 설정이 틀리게 동작하거나 빠진 것을 발견했을 때, 그 세션에서 `~/.claude` 아래 파일을 고치려 할 때 쓴다.
+description: 사용자 설정(`~/.claude` 아래 파일)에서 고칠 점을 설정 repo의 inbox에 건의로 남긴다. 다른 프로젝트 세션에서 사용자 설정이 틀리게 동작하거나 빠진 것을 발견했을 때, 그 세션에서 `~/.claude` 아래 파일을 고치려 할 때 쓴다.
 ---
 
 # 설정 건의
@@ -13,9 +13,13 @@ description: 사용자 설정(`~/.claude`의 CLAUDE.md, rules, skills, hooks, se
 
 - skill, rule, hook이 틀리게 동작했거나 서로 어긋났다.
 - 사용자가 모든 프로젝트에 적용할 지시를 했는데 그 지시가 설정에 없다.
-- 사용자가 `~/.claude` 아래 파일을 고치라고 했다.
+- 사용자가 시키지 않았는데 `~/.claude` 아래 파일을 고쳐야겠다고 판단했다.
 
-지금 프로젝트의 `.claude/`와 `CLAUDE.md`는 이 프로젝트의 것이므로 여기서 바로 고친다. 지금 세션이 설정 repo 안이면 건의하지 않고 그 repo의 절차대로 고친다.
+다음 경우는 건의하지 않고 바로 고친다.
+
+- 사용자가 `~/.claude` 아래를 고치라고 했다.
+- 지금 프로젝트의 `.claude/`와 `CLAUDE.md`를 고친다. 이 파일들은 이 프로젝트의 것이다.
+- 지금 세션이 설정 repo 안이다. 그 repo의 절차를 따른다.
 
 ## 2. 한 번 묻는다
 
@@ -23,13 +27,12 @@ description: 사용자 설정(`~/.claude`의 CLAUDE.md, rules, skills, hooks, se
 
 - 승인하면 3단계로 간다.
 - 거절하면 이 세션에서 같은 건의를 다시 묻지 않는다.
-- 사용자가 `~/.claude` 아래를 지금 고치라고 하면 고친 다음 묻는다. 건의에는 무엇을 왜 고쳤는지 적는다. 설정 repo가 그 변경을 ADR과 commit으로 마무리한다.
 
 사용자가 건의를 직접 요청했으면 이 단계를 건너뛴다.
 
 ## 3. 쓴다
 
-이 프로젝트 디렉터리에서 실행한다. 현재 디렉터리가 출발 프로젝트로 기록된다.
+이 프로젝트 디렉터리에서 실행한다. 현재 디렉터리가 건의를 보낸 프로젝트로 기록된다.
 
 ```bash
 ~/.claude/skills/suggest-setting/suggest-setting --title "<한 줄 제목>" --target "<~/.claude 기준 경로>" <<'EOF'

@@ -78,5 +78,5 @@ _Avoid_: 반영, 동기화, template 설치
 _Avoid_: 요청, issue, ticket
 
 **inbox**:
-처리하지 않은 건의를 모아 두는 `inbox/` 디렉터리. 이 기기에만 있고 commit하지 않으므로 범위 밖이다.
+처리하지 않은 건의를 모아 두는 `inbox/` 디렉터리. Claude가 이 기기에서 쓰는 상태이므로 범위 밖이고, commit하지 않는다.
 _Avoid_: 큐, backlog

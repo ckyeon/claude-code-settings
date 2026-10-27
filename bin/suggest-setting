@@ -47,7 +47,7 @@ def main() -> int:
         ap.error("the body on stdin is empty")
 
     now = time.localtime()
-    head = ["# " + title, "", "- 날짜: " + time.strftime("%Y-%m-%d %H:%M", now), "- 출발 프로젝트: " + os.getcwd()]
+    head = ["# " + title, "", "- 날짜: " + time.strftime("%Y-%m-%d %H:%M", now), "- 보낸 프로젝트: " + os.getcwd()]
     head += ["- 대상: " + t for t in args.target]
     text = "\n".join(head) + "\n\n" + body + "\n"
 
@@ -62,7 +62,6 @@ def main() -> int:
             continue
         print(path)
         return 0
-    return 1
 
 
 if __name__ == "__main__":

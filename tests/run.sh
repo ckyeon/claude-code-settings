@@ -518,6 +518,12 @@ echo "bin/suggest-setting"
 ln -s "$REPO/bin/suggest-setting" "$TMP/skill/suggest-setting"
 suggest() { (cd "$TMP/projects/site" && "$TMP/skill/suggest-setting" "$@") 2>&1; }
 inbox_count() { find "$REPO/inbox" -name '*.md' 2>/dev/null | wc -l | tr -d ' '; }
+# This repo's SessionStart hook reads the files the script writes.
+mkdir -p "$REPO/.claude/hooks"
+cp "$ROOT/.claude/hooks/inbox-notice.py" "$REPO/.claude/hooks/"
+notice() { printf '{}' | python3 "$REPO/.claude/hooks/inbox-notice.py" 2>&1; }
+
+eq "the inbox hook is silent while there is no inbox" "$(notice)" ""
 
 out="$(printf '## 관찰\nthe skill skipped a step\n' | suggest --title "Fix the tdd skill" --target skills/tdd/SKILL.md)"; rc=$?
 eq "run through a symlink, it records a suggestion" "$rc" "0"
@@ -529,13 +535,22 @@ eq "the title is the heading" "$(head -1 "$f")" "# Fix the tdd skill"
 has "the current directory is recorded as the origin" "$s" "projects/site"
 has "each target is recorded" "$s" "- 대상: skills/tdd/SKILL.md"
 has "the body from stdin is kept" "$s" "the skill skipped a step"
+has "the inbox hook reports the count" "$(notice)" "설정 건의 1건"
 
-printf 'again\n' | suggest --title "Fix the tdd skill" >/dev/null
-eq "a second suggestion with the same title gets its own file" "$(inbox_count)" "2"
-
+out="$(printf 'body\n' | suggest --title " ")"; rc=$?
+eq "a blank title is a usage error" "$rc" "2"
+out="$(printf 'body\n' | suggest --title $'two\nlines')"; rc=$?
+eq "a title of two lines is a usage error" "$rc" "2"
 out="$(printf '' | suggest --title "Empty")"; rc=$?
 eq "an empty body is a usage error" "$rc" "2"
-eq "nothing is written for an empty body" "$(inbox_count)" "2"
+eq "nothing is written for a usage error" "$(inbox_count)" "1"
+
+# Take the name for every second the next run can land in, so it has to number its file.
+for stem in $(python3 -c 'import time; t = time.time(); print(" ".join(time.strftime("%Y%m%d-%H%M%S", time.localtime(t + i)) for i in range(5)))'); do
+  : > "$REPO/inbox/$stem-taken.md"
+done
+printf 'again\n' | suggest --title "Taken" >/dev/null
+eq "a name already taken gets a number" "$(find "$REPO/inbox" -name '*-taken-2.md' | wc -l | tr -d ' ')" "1"
 
 # ----- Summary ---------------------------------------------------------------
 echo ""
