@@ -57,7 +57,7 @@ Iterate until the user approves the breakdown.
 
 ### 4b. Review the drafts in a fresh context
 
-The drafting context already holds what the conversation established, so tickets read as complete there even where they lean on it.
+The drafting context already holds what the conversation established, so tickets read as complete there even where they depend on it.
 
 Write every approved ticket in full, in its template, to one drafts file outside the repo. Dispatch a fresh subagent, not a fork of this conversation, so it starts with an empty context. Give it the drafts file, the spec or source issue if there is one, and the repo, with this prompt and those paths filled in:
 
@@ -69,11 +69,11 @@ Write every approved ticket in full, in its template, to one drafts file outside
 > 4. A ticket relies on a convention, format, or command that an earlier ticket decides, and the earlier ticket has no acceptance criterion to write it where the later one reads: `CLAUDE.md` or `AGENTS.md`, or a document they point to.
 > 5. A ticket points at repo state that is not committed and pushed.
 >
-> Classify each finding as **must-fix** (the ticket cannot be finished correctly as written), **should-fix** (it can, but likely with rework or a wrong guess), or **nit**. Cite the ticket and the passage the finding rests on.
+> Classify each finding: **must-fix** when the ticket cannot be finished correctly as written, **should-fix** when it can but likely with rework or a wrong guess, and **nit** otherwise. Cite the ticket and the passage the finding rests on.
 
 Without a spec, leave item 2 out of the prompt.
 
-Fix every must-fix, and take any fix that needs a commit or push to the user. Show the should-fixes to the user as one list with a recommendation for each, and let the user decide. Report the nits as a list. If a fix changes the breakdown or the blocking edges, re-quiz the user on the changed tickets only. This step is done when every must-fix is fixed and the user has decided the should-fix list. Then publish from the drafts file.
+Fix every must-fix. Ask the user before any fix that needs a commit or push. Show the should-fixes to the user as one list with a recommendation for each, and let the user decide. Report the nits as a list. If a fix changes the breakdown or the blocking edges, re-quiz the user on the changed tickets only. This step is done when every must-fix is fixed and the user has decided the should-fix list. Then publish from the drafts file.
 
 ### 5. Publish the tickets to the configured tracker
 

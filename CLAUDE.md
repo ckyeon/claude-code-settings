@@ -108,7 +108,7 @@ Steps:
 
 Run `bin/re-pin <item>...` with the local paths of the items to move. Each goes to its comparison target: upstream HEAD, or the newest release or marketplace pin when its sidecar sets `track`. Pass `--commit <sha>` to pin somewhere else. The sidecar gets a new entry and the older one stays as history.
 
-A `copied` item's files are replaced. If its local copy differs from upstream at the old pin, that item is left alone and the difference is listed. Decide whether the local edit should survive before passing `--overwrite-local`.
+A `copied` item's files are replaced. If its local copy differs from upstream at the old pin, that item is left alone and the difference is listed. Decide whether the local edit should survive before passing `--overwrite-local`. An item that keeps a deliberate edit says so in its sidecar `notes`, and `docs/PROVENANCE.md` § "Edge cases" gives the steps.
 
 `bin/re-pin` clones each source once and reports upstream structure changes once per source, the same check `check-updates --deep` runs (ADR 0039, ADR 0070, ADR 0085). A re-pin commit carries no trailers: the sidecars already record each source and commit.
 

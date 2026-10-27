@@ -47,8 +47,16 @@
       "path": "skills/engineering/to-tickets",
       "license": "MIT",
       "adopted-as": "copied",
-      "adopted-at": "2026-10-09",
-      "notes": "Local edit since this pin: step 4b (review the ticket drafts in a fresh-context subagent before publishing) sits between steps 4 and 5. bin/re-pin skips this item while the edit is there. Re-pin it alone with --overwrite-local and --notes, then re-insert the block (ADR 0100)."
+      "adopted-at": "2026-10-09"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "49dd158d1076134a641b33efb035946536778336",
+      "path": "skills/engineering/to-tickets",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-10-28",
+      "notes": "Local edit at this pin: step 4b (review the ticket drafts in a fresh-context subagent before publishing) sits between steps 4 and 5. Move this item only with bin/re-pin, and follow docs/PROVENANCE.md, Edge cases, when it reports the local difference (ADR 0100)."
     }
   ]
 }

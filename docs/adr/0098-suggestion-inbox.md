@@ -1,6 +1,6 @@
 # 0098 — 다른 프로젝트의 세션은 설정 변경을 inbox에 건의로 남긴다
 
-다른 프로젝트 세션에서 사용자 설정에 고칠 점이 보이면 Claude가 건의를 제안하고, 사용자가 승인하면 user scope skill `suggest-setting`이 이 repo의 `inbox/`에 파일 하나로 남긴다. 이 repo에서 세션을 열면 project scope `SessionStart` hook이 건수를 알리고, 처리는 CLAUDE.md의 "Process suggestions" 절차를 따른다. 이전에는 `~/.claude` 아래가 디렉터리나 파일째 이 repo로 symlink되어 있어서, 다른 세션이 설정을 고치면 ADR, provenance, `check-integrity`를 거치지 않고 이 repo의 파일이 바로 바뀌었다.
+다른 프로젝트 세션에서 사용자 설정에 고칠 점이 보이면 Claude가 건의를 제안하고, 사용자가 승인하면 user scope skill `suggest-setting`이 이 repo의 `inbox/`에 파일 하나로 남긴다. 이 repo에서 세션을 열면 project scope `SessionStart` hook이 건수를 알리고, 처리는 CLAUDE.md의 "Process suggestions" 절차를 따른다. `~/.claude` 아래는 디렉터리나 파일째 이 repo로 symlink되어 있어서, 다른 세션이 설정을 고치면 ADR, provenance, `check-integrity`를 거치지 않고 이 repo의 파일이 바로 바뀐다.
 
 ## 결정
 
