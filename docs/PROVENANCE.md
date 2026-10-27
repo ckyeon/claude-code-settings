@@ -187,6 +187,7 @@ Each provenance entry records the upstream `license`. The auto-generated `SOURCE
 | Adopted from a private repo | Same flow. The full SHA is recorded; viewers without access to the private repo can still see the metadata. |
 | Tags only, no commit SHA available | Pick the commit the tag pointed to at the time. Tags can move; record the SHA, not the tag. |
 | Adopted content rewritten far enough that upstream no longer describes it | Append an entry with `"source": "self"` and `"adopted-as": "inspired-by"`, and use `notes` to say what changed and why. `commit` / `path` / `license` are omitted — there is nothing upstream left to pin. Written by hand; `bin/adopt` does not produce these. Example: `user/shared/CLAUDE.md.provenance.json`. |
+| A `copied` item that keeps a deliberate local edit | Keep `copied` while the edit stays one small block, and add `notes` to the newest entry naming the edit and its ADR. `bin/re-pin` skips the item while the edit is there. Re-pin it alone with `--overwrite-local` and `--notes`, then re-insert the block. Example: `user/shared/skills/to-tickets/` (ADR 0100). |
 
 ## Files in this system
 

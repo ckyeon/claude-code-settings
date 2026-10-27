@@ -47,7 +47,8 @@
       "path": "skills/engineering/to-tickets",
       "license": "MIT",
       "adopted-as": "copied",
-      "adopted-at": "2026-10-09"
+      "adopted-at": "2026-10-09",
+      "notes": "Local edit since this pin: step 4b (review the ticket drafts in a fresh-context subagent before publishing) sits between steps 4 and 5. bin/re-pin skips this item while the edit is there. Re-pin it alone with --overwrite-local and --notes, then re-insert the block (ADR 0100)."
     }
   ]
 }
