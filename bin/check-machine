@@ -6,8 +6,9 @@
 #
 # Errors:   an owned path is not symlinked into this repo, a plugin enabled at
 #           user scope is not installed, a declared MCP server is not registered.
-# Warnings: a plugin or MCP server on the machine has no declaration, the repo
-#           has uncommitted changes, commits are missing from the remote.
+# Warnings: a plugin installed at user scope or an MCP server on the machine
+#           has no declaration, the repo has uncommitted changes, commits are
+#           missing from the remote.
 #
 # Exit: 0 no errors, 1 errors found (or warnings under --strict).
 # Unlike bin/check-integrity this reads machine state, so its result differs
@@ -98,10 +99,11 @@ enabled_user = sorted(f"{name}@{marketplace}"
 for key in enabled_user:
     if "user" not in installed.get(key, set()):
         errors.append(f"plugin {key} is enabled at user scope but not installed")
+# A plugin installed at project or local scope belongs to that project (ADR 0095).
 declared_plugins = set(declarations.declared(repo_root, "plugins"))
 for key in sorted(installed):
-    if key.partition("@")[0] not in declared_plugins:
-        warnings.append(f"plugin {key} is installed but not declared under user/shared/plugins/")
+    if "user" in installed[key] and key.partition("@")[0] not in declared_plugins:
+        warnings.append(f"plugin {key} is installed at user scope but not declared under user/shared/plugins/")
 
 # --- Declared MCP servers: each is registered at user scope ---
 # Only the server names are read. The entries hold API keys.

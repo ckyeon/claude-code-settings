@@ -361,10 +361,13 @@ installed '"good@market": [{"scope": "user"}], "extra@market": [{"scope": "user"
 registered '"srv": {}, "rogue": {}'
 out="$(run bin/check-machine)"; rc=$?
 eq "undeclared plugins and MCP servers only warn" "$rc" "0"
-has "the undeclared plugin is named" "$out" "plugin extra@market is installed but not declared"
+has "the undeclared plugin is named" "$out" "plugin extra@market is installed at user scope but not declared"
 has "the undeclared MCP server is named" "$out" "MCP server rogue is registered but not declared"
-installed '"good@market": [{"scope": "user"}]'
+installed '"good@market": [{"scope": "user"}], "side@market": [{"scope": "project", "projectPath": "/elsewhere"}]'
 registered '"srv": {}'
+out="$(run bin/check-machine)"
+lacks "a plugin installed only at project scope is not reported as undeclared" "$out" "plugin side@market"
+installed '"good@market": [{"scope": "user"}]'
 
 plugin proj
 mkdir -p "$REPO/project-templates/t/.claude"
@@ -389,7 +392,7 @@ eq "a declaration without a sidecar is still checked" "$rc" "1"
 installed '"good@market": [{"scope": "user"}], "plain@market": [{"scope": "user"}]'
 out="$(run bin/check-machine)"; rc=$?
 eq "once installed, the sidecar-less declaration passes" "$rc" "0"
-lacks "and it is not reported as undeclared" "$out" "plugin plain@market is installed but not declared"
+lacks "and it is not reported as undeclared" "$out" "plugin plain@market is installed at user scope but not declared"
 installed '"good@market": [{"scope": "user"}]'
 rm -rf "$REPO/user/shared/plugins/plain"
 user_plugins '"good@market": true'
