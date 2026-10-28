@@ -58,9 +58,12 @@ This section is the single list of what sits at which level. The rule for classi
 | Plugins | declared | `user/shared/plugins/<name>/`, `enabledPlugins` in `settings.json` | `/plugin install` |
 | MCP servers | declared | `user/shared/mcp/<name>/README.md` | `claude mcp add` |
 | ego-browser skill | declared | this row | installing [ego lite](https://lite.ego.app/) and finishing its onboarding, after `./install.sh` |
+| herdr session hook | declared | its `SessionStart` entry in `user/shared/settings.json` | `herdr integration install claude` |
 | Secret names and where each goes | declared | [`docs/SECRETS.md`](docs/SECRETS.md) | entering each value by hand |
 
 The ego lite app links `~/.claude/skills/ego-browser` to the skill inside the app, so the link lands in `user/shared/skills/` and is gitignored. Install ego lite after `./install.sh`, because `install.sh` moves an existing `~/.claude/skills/` aside and the link would go with it.
+
+The herdr session hook runs `~/.claude/hooks/herdr-agent-state.sh`, a script herdr writes and updates on its own. Its entry in `settings.json` keeps herdr's absolute path under `/Users/ckyeon`, because herdr finds its entry by the exact command string and would add a second one for any other spelling. Run `herdr integration install claude` on each Mac, or every session there starts with a hook error for the missing script.
 
 No keybindings file exists yet. Once one is created it is owned, and it joins `list_owned_links` in `lib/common.sh`.
 
