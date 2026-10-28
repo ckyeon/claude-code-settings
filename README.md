@@ -57,7 +57,10 @@ This section is the single list of what sits at which level. The rule for classi
 | This repo's own project config | owned | `.claude/`, `CLAUDE.md` | cloning the repo |
 | Plugins | declared | `user/shared/plugins/<name>/`, `enabledPlugins` in `settings.json` | `/plugin install` |
 | MCP servers | declared | `user/shared/mcp/<name>/README.md` | `claude mcp add` |
+| ego-browser skill | declared | this row | installing [ego lite](https://lite.ego.app/) and finishing its onboarding, after `./install.sh` |
 | Secret names and where each goes | declared | [`docs/SECRETS.md`](docs/SECRETS.md) | entering each value by hand |
+
+The ego lite app links `~/.claude/skills/ego-browser` to the skill inside the app, so the link lands in `user/shared/skills/` and is gitignored. Install ego lite after `./install.sh`, because `install.sh` moves an existing `~/.claude/skills/` aside and the link would go with it.
 
 No keybindings file exists yet. Once one is created it is owned, and it joins `list_owned_links` in `lib/common.sh`.
 

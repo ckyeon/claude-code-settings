@@ -25,6 +25,10 @@ __pycache__/
 # user/shared/skills, so the sync lands inside the repo.
 user/shared/skills/synced/
 
+# The ego lite app links its skill into ~/.claude/skills, so the link lands
+# inside the repo. It points at an absolute path on this machine (ADR 0103).
+user/shared/skills/ego-browser
+
 # Suggestions from sessions in other projects (ADR 0098). Machine-local: a
 # suggestion may quote another project, and this repo is public.
 inbox/
