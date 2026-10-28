@@ -96,6 +96,7 @@
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
   "verbose": false,
+  "remoteControlAtStartup": true,
   "agentPushNotifEnabled": true,
   "autoMode": {
     "environment": [
