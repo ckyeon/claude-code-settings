@@ -25,6 +25,14 @@
       "license": "MIT",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-10-15"
+    },
+    {
+      "source": "https://github.com/remotion-dev/claude-code-plugin",
+      "commit": "413c6d622c88045217b441b871d636920961b6a2",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-10-29"
     }
   ]
 }

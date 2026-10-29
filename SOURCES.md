@@ -11,6 +11,7 @@ _Last generated: 2026-10-29_
 | `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/composition-patterns` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/composition-patterns` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/composition-patterns` | copied | MIT | 2026-09-01 |
+| `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `1a2c79d4` | `skills/composition-patterns` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `4ad28489` | `skill-data/core` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `328ce8a9` | `skill-data/core` | copied | MIT | 2026-06-09 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `e40e62d7` | `skill-data/core` | copied | MIT | 2026-07-16 |
@@ -20,10 +21,12 @@ _Last generated: 2026-10-29_
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `aff6125c` | `skill-data/core` | copied | MIT | 2026-09-17 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `39a74c70` | `skill-data/core` | copied | MIT | 2026-10-09 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `1165952d` | `skill-data/core` | copied | MIT | 2026-10-15 |
+| `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `1453dd37` | `skill-data/core` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/deploy-to-vercel` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/deploy-to-vercel` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/deploy-to-vercel` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/deploy-to-vercel` | copied | MIT | 2026-09-01 |
+| `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `1a2c79d4` | `skills/deploy-to-vercel` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `4ad28489` | `skill-data/dogfood` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `e40e62d7` | `skill-data/dogfood` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `acbc22bd` | `skill-data/dogfood` | copied | MIT | 2026-08-05 |
@@ -32,6 +35,7 @@ _Last generated: 2026-10-29_
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `aff6125c` | `skill-data/dogfood` | copied | MIT | 2026-09-17 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `39a74c70` | `skill-data/dogfood` | copied | MIT | 2026-10-09 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `1165952d` | `skill-data/dogfood` | copied | MIT | 2026-10-15 |
+| `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `1453dd37` | `skill-data/dogfood` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-cache-components-adoption` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-cache-components-adoption` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `1076c474` | `skills/next-cache-components-adoption` | copied | MIT | 2026-09-01 |
@@ -41,6 +45,7 @@ _Last generated: 2026-10-29_
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `63bb9d6a` | `skills/next-cache-components-adoption` | copied | MIT | 2026-09-29 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `5da8ef12` | `skills/next-cache-components-adoption` | copied | MIT | 2026-10-09 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `0b3693dd` | `skills/next-cache-components-adoption` | copied | MIT | 2026-10-15 |
+| `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `4c6a3fa4` | `skills/next-cache-components-adoption` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `1076c474` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-09-01 |
@@ -50,6 +55,7 @@ _Last generated: 2026-10-29_
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `63bb9d6a` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-09-29 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `5da8ef12` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-10-09 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `0b3693dd` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-10-15 |
+| `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `4c6a3fa4` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-dev-loop` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-dev-loop` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `1076c474` | `skills/next-dev-loop` | copied | MIT | 2026-09-01 |
@@ -59,6 +65,7 @@ _Last generated: 2026-10-29_
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `63bb9d6a` | `skills/next-dev-loop` | copied | MIT | 2026-09-29 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `5da8ef12` | `skills/next-dev-loop` | copied | MIT | 2026-10-09 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `0b3693dd` | `skills/next-dev-loop` | copied | MIT | 2026-10-15 |
+| `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `4c6a3fa4` | `skills/next-dev-loop` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `1076c474` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-09-01 |
@@ -68,27 +75,33 @@ _Last generated: 2026-10-29_
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `63bb9d6a` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-09-29 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `5da8ef12` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-10-09 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `0b3693dd` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-10-15 |
+| `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `4c6a3fa4` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `bf13ab8a` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-09-17 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `63bb9d6a` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-09-29 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `5da8ef12` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-10-09 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `0b3693dd` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-10-15 |
+| `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `4c6a3fa4` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/react-best-practices` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/react-best-practices` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/react-best-practices` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/react-best-practices` | copied | MIT | 2026-09-01 |
+| `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `1a2c79d4` | `skills/react-best-practices` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/react-view-transitions` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/react-view-transitions` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/react-view-transitions` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/react-view-transitions` | copied | MIT | 2026-09-01 |
+| `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `1a2c79d4` | `skills/react-view-transitions` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/vercel-optimize` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `18011566` | `skills/vercel-optimize` | copied | MIT | 2026-05-28 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/vercel-optimize` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/vercel-optimize` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/vercel-optimize` | copied | MIT | 2026-09-01 |
+| `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `1a2c79d4` | `skills/vercel-optimize` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/web-design-guidelines` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/web-design-guidelines` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/web-design-guidelines` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/web-design-guidelines` | copied | MIT | 2026-09-01 |
+| `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `1a2c79d4` | `skills/web-design-guidelines` | copied | MIT | 2026-10-29 |
 | `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/actions-and-utilities` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/actions-and-utilities` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/actions-and-utilities` | copied | MIT | 2026-07-16 |
@@ -207,12 +220,15 @@ _Last generated: 2026-10-29_
 | `project-templates/video/.claude/skills/auto-editor-export` | https://github.com/WyattBlue/auto-editor | `77962221` | `skills/auto-editor-export` | copied | Unlicense | 2026-09-27 |
 | `project-templates/video/.claude/skills/auto-editor-export` | https://github.com/WyattBlue/auto-editor | `5ab59aba` | `skills/auto-editor-export` | copied | Unlicense | 2026-10-09 |
 | `project-templates/video/.claude/skills/auto-editor-export` | https://github.com/WyattBlue/auto-editor | `44bf4ec3` | `skills/auto-editor-export` | copied | Unlicense | 2026-10-15 |
+| `project-templates/video/.claude/skills/auto-editor-export` | https://github.com/WyattBlue/auto-editor | `008228ed` | `skills/auto-editor-export` | copied | Unlicense | 2026-10-29 |
 | `project-templates/video/.claude/skills/auto-editor-transcribe` | https://github.com/WyattBlue/auto-editor | `77962221` | `skills/auto-editor-transcribe` | copied | Unlicense | 2026-09-27 |
 | `project-templates/video/.claude/skills/auto-editor-transcribe` | https://github.com/WyattBlue/auto-editor | `5ab59aba` | `skills/auto-editor-transcribe` | copied | Unlicense | 2026-10-09 |
 | `project-templates/video/.claude/skills/auto-editor-transcribe` | https://github.com/WyattBlue/auto-editor | `44bf4ec3` | `skills/auto-editor-transcribe` | copied | Unlicense | 2026-10-15 |
+| `project-templates/video/.claude/skills/auto-editor-transcribe` | https://github.com/WyattBlue/auto-editor | `008228ed` | `skills/auto-editor-transcribe` | copied | Unlicense | 2026-10-29 |
 | `project-templates/video/.claude/skills/auto-editor` | https://github.com/WyattBlue/auto-editor | `77962221` | `skills/auto-editor` | copied | Unlicense | 2026-09-27 |
 | `project-templates/video/.claude/skills/auto-editor` | https://github.com/WyattBlue/auto-editor | `5ab59aba` | `skills/auto-editor` | copied | Unlicense | 2026-10-09 |
 | `project-templates/video/.claude/skills/auto-editor` | https://github.com/WyattBlue/auto-editor | `44bf4ec3` | `skills/auto-editor` | copied | Unlicense | 2026-10-15 |
+| `project-templates/video/.claude/skills/auto-editor` | https://github.com/WyattBlue/auto-editor | `008228ed` | `skills/auto-editor` | copied | Unlicense | 2026-10-29 |
 | `project-templates/video/.claude/skills/edit-by-transcript` | https://github.com/browser-use/video-use | `b8770638` | `.` | inspired-by | MIT | 2026-09-27 |
 | `project-templates/video/.claude/skills/edit-by-transcript` | https://github.com/browser-use/video-use | `43cfc566` | `.` | inspired-by | MIT | 2026-10-09 |
 | `user/shared/CLAUDE.md` | https://github.com/multica-ai/andrej-karpathy-skills.git | `2c606141` | `CLAUDE.md` | copied | MIT | 2026-05-21 |
@@ -230,6 +246,7 @@ _Last generated: 2026-10-29_
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `4416fb85` | `.` | inspired-by | MIT | 2026-09-17 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `888e0134` | `.` | inspired-by | MIT | 2026-10-09 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `ef472a49` | `.` | inspired-by | MIT | 2026-10-15 |
+| `user/shared/mcp/context7` | https://github.com/upstash/context7 | `eabe3696` | `.` | inspired-by | MIT | 2026-10-29 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `b1e1eb1a` | `src/fetch` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `275175cd` | `src/fetch` | inspired-by | MIT | 2026-06-09 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `76d64c82` | `src/fetch` | inspired-by | MIT | 2026-08-05 |
@@ -238,6 +255,7 @@ _Last generated: 2026-10-29_
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `d73f99ef` | `src/fetch` | inspired-by | MIT | 2026-09-05 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `5abed86c` | `src/fetch` | inspired-by | MIT | 2026-10-09 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `bbb701e7` | `src/fetch` | inspired-by | MIT | 2026-10-15 |
+| `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `194cc86e` | `src/fetch` | inspired-by | MIT | 2026-10-29 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `1add5fe2` | `.` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `e091ea63` | `.` | inspired-by | MIT | 2026-05-28 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `457f5993` | `.` | inspired-by | MIT | 2026-06-09 |
@@ -248,6 +266,7 @@ _Last generated: 2026-10-29_
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `85598ba6` | `.` | inspired-by | MIT | 2026-09-17 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `eb47a99d` | `.` | inspired-by | MIT | 2026-10-09 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `c59e8c19` | `.` | inspired-by | MIT | 2026-10-15 |
+| `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `f2a07cd1` | `.` | inspired-by | MIT | 2026-10-29 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `b1e1eb1a` | `src/sequentialthinking` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `76d64c82` | `src/sequentialthinking` | inspired-by | MIT | 2026-08-05 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `579c3903` | `src/sequentialthinking` | inspired-by | MIT | 2026-09-01 |
@@ -255,9 +274,11 @@ _Last generated: 2026-10-29_
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `d73f99ef` | `src/sequentialthinking` | inspired-by | MIT | 2026-09-05 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `5abed86c` | `src/sequentialthinking` | inspired-by | MIT | 2026-10-09 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `bbb701e7` | `src/sequentialthinking` | inspired-by | MIT | 2026-10-15 |
+| `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `194cc86e` | `src/sequentialthinking` | inspired-by | MIT | 2026-10-29 |
 | `user/shared/plugins/clangd-lsp` | https://github.com/anthropics/claude-plugins-official | `fa59bc90` | `plugins/clangd-lsp` | inspired-by | Apache-2.0 | 2026-09-29 |
 | `user/shared/plugins/clangd-lsp` | https://github.com/anthropics/claude-plugins-official | `b860d6f2` | `plugins/clangd-lsp` | inspired-by | Apache-2.0 | 2026-10-09 |
 | `user/shared/plugins/clangd-lsp` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/clangd-lsp` | inspired-by | Apache-2.0 | 2026-10-15 |
+| `user/shared/plugins/clangd-lsp` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/clangd-lsp` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-05-21 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-07-16 |
@@ -268,6 +289,7 @@ _Last generated: 2026-10-29_
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official | `ea0a38e1` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-09-17 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official | `b860d6f2` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-10-09 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-10-15 |
+| `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/codex` | https://github.com/openai/codex-plugin-cc.git | `807e03ac` | `plugins/codex` | inspired-by | Apache-2.0 | 2026-06-01 |
 | `user/shared/plugins/codex` | https://github.com/openai/codex-plugin-cc.git | `db52e28f` | `plugins/codex` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-05-24 |
@@ -279,10 +301,12 @@ _Last generated: 2026-10-29_
 | `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official | `ea0a38e1` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-09-17 |
 | `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official | `b860d6f2` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-10-09 |
 | `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-10-15 |
+| `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/discord` | https://github.com/anthropics/claude-plugins-official | `3ea32df2` | `external_plugins/discord` | inspired-by | Apache-2.0 | 2026-09-10 |
 | `user/shared/plugins/discord` | https://github.com/anthropics/claude-plugins-official | `ea0a38e1` | `external_plugins/discord` | inspired-by | Apache-2.0 | 2026-09-17 |
 | `user/shared/plugins/discord` | https://github.com/anthropics/claude-plugins-official | `b860d6f2` | `external_plugins/discord` | inspired-by | Apache-2.0 | 2026-10-09 |
 | `user/shared/plugins/discord` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `external_plugins/discord` | inspired-by | Apache-2.0 | 2026-10-15 |
+| `user/shared/plugins/discord` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `external_plugins/discord` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-05-21 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-07-16 |
@@ -293,10 +317,12 @@ _Last generated: 2026-10-29_
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official | `ea0a38e1` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-09-17 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official | `b860d6f2` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-10-09 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-10-15 |
+| `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/hyperframes` | https://github.com/heygen-com/hyperframes | `8d2b6e7b` | `.` | inspired-by | Apache-2.0 | 2026-09-27 |
 | `user/shared/plugins/remotion` | https://github.com/remotion-dev/claude-code-plugin | `a39a5019` | `.` | inspired-by | MIT | 2026-09-27 |
 | `user/shared/plugins/remotion` | https://github.com/remotion-dev/claude-code-plugin | `50993d0b` | `.` | inspired-by | MIT | 2026-10-09 |
 | `user/shared/plugins/remotion` | https://github.com/remotion-dev/claude-code-plugin | `2d5b9c18` | `.` | inspired-by | MIT | 2026-10-15 |
+| `user/shared/plugins/remotion` | https://github.com/remotion-dev/claude-code-plugin | `413c6d62` | `.` | inspired-by | MIT | 2026-10-29 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `60f5e338` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-08-05 |
@@ -306,6 +332,7 @@ _Last generated: 2026-10-29_
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official | `ea0a38e1` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-09-17 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official | `b860d6f2` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-10-09 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-10-15 |
+| `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `1b527e2e` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-05-25 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `b5eddebc` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `60f5e338` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-08-05 |
@@ -315,6 +342,7 @@ _Last generated: 2026-10-29_
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `ea0a38e1` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-09-17 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `b860d6f2` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-10-09 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-10-15 |
+| `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `7a3b7511` | `understand-anything-plugin` | inspired-by | MIT | 2026-06-04 |
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `5c1e35f9` | `understand-anything-plugin` | inspired-by | MIT | 2026-06-09 |
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `83a9b288` | `understand-anything-plugin` | inspired-by | MIT | 2026-07-16 |
@@ -324,6 +352,7 @@ _Last generated: 2026-10-29_
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `6df3065f` | `understand-anything-plugin` | inspired-by | MIT | 2026-09-17 |
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `ffa2f0a8` | `understand-anything-plugin` | inspired-by | MIT | 2026-10-09 |
 | `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `f2d0164f` | `understand-anything-plugin` | inspired-by | MIT | 2026-10-15 |
+| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `4e6d3299` | `understand-anything-plugin` | inspired-by | MIT | 2026-10-29 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-17 |
@@ -497,46 +526,56 @@ _Last generated: 2026-10-29_
 - `user/shared/plugins/understand-anything` (inspired-by @ `6df3065f`, MIT)
 - `user/shared/plugins/understand-anything` (inspired-by @ `ffa2f0a8`, MIT)
 - `user/shared/plugins/understand-anything` (inspired-by @ `f2d0164f`, MIT)
+- `user/shared/plugins/understand-anything` (inspired-by @ `4e6d3299`, MIT)
 
 ### https://github.com/WyattBlue/auto-editor
 
 - `project-templates/video/.claude/skills/auto-editor` (copied @ `77962221`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor` (copied @ `5ab59aba`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor` (copied @ `44bf4ec3`, Unlicense)
+- `project-templates/video/.claude/skills/auto-editor` (copied @ `008228ed`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-effects` (copied @ `77962221`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-effects` (copied @ `5ab59aba`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-export` (copied @ `77962221`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-export` (copied @ `5ab59aba`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-export` (copied @ `44bf4ec3`, Unlicense)
+- `project-templates/video/.claude/skills/auto-editor-export` (copied @ `008228ed`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-transcribe` (copied @ `77962221`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-transcribe` (copied @ `5ab59aba`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-transcribe` (copied @ `44bf4ec3`, Unlicense)
+- `project-templates/video/.claude/skills/auto-editor-transcribe` (copied @ `008228ed`, Unlicense)
 
 ### https://github.com/anthropics/claude-plugins-official
 
 - `user/shared/plugins/clangd-lsp` (inspired-by @ `fa59bc90`, Apache-2.0)
 - `user/shared/plugins/clangd-lsp` (inspired-by @ `b860d6f2`, Apache-2.0)
 - `user/shared/plugins/clangd-lsp` (inspired-by @ `c2bdb427`, Apache-2.0)
+- `user/shared/plugins/clangd-lsp` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 - `user/shared/plugins/claude-md-management` (inspired-by @ `85cce038`, Apache-2.0)
 - `user/shared/plugins/claude-md-management` (inspired-by @ `ea0a38e1`, Apache-2.0)
 - `user/shared/plugins/claude-md-management` (inspired-by @ `b860d6f2`, Apache-2.0)
 - `user/shared/plugins/claude-md-management` (inspired-by @ `c2bdb427`, Apache-2.0)
+- `user/shared/plugins/claude-md-management` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `85cce038`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `ea0a38e1`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `b860d6f2`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `c2bdb427`, Apache-2.0)
+- `user/shared/plugins/commit-commands` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 - `user/shared/plugins/discord` (inspired-by @ `3ea32df2`, Apache-2.0)
 - `user/shared/plugins/discord` (inspired-by @ `ea0a38e1`, Apache-2.0)
 - `user/shared/plugins/discord` (inspired-by @ `b860d6f2`, Apache-2.0)
 - `user/shared/plugins/discord` (inspired-by @ `c2bdb427`, Apache-2.0)
+- `user/shared/plugins/discord` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `85cce038`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `ea0a38e1`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `b860d6f2`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `c2bdb427`, Apache-2.0)
+- `user/shared/plugins/hookify` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `85cce038`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `ea0a38e1`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `b860d6f2`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `c2bdb427`, Apache-2.0)
+- `user/shared/plugins/skill-creator` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `1b527e2e`, Apache-2.0)
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `b5eddebc`, Apache-2.0)
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `60f5e338`, Apache-2.0)
@@ -546,6 +585,7 @@ _Last generated: 2026-10-29_
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `ea0a38e1`, Apache-2.0)
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `b860d6f2`, Apache-2.0)
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `c2bdb427`, Apache-2.0)
+- `user/shared/plugins/typescript-lsp` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 
 ### https://github.com/anthropics/claude-plugins-official.git
 
@@ -589,6 +629,7 @@ _Last generated: 2026-10-29_
 - `user/shared/mcp/github` (inspired-by @ `85598ba6`, MIT)
 - `user/shared/mcp/github` (inspired-by @ `eb47a99d`, MIT)
 - `user/shared/mcp/github` (inspired-by @ `c59e8c19`, MIT)
+- `user/shared/mcp/github` (inspired-by @ `f2a07cd1`, MIT)
 
 ### https://github.com/herdrdev/herdr
 
@@ -769,6 +810,7 @@ _Last generated: 2026-10-29_
 - `user/shared/mcp/fetch` (inspired-by @ `d73f99ef`, MIT)
 - `user/shared/mcp/fetch` (inspired-by @ `5abed86c`, MIT)
 - `user/shared/mcp/fetch` (inspired-by @ `bbb701e7`, MIT)
+- `user/shared/mcp/fetch` (inspired-by @ `194cc86e`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `b1e1eb1a`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `76d64c82`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `579c3903`, MIT)
@@ -776,6 +818,7 @@ _Last generated: 2026-10-29_
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `d73f99ef`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `5abed86c`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `bbb701e7`, MIT)
+- `user/shared/mcp/sequential-thinking` (inspired-by @ `194cc86e`, MIT)
 
 ### https://github.com/multica-ai/andrej-karpathy-skills.git
 
@@ -907,6 +950,7 @@ _Last generated: 2026-10-29_
 - `user/shared/plugins/remotion` (inspired-by @ `a39a5019`, MIT)
 - `user/shared/plugins/remotion` (inspired-by @ `50993d0b`, MIT)
 - `user/shared/plugins/remotion` (inspired-by @ `2d5b9c18`, MIT)
+- `user/shared/plugins/remotion` (inspired-by @ `413c6d62`, MIT)
 
 ### https://github.com/upstash/context7
 
@@ -921,6 +965,7 @@ _Last generated: 2026-10-29_
 - `user/shared/mcp/context7` (inspired-by @ `4416fb85`, MIT)
 - `user/shared/mcp/context7` (inspired-by @ `888e0134`, MIT)
 - `user/shared/mcp/context7` (inspired-by @ `ef472a49`, MIT)
+- `user/shared/mcp/context7` (inspired-by @ `eabe3696`, MIT)
 
 ### https://github.com/vercel-labs/agent-browser
 
@@ -933,6 +978,7 @@ _Last generated: 2026-10-29_
 - `project-templates/nextjs/.claude/skills/core` (copied @ `aff6125c`, MIT)
 - `project-templates/nextjs/.claude/skills/core` (copied @ `39a74c70`, MIT)
 - `project-templates/nextjs/.claude/skills/core` (copied @ `1165952d`, MIT)
+- `project-templates/nextjs/.claude/skills/core` (copied @ `1453dd37`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `4ad28489`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `e40e62d7`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `acbc22bd`, MIT)
@@ -941,6 +987,7 @@ _Last generated: 2026-10-29_
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `aff6125c`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `39a74c70`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `1165952d`, MIT)
+- `project-templates/nextjs/.claude/skills/dogfood` (copied @ `1453dd37`, MIT)
 
 ### https://github.com/vercel-labs/agent-skills
 
@@ -948,27 +995,33 @@ _Last generated: 2026-10-29_
 - `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `7c180d90`, MIT)
 - `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `063bee94`, MIT)
+- `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `1a2c79d4`, MIT)
 - `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `7c180d90`, MIT)
 - `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `063bee94`, MIT)
+- `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `1a2c79d4`, MIT)
 - `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `7c180d90`, MIT)
 - `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `063bee94`, MIT)
+- `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `1a2c79d4`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `7c180d90`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `063bee94`, MIT)
+- `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `1a2c79d4`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `18011566`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `7c180d90`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `063bee94`, MIT)
+- `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `1a2c79d4`, MIT)
 - `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `7c180d90`, MIT)
 - `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `063bee94`, MIT)
+- `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `1a2c79d4`, MIT)
 
 ### https://github.com/vercel/next.js
 
@@ -981,6 +1034,7 @@ _Last generated: 2026-10-29_
 - `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `63bb9d6a`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `5da8ef12`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `0b3693dd`, MIT)
+- `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `4c6a3fa4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `ab09c1f4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `1076c474`, MIT)
@@ -990,6 +1044,7 @@ _Last generated: 2026-10-29_
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `63bb9d6a`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `5da8ef12`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `0b3693dd`, MIT)
+- `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `4c6a3fa4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `ab09c1f4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `1076c474`, MIT)
@@ -999,6 +1054,7 @@ _Last generated: 2026-10-29_
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `63bb9d6a`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `5da8ef12`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `0b3693dd`, MIT)
+- `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `4c6a3fa4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `ab09c1f4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `1076c474`, MIT)
@@ -1008,10 +1064,12 @@ _Last generated: 2026-10-29_
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `63bb9d6a`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `5da8ef12`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `0b3693dd`, MIT)
+- `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `4c6a3fa4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `bf13ab8a`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `63bb9d6a`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `5da8ef12`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `0b3693dd`, MIT)
+- `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `4c6a3fa4`, MIT)
 
 ### self
 
