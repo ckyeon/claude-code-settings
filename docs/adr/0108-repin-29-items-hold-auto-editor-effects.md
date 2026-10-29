@@ -24,6 +24,6 @@ upstream `692cbbe`가 keyframe에 시점을 붙이는 `value@time` 문법을 문
 
 auto-editor의 tag는 `31.7.2`처럼 `v` 접두사가 없어서 `track: release`가 인식하지 못한다. 그래서 이 보류는 sidecar 설정으로 맡길 수 없고, 그 전까지 `check-updates`는 이 항목을 계속 changed로 보고한다.
 
-## 들이기로 한 신규 항목
+## 신규 항목
 
-agent-browser에 새로 생긴 `.agents/skills/technical-writer`는 adopt하기로 했다. 원본이 vercel/chat에 있으므로 별도 ADR에서 다룬다.
+agent-browser에 새로 생긴 `.agents/skills/technical-writer`는 들이지 않았다. 이유는 ADR 0109에 적었다.
