@@ -57,6 +57,15 @@
       "adopted-as": "copied",
       "adopted-at": "2026-10-28",
       "notes": "Local edit at this pin: step 4b (review the ticket drafts in a fresh-context subagent before publishing) sits between steps 4 and 5. Move this item only with bin/re-pin, and follow docs/PROVENANCE.md, Edge cases, when it reports the local difference (ADR 0100)."
+    },
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "path": "skills/engineering/to-tickets",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-10-29",
+      "notes": "Local edit at this pin: step 4b (review the ticket drafts in a fresh-context subagent before publishing) sits between steps 4 and 5. Move this item only with bin/re-pin, and follow docs/PROVENANCE.md, Edge cases, when it reports the local difference (ADR 0100)."
     }
   ]
 }
