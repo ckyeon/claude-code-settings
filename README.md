@@ -107,7 +107,7 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 │   ├── re-pin                  # move the pin of items already adopted
 │   ├── sources-index           # regenerate SOURCES.md
 │   ├── check-updates           # compare pins against upstream HEAD
-│   ├── check-integrity         # static checks: refs resolve, sidecars valid, declarations complete, template kinds listed
+│   ├── check-integrity         # static checks: refs resolve, sidecars valid, declarations complete, template kinds listed, ADR prose
 │   ├── check-machine           # does this machine match what the repo owns and declares?
 │   └── suggest-setting         # leave a suggestion in inbox/ from a session in another project
 ├── tests/run.sh                # tests for the bin/ tools and the hooks (fake upstream, temp dir)

@@ -251,6 +251,32 @@ for path, line, what, names in kind_lists():
     for k in sorted(names - kinds):
         errors.append((rel(path), line, f"{what} lists kind {k!r}, but project-templates/{k}/ does not exist"))
 
+# --- ADR prose: no arrow or semicolon standing in for a relation ---
+# user/shared/rules/korean-technical-writing.md asks prose to say in words what
+# an arrow or a semicolon hides. Tables, code, block quotes and quoted text keep
+# their symbols. ADRs before FIRST_PROSE_ADR predate the check (ADR 0116).
+FIRST_PROSE_ADR = 116
+PROSE_SYMBOL = re.compile(r"[→←⇒⇐↔]|->|=>|;")
+EXEMPT_SPAN = re.compile(r"`[^`]*`|\"[^\"]*\"|“[^”]*”|\]\([^)]*\)")
+adr_dir = os.path.join(repo_root, "docs", "adr")
+adrs = []
+if os.path.isdir(adr_dir):
+    adrs = [n for n in sorted(os.listdir(adr_dir))
+            if re.match(r"\d{4}-.*\.md$", n) and int(n[:4]) >= FIRST_PROSE_ADR]
+for name in adrs:
+    path = os.path.join(adr_dir, name)
+    fenced = False
+    for i, line in enumerate(open(path, encoding="utf-8"), start=1):
+        if line.lstrip().startswith("```"):
+            fenced = not fenced
+            continue
+        if fenced or line.lstrip().startswith(("|", ">")):
+            continue
+        hit = PROSE_SYMBOL.search(EXEMPT_SPAN.sub("", line))
+        if hit:
+            errors.append((rel(path), i, f"prose uses {hit.group(0)!r}: write the relation in words "
+                                         "(user/shared/rules/korean-technical-writing.md)"))
+
 # --- Report ---
 def emit(label, items):
     if not items:
@@ -263,6 +289,7 @@ for d, n in checked:
     print(f"Checked {n} skills in {rel(d)}")
 print(f"Checked {len(declared_plugins)} plugin and {len(declared_mcp)} MCP server declarations")
 print(f"Checked {len(kinds)} template kinds against their lists")
+print(f"Checked {len(adrs)} ADRs from {FIRST_PROSE_ADR:04d} on for arrows and semicolons in prose")
 emit("ERRORS", errors)
 emit("WARNINGS", warnings)
 

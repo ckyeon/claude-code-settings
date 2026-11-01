@@ -335,6 +335,35 @@ out="$(run bin/check-integrity)"
 has "a list that can't be found is reported" "$out" "template kind list (description) not found"
 rm -rf "$REPO/user/shared/skills/apply-project-template" "$REPO/README.md" "$REPO/project-templates"
 
+echo "bin/check-integrity (ADR prose)"
+
+adr() { mkdir -p "$REPO/docs/adr"; printf '%s\n' "$2" > "$REPO/docs/adr/$1"; } # adr <file> <text>
+
+adr 0116-new.md '# 0116 — title
+
+Prose, then `a; b` in code and "quoted; text" in quotes.
+
+| a → b | c; d |
+
+```
+x => y;
+```'
+out="$(run bin/check-integrity --strict)"; rc=$?
+eq "symbols in code, quotes, tables and fences pass" "$rc" "0"
+
+adr 0116-new.md '# 0116 — title
+
+A rule changed; the tool followed.'
+out="$(run bin/check-integrity)"; rc=$?
+eq "a semicolon in ADR prose exits 1" "$rc" "1"
+has "the line and the symbol are named" "$out" "docs/adr/0116-new.md:3  prose uses ';'"
+
+adr 0116-new.md '# 0116 — title'
+adr 0115-old.md 'Old prose → kept as written.'
+out="$(run bin/check-integrity --strict)"; rc=$?
+eq "ADRs before the first checked one are skipped" "$rc" "0"
+rm -rf "$REPO/docs"
+
 python3 - "$REPO/user/shared/skills/z/.provenance.json" <<'PY'
 import json, sys
 p = sys.argv[1]

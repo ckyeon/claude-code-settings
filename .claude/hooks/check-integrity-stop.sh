@@ -44,8 +44,9 @@ print(json.dumps({
     "reason": (
         "bin/check-integrity failed. Resolve this before finishing:\n\n"
         + output
-        + "\n\nA skill that references an uninstalled skill is inert, and stays "
-        "inert through every future re-sync. Either adopt the missing dependency "
+        + "\n\nFix each error at the path and line it names. A skill that references "
+        "an uninstalled skill is inert, and stays inert through every future "
+        "re-sync. For such a reference, either adopt the missing dependency "
         "with bin/adopt (search the whole upstream repo — it may sit under a "
         "different category) or drop the reference. Re-run bin/check-integrity "
         "to confirm."

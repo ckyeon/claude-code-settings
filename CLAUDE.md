@@ -78,12 +78,13 @@ Run `bin/check-integrity` (add `--strict` to fail on warnings too). It is static
 
 `check-updates` answers "is this pinned to the latest upstream?". `check-integrity` answers "does this still function?". An item can be perfectly fresh and completely broken: `grill-with-docs` was re-synced four times while both skills it delegates to were absent (ADR 0020).
 
-Four failure classes it catches:
+Five failure classes it catches:
 
 - **Skill cross-references** — a `` `/name` `` written next to the noun "skill", or a quoted or backticked name near the phrase "Skill tool" (`call the Skill tool with "name"`), must resolve to an installed skill (this repo's `user/shared/skills/`, or one vendored in an installed plugin). Errors are high-precision. A second, softer pass warns on other unresolved `` `/token` `` refs. Template skills under `project-templates/*/.claude/skills/` get the cross-reference check only, and may also resolve to skills in the same template.
 - **Provenance sidecars** — valid JSON, non-empty `provenance[]`, required fields present, no top-level keys other than `provenance` and `track`, and a valid `track` value. `"source": "self"` entries are exempt from `commit`, `path`, and `license` (see `docs/PROVENANCE.md` § "Edge cases").
 - **Declarations** — every `user/shared/mcp/<name>/` README holds its `claude mcp add` command, and every `user/shared/plugins/<name>/` README its `plugin install` command. It warns when a declared plugin is enabled in no `settings.json`, or a plugin enabled at user scope has no declaration.
 - **Template kinds** — the kinds listed in the `apply-project-template` skill (description and table) and in `README.md` (the `apply-template` comment and the tree) match the directories under `project-templates/`. Adding a template means adding it to all four.
+- **ADR prose** — from ADR 0116 on, an ADR's prose holds no arrow (`→`, `->`, `=>` and the like) and no semicolon. `user/shared/rules/korean-technical-writing.md` asks for the relation in words. Tables, code, block quotes, and quoted text are exempt.
 
 **When adopting an item, adopt what it delegates to.** Upstream categories don't always match: `grilling` lives under `skills/productivity/` while the skills that call it are in `skills/engineering/`, which is all the original adoption walked. `bin/adopt` now runs this check itself and warns before you commit (suppress with `--no-check`). The rule is enforced by the tool, not by remembering it.
 
