@@ -16,7 +16,7 @@ Rust project. Replace `{{PROJECT_NAME}}` and fill in the sections below.
 
 ## Conventions
 
-- Edition and minimum Rust version: pinned in `Cargo.toml` (`edition`, `rust-version`). `cargo new` writes edition 2024, which needs Rust 1.85 or later.
+- Edition: `edition` in `Cargo.toml`. `cargo new` writes 2024, which needs Rust 1.85 or later.
 - Fix every Clippy and rustc warning before calling a change done. The Lint command doesn't deny warnings, so read its output, not its exit code.
 - Format through `cargo fmt`. A bare `rustfmt <file>` doesn't read `Cargo.toml` and formats as edition 2015, so it rejects `async fn`.
 - `cargo publish` is denied in `.claude/settings.json`. A publish to crates.io can't be undone, so the user runs it.

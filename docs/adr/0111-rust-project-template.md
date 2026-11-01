@@ -29,4 +29,4 @@
 - 검증은 cargo 1.99.0으로 scratch 디렉터리에서 했다.
   - `cargo new` 다음에 `bin/apply-template rust`를 실행했다. 그리고 `CLAUDE.md`의 명령 6개를 실행해 모두 종료 코드 0을 확인했다.
   - 순서를 바꿔 template을 먼저 적용하고 `cargo init`을 돌려도 `.gitignore`에 `/target`과 `.claude/settings.local.json`이 모두 남았다.
-  - permission 규칙과 plugin 동작은 세션을 열어야 확인할 수 있다. 아직 확인하지 않았다.
+  - permission 규칙과 plugin 동작은 ADR 0112에서 세션을 띄워 확인했다.
