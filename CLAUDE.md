@@ -34,7 +34,7 @@ The goal is reproduction: a new machine reaches the same Claude Code environment
 
 1. `bin/adopt --from <url> [--commit <sha>] --path <p> --to <dest> --mode copied|inspired-by --license <SPDX> [--notes "..."]`. Omitting `--commit` pins to upstream HEAD. Auto-runs `bin/sources-index` unless `--no-index`, then `bin/check-integrity` unless `--no-check`.
 2. Review the diff and the new `.provenance.json` sidecar. **If the integrity check warned, resolve it before committing.** Usually it means the item delegates to a skill you haven't adopted yet.
-3. Commit using the printed `git commit ... --trailer ...` form (include `SOURCES.md`), or pass `--commit-now` to step 1 to skip the copy-paste. The trailers are for a commit that adopts one item. A commit that adopts several names them in its message instead.
+3. Commit using the printed `git commit ... --trailer ...` form (include `SOURCES.md`), or pass `--commit-now` to step 1 to skip the copy-paste. The trailers are for a commit whose only change is adopting one item, the commit `--commit-now` makes. A commit that adopts several items, or adopts one as part of a larger change such as a new project template, names them in its message instead.
 4. Push only on explicit user request.
 
 ### Declare a plugin
