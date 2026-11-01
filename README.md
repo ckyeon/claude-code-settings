@@ -141,6 +141,7 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
     ├── nextjs/
     ├── python/
     ├── go/
+    ├── rust/
     ├── phaser/
     ├── video/
     └── cpp/
@@ -180,7 +181,7 @@ In a Claude Code session you rarely run this yourself. When a session starts in 
 By hand, from the project's directory:
 
 ```bash
-<path-to-coding-agent-settings>/bin/apply-template nodejs   # one of: nodejs, nextjs, python, go, phaser, video, cpp
+<path-to-coding-agent-settings>/bin/apply-template nodejs   # one of: nodejs, nextjs, python, go, rust, phaser, video, cpp
 claude plugin install <plugin>@<marketplace> --scope project   # for each plugin it lists
 $EDITOR CLAUDE.md                                            # fill in the template's sections
 git add CLAUDE.md .claude .gitignore

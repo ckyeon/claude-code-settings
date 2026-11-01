@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/anthropics/claude-plugins-official",
+      "commit": "a7ba5b93db0c7c8d17f3f1d25853adca79598a1a",
+      "path": "plugins/rust-analyzer-lsp",
+      "license": "Apache-2.0",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-11-02",
+      "notes": "Installed via claude plugin install rust-analyzer-lsp@claude-plugins-official --scope project. Provenance only; no files are copied. Enabled only via project-templates/rust (ADR 0111)."
+    }
+  ]
+}

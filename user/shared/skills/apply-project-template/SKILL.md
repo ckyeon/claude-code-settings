@@ -1,6 +1,6 @@
 ---
 name: apply-project-template
-description: 프로젝트에 이 기기의 project template(nextjs, nodejs, phaser, python, go, cpp, video)을 적용한다. SessionStart 안내가 새 프로젝트라고 알렸을 때, 사용자가 새 프로젝트를 만들기 시작할 때, 사용자가 template 적용을 요청할 때 쓴다.
+description: 프로젝트에 이 기기의 project template(nextjs, nodejs, phaser, python, go, rust, cpp, video)을 적용한다. SessionStart 안내가 새 프로젝트라고 알렸을 때, 사용자가 새 프로젝트를 만들기 시작할 때, 사용자가 template 적용을 요청할 때 쓴다.
 ---
 
 # Project template 적용
@@ -17,6 +17,7 @@ template은 이 skill 디렉터리의 `apply-template`이 복사한다. 이 파�
 | 그 밖의 `package.json` | nodejs |
 | `pyproject.toml`, `requirements.txt`, `uv.lock` | python |
 | `go.mod` | go |
+| `Cargo.toml` | rust |
 | `CMakeLists.txt`, C++ 소스 | cpp |
 
 - 파일이 아직 없으면 사용자의 요청에서 종류를 읽는다.
