@@ -207,6 +207,50 @@ for name in sorted(enabled_user - set(declared_plugins)):
     warnings.append(("user/shared/settings.json", 1,
                      f"plugin {name!r} is enabled but not declared under user/shared/plugins/"))
 
+# --- Template kinds: every hand-kept list names exactly the templates there are ---
+# A kind missing from the apply-project-template skill is never offered, and
+# nothing fails, so each list is compared with project-templates/ (ADR 0115).
+# A list that exists in a file but can't be found means the file was reworded.
+kinds = set()
+if os.path.isdir(templates_dir):
+    kinds = {t for t in os.listdir(templates_dir)
+             if t != "_base" and os.path.isdir(os.path.join(templates_dir, t))}
+
+def line_of(text, m):
+    return text.count("\n", 0, m.start()) + 1 if m else 1
+
+def comma_list(m):
+    return {k.strip() for k in m.group(1).split(",") if k.strip()} if m else None
+
+def kind_lists():
+    """Yield (path, line, what, names) for each list of kinds; names is None when not found."""
+    skill = os.path.join(skills_dir, "apply-project-template", "SKILL.md")
+    if os.path.isfile(skill):
+        text = open(skill, encoding="utf-8").read()
+        m = re.search(r"^description:.*?project template\(([^)]*)\)", text, re.M)
+        yield skill, line_of(text, m), "description", comma_list(m)
+        # The table whose header's last cell is 종류 (kind).
+        m = re.search(r"^\|.*\|\s*종류\s*\|\n\|[-| ]+\|\n((?:\|.*\n)+)", text, re.M)
+        rows = m and set(re.findall(r"\|\s*([a-z][a-z0-9-]*)\s*\|\s*$", m.group(1), re.M))
+        yield skill, line_of(text, m), "kind table", rows or None
+    readme = os.path.join(repo_root, "README.md")
+    if os.path.isfile(readme):
+        text = open(readme, encoding="utf-8").read()
+        m = re.search(r"apply-template \S+ +# one of: ([a-z0-9, -]+)", text)
+        yield readme, line_of(text, m), "apply-template comment", comma_list(m)
+        m = re.search(r"── project-templates/.*\n((?:[ │]*[├└]── .*\n)+)", text)
+        tree = m and set(re.findall(r"[├└]── ([^/\s]+)/", m.group(1))) - {"_base"}
+        yield readme, line_of(text, m), "tree", tree or None
+
+for path, line, what, names in kind_lists():
+    if names is None:
+        errors.append((rel(path), line, f"template kind list ({what}) not found; reworded? update bin/check-integrity"))
+        continue
+    for k in sorted(kinds - names):
+        errors.append((rel(path), line, f"template kind {k!r} missing from the {what}"))
+    for k in sorted(names - kinds):
+        errors.append((rel(path), line, f"{what} lists kind {k!r}, but project-templates/{k}/ does not exist"))
+
 # --- Report ---
 def emit(label, items):
     if not items:
@@ -218,6 +262,7 @@ def emit(label, items):
 for d, n in checked:
     print(f"Checked {n} skills in {rel(d)}")
 print(f"Checked {len(declared_plugins)} plugin and {len(declared_mcp)} MCP server declarations")
+print(f"Checked {len(kinds)} template kinds against their lists")
 emit("ERRORS", errors)
 emit("WARNINGS", warnings)
 

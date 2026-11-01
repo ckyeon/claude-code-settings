@@ -300,6 +300,41 @@ eq "a plugin enabled without a declaration only warns" "$rc" "0"
 has "the undeclared plugin is named" "$out" "plugin 'stray' is enabled but not declared"
 rm -rf "$REPO/user/shared/plugins" "$REPO/user/shared/mcp" "$REPO/user/shared/settings.json" "$REPO/project-templates"
 
+echo "bin/check-integrity (template kinds)"
+
+kind_lists() { # kind_lists <description> <table kinds> <comment> <tree kinds> — the four hand-kept lists
+  mkdir -p "$REPO/user/shared/skills/apply-project-template"
+  {
+    printf -- '---\nname: apply-project-template\ndescription: 이 기기의 project template(%s)을 적용한다.\n---\n\n| 단서 | 종류 |\n|---|---|\n' "$1"
+    for k in $2; do printf '| `%s.toml` | %s |\n' "$k" "$k"; done
+  } > "$REPO/user/shared/skills/apply-project-template/SKILL.md"
+  {
+    printf '```\nbin/apply-template a   # one of: %s\n```\n\n```\n└── project-templates/\n    ├── _base/\n' "$3"
+    for k in $4; do printf '    ├── %s/\n' "$k"; done
+    printf '```\n'
+  } > "$REPO/README.md"
+}
+
+mkdir -p "$REPO/project-templates/_base" "$REPO/project-templates/a" "$REPO/project-templates/b"
+kind_lists 'a, b' 'a b' 'a, b' 'a b'
+out="$(run bin/check-integrity --strict)"; rc=$?
+eq "lists that name every template kind pass" "$rc" "0"
+has "template kinds are counted" "$out" "Checked 2 template kinds"
+
+kind_lists 'a, b' 'a' 'a, b' 'a b'
+out="$(run bin/check-integrity)"; rc=$?
+eq "a kind missing from one list exits 1" "$rc" "1"
+has "the missing kind and its list are named" "$out" "template kind 'b' missing from the kind table"
+
+kind_lists 'a, b, c' 'a b' 'a, b' 'a b'
+out="$(run bin/check-integrity)"
+has "a listed kind with no template is named" "$out" "description lists kind 'c', but project-templates/c/ does not exist"
+
+printf -- '---\nname: apply-project-template\ndescription: reworded\n---\n' > "$REPO/user/shared/skills/apply-project-template/SKILL.md"
+out="$(run bin/check-integrity)"
+has "a list that can't be found is reported" "$out" "template kind list (description) not found"
+rm -rf "$REPO/user/shared/skills/apply-project-template" "$REPO/README.md" "$REPO/project-templates"
+
 python3 - "$REPO/user/shared/skills/z/.provenance.json" <<'PY'
 import json, sys
 p = sys.argv[1]
