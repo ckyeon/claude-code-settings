@@ -26,6 +26,12 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-10-15",
       "notes": "Extended 'Verify, don't recall' to repo facts cited as evidence for a decision handed to the user (ADR 0092). Source: an infra/data session retro where a narrow grep and a proposal summary led to wrong decision evidence."
+    },
+    {
+      "source": "self",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-11-01",
+      "notes": "Added 'Leave your commit trailers out of briefs' (ADR 0110). Source: an inbox suggestion where agents started from one session's briefs committed with that session's Claude-Session trailer."
     }
   ]
 }
