@@ -17,6 +17,6 @@ Claude Code 2.1.314와 Opus 5.5로 `claude -p`를 세 번 실행했다. 환경 �
 
 ## Consequences
 
-- 3번에서 Claude Code는 `Bash(cargo:*)` 허용 규칙이 있는데도 `cargo build` 실행 승인을 물었다. permission 문서(code.claude.com/docs/en/permissions)에 따르면 project의 `permissions.allow`는 workspace trust를 받은 뒤에만 적용되고, `claude -p`에서는 적용되지 않는다. deny 규칙은 trust와 상관없이 적용된다. 그래서 허용 규칙은 대화형 세션에서 trust를 승인해야 확인할 수 있고, 아직 확인하지 않았다.
+- 3번에서 Claude Code는 `Bash(cargo:*)` 허용 규칙이 있는데도 `cargo build` 실행 승인을 물었다. permission 문서(code.claude.com/docs/en/permissions)에 따르면 project의 `permissions.allow`는 workspace trust를 받은 뒤에만 적용되고, `claude -p`에서는 적용되지 않는다. deny 규칙은 trust와 상관없이 적용된다. 그래서 허용 규칙은 여기서 확인하지 못했고, 나중에 ADR 0117의 probe로 확인했다.
 - 1번에서 Claude는 template 내용을 읽지 못한 채 적용할지 물었다. `-p`에서는 작업 디렉터리 밖의 파일을 읽을 때 필요한 승인 요청에 아무도 답할 수 없기 때문이다. 대화형 세션에서는 사용자에게 권한을 묻는다.
 - 시험 디렉터리, 그 안에 project scope로 설치한 plugin, 시험 세션 기록은 시험 뒤에 지웠다.

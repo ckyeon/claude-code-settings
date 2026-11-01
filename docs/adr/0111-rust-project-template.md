@@ -29,5 +29,5 @@
 - 검증은 cargo 1.99.0으로 scratch 디렉터리에서 했다.
   - `cargo new` 다음에 `bin/apply-template rust`를 실행했다. 그리고 `CLAUDE.md`의 명령 6개를 실행해 모두 종료 코드 0을 확인했다.
   - 순서를 바꿔 template을 먼저 적용하고 `cargo init`을 돌려도 `.gitignore`에 `/target`과 `.claude/settings.local.json`이 모두 남았다.
-  - 세션 시험 결과는 ADR 0112에 있다. plugin 진단과 deny 규칙은 확인했고, allow 규칙은 아직 확인하지 않았다.
+  - 세션 시험 결과는 ADR 0112에 있다. plugin 진단과 deny 규칙은 거기서 확인했고, allow 규칙은 ADR 0117의 probe로 확인했다.
 - 이후 바뀐 것: ADR 0112에서 `.gitignore.snippet`을 더했고, ADR 0113에서 `Bash(rustfmt:*)`를 빼고 `cargo publish` deny 규칙을 넓혔다.

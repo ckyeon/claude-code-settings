@@ -8,6 +8,7 @@ is not told which arm produced the run.
 
     evals/run.py run --model 'claude-opus-5-5[1m]' --effort xhigh --runs 3
     evals/run.py summarize evals/results/<dir>
+    evals/run.py probe <dir> '<prompt>' [--trust]
 """
 import argparse
 import concurrent.futures
@@ -345,6 +346,46 @@ def summarize(out):
     return text
 
 
+def probe(args):
+    """Run one session in an existing directory and print what it did, for one-off checks.
+
+    claude -p never applies a project's permissions.allow until the folder is
+    trusted, so --trust runs from a mirror config dir whose .claude.json trusts
+    it, leaving ~/.claude.json alone. The mirror hands the session a token, and
+    trusted allow rules can run programs, so subprocesses get credentials scrubbed.
+    """
+    work, base = Path(args.dir).resolve(), None
+    env = dict(CHILD_ENV, CLAUDE_CODE_DISABLE_AUTO_MEMORY="1")
+    if args.trust:
+        base = Path(tempfile.mkdtemp(prefix="probe-"))
+        mirror_env, _ = make_mirrors(["on-mirror"], base)["on-mirror"]
+        top = subprocess.run(["git", "rev-parse", "--show-toplevel"], cwd=work, capture_output=True, text=True)
+        key = top.stdout.strip() if top.returncode == 0 else str(work)
+        (base / "on-mirror" / ".claude.json").write_text(json.dumps(
+            {"hasCompletedOnboarding": True, "projects": {key: {"hasTrustDialogAccepted": True}}}))
+        env.update(mirror_env, CLAUDE_CODE_SUBPROCESS_ENV_SCRUB="1")
+    cmd = (["claude", "-p", args.prompt, "--output-format", "stream-json", "--verbose",
+            "--no-session-persistence", "--strict-mcp-config"] +
+           (["--allowedTools"] + args.allowed_tools if args.allowed_tools else []) +
+           (["--model", args.model] if args.model else []) +
+           (["--effort", args.effort] if args.effort else []))
+    try:
+        proc = subprocess.run(cmd, cwd=work, env=env, stdin=subprocess.DEVNULL, capture_output=True,
+                              text=True, timeout=args.timeout)
+    finally:
+        if base:
+            shutil.rmtree(base, ignore_errors=True)
+    tools, final = parse_stream(proc.stdout)
+    for t in tools:
+        inp = t["input"] or {}
+        print("tool %s %s" % (t["name"], inp.get("command") or inp.get("file_path") or inp.get("skill") or ""))
+    for d in final.get("permission_denials", []):
+        print("denied %s %s" % (d.get("tool_name"), (d.get("tool_input") or {}).get("command", "")))
+    if proc.stderr.strip():
+        print("stderr: " + proc.stderr.strip()[-1000:])
+    print("cost_usd: %s\n\n%s" % (final.get("total_cost_usd"), final.get("result") or "(no final text)"))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -361,10 +402,21 @@ def main():
     r.add_argument("--keep-work", action="store_true")
     s = sub.add_parser("summarize")
     s.add_argument("out", type=Path)
+    p = sub.add_parser("probe", help="run one session in an existing directory")
+    p.add_argument("dir")
+    p.add_argument("prompt")
+    p.add_argument("--trust", action="store_true", help="trust the directory, so its allow rules apply")
+    p.add_argument("--allowed-tools", nargs="+", help="tools to allow without asking")
+    p.add_argument("--model")
+    p.add_argument("--effort")
+    p.add_argument("--timeout", type=int, default=900)
     args = ap.parse_args()
 
     if args.cmd == "summarize":
         print(summarize(args.out), end="")
+        return
+    if args.cmd == "probe":
+        probe(args)
         return
     stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     out = args.out or HERE / "results" / ("%s-%s" % (stamp, re.sub(r"[^\w.-]", "_", args.model)))

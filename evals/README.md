@@ -73,6 +73,18 @@ mirror 디렉터리는 `~/.claude`에서 이 repo가 소유한 항목과 `plugin
 
 과제나 채점 기준을 고친 뒤의 결과는 이전 모델의 결과와 직접 비교하지 않는다.
 
+## probe
+
+case 없이 기존 디렉터리에서 세션을 한 번 띄우고, 부른 tool, 거부된 명령, 최종 답을 출력한다. project template의 settings가 실제로 무엇을 허용하고 막는지 확인할 때 쓴다(ADR 0117).
+
+```sh
+evals/run.py probe <dir> '<prompt>' --trust
+```
+
+- `claude -p`는 trust를 받지 않은 폴더에서 project의 `permissions.allow`를 적용하지 않는다. deny 규칙은 trust와 상관없이 적용된다.
+- `--trust`를 주면 mirror config 디렉터리에서 실행하고, 그 디렉터리의 `.claude.json`에만 대상 폴더의 trust를 기록한다. `~/.claude.json`은 바뀌지 않는다. mirror arm처럼 token이 필요하다(`docs/SECRETS.md`).
+- `--trust`에서는 `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1`을 켜서 Bash 명령과 hook의 환경에서 token을 지운다. trust를 받은 allow 규칙은 `cargo run` 같은 명령으로 프로그램을 실행할 수 있어서, 아래 "한계"의 전제가 깨지기 때문이다.
+
 ## 한계
 
 - `-p`는 한 turn으로 끝난다. "질문하고 멈췄는가"까지만 볼 수 있고, 그 질문이 최종 결과를 낫게 했는지는 보지 못한다.
