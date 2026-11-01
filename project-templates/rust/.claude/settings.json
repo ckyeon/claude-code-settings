@@ -1,11 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cargo:*)",
-      "Bash(rustfmt:*)"
+      "Bash(cargo:*)"
     ],
     "deny": [
-      "Bash(cargo publish:*)"
+      "Bash(cargo publish:*)",
+      "Bash(cargo * publish)",
+      "Bash(cargo * publish *)"
     ]
   },
   "enabledPlugins": {

@@ -25,8 +25,9 @@
 
 ## Consequences
 
-- 이 기기에는 `rust-analyzer` component가 설치되어 있지 않다. `~/.cargo/bin/rust-analyzer`는 rustup의 proxy일 뿐이라 실행하면 `Unknown binary` 오류가 난다. `rustup component add rust-analyzer`를 실행해야 plugin이 동작한다.
+- 결정할 때 이 기기에는 `rust-analyzer` component가 없었다. `~/.cargo/bin/rust-analyzer`는 rustup의 proxy일 뿐이라 실행하면 `Unknown binary` 오류가 났다. 2026-11-02에 `rustup component add rust-analyzer`로 1.99.0을 설치했다.
 - 검증은 cargo 1.99.0으로 scratch 디렉터리에서 했다.
   - `cargo new` 다음에 `bin/apply-template rust`를 실행했다. 그리고 `CLAUDE.md`의 명령 6개를 실행해 모두 종료 코드 0을 확인했다.
   - 순서를 바꿔 template을 먼저 적용하고 `cargo init`을 돌려도 `.gitignore`에 `/target`과 `.claude/settings.local.json`이 모두 남았다.
-  - permission 규칙과 plugin 동작은 ADR 0112에서 세션을 띄워 확인했다.
+  - 세션 시험 결과는 ADR 0112에 있다. plugin 진단과 deny 규칙은 확인했고, allow 규칙은 아직 확인하지 않았다.
+- 이후 바뀐 것: ADR 0112에서 `.gitignore.snippet`을 더했고, ADR 0113에서 `Bash(rustfmt:*)`를 빼고 `cargo publish` deny 규칙을 넓혔다.
