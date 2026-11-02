@@ -118,10 +118,10 @@ A `copied` item's files are replaced. If its local copy differs from upstream at
 
 Process the files in `inbox/` when the user asks:
 
-1. Read the suggestions oldest first, and check each against the current files. The setting may have changed since the suggestion was written.
-2. Recommend one outcome per suggestion, with the reason: take it as written, take it changed, or drop it. The user decides.
+1. Read the suggestions oldest first, and check each against the current files. The setting may have changed since the suggestion was written. A suggestion with an `이어서:` line continues the file it names, so handle the two together.
+2. Recommend one outcome per suggestion, with the reason: take it as written, take it changed, hold it, or drop it. The user decides.
 3. Carry out a taken suggestion through the usual workflow, ADR and commit included. This repo is public, so the ADR, the commit message, and the change itself state the setting's problem in its own terms and keep the other project's names, paths, and code out.
-4. Delete each suggestion file once its change is committed or the user drops it.
+4. Delete each suggestion file once its change is committed or the user drops it. A held suggestion stays in `inbox/`: write what was decided, any draft, and the open questions under a `처리 경과` section in its file, so the next pass starts from there.
 
 ## Guardrails
 

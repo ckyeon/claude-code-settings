@@ -10,6 +10,10 @@ another project, and this repo is public.
 The skill `suggest-setting` reaches this script through a symlink in its
 folder, so the repo is found from this file's resolved path, not from `$0`.
 The project the suggestion comes from is the current directory.
+
+`--list` shows what the inbox already holds, so a session can find a
+suggestion on the same setting. More to say about it goes in a new file that
+names the old one with `--follows`, never in the old file.
 """
 
 from __future__ import annotations
@@ -29,19 +33,42 @@ def slug(title: str) -> str:
     return re.sub(r"\W+", "-", title.lower()).strip("-")[:40].rstrip("-") or "suggestion"
 
 
+def list_inbox() -> int:
+    for path in sorted(INBOX.glob("*.md")) if INBOX.is_dir() else []:
+        lines = path.read_text(encoding="utf-8").splitlines()
+        # The header is the title, a blank line, then "- key: value" lines up to the next blank.
+        head = [l for l in itertools.takewhile(bool, lines[2:]) if l.startswith(("- 대상: ", "- 이어서: "))]
+        print(path)
+        for line in lines[:1] + head:
+            print("  " + line)
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(
         prog="suggest-setting",
         description="Record a suggestion for this settings repo. The body is read from stdin.",
-        epilog="Exit: 0 recorded, 2 usage error.")
-    ap.add_argument("--title", required=True, help="one line naming the change")
+        epilog="Exit: 0 recorded or listed, 2 usage error.")
+    ap.add_argument("--title", help="one line naming the change (required unless --list)")
     ap.add_argument("--target", action="append", default=[],
                     help="a setting the suggestion is about, relative to ~/.claude (repeatable)")
+    ap.add_argument("--follows", metavar="FILE",
+                    help="the file name of a suggestion in the inbox that this one continues")
+    ap.add_argument("--list", action="store_true",
+                    help="print each suggestion in the inbox, oldest first, with its title and targets")
     args = ap.parse_args()
 
-    title = args.title.strip()
+    if args.list:
+        if args.title is not None or args.target or args.follows:
+            ap.error("--list takes no other option")
+        return list_inbox()
+
+    title = (args.title or "").strip()
     if not title or "\n" in title:
         ap.error("--title must be one non-empty line")
+    follows = Path(args.follows).name if args.follows else None
+    if follows and not (INBOX / follows).is_file():
+        ap.error("no suggestion named %s in %s" % (follows, INBOX))
     body = sys.stdin.read().strip()
     if not body:
         ap.error("the body on stdin is empty")
@@ -49,6 +76,8 @@ def main() -> int:
     now = time.localtime()
     head = ["# " + title, "", "- 날짜: " + time.strftime("%Y-%m-%d %H:%M", now), "- 보낸 프로젝트: " + os.getcwd()]
     head += ["- 대상: " + t for t in args.target]
+    if follows:
+        head.append("- 이어서: " + follows)
     text = "\n".join(head) + "\n\n" + body + "\n"
 
     INBOX.mkdir(exist_ok=True)

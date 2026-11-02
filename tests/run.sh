@@ -612,6 +612,25 @@ out="$(printf '' | suggest --title "Empty")"; rc=$?
 eq "an empty body is a usage error" "$rc" "2"
 eq "nothing is written for a usage error" "$(inbox_count)" "1"
 
+# A session looks for a suggestion on the same setting, then continues it in a new file.
+name="$(basename "$f")"
+l="$(suggest --list)"; rc=$?
+eq "--list exits 0" "$rc" "0"
+has "--list prints each suggestion's file" "$l" "$name"
+has "--list prints the title" "$l" "# Fix the tdd skill"
+has "--list prints the targets" "$l" "- 대상: skills/tdd/SKILL.md"
+out="$(suggest --list --title "Mixed")"; rc=$?
+eq "--list with another option is a usage error" "$rc" "2"
+out="$(printf 'more\n' | suggest --title "More on tdd" --follows "$name")"; rc=$?
+eq "--follows records a suggestion" "$rc" "0"
+has "the suggestion it continues is recorded" "$(cat "$out")" "- 이어서: $name"
+has "--list prints what a suggestion continues" "$(suggest --list)" "- 이어서: $name"
+out="$(printf 'more\n' | suggest --title "Lost" --follows "no-such.md")"; rc=$?
+eq "--follows a file not in the inbox is a usage error" "$rc" "2"
+out="$(printf 'body\n' | suggest)"; rc=$?
+eq "a missing title is a usage error" "$rc" "2"
+eq "only the continuing suggestion was added" "$(inbox_count)" "2"
+
 # Take the name for every second the next run can land in, so it has to number its file.
 for stem in $(python3 -c 'import time; t = time.time(); print(" ".join(time.strftime("%Y%m%d-%H%M%S", time.localtime(t + i)) for i in range(5)))'); do
   : > "$REPO/inbox/$stem-taken.md"
