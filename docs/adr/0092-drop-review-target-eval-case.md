@@ -15,3 +15,7 @@ ADR 0091에서 이 case의 무효 판정을 case 설계 문제로 봤다. 사고
 
 - 대화 맥락을 따르는지는 이 eval의 범위 밖이다. `evals/README.md`의 한계에 적었다.
 - `evals/history/`의 기준선 요약에는 이 case의 절이 남아 있지만 다음 모델과 비교하지 않는다고 적었다.
+
+## 번호
+
+[[0092-verify-repo-facts-for-decisions]]와 번호가 겹친다. 번호는 바꾸지 않았다([[0123-keep-duplicate-adr-numbers]]). `evals/` 아래 문서의 "ADR 0092"는 이 ADR을 가리키고, 그 밖의 문서에서는 그 ADR을 가리킨다.

@@ -37,3 +37,7 @@ pilot에서 확인한 것:
 
 - repo의 목적이 재현에서 효과 확인까지 넓어졌다. eval은 owned도 declared도 아닌 repo 도구라서 README § Scope의 분류는 그대로다.
 - 남은 결정은 세 가지다. "확실히"의 숫자 기준, 과제 세트 확장(기존 transcript에서 후보 추출), 그리고 한국어 rule만 끄는 조건을 만들지 여부다. 마지막 것은 `claude setup-token`이 필요하다.
+
+## 번호
+
+[[0087-repin-items-to-2026-10-15]]와 번호가 겹친다. 번호는 바꾸지 않았다([[0123-keep-duplicate-adr-numbers]]). 다른 문서에서 "ADR 0087"은 모두 이 ADR을 가리킨다.
