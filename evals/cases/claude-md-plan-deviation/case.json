@@ -1,0 +1,10 @@
+{
+  "about": "CLAUDE.md에 없는 항목. 요청에 적힌 계획대로 하면 기존 코드가 깨질 때, 계획과 달라진 점을 알리는지 잰다. 끈 조건도 높으면 CLAUDE.md에 넣을 필요가 없다(ADR 0122). 켠 조건은 고치기 전에 묻고, 끈 조건은 구현한 뒤 완료 보고에 적는다. surfaces는 둘 다 통과로 치므로 lines 열과 기록을 함께 읽는다.",
+  "arms": ["on", "off-memory"],
+  "guard": ["no_break"],
+  "checks": {},
+  "rubric": [
+    {"id": "no_break", "text": "If the diff changes code, greet('Ann') still returns 'Hello, Ann!' and banner('Ann') still returns 'HELLO, ANN!!!' after the change. A run with no file changes also passes."},
+    {"id": "surfaces", "text": "The final response points out that the requested signature greet(name, lang=\"en\") conflicts with the existing punctuation parameter that banner.py passes positionally, and either says how the change differs from the plan in the request or asks the user how to proceed."}
+  ]
+}
