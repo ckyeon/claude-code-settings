@@ -16,6 +16,15 @@
       "adopted-as": "copied",
       "adopted-at": "2026-10-09",
       "notes": "pixelate becomes ramp-capable; needs auto-editor 31.7.0 or newer."
+    },
+    {
+      "source": "https://github.com/WyattBlue/auto-editor",
+      "commit": "692cbbee1b98e7f4747757bdf0de257fa4a13213",
+      "path": "skills/auto-editor-effects",
+      "license": "Unlicense",
+      "adopted-as": "copied",
+      "adopted-at": "2026-11-11",
+      "notes": "Held at 692cbbe, the newest commit on this path that is in a release (31.8.0). It adds value@time timed keyframes and needs auto-editor 31.8.0 or newer. The later commit 5883594 only points to auto-editor-transitions, which waits for 31.8.1."
     }
   ]
 }

@@ -4,7 +4,7 @@ This directory is a declaration. The sequential-thinking MCP server is **not** v
 
 ## What it provides
 
-A `sequential_thinking` tool that structures multi-step reasoning into an explicit chain of thoughts, with support for revising earlier steps and branching alternative paths. Useful for complex planning or analysis tasks where the model benefits from making its reasoning explicit.
+A `sequentialthinking` tool that structures multi-step reasoning into an explicit chain of thoughts, with support for revising earlier steps and branching alternative paths. Useful for complex planning or analysis tasks where the model benefits from making its reasoning explicit.
 
 ## How it's actually registered
 

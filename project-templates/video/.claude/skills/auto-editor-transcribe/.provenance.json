@@ -31,6 +31,14 @@
       "license": "Unlicense",
       "adopted-as": "copied",
       "adopted-at": "2026-10-29"
+    },
+    {
+      "source": "https://github.com/WyattBlue/auto-editor",
+      "commit": "6825c4814ed1a0f1dffa57ad7058d488b65a809f",
+      "path": "skills/auto-editor-transcribe",
+      "license": "Unlicense",
+      "adopted-as": "copied",
+      "adopted-at": "2026-11-11"
     }
   ]
 }

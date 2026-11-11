@@ -33,6 +33,15 @@
       "license": "MIT",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-10-29"
+    },
+    {
+      "source": "https://github.com/remotion-dev/claude-code-plugin",
+      "commit": "6ccd1852dddbd46f5ca1a8544fb30fb97f747b06",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-11-11",
+      "notes": "Plugin 4.0.542 has 13 skills. It adds remotion-license, and remotion-render now tells Claude to keep Remotion's bundled browser unless the user asks otherwise."
     }
   ]
 }

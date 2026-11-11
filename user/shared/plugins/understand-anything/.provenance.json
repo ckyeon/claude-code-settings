@@ -81,6 +81,14 @@
       "license": "MIT",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-10-29"
+    },
+    {
+      "source": "https://github.com/Lum1104/Understand-Anything",
+      "commit": "182c7fbf1745d9acd55dda6c47cceff77de4c111",
+      "path": "understand-anything-plugin",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-11-11"
     }
   ]
 }

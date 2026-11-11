@@ -4,7 +4,7 @@ This directory is a declaration. The remotion plugin is **not** vendored here.
 
 ## What it does
 
-Remotion's official Claude Code plugin: the Remotion Agent Skills for building programmatic videos with React. It ships 12 skills; `remotion-best-practices` routes to the rest (`remotion-create`, `remotion-render`, `remotion-captions`, `remotion-markup`, `remotion-maps`, and others). The same skills are published as `remotion-dev/skills` for `npx skills add`; at plugin version 4.0.529 the two differ only in a few map example `.tsx` assets the plugin leaves out.
+Remotion's official Claude Code plugin: the Remotion Agent Skills for building programmatic videos with React. It ships 13 skills; `remotion-best-practices` routes to the rest (`remotion-create`, `remotion-render`, `remotion-captions`, `remotion-markup`, `remotion-maps`, and others). The same skills are published as `remotion-dev/skills` for `npx skills add`; at plugin version 4.0.529 the two differ only in a few map example `.tsx` assets the plugin leaves out.
 
 In the video template it is the React alternative to HyperFrames for animation overlays. See `project-templates/video/.claude/skills/edit-by-transcript/references/look.md`.
 

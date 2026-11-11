@@ -73,6 +73,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-10-29"
+    },
+    {
+      "source": "https://github.com/vercel-labs/agent-browser",
+      "commit": "e7519957b9067c541825afa21a792fbe1f483047",
+      "path": "skill-data/dogfood",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-11-11"
     }
   ]
 }

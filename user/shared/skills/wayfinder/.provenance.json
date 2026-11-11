@@ -39,6 +39,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-10-29"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
+      "path": "skills/engineering/wayfinder",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-11-11"
     }
   ]
 }

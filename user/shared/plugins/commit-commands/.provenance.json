@@ -80,6 +80,14 @@
       "license": "Apache-2.0",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-10-29"
+    },
+    {
+      "source": "https://github.com/anthropics/claude-plugins-official",
+      "commit": "43fd1f9db0941b2b83cb62268e35970d4a67c202",
+      "path": "plugins/commit-commands",
+      "license": "Apache-2.0",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-11-11"
     }
   ]
 }
