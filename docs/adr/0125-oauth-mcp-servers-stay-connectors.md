@@ -39,7 +39,8 @@ Claude Code 공식 문서(code.claude.com/docs/en/mcp)의 "Use MCP servers from 
 
 - `user/shared/mcp/linear/`와 `docs/SECRETS.md`의 Linear 항목을 지웠다. 이 기기에서는 `claude mcp remove linear -s user`를 실행했다. Linear를 쓰려면 사용자가 claude.ai/customize/connectors에서 인증해야 한다.
 - 쓰는 MCP의 전체 목록이 repo 한 곳에 모이지 않는다. connector 목록은 claude.ai 계정 설정에서 봐야 하고, repo만 읽어서는 Linear나 Carbon을 쓴다는 사실을 알 수 없다.
-- 직접 등록한 `linear`를 지우자 `plugin:engineering:linear`가 `claude mcp list`에 나타났다. claude.ai에서 동기화되는 `engineering@synced` plugin이 같은 URL의 server를 갖고 있고, 공식 문서의 우선순위는 user scope, plugin, claude.ai connector 순서다. 같은 상황인 Notion은 이 session에서 connector tool이 그대로 쓰였으므로, 인증 안 된 plugin server가 connector를 가리지는 않는 것으로 보인다. Linear를 claude.ai에서 인증한 다음 `/mcp`에서 어느 쪽이 연결되는지 확인한다.
+- 직접 등록한 `linear`를 지우자 `plugin:engineering:linear`가 `claude mcp list`에 나타났다. claude.ai에서 동기화되는 `engineering@synced` plugin이 같은 URL의 server를 갖고 있고, 공식 문서의 우선순위는 user scope, plugin, claude.ai connector 순서다. 그래도 session에는 connector만 들어왔다. Claude Code 2.1.319의 `claude -p` session init 기록을 보면 server 목록에 `claude.ai Linear`와 `claude.ai Notion`만 있고, 같은 URL의 `plugin:engineering:linear`와 `plugin:engineering:notion`은 없다.
+- claude.ai에서 Linear를 인증한 직후에도 새 session은 `claude.ai Linear`를 `needs-auth`로 두고 tool을 싣지 않았다. 같은 때 `claude mcp list`는 Connected로 보였고, `~/.claude/mcp-needs-auth-cache.json`에는 이 connector가 남아 있었다. `/mcp reconnect claude.ai Linear`를 실행한 뒤에는 그 항목이 없어졌고, 새 session에 Linear tool 70개가 들어왔다. connector를 인증했는데 session에 tool이 보이지 않으면 이 명령부터 실행한다.
 - Claude Code를 API key로 인증하는 기기에는 connector가 들어오지 않는다. 그런 기기에서 OAuth server가 필요해지면 그때 직접 등록한다.
 - `docs/PROVENANCE.md`와 `user/shared/mcp/README.md`는 README만 두는 선언의 예로 claude.ai connector를 들고 있었다. 이제 connector는 선언하지 않으므로 그 예를 지웠다.
 - `docs/migration-2026-08-31.md`는 지난 작업의 기록이므로 Linear 언급을 그대로 둔다.
