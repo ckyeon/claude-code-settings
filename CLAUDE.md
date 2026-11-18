@@ -54,6 +54,8 @@ Third-party marketplaces must be registered per-machine with `/plugin marketplac
 
 ### Declare an MCP server
 
+Declare stdio servers and servers that take a secret in a header. A server that signs in with OAuth stays a claude.ai connector and is not declared here, unless a connector can't do the job. `user/shared/mcp/README.md` § "Where a server goes" has the rule (ADR 0125).
+
 MCP servers are registered per-machine via `claude mcp add` and their config (including API-key headers) lives in machine-local `~/.claude.json`. Secrets are never committed here. To declare which servers belong to the user-scope setup:
 
 1. `mkdir -p user/shared/mcp/<name> && $EDITOR user/shared/mcp/<name>/README.md`. The README must include the exact `claude mcp add ...` command with placeholder values for any secrets (e.g., `<your-api-key>`).

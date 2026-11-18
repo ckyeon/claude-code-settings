@@ -14,7 +14,6 @@ Secret values are out of scope: they are entered per machine and never committed
 ## Sign-ins with nothing to paste
 
 - **Claude account.** Signing in to Claude Code also brings the skills, plugins, and connectors synced from claude.ai.
-- **Linear.** The `linear` MCP server uses OAuth through `/mcp`. See [`user/shared/mcp/linear/README.md`](../user/shared/mcp/linear/README.md).
 
 ## Limits
 

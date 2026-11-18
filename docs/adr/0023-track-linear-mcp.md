@@ -1,5 +1,7 @@
 # 0023 — Linear MCP 서버를 직접 등록하고 README-only로 추적
 
+> **Status:** superseded by [[0125-oauth-mcp-servers-stay-connectors]] (2026-11-18). Linear는 claude.ai connector로 옮겼고 이 선언은 지웠다.
+
 Linear의 hosted MCP 서버(`https://mcp.linear.app/mcp`, Streamable HTTP, OAuth 2.1)를 `claude mcp add --scope user`로 직접 등록하고 `user/shared/mcp/linear/README.md`로 추적한다. 공개 소스 repo가 없어 `.provenance.json` sidecar는 두지 않는다 — 이 디렉터리의 첫 README-only MCP 항목이다.
 
 ## Context
