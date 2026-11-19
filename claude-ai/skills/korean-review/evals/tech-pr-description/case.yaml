@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: tech-pr-description
+expected_outcome: |
+  리뷰가 have 직역, 산문 속 화살표와 세미콜론, '~에 대한'과 이중피동, cache와 캐시 혼용, 수동태 직역, 무생물 주어의 인식 동사, 사전에 없는 낱말, 꾸민 표현을 찾아 표로 내고, 코드 식별자와 PR, TTL 같은 원어 용어는 번역하라고 하지 않으며, 파일을 고치기 전에 반영 여부를 묻는다.
+context:
+  scaffold_script: place-files.sh

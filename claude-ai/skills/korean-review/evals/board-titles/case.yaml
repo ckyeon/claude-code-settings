@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: board-titles
+expected_outcome: |
+  리뷰가 심어 둔 문제(지시어, 빠진 목적어, 서술어와 맞지 않는 주어, 사전에 없는 낱말, 이중피동, 수동태 직역, 은유, 표기 불일치, 너무 넓은 말)를 찾아 위치, 지금, 고친 안, 문제 열의 표로 내고, 카드의 짧은 항목에 쓴 기호는 지적하지 않으며, 파일을 고치기 전에 반영 여부를 묻는다.
+context:
+  scaffold_script: place-files.sh

@@ -38,7 +38,7 @@ To pick up later changes on a machine that is already set up: `git pull && ./ins
 
 ## Scope
 
-This repo covers Claude Code only. Every item sits at one of three levels, defined in [`GLOSSARY.md`](GLOSSARY.md):
+This repo covers Claude Code, plus the claude.ai skills whose source lives in `claude-ai/skills/`, which sync into Claude Code. Every item sits at one of three levels, defined in [`GLOSSARY.md`](GLOSSARY.md):
 
 - **Owned**: the file in this repo is the setting that applies. `install.sh` symlinks it into `~/.claude/`.
 - **Declared**: this repo lists the item and the command that creates it. You run that command on each machine.
@@ -57,6 +57,7 @@ This section is the single list of what sits at which level. The rule for classi
 | This repo's own project config | owned | `.claude/`, `CLAUDE.md` | cloning the repo |
 | Plugins | declared | `user/shared/plugins/<name>/`, `enabledPlugins` in `settings.json` | `/plugin install` |
 | MCP servers | declared | `user/shared/mcp/<name>/README.md` | `claude mcp add` |
+| claude.ai skills | declared | `claude-ai/skills/<name>/`, steps in [`claude-ai/README.md`](claude-ai/README.md) | uploading a zip in claude.ai, which syncs it into Claude Code |
 | ego-browser skill | declared | this row | installing [ego lite](https://lite.ego.app/) and finishing its onboarding, after `./install.sh` |
 | herdr session hook | declared | its `SessionStart` entry in `user/shared/settings.json` | `herdr integration install claude` |
 | Secret names and where each goes | declared | [`docs/SECRETS.md`](docs/SECRETS.md) | entering each value by hand |
@@ -75,7 +76,7 @@ Out of scope:
 - **Memory** (`~/.claude/projects/*/memory/`). It is per-machine working state. A lesson that must survive a machine change belongs in an owned file such as `CLAUDE.md` or a rule.
 - **Discord access policy** (`~/.claude/channels/`). The discord plugin's own skill writes it, and access is granted again on each machine.
 - **History, caches, sessions, telemetry**, and the plugin CLI's state under `~/.claude/plugins/`.
-- **Skills, plugins, and connectors synced from claude.ai**, plus Claude in Chrome and computer use. They follow the account on sign-in.
+- **Skills, plugins, and connectors synced from claude.ai**, plus Claude in Chrome and computer use. They follow the account on sign-in. The skills under `claude-ai/skills/` are the exception: they are declared.
 - **Each project's own `.claude/` and `CLAUDE.md`**, including a project copied from a template. That project's repo owns them.
 - **`settings.local.json`.** It is the per-machine override by design.
 - **The suggestion inbox** (`inbox/`). Sessions in other projects write it through `bin/suggest-setting`, and it is gitignored. A suggestion lasts until it is processed here, and the change it leads to is recorded in an ADR.
@@ -135,6 +136,7 @@ OS-specific files live under `user/mac/` or `user/linux/`. `install.sh` detects 
 │       ├── statusline-command.sh
 │       ├── subagent-statusline.sh
 │       └── hooks/              # → ~/.claude/hooks/os (when on Linux)
+├── claude-ai/skills/           # claude.ai skills, uploaded by hand and synced back (not symlinked; see Scope)
 └── project-templates/          # copied into a project by bin/apply-template
     ├── _base/                  # shared by every template
     ├── nodejs/

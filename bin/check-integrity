@@ -252,7 +252,7 @@ for path, line, what, names in kind_lists():
         errors.append((rel(path), line, f"{what} lists kind {k!r}, but project-templates/{k}/ does not exist"))
 
 # --- ADR prose: no arrow or semicolon standing in for a relation ---
-# user/shared/rules/korean-technical-writing.md asks prose to say in words what
+# user/shared/rules/korean-writing.md asks prose to say in words what
 # an arrow or a semicolon hides. Tables, code, block quotes and quoted text keep
 # their symbols. ADRs before FIRST_PROSE_ADR predate the check (ADR 0116).
 FIRST_PROSE_ADR = 116
@@ -275,7 +275,7 @@ for name in adrs:
         hit = PROSE_SYMBOL.search(EXEMPT_SPAN.sub("", line))
         if hit:
             errors.append((rel(path), i, f"prose uses {hit.group(0)!r}: write the relation in words "
-                                         "(user/shared/rules/korean-technical-writing.md)"))
+                                         "(user/shared/rules/korean-writing.md)"))
 
 # --- Report ---
 def emit(label, items):

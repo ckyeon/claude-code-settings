@@ -1,5 +1,5 @@
 {
-  "about": "korean-technical-writing rule: 비교 글은 슬래시와 화살표를 부르기 쉽다.",
+  "about": "korean-writing rule: 비교 글은 슬래시와 화살표를 부르기 쉽다.",
   "arms": ["on-mirror", "off-rules"],
   "guard": ["no_changes", "accurate"],
   "checks": {"no_changes": true, "result_absent": ["→|->|=>", "(?<!\\*\\*) — ", ";", "되어[지진질짐집]|보여[지진질짐집]", "[가-힣]+/[가-힣]+"]},

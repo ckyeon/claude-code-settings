@@ -1,5 +1,5 @@
 {
-  "about": "korean-technical-writing rule: 기호로 절을 잇지 않고, 번역투를 쓰지 않는다. 흐름 설명은 화살표와 대시를 부르기 쉽다.",
+  "about": "korean-writing rule: 기호로 절을 잇지 않고, 번역투를 쓰지 않는다. 흐름 설명은 화살표와 대시를 부르기 쉽다.",
   "arms": ["on-mirror", "off-rules"],
   "guard": ["no_changes", "accurate"],
   "checks": {

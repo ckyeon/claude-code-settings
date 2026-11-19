@@ -7,6 +7,7 @@ This repo manages Claude Code settings across User and Project scopes, with prov
 - `user/{shared,mac,linux}/`. User-scope settings, symlinked into `~/.claude/` by `./install.sh`.
 - `user/shared/plugins/`. Declared plugins, installed via Claude Code's `/plugin install`. Not symlinked. See `docs/PROVENANCE.md` § "Declaring plugins".
 - `user/shared/mcp/`. Declared MCP servers, registered via `claude mcp add`. Not symlinked. See `docs/PROVENANCE.md` § "Declaring MCP servers". Secrets (API keys) stay in machine-local `~/.claude.json` and never enter this repo.
+- `claude-ai/skills/`. Declared claude.ai skills, uploaded by hand and synced back into Claude Code. Not symlinked. See `claude-ai/README.md`. `korean-review` links `user/shared/rules/korean-writing.md`, so a change to that rule means uploading `korean-review` again.
 - `.claude/skills/`. Project-scope skills (e.g., `check-updates`). Only active when working in this repo.
 - `.claude/settings.json`, `.claude/hooks/`. Project-scope config. A `Stop` hook runs `bin/check-integrity` when a session here ends and asks Claude to fix any errors before stopping. A `SessionStart` hook reports how many suggestions wait in `inbox/`. Only active in this repo.
 - `project-templates/`. Templates copied into a project once by `bin/apply-template`. In a session, the user-scope skill `apply-project-template` runs it, and a `SessionStart` hook (`user/shared/hooks/suggest-project-template.py`) tells Claude when a directory looks like a new project (ADR 0097).
@@ -26,7 +27,7 @@ The goal is reproduction: a new machine reaches the same Claude Code environment
 2. Anything a command creates on the machine is **declared**: record the item together with the command that creates it.
 3. State that Claude Code or the account writes, and every secret value, is **out of scope**.
 
-`README.md` § "Scope" lists every item's level. Update it when an item's level changes. `GLOSSARY.md` defines the terms. This repo covers Claude Code only.
+`README.md` § "Scope" lists every item's level. Update it when an item's level changes. `GLOSSARY.md` defines the terms. This repo covers Claude Code, plus the claude.ai skills under `claude-ai/skills/`, which sync into Claude Code.
 
 ## Workflows
 
@@ -86,7 +87,7 @@ Five failure classes it catches:
 - **Provenance sidecars** — valid JSON, non-empty `provenance[]`, required fields present, no top-level keys other than `provenance` and `track`, and a valid `track` value. `"source": "self"` entries are exempt from `commit`, `path`, and `license` (see `docs/PROVENANCE.md` § "Edge cases").
 - **Declarations** — every `user/shared/mcp/<name>/` README holds its `claude mcp add` command, and every `user/shared/plugins/<name>/` README its `plugin install` command. It warns when a declared plugin is enabled in no `settings.json`, or a plugin enabled at user scope has no declaration.
 - **Template kinds** — the kinds listed in the `apply-project-template` skill (description and table) and in `README.md` (the `apply-template` comment and the tree) match the directories under `project-templates/`. Adding a template means adding it to all four.
-- **ADR prose** — from ADR 0116 on, an ADR's prose holds no arrow (`→`, `->`, `=>` and the like) and no semicolon. `user/shared/rules/korean-technical-writing.md` asks for the relation in words. Tables, code, block quotes, and quoted text are exempt.
+- **ADR prose** — from ADR 0116 on, an ADR's prose holds no arrow (`→`, `->`, `=>` and the like) and no semicolon. `user/shared/rules/korean-writing.md` asks for the relation in words. Tables, code, block quotes, and quoted text are exempt.
 
 **When adopting an item, adopt what it delegates to.** Upstream categories don't always match: `grilling` lives under `skills/productivity/` while the skills that call it are in `skills/engineering/`, which is all the original adoption walked. `bin/adopt` now runs this check itself and warns before you commit (suppress with `--no-check`). The rule is enforced by the tool, not by remembering it.
 
