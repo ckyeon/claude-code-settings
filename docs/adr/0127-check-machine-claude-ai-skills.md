@@ -16,6 +16,6 @@
 
 ## Consequences
 
-- claude.ai가 올린 파일을 바이트 그대로 내려주는지는 아직 확인하지 못했다. 처음 올린 다음 check-machine을 돌려 확인한다. 그대로가 아니라면 비교 방법을 다시 정한다.
+- 2026-11-19에 `korean-review`를 처음 올려 확인했다. claude.ai는 올린 파일을 바이트 그대로 내려준다. 동기화된 사본에는 `SKILL.md`와 `references/korean-writing.md`만 있었고, 둘 다 repo 원본과 같았다. check-machine도 error와 warning 없이 통과했다.
 - `syncClaudeAiSkills`를 끈 기기에서는 선언한 claude.ai skill마다 error가 난다. 이 repo의 settings 파일은 이 값을 쓰지 않으므로, 기기의 `settings.local.json`이 끄지 않는 한 동기화가 켜져 있다.
 - `tests/run.sh`에 시험 7개를 더했다.
