@@ -5,9 +5,11 @@
 #   --strict   treat warnings as failures too
 #
 # Errors:   an owned path is not symlinked into this repo, a plugin enabled at
-#           user scope is not installed, a declared MCP server is not registered.
+#           user scope is not installed, a declared MCP server is not registered,
+#           a declared claude.ai skill has not synced into ~/.claude/skills/synced/.
 # Warnings: a plugin installed at user scope or an MCP server on the machine
-#           has no declaration, the repo has uncommitted changes, commits are
+#           has no declaration, a synced claude.ai skill differs from its source
+#           in claude-ai/skills/, the repo has uncommitted changes, commits are
 #           missing from the remote.
 #
 # Exit: 0 no errors, 1 errors found (or warnings under --strict).
@@ -20,7 +22,7 @@ STRICT=0
 for arg in "$@"; do
   case "$arg" in
     --strict) STRICT=1 ;;
-    -h|--help) sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -h|--help) sed -n '2,17p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "ERROR: unknown argument: $arg" >&2; exit 2 ;;
   esac
 done
@@ -39,6 +41,7 @@ LINKS="$(list_owned_links "$REPO_ROOT" "$CLAUDE_DIR" "$OS")"
 
 REPO_ROOT="$REPO_ROOT" CLAUDE_DIR="$CLAUDE_DIR" STRICT="$STRICT" LINKS="$LINKS" \
 PYTHONDONTWRITEBYTECODE=1 python3 - <<'PYEOF'
+import glob
 import json
 import os
 import subprocess
@@ -116,6 +119,60 @@ for name in declared_mcp:
 for name in sorted(registered - set(declared_mcp)):
     warnings.append(f"MCP server {name} is registered but not declared under user/shared/mcp/")
 
+# --- Declared claude.ai skills: each has synced back and matches its source ---
+# An uploaded skill syncs into ~/.claude/skills/synced/<account>/<name>/. The
+# comparison follows symlinks and skips evals/, as the upload zip does. Files the
+# synced copy holds beyond the source are not compared.
+ai_src = os.path.join(repo_root, "claude-ai", "skills")
+declared_ai = sorted(n for n in os.listdir(ai_src)
+                     if os.path.isfile(os.path.join(ai_src, n, "SKILL.md"))) if os.path.isdir(ai_src) else []
+
+def skill_files(root):
+    """Relative path -> bytes for each file the zip would hold, None for a broken link."""
+    files = {}
+    for dirpath, dirnames, filenames in os.walk(root, followlinks=True):
+        if dirpath == root:
+            dirnames[:] = [d for d in dirnames if d != "evals"]
+        for f in filenames:
+            if f == ".DS_Store":
+                continue
+            path = os.path.join(dirpath, f)
+            rel = os.path.relpath(path, root)
+            if not os.path.exists(path):
+                files[rel] = None
+                continue
+            with open(path, "rb") as fh:
+                files[rel] = fh.read()
+    return files
+
+def read_bytes(path):
+    try:
+        with open(path, "rb") as fh:
+            return fh.read()
+    except OSError:
+        return None
+
+synced_root = os.path.join(claude_dir, "skills", "synced")
+for name in declared_ai:
+    source = skill_files(os.path.join(ai_src, name))
+    broken = sorted(rel for rel, data in source.items() if data is None)
+    for rel in broken:
+        errors.append(f"claude-ai/skills/{name}/{rel} is a broken link")
+    copies = sorted(os.path.dirname(p) for p in glob.glob(os.path.join(synced_root, "*", name, "SKILL.md")))
+    if not copies:
+        errors.append(f"claude.ai skill {name} is declared but has not synced into {show(synced_root)} "
+                      f"(upload it, see claude-ai/README.md)")
+        continue
+    stale = []
+    for copy in copies:
+        stale = sorted(rel for rel, data in source.items()
+                       if data is not None and read_bytes(os.path.join(copy, rel)) != data)
+        if not stale:
+            break
+    if stale:
+        warnings.append(f"claude.ai skill {name} differs from its source in {', '.join(stale)}: "
+                        f"upload it again (claude-ai/README.md)")
+
 # --- Repo state: what is not on the remote cannot be reproduced from it ---
 def git(*args):
     return subprocess.run(["git", "-C", repo_root, *args], capture_output=True, text=True)
@@ -146,7 +203,7 @@ def emit(label, items):
         print(f"  {msg}")
 
 print(f"Checked {len(links)} owned paths, {len(enabled_user)} plugins enabled at user scope, "
-      f"{len(declared_mcp)} declared MCP servers")
+      f"{len(declared_mcp)} declared MCP servers, {len(declared_ai)} declared claude.ai skills")
 emit("ERRORS", errors)
 emit("WARNINGS", warnings)
 

@@ -17,6 +17,8 @@ zip -r ~/Downloads/korean-review.zip korean-review -x 'korean-review/evals/*'
 
 `zip` follows symlinks, so a linked file goes into the archive as its contents. Upload the zip in claude.ai under [Customize > Skills](https://claude.ai/customize/skills). The archive holds the skill folder at its root, the layout claude.ai expects.
 
+Once a Claude Code session has synced it, `bin/check-machine` compares the synced copy under `~/.claude/skills/synced/` with the source here. A declared skill that has not synced is an error. A synced copy that differs is a warning to upload again.
+
 ## Test a skill
 
 Each skill's `evals/` holds test cases in the layout `skill-creator` and `claude plugin eval` read: a prompt, input files, and one grader per expected finding.

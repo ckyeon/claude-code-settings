@@ -97,7 +97,7 @@ A warning mid-chain is expected: adopting the first of three dependencies leaves
 
 ### Check a machine
 
-Run `bin/check-machine` after setting up a machine, and after adding or removing a plugin or MCP server declaration. A run with no errors is the definition of a reproduced machine. `bin/check-machine --help` lists what is an error and what only warns. It reads only names from `~/.claude.json` and never looks at secrets.
+Run `bin/check-machine` after setting up a machine, and after adding or removing a plugin or MCP server declaration or uploading a claude.ai skill. A run with no errors is the definition of a reproduced machine. `bin/check-machine --help` lists what is an error and what only warns. It reads only names from `~/.claude.json` and never looks at secrets.
 
 ### Record a decision
 

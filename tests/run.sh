@@ -481,6 +481,31 @@ eq "an owned path replaced by a plain file exits 1" "$rc" "1"
 has "the replaced path is named" "$out" "~/.claude/CLAUDE.md exists but is not a symlink into this repo"
 run ./install.sh >/dev/null
 
+# A declared claude.ai skill must sync back from claude.ai and match its source.
+mkdir -p "$REPO/claude-ai/skills/rev/references" "$REPO/claude-ai/skills/rev/evals/c"
+printf -- '---\nname: rev\n---\nbody\n' > "$REPO/claude-ai/skills/rev/SKILL.md"
+printf 'rule\n' > "$REPO/user/shared/rules/r.md"
+ln -s ../../../../user/shared/rules/r.md "$REPO/claude-ai/skills/rev/references/r.md"
+printf 'test only\n' > "$REPO/claude-ai/skills/rev/evals/c/prompt.md"
+out="$(run bin/check-machine)"; rc=$?
+eq "a declared claude.ai skill that has not synced exits 1" "$rc" "1"
+has "the unsynced claude.ai skill is named" "$out" "claude.ai skill rev is declared but has not synced"
+synced="$TMP/home/.claude/skills/synced/acct/rev"
+mkdir -p "$synced/references"
+cp "$REPO/claude-ai/skills/rev/SKILL.md" "$synced/"
+printf 'old rule\n' > "$synced/references/r.md"
+out="$(run bin/check-machine)"; rc=$?
+eq "a synced claude.ai skill that differs only warns" "$rc" "0"
+has "the differing file is named through the symlink" "$out" "claude.ai skill rev differs from its source in references/r.md"
+cp "$REPO/user/shared/rules/r.md" "$synced/references/r.md"
+out="$(run bin/check-machine)"
+lacks "a matching synced skill passes, and evals/ is not compared" "$out" "claude.ai skill rev"
+rm "$REPO/user/shared/rules/r.md"
+out="$(run bin/check-machine)"; rc=$?
+eq "a broken link in a claude.ai skill exits 1" "$rc" "1"
+has "the broken link is named" "$out" "claude-ai/skills/rev/references/r.md is a broken link"
+rm -rf "$REPO/claude-ai" "$TMP/home/.claude/skills/synced"
+
 # With everything committed and pushed, the machine is fully reproduced.
 git_clean init -q --bare "$TMP/remote.git"
 git_clean -C "$REPO" add -A
