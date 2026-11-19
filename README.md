@@ -1,4 +1,4 @@
-# coding-agent-settings
+# claude-code-settings
 
 Personal Claude Code settings, version-controlled across **scopes** (User / Project) and **OSes** (macOS / Linux). Clone once, symlink everywhere.
 
@@ -12,7 +12,7 @@ These steps reproduce the setup on a new machine. **Prerequisites:** Bash 3.2+, 
 
    ```bash
    git clone <this-repo>
-   cd coding-agent-settings
+   cd claude-code-settings
    ./install.sh
    ```
 
@@ -183,7 +183,7 @@ In a Claude Code session you rarely run this yourself. When a session starts in 
 By hand, from the project's directory:
 
 ```bash
-<path-to-coding-agent-settings>/bin/apply-template nodejs   # one of: nodejs, nextjs, python, go, rust, phaser, video, cpp
+<path-to-claude-code-settings>/bin/apply-template nodejs   # one of: nodejs, nextjs, python, go, rust, phaser, video, cpp
 claude plugin install <plugin>@<marketplace> --scope project   # for each plugin it lists
 $EDITOR CLAUDE.md                                            # fill in the template's sections
 git add CLAUDE.md .claude .gitignore

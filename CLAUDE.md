@@ -1,4 +1,4 @@
-# coding-agent-settings — Agent operations
+# claude-code-settings — Agent operations
 
 This repo manages Claude Code settings across User and Project scopes, with provenance tracking for items adopted from external repos. Most changes happen through Claude Code or agent sessions. The conventions below codify what's converged on so far. Read these before making changes.
 
