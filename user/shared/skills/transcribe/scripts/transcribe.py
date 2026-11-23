@@ -13,7 +13,7 @@
   --speakers       화자를 구분해 발언 차례마다 "**spk_0:** 본문" 문단을 만든다. label은
                    익명이고 최대 8명이며, 3명 이상은 API가 실험적 기능으로 분류한다.
                    화자 정보는 word 주석에만 실려 오므로 word timestamp도 함께 켜진다.
-                   25분 초과 파일은 청크마다 label을 새로 매기므로 c1-, c2- 접두어가 붙는다.
+                   26분 이상 파일은 청크마다 label을 새로 매기므로 c1-, c2- 접두어가 붙는다.
   --smart          verbatim 대신 smart mode. 필러와 반복을 지우고 목록과 날짜 형식을 정리한다.
   --lang <코드>    BCP-47 언어 코드, 쉼표로 여러 개(ko-KR,en-US). 없으면 자동 감지.
   --vocab <용어>   인식을 보정할 고유명사와 도메인 용어, 쉼표로 구분. 최대 1,000개이고
@@ -28,10 +28,10 @@ API가 함께 받지 않는 조합은 요청 전에 오류로 끝난다: --smart
 25분 초과 오디오는 ffmpeg로 청크 분할 후 순서대로 이어 붙인다(앵커 모드에서는
 오프셋 합산). 끝에 1분보다 짧게 남는 부분은 따로 요청하지 않고 앞 청크에 붙인다. 영상 컨테이너(.mp4 .mkv .mov .webm 영상)는 ffmpeg로 오디오만 뽑는다.
 끝낸 청크의 응답은 ~/.cache/transcribe/에 남는다. 중간에 실패하면 같은 명령을 다시
-실행한다. 끝낸 청크는 요청하지 않고, 모두 끝나면 캐시를 지운다. 원본 파일이나 옵션이
+실행한다. 끝낸 청크는 요청하지 않고, 출력을 다 쓰면 캐시를 지운다. 원본 파일이나 옵션이
 바뀌면 다른 캐시를 쓴다.
 rate limit(429)은 응답의 대기 지시만큼 기다렸다 다시 보낸다(최대 4회). 분당 한도가
-대기 시각을 주지 않으면 60초를 기다린다. 지시가 2분보다 길면(하루 요청 한도 등)
+대기 지시를 주지 않으면 60초를 기다린다. 지시가 2분보다 길면(하루 요청 한도 등)
 기다리지 않고 끝낸다.
 GEMINI_TRANSCRIBE_API_KEY만 읽는다 — 범용 GEMINI_API_KEY는 다른 과금 프로젝트일 수
 있어 읽지 않는다. 과금은 입력과 출력을 합쳐 분당 약 0.005 USD(요금 페이지, 2026-11-23).
@@ -67,7 +67,7 @@ AUDIO_MIME = {".webm": "audio/webm", ".m4a": "audio/mp4", ".mp3": "audio/mp3",
               ".wav": "audio/wav", ".flac": "audio/flac"}
 VIDEO_SUFFIX = {".mp4", ".mkv", ".mov", ".avi", ".m4v"}
 RETRY_MAX_WAIT_S = 120  # 이보다 긴 대기 지시(하루 요청 한도 등)는 기다리지 않는다
-PER_MINUTE_WAIT_S = 60  # 분당 한도 429가 대기 시각을 주지 않을 때의 대기
+PER_MINUTE_WAIT_S = 60  # 분당 한도 429가 대기 지시를 주지 않을 때의 대기
 _DURATION_PART = re.compile(r"([0-9]+(?:\.[0-9]+)?)(ms|h|m|s)")
 _UNIT_S = {"h": 3600, "m": 60, "s": 1, "ms": 0.001}
 CACHE_ROOT = pathlib.Path.home() / ".cache" / "transcribe"  # 끝낸 청크의 응답
@@ -398,6 +398,7 @@ def transcribe(src: pathlib.Path, anchors_sec: int | None, tcfg: dict,
     label에 c1-, c2- 접두어를 붙여 서로 다른 번호 체계임을 드러낸다.
     dump_dir은 개발용: 청크별 응답 JSON을 보존해 파서를 재전사 비용 없이 반복한다.
     끝낸 청크의 응답은 _cache_dir에 남기고, 다시 실행하면 그 청크는 요청하지 않는다.
+    캐시는 main()이 출력을 다 쓴 뒤 지운다.
     실측 2026-11-01, 2026-11-23: 뒤 청크의 오류 하나로 앞 청크의 결과까지 잃었다."""
     key = _gemini_key()
     use_segs = anchors_sec is not None or speakers
@@ -438,9 +439,9 @@ def transcribe(src: pathlib.Path, anchors_sec: int | None, tcfg: dict,
                 tmp = cached.with_suffix(".tmp")  # 쓰다 끊긴 파일을 캐시로 읽지 않게
                 tmp.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
                 tmp.replace(cached)
-    body = paras_from(segs, anchors_sec) if use_segs else "\n\n".join(texts)
-    shutil.rmtree(cache, ignore_errors=True)
-    return body
+    if use_segs:
+        return paras_from(segs, anchors_sec)
+    return "\n\n".join(texts)
 
 
 def frontmatter(src: pathlib.Path, anchors_sec: int | None, duration_s: float | None,
@@ -541,6 +542,9 @@ def main() -> None:
         log(f"저장: {dest} | {len(body.split()):,} 단어")
     else:
         sys.stdout.write(text)
+        sys.stdout.flush()  # broken pipe가 여기서 나면 아래 삭제 전에 끝난다
+    # 결과를 다 쓴 뒤에만 지운다. 쓰기가 실패하면 캐시가 남아 다시 실행할 수 있다.
+    shutil.rmtree(_cache_dir(src, tcfg), ignore_errors=True)
 
 
 if __name__ == "__main__":
