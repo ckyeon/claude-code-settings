@@ -27,6 +27,12 @@ API가 함께 받지 않는 조합은 요청 전에 오류로 끝난다: --smart
 
 25분 초과 오디오는 ffmpeg로 청크 분할 후 순서대로 이어 붙인다(앵커 모드에서는
 오프셋 합산). 영상 컨테이너(.mp4 .mkv .mov .webm 영상)는 ffmpeg로 오디오만 뽑는다.
+끝낸 청크의 응답은 ~/.cache/transcribe/에 남는다. 중간에 실패하면 같은 명령을 다시
+실행한다. 끝낸 청크는 요청하지 않고, 모두 끝나면 캐시를 지운다. 원본 파일이나 옵션이
+바뀌면 다른 캐시를 쓴다.
+rate limit(429)은 응답의 대기 지시만큼 기다렸다 다시 보낸다(최대 4회). 분당 한도가
+대기 시각을 주지 않으면 60초를 기다린다. 지시가 2분보다 길면(하루 요청 한도 등)
+기다리지 않고 끝낸다.
 GEMINI_TRANSCRIBE_API_KEY만 읽는다 — 범용 GEMINI_API_KEY는 다른 과금 프로젝트일 수
 있어 읽지 않는다. 과금은 입력 토큰만(실측 46분 ≈ 0.14 USD, 2026-09-02).
 
@@ -36,10 +42,12 @@ GEMINI_TRANSCRIBE_API_KEY만 읽는다 — 범용 GEMINI_API_KEY는 다른 과�
 
 import argparse
 import bisect
+import hashlib
 import json
 import os
 import pathlib
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -54,6 +62,11 @@ AUDIO_MIME = {".webm": "audio/webm", ".m4a": "audio/mp4", ".mp3": "audio/mp3",
               ".ogg": "audio/ogg", ".opus": "audio/ogg", ".aac": "audio/aac",
               ".wav": "audio/wav", ".flac": "audio/flac"}
 VIDEO_SUFFIX = {".mp4", ".mkv", ".mov", ".avi", ".m4v"}
+RETRY_MAX_WAIT_S = 120  # 이보다 긴 대기 지시(하루 요청 한도 등)는 기다리지 않는다
+PER_MINUTE_WAIT_S = 60  # 분당 한도 429가 대기 시각을 주지 않을 때의 대기
+_DURATION_PART = re.compile(r"([0-9]+(?:\.[0-9]+)?)(ms|h|m|s)")
+_UNIT_S = {"h": 3600, "m": 60, "s": 1, "ms": 0.001}
+CACHE_ROOT = pathlib.Path.home() / ".cache" / "transcribe"  # 끝낸 청크의 응답
 
 
 def die(msg: str) -> None:
@@ -80,23 +93,31 @@ def _curl_json(curl_args: list[str], what: str) -> dict:
 
 
 def _retry_delay_s(msg: str) -> float | None:
-    """429 응답 본문의 'retry in 14.33s' 지시 파싱 — 없으면 None(재시도 불가 오류). 순수 함수."""
-    m = re.search(r"[Rr]etry in ([0-9.]+)s", msg)
-    return float(m.group(1)) if m else None
+    """429 응답 본문의 대기 지시를 초로 읽는다. 순수 함수.
+    'retry in 14.33s', 'retry in 1m5s', 'retry in 12h7m46s'처럼 Go duration 표기다.
+    지시가 없어도 분당 한도('per minute')면 PER_MINUTE_WAIT_S로 본다. 실측 2026-11-23:
+    Tier 1 분당 입력 토큰 한도의 429가 'Please retry later'만 주었다. 그 밖에는 None(재시도 불가)."""
+    m = re.search(r"[Rr]etry in ((?:[0-9]+(?:\.[0-9]+)?(?:ms|h|m|s))+)", msg)
+    if m:
+        return sum(float(n) * _UNIT_S[u] for n, u in _DURATION_PART.findall(m.group(1)))
+    if "per minute" in msg:
+        return float(PER_MINUTE_WAIT_S)
+    return None
 
 
 def _retrying(call, label: str):
-    """rate limit(재시도 지시가 있는 429)이면 지시만큼 대기 후 재시도, 최대 4회.
-    무료 티어 TPM(10k/분)에서 25분 청크(~37.5k 토큰)는 대기가 정상 경로다.
-    지시 없는 오류(과금 소진 등)는 즉시 올린다."""
+    """rate limit 429면 지시만큼 대기 후 재시도, 최대 4회.
+    Tier 1의 분당 입력 토큰 한도(10k)에서 25분 청크(~37.5k 토큰)는 대기가 정상 경로다.
+    지시 없는 오류(과금 소진 등)와 RETRY_MAX_WAIT_S보다 긴 지시(하루 요청 한도 등)는
+    기다리지 않고 올린다."""
     for attempt in range(5):
         try:
             return call()
         except RuntimeError as e:
             delay = _retry_delay_s(str(e))
-            if delay is None or attempt == 4:
+            if delay is None or delay > RETRY_MAX_WAIT_S or attempt == 4:
                 raise
-            wait = min(delay + 2, 120)
+            wait = delay + 2
             log(f"  rate limit({label}) — {wait:.0f}초 대기 후 재시도 ({attempt + 1}/4)...")
             time.sleep(wait)
 
@@ -328,6 +349,27 @@ def _gemini_key() -> str:
     return key
 
 
+# ---------- 청크 캐시 ----------
+
+def _cache_dir(src: pathlib.Path, tcfg: dict) -> pathlib.Path:
+    """끝낸 청크의 응답을 둘 디렉터리. 원본 파일(경로, 크기, mtime)과 요청 설정이 같을
+    때만 같은 디렉터리라서, 옵션을 바꿔 다시 돌리면 다른 설정의 응답이 섞이지 않는다."""
+    st = src.stat()
+    ident = json.dumps({"src": str(src.resolve()), "size": st.st_size,
+                        "mtime_ns": st.st_mtime_ns, "model": GEMINI_MODEL,
+                        "chunk_sec": CHUNK_SEC, "tcfg": tcfg}, sort_keys=True)
+    return CACHE_ROOT / f"{src.stem}-{hashlib.sha256(ident.encode()).hexdigest()[:12]}"
+
+
+def _resume_hint(src: pathlib.Path, tcfg: dict) -> str:
+    cache = _cache_dir(src, tcfg)
+    done = len(list(cache.glob("chunk*.json"))) if cache.is_dir() else 0
+    if not done:
+        return ""
+    return (f"\n끝낸 청크 {done}개의 응답이 {cache}에 있다. "
+            "같은 명령을 다시 실행하면 그 청크는 건너뛴다.")
+
+
 # ---------- 전사 ----------
 
 def transcribe(src: pathlib.Path, anchors_sec: int | None, tcfg: dict,
@@ -336,9 +378,12 @@ def transcribe(src: pathlib.Path, anchors_sec: int | None, tcfg: dict,
     화자 label은 요청마다 등장 순서로 새로 매겨진다(실측 2026-09-21: 같은 두 목소리의
     순서를 뒤집은 클립에서 먼저 말한 쪽이 spk:0이 됐다). 그래서 청크가 둘 이상이면
     label에 c1-, c2- 접두어를 붙여 서로 다른 번호 체계임을 드러낸다.
-    dump_dir은 개발용: 청크별 응답 JSON을 보존해 파서를 재전사 비용 없이 반복한다."""
+    dump_dir은 개발용: 청크별 응답 JSON을 보존해 파서를 재전사 비용 없이 반복한다.
+    끝낸 청크의 응답은 _cache_dir에 남기고, 다시 실행하면 그 청크는 요청하지 않는다.
+    실측 2026-11-01, 2026-11-23: 뒤 청크의 오류 하나로 앞 청크의 결과까지 잃었다."""
     key = _gemini_key()
     use_segs = anchors_sec is not None or speakers
+    cache = _cache_dir(src, tcfg)
     with tempfile.TemporaryDirectory() as td:
         audio = _ensure_audio(src, td)
         mime = AUDIO_MIME.get(audio.suffix.lower(), "audio/mpeg")
@@ -346,10 +391,15 @@ def transcribe(src: pathlib.Path, anchors_sec: int | None, tcfg: dict,
         segs: list[tuple[int, str]] = []
         texts: list[str] = []
         for i, chunk in enumerate(chunks):
+            cached = cache / f"chunk{i:03d}.json"
             if len(chunks) > 1:
-                log(f"  청크 {i + 1}/{len(chunks)} 전사 중...")
-            uri = _retrying(lambda: _gemini_upload(chunk, mime, key), "업로드")
-            data = _retrying(lambda: _gemini_transcribe(uri, mime, key, tcfg), "전사")
+                log(f"  청크 {i + 1}/{len(chunks)} "
+                    + ("캐시에서 읽음" if cached.exists() else "전사 중..."))
+            if cached.exists():
+                data = json.loads(cached.read_text(encoding="utf-8"))
+            else:
+                uri = _retrying(lambda: _gemini_upload(chunk, mime, key), "업로드")
+                data = _retrying(lambda: _gemini_transcribe(uri, mime, key, tcfg), "전사")
             if dump_dir:
                 (pathlib.Path(dump_dir) / f"{src.stem}-chunk{i}-response.json").write_text(
                     json.dumps(data, ensure_ascii=False), encoding="utf-8")
@@ -363,9 +413,14 @@ def transcribe(src: pathlib.Path, anchors_sec: int | None, tcfg: dict,
             if not part:
                 raise RuntimeError(f"청크 {i + 1} 응답에 전사 본문이 없다: "
                                    f"{json.dumps(data, ensure_ascii=False)[:200]}")
-    if use_segs:
-        return paras_from(segs, anchors_sec)
-    return "\n\n".join(texts)
+            if not cached.exists():
+                cache.mkdir(parents=True, exist_ok=True)
+                tmp = cached.with_suffix(".tmp")  # 쓰다 끊긴 파일을 캐시로 읽지 않게
+                tmp.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+                tmp.replace(cached)
+    body = paras_from(segs, anchors_sec) if use_segs else "\n\n".join(texts)
+    shutil.rmtree(cache, ignore_errors=True)
+    return body
 
 
 def frontmatter(src: pathlib.Path, anchors_sec: int | None, duration_s: float | None,
@@ -457,7 +512,7 @@ def main() -> None:
             f"{'' if duration is None else f', {int(duration // 60)}분'} — 길이에 따라 수 분)...")
         body = transcribe(src, args.anchors, tcfg, args.speakers)
     except RuntimeError as e:
-        die(str(e))
+        die(f"{e}{_resume_hint(src, tcfg)}")
     text = ("" if args.plain
             else frontmatter(src, args.anchors, duration, tcfg, args.speakers)) + body + "\n"
     if dest:
