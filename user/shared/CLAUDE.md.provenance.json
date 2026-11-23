@@ -44,6 +44,12 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-11-23",
       "notes": "Added 'Each question settles one decision' to Clarify (ADR 0131). Source: an inbox suggestion where one grilling question bundled four independent decisions and a single approval accepted an unwanted one. Placed here instead of the adopted grilling skill."
+    },
+    {
+      "source": "self",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-11-23",
+      "notes": "Added 'recommend the path the official docs guide first' to Present options (ADR 0132). Source: an inbox suggestion carrying a user preference that lived only in one project's memory."
     }
   ]
 }

@@ -247,6 +247,7 @@ _Last generated: 2026-11-23_
 | `user/shared/CLAUDE.md` | self | `?` | `?` | inspired-by | ? | 2026-11-01 |
 | `user/shared/CLAUDE.md` | self | `?` | `?` | inspired-by | ? | 2026-11-23 |
 | `user/shared/CLAUDE.md` | self | `?` | `?` | inspired-by | ? | 2026-11-23 |
+| `user/shared/CLAUDE.md` | self | `?` | `?` | inspired-by | ? | 2026-11-23 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `7cacc946` | `.` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `ee0bb7a6` | `.` | inspired-by | MIT | 2026-05-24 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `7e956e59` | `.` | inspired-by | MIT | 2026-05-28 |
@@ -1178,6 +1179,7 @@ _Last generated: 2026-11-23_
 
 ### self
 
+- `user/shared/CLAUDE.md` (inspired-by @ `?`, ?)
 - `user/shared/CLAUDE.md` (inspired-by @ `?`, ?)
 - `user/shared/CLAUDE.md` (inspired-by @ `?`, ?)
 - `user/shared/CLAUDE.md` (inspired-by @ `?`, ?)
