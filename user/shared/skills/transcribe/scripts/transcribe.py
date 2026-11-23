@@ -40,6 +40,8 @@ GEMINI_TRANSCRIBE_API_KEY만 읽는다 — 범용 GEMINI_API_KEY는 다른 과�
 실측 검증본)에서 위키 계약(raw/ 저장·유일성·Whisper 폴백)을 떼어낸 독립 복제.
 """
 
+from __future__ import annotations  # macOS 시스템 python3(3.9)에서 X | None annotation
+
 import argparse
 import bisect
 import hashlib
@@ -53,6 +55,7 @@ import sys
 import tempfile
 import time
 from datetime import date
+from typing import Optional
 
 GEMINI_MODEL = "gemini-3.5-transcribe"
 GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta"
@@ -218,7 +221,8 @@ def _longest_nondecreasing_idx(vals: list[int]) -> list[int]:
     return out[::-1]
 
 
-Seg = tuple[int, str | None, str]  # (시작 ms, 화자 label 또는 None, 텍스트 조각)
+# (시작 ms, 화자 label 또는 None, 텍스트 조각). 실행 때 평가되므로 3.9에서 되는 Optional로 쓴다.
+Seg = tuple[int, Optional[str], str]
 
 
 def chunk_segs(data: dict, offset_ms: int = 0,
