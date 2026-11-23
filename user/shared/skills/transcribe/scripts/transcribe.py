@@ -26,7 +26,7 @@ API가 함께 받지 않는 조합은 요청 전에 오류로 끝난다: --smart
 함께 쓸 수 없고, --vocab과 --vocab-file도 --anchors, --speakers와 함께 쓸 수 없다.
 
 25분 초과 오디오는 ffmpeg로 청크 분할 후 순서대로 이어 붙인다(앵커 모드에서는
-오프셋 합산). 영상 컨테이너(.mp4 .mkv .mov .webm 영상)는 ffmpeg로 오디오만 뽑는다.
+오프셋 합산). 끝에 1분보다 짧게 남는 부분은 따로 요청하지 않고 앞 청크에 붙인다. 영상 컨테이너(.mp4 .mkv .mov .webm 영상)는 ffmpeg로 오디오만 뽑는다.
 끝낸 청크의 응답은 ~/.cache/transcribe/에 남는다. 중간에 실패하면 같은 명령을 다시
 실행한다. 끝낸 청크는 요청하지 않고, 모두 끝나면 캐시를 지운다. 원본 파일이나 옵션이
 바뀌면 다른 캐시를 쓴다.
@@ -60,6 +60,7 @@ from typing import Optional
 GEMINI_MODEL = "gemini-3.5-transcribe"
 GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta"
 CHUNK_SEC = 1500  # word timestamp 한도가 30분 — 여유를 두고 25분 청크
+TAIL_MERGE_S = 60  # 끝에 이보다 짧게 남는 부분은 따로 요청하지 않고 앞 청크에 붙인다
 VOCAB_MAX = 1000  # custom_vocabulary 상한(공식 문서)
 AUDIO_MIME = {".webm": "audio/webm", ".m4a": "audio/mp4", ".mp3": "audio/mp3",
               ".ogg": "audio/ogg", ".opus": "audio/ogg", ".aac": "audio/aac",
@@ -328,13 +329,25 @@ def _ensure_audio(src: pathlib.Path, td: str) -> pathlib.Path:
     return out
 
 
+def chunk_cuts(duration_s: float) -> list[int]:
+    """자를 지점(초). CHUNK_SEC마다 자르되, 끝에 TAIL_MERGE_S보다 짧게 남는 부분은 앞
+    청크에 붙인다. 순수 함수. 실측 2026-11-01: 말 없는 끝 11초 청크가 본문 없이 돌아와
+    실행 전체가 오류로 끝났다. 마지막 청크는 최대 CHUNK_SEC + TAIL_MERGE_S라서 word
+    timestamp 한도(30분) 안이다. 자르는 지점이 CHUNK_SEC의 배수라 청크 오프셋은 그대로다."""
+    cuts = list(range(CHUNK_SEC, int(duration_s), CHUNK_SEC))
+    if cuts and duration_s - cuts[-1] < TAIL_MERGE_S:
+        cuts.pop()
+    return cuts
+
+
 def _split_audio(audio: pathlib.Path, td: str) -> list[pathlib.Path]:
-    """CHUNK_SEC 초과 오디오를 -c copy로 분할. 경계 오차는 패킷 단위(수십 ms)."""
-    if _duration_s(audio) <= CHUNK_SEC:
+    """chunk_cuts 지점에서 -c copy로 분할. 경계 오차는 패킷 단위(수십 ms)."""
+    cuts = chunk_cuts(_duration_s(audio))
+    if not cuts:
         return [audio]
     out = pathlib.Path(td) / f"chunk%03d{audio.suffix}"
     r = subprocess.run(["ffmpeg", "-v", "error", "-i", str(audio), "-f", "segment",
-                        "-segment_time", str(CHUNK_SEC), "-c", "copy", str(out)],
+                        "-segment_times", ",".join(map(str, cuts)), "-c", "copy", str(out)],
                        capture_output=True, text=True)
     chunks = sorted(pathlib.Path(td).glob(f"chunk*{audio.suffix}"))
     if r.returncode != 0 or not chunks:
@@ -361,7 +374,8 @@ def _cache_dir(src: pathlib.Path, tcfg: dict) -> pathlib.Path:
     st = src.stat()
     ident = json.dumps({"src": str(src.resolve()), "size": st.st_size,
                         "mtime_ns": st.st_mtime_ns, "model": GEMINI_MODEL,
-                        "chunk_sec": CHUNK_SEC, "tcfg": tcfg}, sort_keys=True)
+                        "chunk_sec": CHUNK_SEC, "tail_merge_s": TAIL_MERGE_S, "tcfg": tcfg},
+                       sort_keys=True)
     return CACHE_ROOT / f"{src.stem}-{hashlib.sha256(ident.encode()).hexdigest()[:12]}"
 
 
@@ -408,7 +422,9 @@ def transcribe(src: pathlib.Path, anchors_sec: int | None, tcfg: dict,
                 (pathlib.Path(dump_dir) / f"{src.stem}-chunk{i}-response.json").write_text(
                     json.dumps(data, ensure_ascii=False), encoding="utf-8")
             if use_segs:
+                tail = TAIL_MERGE_S if i == len(chunks) - 1 else 0  # 끝을 붙인 마지막 청크
                 part = chunk_segs(data, offset_ms=i * CHUNK_SEC * 1000,
+                                  max_ms=(CHUNK_SEC + tail + 5) * 1000,
                                   spk_prefix=f"c{i + 1}-" if len(chunks) > 1 else "")
                 segs.extend(part)
             else:
@@ -443,7 +459,7 @@ def frontmatter(src: pathlib.Path, anchors_sec: int | None, duration_s: float | 
     note = "필러와 반복 제거, 형식 정리" if smart else "필러·더듬음 보존"
     if speakers:
         note += ", 화자 label은 익명(spk_N)"
-        if duration_s is not None and duration_s > CHUNK_SEC:
+        if duration_s is not None and chunk_cuts(duration_s):
             note += f"이고 {CHUNK_SEC // 60}분 청크마다 새로 매긴다(c1-, c2- 접두어는 서로 다른 번호 체계)"
     else:
         note += ", 화자 표지 미사용(발언자 구분은 문맥)"
