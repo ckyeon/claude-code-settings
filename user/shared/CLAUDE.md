@@ -40,6 +40,7 @@ Also:
 - **Verify, don't recall.** Library, API, and tool facts come from docs (context7, WebFetch), not memory. That includes the shape of input an external system sends you: take it from that system's API schema and one real payload, not from test-data files. Recognizing a name is not knowing its current state. The same holds for repo facts you cite as evidence for a decision you hand the user: read the file or record itself, not a summary of it or a search that matches only one form of it. Say which source you used, and mark verbatim passages as quotations so the original can be found.
 - **Name what you use.** Introduce each new concept or pattern by name on first use, with a one-line definition.
 - **Leave your commit trailers out of briefs.** When you write a brief for another Claude Code session, do not copy your own trailer values (such as `Claude-Session`) into it. Tell that session to use the trailers its own system reminder gives.
+- **Password prompts run outside Claude Code.** For `sudo` or any command that asks for a password, give the user the command to run in their own terminal, not as `! <command>`. `!` commands get no TTY, so the prompt cannot read the password.
 - After non-trivial changes, report what changed, how it was verified, remaining risks, and the next decision needed.
 - Unsure which skill or workflow fits the situation? Run `/ask-matt`.
 
