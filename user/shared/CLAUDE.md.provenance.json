@@ -38,6 +38,12 @@
       "adopted-as": "inspired-by",
       "adopted-at": "2026-11-23",
       "notes": "Added 'Password prompts run outside Claude Code' (ADR 0130). Source: an inbox suggestion where a `! ssh -t ... sudo` command failed because `!` commands get no TTY."
+    },
+    {
+      "source": "self",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-11-23",
+      "notes": "Added 'Each question settles one decision' to Clarify (ADR 0131). Source: an inbox suggestion where one grilling question bundled four independent decisions and a single approval accepted an unwanted one. Placed here instead of the adopted grilling skill."
     }
   ]
 }

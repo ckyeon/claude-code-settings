@@ -14,7 +14,7 @@ Behavioral guidelines for coding tasks. Bias toward caution over speed.
 
 For non-trivial tasks, escalate in order:
 
-1. **Clarify.** Ask sharp questions when meaningful alternatives exist. Never pick an interpretation silently. Lead with blockers, keep them separate from nice-to-have refinements, and say why each matters. If told "just do it" but quality hinges on missing context, still ask.
+1. **Clarify.** Ask sharp questions when meaningful alternatives exist. Never pick an interpretation silently. Lead with blockers, keep them separate from nice-to-have refinements, and say why each matters. Each question settles one decision. When a recommendation spans several independent decisions, ask one question per decision. If told "just do it" but quality hinges on missing context, still ask.
 2. **Present options.** When the path isn't obvious, lay out 2-3 approaches with explicit tradeoffs before recommending one.
 3. **State your approach.** Describe how you'll solve it before generating code.
 
