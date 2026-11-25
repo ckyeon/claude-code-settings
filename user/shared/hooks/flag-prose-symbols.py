@@ -13,7 +13,7 @@
     기존 code fence 안을 고친 경우에 fence 표시 줄이 없어서 code를 산문으로 잘못 읽는다.
 
 건너뛰는 곳: code fence, frontmatter, 표 줄(`|`로 시작), 인용 줄(`>`로 시작), inline code, 큰따옴표 안, 링크 주소.
-기호와 건너뛰는 곳은 `bin/check-integrity`의 ADR 산문 검사와 같다. frontmatter는 ADR에 없어서 그 검사는 보지 않는다.
+`bin/check-integrity`도 ADR 산문을 이 파일의 `findings()`로 판정한다(ADR 0139). 이 파일을 고치면 그 검사도 함께 바뀐다.
 
 대시와 슬래시는 찾지 않는다. 규칙이 라벨 구분자, 제목 구분자, 경로, 단위에 이 기호를 허용하므로 기계로 가려내기 어렵다.
 """
@@ -26,7 +26,7 @@ import re
 import sys
 
 SYMBOL = re.compile(r"[→←⇒⇐↔]|->|=>|;")
-"""절을 잇는 기호. `bin/check-integrity`의 PROSE_SYMBOL과 같다"""
+"""절을 잇는 기호"""
 EXEMPT_SPAN = re.compile(r"`[^`]*`|\"[^\"]*\"|“[^”]*”|\]\([^)]*\)")
 """줄 안에서 건너뛰는 부분. inline code, 큰따옴표 안, 링크 주소다"""
 MAX_REPORTED = 20

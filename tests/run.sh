@@ -55,8 +55,10 @@ SRC="file://$UP"
 
 # ----- Sandbox repo ----------------------------------------------------------
 REPO="$TMP/repo"
-mkdir -p "$REPO/user/shared/skills"
+mkdir -p "$REPO/user/shared/skills" "$REPO/user/shared/hooks"
 cp -R "$ROOT/bin" "$ROOT/lib" "$REPO/"
+# bin/check-integrity judges ADR prose with this hook's findings() (ADR 0139).
+cp "$ROOT/user/shared/hooks/flag-prose-symbols.py" "$REPO/user/shared/hooks/"
 git_clean -C "$REPO" init -q -b main
 
 adopt() { # adopt <commit> <upstream-path> <dest> [mode]
