@@ -68,20 +68,13 @@
     "claude-md-management@claude-plugins-official": true,
     "commit-commands@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
-    "codex@openai-codex": true,
-    "understand-anything@understand-anything": true
+    "codex@openai-codex": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
       "source": {
         "source": "github",
         "repo": "openai/codex-plugin-cc"
-      }
-    },
-    "understand-anything": {
-      "source": {
-        "source": "github",
-        "repo": "Lum1104/Understand-Anything"
       }
     },
     "remotion": {

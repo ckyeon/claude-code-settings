@@ -35,7 +35,7 @@ The Claude Code docs describe the variable: "Set `CLAUDE_CODE_PLUGIN_PREFER_HTTP
 
 ### `marketplace add` edits this repo
 
-`claude plugin marketplace add remotion-dev/claude-code-plugin` records the marketplace under `extraKnownMarketplaces` in user settings and prints `(declared in user settings)`. `~/.claude/settings.json` is a symlink to `user/shared/settings.json`, so the command leaves an uncommitted change in this repo. Commit it. The `openai-codex` and `understand-anything` marketplaces are recorded there the same way, and the entry only locates the marketplace; the plugin stays enabled only through the template's `enabledPlugins`.
+`claude plugin marketplace add remotion-dev/claude-code-plugin` records the marketplace under `extraKnownMarketplaces` in user settings and prints `(declared in user settings)`. `~/.claude/settings.json` is a symlink to `user/shared/settings.json`, so the command leaves an uncommitted change in this repo. Commit it. The `openai-codex` marketplace is recorded there the same way, and the entry only locates the marketplace; the plugin stays enabled only through the template's `enabledPlugins`.
 
 ## Where it's enabled
 

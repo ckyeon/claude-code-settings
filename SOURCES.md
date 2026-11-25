@@ -364,17 +364,6 @@ _Last generated: 2026-11-25_
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-10-15 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `43fd1f9d` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-11-11 |
-| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `7a3b7511` | `understand-anything-plugin` | inspired-by | MIT | 2026-06-04 |
-| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `5c1e35f9` | `understand-anything-plugin` | inspired-by | MIT | 2026-06-09 |
-| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `83a9b288` | `understand-anything-plugin` | inspired-by | MIT | 2026-07-16 |
-| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `fe8c5bc5` | `understand-anything-plugin` | inspired-by | MIT | 2026-08-05 |
-| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `ba450c43` | `understand-anything-plugin` | inspired-by | MIT | 2026-09-01 |
-| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `787da45a` | `understand-anything-plugin` | inspired-by | MIT | 2026-09-05 |
-| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `6df3065f` | `understand-anything-plugin` | inspired-by | MIT | 2026-09-17 |
-| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `ffa2f0a8` | `understand-anything-plugin` | inspired-by | MIT | 2026-10-09 |
-| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `f2d0164f` | `understand-anything-plugin` | inspired-by | MIT | 2026-10-15 |
-| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `4e6d3299` | `understand-anything-plugin` | inspired-by | MIT | 2026-10-29 |
-| `user/shared/plugins/understand-anything` | https://github.com/Lum1104/Understand-Anything | `182c7fbf` | `understand-anything-plugin` | inspired-by | MIT | 2026-11-11 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-17 |
@@ -563,20 +552,6 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/writing-for-agents` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/productivity/writing-for-agents` | copied | MIT | 2026-11-11 |
 
 ## By source
-
-### https://github.com/Lum1104/Understand-Anything
-
-- `user/shared/plugins/understand-anything` (inspired-by @ `7a3b7511`, MIT)
-- `user/shared/plugins/understand-anything` (inspired-by @ `5c1e35f9`, MIT)
-- `user/shared/plugins/understand-anything` (inspired-by @ `83a9b288`, MIT)
-- `user/shared/plugins/understand-anything` (inspired-by @ `fe8c5bc5`, MIT)
-- `user/shared/plugins/understand-anything` (inspired-by @ `ba450c43`, MIT)
-- `user/shared/plugins/understand-anything` (inspired-by @ `787da45a`, MIT)
-- `user/shared/plugins/understand-anything` (inspired-by @ `6df3065f`, MIT)
-- `user/shared/plugins/understand-anything` (inspired-by @ `ffa2f0a8`, MIT)
-- `user/shared/plugins/understand-anything` (inspired-by @ `f2d0164f`, MIT)
-- `user/shared/plugins/understand-anything` (inspired-by @ `4e6d3299`, MIT)
-- `user/shared/plugins/understand-anything` (inspired-by @ `182c7fbf`, MIT)
 
 ### https://github.com/WyattBlue/auto-editor
 
