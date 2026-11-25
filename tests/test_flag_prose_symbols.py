@@ -16,12 +16,12 @@ class FlagProseSymbols(unittest.TestCase):
         self.addCleanup(tmp.cleanup)
         self.dir = tmp.name
 
-    def run_hook(self, tool_name, tool_input, text):
+    def run_hook(self, tool_name, tool_input, text, tool_response=None):
         """text를 파일에 써 둔 다음 hook을 돌리고, 알린 내용을 돌려준다. 알리지 않았으면 None이다."""
         with open(tool_input["file_path"], "w", encoding="utf-8") as f:
             f.write(text)
         payload = {"hook_event_name": "PostToolUse", "tool_name": tool_name,
-                   "tool_input": tool_input, "tool_response": {}}
+                   "tool_input": tool_input, "tool_response": tool_response or {}}
         out = subprocess.run([sys.executable, HOOK], input=json.dumps(payload),
                              capture_output=True, text=True, check=True).stdout
         if not out.strip():
@@ -32,10 +32,10 @@ class FlagProseSymbols(unittest.TestCase):
         path = os.path.join(self.dir, name)
         return self.run_hook("Write", {"file_path": path, "content": text}, text)
 
-    def edit(self, text, new_string):
+    def edit(self, text, new_string, tool_response=None):
         path = os.path.join(self.dir, "doc.md")
         return self.run_hook("Edit", {"file_path": path, "old_string": "x", "new_string": new_string,
-                                      "replace_all": False}, text)
+                                      "replace_all": False}, text, tool_response)
 
     def test_write_reports_semicolon_and_arrow_lines(self):
         context = self.write("# 제목\n\n앞 절이다; 뒤 절이다.\n\nA → B로 바꾼다.\n")
@@ -43,13 +43,27 @@ class FlagProseSymbols(unittest.TestCase):
         self.assertIn("5행 [→]", context)
 
     def test_write_skips_places_the_rule_allows(self):
-        text = ("---\ndescription: a; b\n---\n\n```\nx -> y;\n```\n\n| a; b |\n> 인용; 원문\n\n"
-                "`a;b`와 \"x; y\"와 [링크](http://e.com/a;b)는 그대로다.\n")
+        text = ("---\ndescription: a; b\n---\n\n```\nx -> y;\n```\n\n~~~\na; b\n~~~\n\n| a; b |\n> 인용; 원문\n\n"
+                "`a;b`와 \"x; y\"와 [링크](http://e.com/a;b)는 그대로다.\n\n<!-- 설명; 여기 -->\n<!--\n여러 줄; 주석\n-->\n")
         self.assertIsNone(self.write(text))
+
+    def test_fence_and_frontmatter_need_their_closing_line(self):
+        # backtick 넷으로 연 fence는 backtick 셋 줄로 닫히지 않는다. 그 뒤 산문은 다시 검사한다.
+        self.assertIn("6행 [;]", self.write("````md\n```\na; b\n```\n````\n본문; 이다.\n"))
+        # 닫는 줄이 없는 `---`는 frontmatter가 아니라 구분선이다.
+        self.assertIn("3행 [;]", self.write("---\n\n앞 절이다; 뒤 절이다.\n"))
 
     def test_edit_reports_only_what_new_string_wrote(self):
         self.assertIsNone(self.edit("옛 절이다; 새 단어다.\n", "새 단어다."))
         context = self.edit("옛 줄이다; 그대로 둔다.\n\n새 줄이다; 고친다.\n", "새 줄이다; 고친다.")
+        self.assertIn("3행 [;]", context)
+        self.assertNotIn("1행", context)
+
+    def test_edit_skips_the_same_text_that_was_already_there(self):
+        text = "옛 문장이다; 그대로.\n\n옛 문장이다; 그대로.\n"
+        patch = {"structuredPatch": [{"oldStart": 3, "oldLines": 1, "newStart": 3, "newLines": 1,
+                                      "lines": ["-x", "+옛 문장이다; 그대로."]}]}
+        context = self.edit(text, "옛 문장이다; 그대로.", patch)
         self.assertIn("3행 [;]", context)
         self.assertNotIn("1행", context)
 
@@ -87,7 +101,7 @@ class FlagCommandText(unittest.TestCase):
 
     def test_commit_message_options_are_read(self):
         for command in ('git commit -m "Rename foo -> bar"', "git commit -am 'a; b'",
-                        "git -C /tmp commit --message='x => y'"):
+                        "git -C /tmp commit --message='x => y'", "git --git-dir .git commit -m 'a; b'"):
             self.assertIsNotNone(self.run_hook(command), command)
 
     def test_pr_title_and_body_are_read(self):
@@ -97,9 +111,12 @@ class FlagCommandText(unittest.TestCase):
         with open(os.path.join(self.dir, "body.txt"), "w", encoding="utf-8") as f:
             f.write("one → two\n")
         self.assertIn("1행 [→]", self.run_hook("gh pr edit 12 --body-file body.txt"))
+        self.assertIn("PR 제목", self.run_hook("gh -R o/r pr new --title 'a; b'"))
 
     def test_places_the_rule_allows_pass(self):
         command = "git commit -F - <<'EOF'\nTitle\n\nUse `a; b` and \"x -> y\". Don't panic.\n\n```\na => b;\n```\nEOF"
+        self.assertIsNone(self.run_hook(command))
+        command = "gh pr create --title 'Add X' --body \"$(cat <<'EOF'\n## Summary\n<!-- Describe the change -->\nAdds X.\nEOF\n)\""
         self.assertIsNone(self.run_hook(command))
 
     def test_other_commands_pass(self):

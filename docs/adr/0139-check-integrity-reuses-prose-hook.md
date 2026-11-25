@@ -4,7 +4,7 @@
 
 ## 결정
 
-- 기준은 hook 파일에 둔다. hook은 `~/.claude/hooks/shared/`에서 혼자 돌아야 하므로 repo의 `lib/`를 import할 수 없다. `check-integrity`는 repo 구조를 이미 알고 있으므로 hook 파일을 직접 불러올 수 있다.
+- 기준은 hook 파일에 둔다. hook은 `~/.claude/hooks/shared/`에서 혼자 돌아야 하므로 repo의 `lib/`를 import할 수 없다. `check-integrity`는 repo 안에서 돌므로 hook 파일의 경로를 정해 불러올 수 있다.
 - `tests/run.sh`의 sandbox repo에 hook 파일을 복사한다. `check-integrity`가 이제 그 파일 없이는 돌지 않는다.
 - 오류 문구는 그대로 둔다. 한 줄에 기호가 여럿이면 모두 적는다.
 
