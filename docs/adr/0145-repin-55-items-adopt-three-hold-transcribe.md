@@ -54,4 +54,4 @@ ADR 0100의 local 수정(step 4b) 때문에 `bin/re-pin`이 이 항목에서 멈
 
 - `project-templates/video/CLAUDE.md`의 `--cut` 제약 설명은 31.6.0 기준이다. 31.10.0 changelog에 "Let range options take several ranges"가 있으므로, `auto-editor-transcribe`를 옮길 때 함께 확인한다.
 - `project-templates/nextjs/CLAUDE.md`는 skill이 9개라고 적지만 이번 변경 전에도 13개였고 이제 15개다.
-- `bin/check-integrity`가 굵은 글씨로 쓴 skill 참조를 검사하지 않는 문제는 ADR 0124 후속 그대로 남아 있다.
+- `bin/check-integrity`가 굵은 글씨로 쓴 skill 참조를 검사하지 않는 문제는 ADR 0124 후속 그대로 남아 있다. ADR 0147에서 해결했다.

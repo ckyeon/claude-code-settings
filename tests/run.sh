@@ -218,6 +218,19 @@ caller 'Call the Skill tool with `ghost` to start.'
 out="$(run bin/check-integrity)"; rc=$?
 eq "an unresolved backticked Skill tool call exits 1" "$rc" "1"
 has "the backticked call is named" "$out" 'references skill "ghost" (Skill tool call)'
+
+caller 'For transitions, see the **a** skill.'
+out="$(run bin/check-integrity)"; rc=$?
+eq "a resolvable bold skill reference passes" "$rc" "0"
+
+caller 'For transitions, see the **ghost** skill.'
+out="$(run bin/check-integrity)"; rc=$?
+eq "an unresolved bold skill reference exits 1" "$rc" "1"
+has "the bold reference is named" "$out" 'references skill "ghost" (bold or backticked name)'
+
+caller 'Verify with the `ghost` skill.'
+out="$(run bin/check-integrity)"; rc=$?
+eq "an unresolved backticked skill reference without a slash exits 1" "$rc" "1"
 rm -rf "$REPO/user/shared/skills/caller"
 
 echo "bin/check-integrity (template skills)"
@@ -239,6 +252,10 @@ tskill main 'Call the Skill tool with "ghost".'
 out="$(run bin/check-integrity)"; rc=$?
 eq "an unresolved call in a template skill exits 1" "$rc" "1"
 has "the template skill is named" "$out" "project-templates/t/.claude/skills/main/SKILL.md"
+
+tskill main 'For transitions, see the **ghost** skill.'
+out="$(run bin/check-integrity)"; rc=$?
+eq "an unresolved bold reference in a template skill exits 1" "$rc" "1"
 
 tskill main 'Open `/about`, then see [the notes](missing.md).'
 out="$(run bin/check-integrity --strict)"; rc=$?
