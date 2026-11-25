@@ -6,6 +6,7 @@
 못 찾으면 아무것도 내지 않는다. 두 자리에서 돈다.
 
   - Write와 Edit의 PostToolUse: Markdown 파일(`*.md`)을 본다. 막지는 않고, 찾은 줄을 additionalContext로 알린다.
+    이 알림은 Claude에게만 가고 사용자 화면에는 나오지 않는다. 아래 deny의 이유는 화면에 나온다(ADR 0142).
   - Bash의 PreToolUse: `git commit`의 message와 `gh pr create`, `gh pr edit`의 제목과 본문을 본다(ADR 0140).
     찾으면 명령을 막는다(deny). PR은 게시되는 순간 알림이 나가므로, 실행한 뒤에 알리면 늦다.
     글은 `-m`, `--title`, `--body` 같은 옵션 값, heredoc 본문, `-F`와 `--body-file`이 가리키는 파일에서 읽는다.
