@@ -10,6 +10,11 @@
             "command": "python3 \"$HOME/.claude/hooks/shared/guard-destructive-git.py\"",
             "timeout": 10,
             "statusMessage": "git 명령 범위 확인"
+          },
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/shared/flag-prose-symbols.py\"",
+            "timeout": 10
           }
         ]
       }
