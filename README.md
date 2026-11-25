@@ -74,7 +74,6 @@ Out of scope:
 - **Secret values.** They are entered per machine and never committed.
 - **`~/.claude.json`.** It holds MCP registrations with their keys and per-project state.
 - **Memory** (`~/.claude/projects/*/memory/`). It is per-machine working state. A lesson that must survive a machine change belongs in an owned file such as `CLAUDE.md` or a rule.
-- **Discord access policy** (`~/.claude/channels/`). The discord plugin's own skill writes it, and access is granted again on each machine.
 - **History, caches, sessions, telemetry**, and the plugin CLI's state under `~/.claude/plugins/`.
 - **Skills, plugins, and connectors synced from claude.ai**, plus Claude in Chrome and computer use. They follow the account on sign-in. The skills under `claude-ai/skills/` are the exception: they are declared.
 - **Each project's own `.claude/` and `CLAUDE.md`**, including a project copied from a template. That project's repo owns them.
