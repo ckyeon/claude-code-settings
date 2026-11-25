@@ -88,6 +88,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-11-11"
+    },
+    {
+      "source": "https://github.com/vercel/next.js",
+      "commit": "bd02023153773d7595973ae9073d6b67f72ca2c2",
+      "path": "skills/next-cache-components-adoption",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-11-25"
     }
   ]
 }

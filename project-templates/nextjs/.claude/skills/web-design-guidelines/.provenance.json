@@ -39,6 +39,15 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-10-29"
+    },
+    {
+      "source": "https://github.com/vercel-labs/agent-skills",
+      "commit": "5a37a6329fbad3666c3207392a6a7c0110e92efb",
+      "path": "skills/web-design-guidelines",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-11-25",
+      "notes": "Version 1.1.0 bundles references/command.md and no longer fetches the guidelines over the network."
     }
   ]
 }

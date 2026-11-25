@@ -89,6 +89,15 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-11-11"
+    },
+    {
+      "source": "https://github.com/vercel-labs/agent-browser",
+      "commit": "0a923358ea989d7602f0d06507ad3447c62ffe9b",
+      "path": "skill-data/core",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-11-25",
+      "notes": "Release tag v0.44.0. The CLI dropped the protected-vercel-deployments alias, and core now lists vercel and modern-web-guidance, both adopted in the same change."
     }
   ]
 }

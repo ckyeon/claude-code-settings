@@ -1,0 +1,14 @@
+{
+  "track": "release",
+  "provenance": [
+    {
+      "source": "https://github.com/vercel-labs/agent-browser",
+      "commit": "0a923358ea989d7602f0d06507ad3447c62ffe9b",
+      "path": "skill-data/modern-web-guidance",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-11-25",
+      "notes": "Release tag v0.44.0. core lists it, and the agent-browser CLI also serves it through agent-browser skills get modern-web-guidance."
+    }
+  ]
+}

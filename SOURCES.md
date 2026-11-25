@@ -12,6 +12,7 @@ _Last generated: 2026-11-25_
 | `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/composition-patterns` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/composition-patterns` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `1a2c79d4` | `skills/composition-patterns` | copied | MIT | 2026-10-29 |
+| `project-templates/nextjs/.claude/skills/composition-patterns` | https://github.com/vercel-labs/agent-skills | `5a37a632` | `skills/composition-patterns` | copied | MIT | 2026-11-25 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `4ad28489` | `skill-data/core` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `328ce8a9` | `skill-data/core` | copied | MIT | 2026-06-09 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `e40e62d7` | `skill-data/core` | copied | MIT | 2026-07-16 |
@@ -23,11 +24,13 @@ _Last generated: 2026-11-25_
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `1165952d` | `skill-data/core` | copied | MIT | 2026-10-15 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `1453dd37` | `skill-data/core` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `e7519957` | `skill-data/core` | copied | MIT | 2026-11-11 |
+| `project-templates/nextjs/.claude/skills/core` | https://github.com/vercel-labs/agent-browser | `0a923358` | `skill-data/core` | copied | MIT | 2026-11-25 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/deploy-to-vercel` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/deploy-to-vercel` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/deploy-to-vercel` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/deploy-to-vercel` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `1a2c79d4` | `skills/deploy-to-vercel` | copied | MIT | 2026-10-29 |
+| `project-templates/nextjs/.claude/skills/deploy-to-vercel` | https://github.com/vercel-labs/agent-skills | `5a37a632` | `skills/deploy-to-vercel` | copied | MIT | 2026-11-25 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `4ad28489` | `skill-data/dogfood` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `e40e62d7` | `skill-data/dogfood` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `acbc22bd` | `skill-data/dogfood` | copied | MIT | 2026-08-05 |
@@ -38,6 +41,8 @@ _Last generated: 2026-11-25_
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `1165952d` | `skill-data/dogfood` | copied | MIT | 2026-10-15 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `1453dd37` | `skill-data/dogfood` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `e7519957` | `skill-data/dogfood` | copied | MIT | 2026-11-11 |
+| `project-templates/nextjs/.claude/skills/dogfood` | https://github.com/vercel-labs/agent-browser | `0a923358` | `skill-data/dogfood` | copied | MIT | 2026-11-25 |
+| `project-templates/nextjs/.claude/skills/modern-web-guidance` | https://github.com/vercel-labs/agent-browser | `0a923358` | `skill-data/modern-web-guidance` | copied | MIT | 2026-11-25 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-cache-components-adoption` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-cache-components-adoption` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `1076c474` | `skills/next-cache-components-adoption` | copied | MIT | 2026-09-01 |
@@ -49,6 +54,7 @@ _Last generated: 2026-11-25_
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `0b3693dd` | `skills/next-cache-components-adoption` | copied | MIT | 2026-10-15 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `4c6a3fa4` | `skills/next-cache-components-adoption` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `9464bf78` | `skills/next-cache-components-adoption` | copied | MIT | 2026-11-11 |
+| `project-templates/nextjs/.claude/skills/next-cache-components-adoption` | https://github.com/vercel/next.js | `bd020231` | `skills/next-cache-components-adoption` | copied | MIT | 2026-11-25 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `1076c474` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-09-01 |
@@ -60,6 +66,7 @@ _Last generated: 2026-11-25_
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `0b3693dd` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-10-15 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `4c6a3fa4` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `9464bf78` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-11-11 |
+| `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` | https://github.com/vercel/next.js | `bd020231` | `skills/next-cache-components-optimizer` | copied | MIT | 2026-11-25 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-dev-loop` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-dev-loop` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `1076c474` | `skills/next-dev-loop` | copied | MIT | 2026-09-01 |
@@ -71,6 +78,7 @@ _Last generated: 2026-11-25_
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `0b3693dd` | `skills/next-dev-loop` | copied | MIT | 2026-10-15 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `4c6a3fa4` | `skills/next-dev-loop` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `9464bf78` | `skills/next-dev-loop` | copied | MIT | 2026-11-11 |
+| `project-templates/nextjs/.claude/skills/next-dev-loop` | https://github.com/vercel/next.js | `bd020231` | `skills/next-dev-loop` | copied | MIT | 2026-11-25 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `50925bb8` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `ab09c1f4` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `1076c474` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-09-01 |
@@ -82,33 +90,40 @@ _Last generated: 2026-11-25_
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `0b3693dd` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-10-15 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `4c6a3fa4` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `9464bf78` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-11-11 |
+| `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` | https://github.com/vercel/next.js | `bd020231` | `skills/next-partial-prefetching-adoption` | copied | MIT | 2026-11-25 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `bf13ab8a` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-09-17 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `63bb9d6a` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-09-29 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `5da8ef12` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-10-09 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `0b3693dd` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-10-15 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `4c6a3fa4` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-10-29 |
 | `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `9464bf78` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-11-11 |
+| `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` | https://github.com/vercel/next.js | `bd020231` | `skills/next-partial-prefetching-optimizer` | copied | MIT | 2026-11-25 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/react-best-practices` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/react-best-practices` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/react-best-practices` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/react-best-practices` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `1a2c79d4` | `skills/react-best-practices` | copied | MIT | 2026-10-29 |
+| `project-templates/nextjs/.claude/skills/react-best-practices` | https://github.com/vercel-labs/agent-skills | `5a37a632` | `skills/react-best-practices` | copied | MIT | 2026-11-25 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/react-view-transitions` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/react-view-transitions` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/react-view-transitions` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/react-view-transitions` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `1a2c79d4` | `skills/react-view-transitions` | copied | MIT | 2026-10-29 |
+| `project-templates/nextjs/.claude/skills/react-view-transitions` | https://github.com/vercel-labs/agent-skills | `5a37a632` | `skills/react-view-transitions` | copied | MIT | 2026-11-25 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/vercel-optimize` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `18011566` | `skills/vercel-optimize` | copied | MIT | 2026-05-28 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/vercel-optimize` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/vercel-optimize` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/vercel-optimize` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `1a2c79d4` | `skills/vercel-optimize` | copied | MIT | 2026-10-29 |
+| `project-templates/nextjs/.claude/skills/vercel-optimize` | https://github.com/vercel-labs/agent-skills | `5a37a632` | `skills/vercel-optimize` | copied | MIT | 2026-11-25 |
+| `project-templates/nextjs/.claude/skills/vercel` | https://github.com/vercel-labs/agent-browser | `0a923358` | `skill-data/vercel` | copied | MIT | 2026-11-25 |
 | `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `18a24346` | `skills/web-design-guidelines` | copied | MIT | 2026-05-25 |
 | `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `f8a72b96` | `skills/web-design-guidelines` | copied | MIT | 2026-07-16 |
 | `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `7c180d90` | `skills/web-design-guidelines` | copied | MIT | 2026-08-05 |
 | `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `063bee94` | `skills/web-design-guidelines` | copied | MIT | 2026-09-01 |
 | `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `1a2c79d4` | `skills/web-design-guidelines` | copied | MIT | 2026-10-29 |
+| `project-templates/nextjs/.claude/skills/web-design-guidelines` | https://github.com/vercel-labs/agent-skills | `5a37a632` | `skills/web-design-guidelines` | copied | MIT | 2026-11-25 |
 | `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `7304c64e` | `skills/actions-and-utilities` | copied | MIT | 2026-05-21 |
 | `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `3d6ad031` | `skills/actions-and-utilities` | copied | MIT | 2026-05-24 |
 | `project-templates/phaser/.claude/skills/actions-and-utilities` | https://github.com/phaserjs/phaser | `41be1e46` | `skills/actions-and-utilities` | copied | MIT | 2026-07-16 |
@@ -225,19 +240,23 @@ _Last generated: 2026-11-25_
 | `project-templates/video/.claude/skills/auto-editor-effects` | https://github.com/WyattBlue/auto-editor | `77962221` | `skills/auto-editor-effects` | copied | Unlicense | 2026-09-27 |
 | `project-templates/video/.claude/skills/auto-editor-effects` | https://github.com/WyattBlue/auto-editor | `5ab59aba` | `skills/auto-editor-effects` | copied | Unlicense | 2026-10-09 |
 | `project-templates/video/.claude/skills/auto-editor-effects` | https://github.com/WyattBlue/auto-editor | `692cbbee` | `skills/auto-editor-effects` | copied | Unlicense | 2026-11-11 |
+| `project-templates/video/.claude/skills/auto-editor-effects` | https://github.com/WyattBlue/auto-editor | `980a2e6c` | `skills/auto-editor-effects` | copied | Unlicense | 2026-11-25 |
 | `project-templates/video/.claude/skills/auto-editor-export` | https://github.com/WyattBlue/auto-editor | `77962221` | `skills/auto-editor-export` | copied | Unlicense | 2026-09-27 |
 | `project-templates/video/.claude/skills/auto-editor-export` | https://github.com/WyattBlue/auto-editor | `5ab59aba` | `skills/auto-editor-export` | copied | Unlicense | 2026-10-09 |
 | `project-templates/video/.claude/skills/auto-editor-export` | https://github.com/WyattBlue/auto-editor | `44bf4ec3` | `skills/auto-editor-export` | copied | Unlicense | 2026-10-15 |
 | `project-templates/video/.claude/skills/auto-editor-export` | https://github.com/WyattBlue/auto-editor | `008228ed` | `skills/auto-editor-export` | copied | Unlicense | 2026-10-29 |
+| `project-templates/video/.claude/skills/auto-editor-export` | https://github.com/WyattBlue/auto-editor | `980a2e6c` | `skills/auto-editor-export` | copied | Unlicense | 2026-11-25 |
 | `project-templates/video/.claude/skills/auto-editor-transcribe` | https://github.com/WyattBlue/auto-editor | `77962221` | `skills/auto-editor-transcribe` | copied | Unlicense | 2026-09-27 |
 | `project-templates/video/.claude/skills/auto-editor-transcribe` | https://github.com/WyattBlue/auto-editor | `5ab59aba` | `skills/auto-editor-transcribe` | copied | Unlicense | 2026-10-09 |
 | `project-templates/video/.claude/skills/auto-editor-transcribe` | https://github.com/WyattBlue/auto-editor | `44bf4ec3` | `skills/auto-editor-transcribe` | copied | Unlicense | 2026-10-15 |
 | `project-templates/video/.claude/skills/auto-editor-transcribe` | https://github.com/WyattBlue/auto-editor | `008228ed` | `skills/auto-editor-transcribe` | copied | Unlicense | 2026-10-29 |
 | `project-templates/video/.claude/skills/auto-editor-transcribe` | https://github.com/WyattBlue/auto-editor | `6825c481` | `skills/auto-editor-transcribe` | copied | Unlicense | 2026-11-11 |
+| `project-templates/video/.claude/skills/auto-editor-transitions` | https://github.com/WyattBlue/auto-editor | `980a2e6c` | `skills/auto-editor-transitions` | copied | Unlicense | 2026-11-25 |
 | `project-templates/video/.claude/skills/auto-editor` | https://github.com/WyattBlue/auto-editor | `77962221` | `skills/auto-editor` | copied | Unlicense | 2026-09-27 |
 | `project-templates/video/.claude/skills/auto-editor` | https://github.com/WyattBlue/auto-editor | `5ab59aba` | `skills/auto-editor` | copied | Unlicense | 2026-10-09 |
 | `project-templates/video/.claude/skills/auto-editor` | https://github.com/WyattBlue/auto-editor | `44bf4ec3` | `skills/auto-editor` | copied | Unlicense | 2026-10-15 |
 | `project-templates/video/.claude/skills/auto-editor` | https://github.com/WyattBlue/auto-editor | `008228ed` | `skills/auto-editor` | copied | Unlicense | 2026-10-29 |
+| `project-templates/video/.claude/skills/auto-editor` | https://github.com/WyattBlue/auto-editor | `980a2e6c` | `skills/auto-editor` | copied | Unlicense | 2026-11-25 |
 | `project-templates/video/.claude/skills/edit-by-transcript` | https://github.com/browser-use/video-use | `b8770638` | `.` | inspired-by | MIT | 2026-09-27 |
 | `project-templates/video/.claude/skills/edit-by-transcript` | https://github.com/browser-use/video-use | `43cfc566` | `.` | inspired-by | MIT | 2026-10-09 |
 | `user/shared/CLAUDE.md` | https://github.com/multica-ai/andrej-karpathy-skills.git | `2c606141` | `CLAUDE.md` | copied | MIT | 2026-05-21 |
@@ -261,6 +280,7 @@ _Last generated: 2026-11-25_
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `ef472a49` | `.` | inspired-by | MIT | 2026-10-15 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `eabe3696` | `.` | inspired-by | MIT | 2026-10-29 |
 | `user/shared/mcp/context7` | https://github.com/upstash/context7 | `c5e34a01` | `.` | inspired-by | MIT | 2026-11-11 |
+| `user/shared/mcp/context7` | https://github.com/upstash/context7 | `41f538dd` | `.` | inspired-by | MIT | 2026-11-25 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `b1e1eb1a` | `src/fetch` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `275175cd` | `src/fetch` | inspired-by | MIT | 2026-06-09 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `76d64c82` | `src/fetch` | inspired-by | MIT | 2026-08-05 |
@@ -271,6 +291,7 @@ _Last generated: 2026-11-25_
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `bbb701e7` | `src/fetch` | inspired-by | MIT | 2026-10-15 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `194cc86e` | `src/fetch` | inspired-by | MIT | 2026-10-29 |
 | `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `36380287` | `src/fetch` | inspired-by | MIT | 2026-11-11 |
+| `user/shared/mcp/fetch` | https://github.com/modelcontextprotocol/servers | `c799c855` | `src/fetch` | inspired-by | MIT | 2026-11-25 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `1add5fe2` | `.` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `e091ea63` | `.` | inspired-by | MIT | 2026-05-28 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `457f5993` | `.` | inspired-by | MIT | 2026-06-09 |
@@ -283,6 +304,7 @@ _Last generated: 2026-11-25_
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `c59e8c19` | `.` | inspired-by | MIT | 2026-10-15 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `f2a07cd1` | `.` | inspired-by | MIT | 2026-10-29 |
 | `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `6fbcd00b` | `.` | inspired-by | MIT | 2026-11-11 |
+| `user/shared/mcp/github` | https://github.com/github/github-mcp-server | `c6b62954` | `.` | inspired-by | MIT | 2026-11-25 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `b1e1eb1a` | `src/sequentialthinking` | inspired-by | MIT | 2026-05-22 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `76d64c82` | `src/sequentialthinking` | inspired-by | MIT | 2026-08-05 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `579c3903` | `src/sequentialthinking` | inspired-by | MIT | 2026-09-01 |
@@ -292,11 +314,13 @@ _Last generated: 2026-11-25_
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `bbb701e7` | `src/sequentialthinking` | inspired-by | MIT | 2026-10-15 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `194cc86e` | `src/sequentialthinking` | inspired-by | MIT | 2026-10-29 |
 | `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `36380287` | `src/sequentialthinking` | inspired-by | MIT | 2026-11-11 |
+| `user/shared/mcp/sequential-thinking` | https://github.com/modelcontextprotocol/servers | `c799c855` | `src/sequentialthinking` | inspired-by | MIT | 2026-11-25 |
 | `user/shared/plugins/clangd-lsp` | https://github.com/anthropics/claude-plugins-official | `fa59bc90` | `plugins/clangd-lsp` | inspired-by | Apache-2.0 | 2026-09-29 |
 | `user/shared/plugins/clangd-lsp` | https://github.com/anthropics/claude-plugins-official | `b860d6f2` | `plugins/clangd-lsp` | inspired-by | Apache-2.0 | 2026-10-09 |
 | `user/shared/plugins/clangd-lsp` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/clangd-lsp` | inspired-by | Apache-2.0 | 2026-10-15 |
 | `user/shared/plugins/clangd-lsp` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/clangd-lsp` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/clangd-lsp` | https://github.com/anthropics/claude-plugins-official | `43fd1f9d` | `plugins/clangd-lsp` | inspired-by | Apache-2.0 | 2026-11-11 |
+| `user/shared/plugins/clangd-lsp` | https://github.com/anthropics/claude-plugins-official | `6985b2d8` | `plugins/clangd-lsp` | inspired-by | Apache-2.0 | 2026-11-25 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-05-21 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-07-16 |
@@ -309,6 +333,7 @@ _Last generated: 2026-11-25_
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-10-15 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official | `43fd1f9d` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-11-11 |
+| `user/shared/plugins/claude-md-management` | https://github.com/anthropics/claude-plugins-official | `6985b2d8` | `plugins/claude-md-management` | inspired-by | Apache-2.0 | 2026-11-25 |
 | `user/shared/plugins/codex` | https://github.com/openai/codex-plugin-cc.git | `807e03ac` | `plugins/codex` | inspired-by | Apache-2.0 | 2026-06-01 |
 | `user/shared/plugins/codex` | https://github.com/openai/codex-plugin-cc.git | `db52e28f` | `plugins/codex` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-05-24 |
@@ -322,6 +347,7 @@ _Last generated: 2026-11-25_
 | `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-10-15 |
 | `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official | `43fd1f9d` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-11-11 |
+| `user/shared/plugins/commit-commands` | https://github.com/anthropics/claude-plugins-official | `6985b2d8` | `plugins/commit-commands` | inspired-by | Apache-2.0 | 2026-11-25 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `6cc16f4b` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-05-21 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-07-16 |
@@ -334,14 +360,17 @@ _Last generated: 2026-11-25_
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-10-15 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official | `43fd1f9d` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-11-11 |
+| `user/shared/plugins/hookify` | https://github.com/anthropics/claude-plugins-official | `6985b2d8` | `plugins/hookify` | inspired-by | Apache-2.0 | 2026-11-25 |
 | `user/shared/plugins/hyperframes` | https://github.com/heygen-com/hyperframes | `8d2b6e7b` | `.` | inspired-by | Apache-2.0 | 2026-09-27 |
 | `user/shared/plugins/remotion` | https://github.com/remotion-dev/claude-code-plugin | `a39a5019` | `.` | inspired-by | MIT | 2026-09-27 |
 | `user/shared/plugins/remotion` | https://github.com/remotion-dev/claude-code-plugin | `50993d0b` | `.` | inspired-by | MIT | 2026-10-09 |
 | `user/shared/plugins/remotion` | https://github.com/remotion-dev/claude-code-plugin | `2d5b9c18` | `.` | inspired-by | MIT | 2026-10-15 |
 | `user/shared/plugins/remotion` | https://github.com/remotion-dev/claude-code-plugin | `413c6d62` | `.` | inspired-by | MIT | 2026-10-29 |
 | `user/shared/plugins/remotion` | https://github.com/remotion-dev/claude-code-plugin | `6ccd1852` | `.` | inspired-by | MIT | 2026-11-11 |
+| `user/shared/plugins/remotion` | https://github.com/remotion-dev/claude-code-plugin | `f96c742d` | `.` | inspired-by | MIT | 2026-11-25 |
 | `user/shared/plugins/rust-analyzer-lsp` | https://github.com/anthropics/claude-plugins-official | `a7ba5b93` | `plugins/rust-analyzer-lsp` | inspired-by | Apache-2.0 | 2026-11-02 |
 | `user/shared/plugins/rust-analyzer-lsp` | https://github.com/anthropics/claude-plugins-official | `43fd1f9d` | `plugins/rust-analyzer-lsp` | inspired-by | Apache-2.0 | 2026-11-11 |
+| `user/shared/plugins/rust-analyzer-lsp` | https://github.com/anthropics/claude-plugins-official | `6985b2d8` | `plugins/rust-analyzer-lsp` | inspired-by | Apache-2.0 | 2026-11-25 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `3449c10c` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-05-24 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `b5eddebc` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official.git | `60f5e338` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-08-05 |
@@ -353,6 +382,7 @@ _Last generated: 2026-11-25_
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-10-15 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official | `43fd1f9d` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-11-11 |
+| `user/shared/plugins/skill-creator` | https://github.com/anthropics/claude-plugins-official | `6985b2d8` | `plugins/skill-creator` | inspired-by | Apache-2.0 | 2026-11-25 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `1b527e2e` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-05-25 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `b5eddebc` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-07-16 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `60f5e338` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-08-05 |
@@ -364,18 +394,21 @@ _Last generated: 2026-11-25_
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `c2bdb427` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-10-15 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `f8c5e7a1` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-10-29 |
 | `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `43fd1f9d` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-11-11 |
+| `user/shared/plugins/typescript-lsp` | https://github.com/anthropics/claude-plugins-official | `6985b2d8` | `plugins/typescript-lsp` | inspired-by | Apache-2.0 | 2026-11-25 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/ask-matt` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/ask-matt` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/ask-matt` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/ask-matt` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/ask-matt` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/ask-matt` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/code-review` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/code-review` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/code-review` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/code-review` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/code-review` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/code-review` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/code-review` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/code-review` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/code-review` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/code-review` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/code-review` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/code-review` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/code-review` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/code-review` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `8b78b531` | `skills/engineering/codebase-design` | copied | MIT | 2026-08-13 |
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/codebase-design` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/codebase-design` | copied | MIT | 2026-09-05 |
@@ -383,6 +416,7 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/codebase-design` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/codebase-design` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/codebase-design` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/codebase-design` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/codebase-design` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-08-05 |
 | `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-09-01 |
@@ -391,6 +425,7 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/diagnosing-bugs` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/diagnosing-bugs` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/domain-modeling` | https://github.com/mattpocock/skills | `8b78b531` | `skills/engineering/domain-modeling` | copied | MIT | 2026-08-13 |
 | `user/shared/skills/domain-modeling` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/domain-modeling` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/domain-modeling` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/domain-modeling` | copied | MIT | 2026-09-05 |
@@ -398,12 +433,14 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/domain-modeling` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/domain-modeling` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/domain-modeling` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/domain-modeling` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/domain-modeling` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/domain-modeling` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/domain-modeling` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/domain-modeling` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/grill-me` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/grill-me` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/grill-me` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/grill-me` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/grill-me` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/grill-me` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/grill-me` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/grill-me` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/grill-me` | https://github.com/mattpocock/skills | `a496f551` | `skills/productivity/grill-me` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/grill-me` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/productivity/grill-me` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/grill-me` | https://github.com/mattpocock/skills | `d6539114` | `skills/productivity/grill-me` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `2bf70051` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-06-09 |
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-07-16 |
@@ -414,6 +451,7 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/grill-with-docs` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/grill-with-docs` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/grilling` | https://github.com/mattpocock/skills | `8b78b531` | `skills/productivity/grilling` | copied | MIT | 2026-08-13 |
 | `user/shared/skills/grilling` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/grilling` | copied | MIT | 2026-09-01 |
 | `user/shared/skills/grilling` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/grilling` | copied | MIT | 2026-09-05 |
@@ -421,12 +459,14 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/grilling` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/grilling` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/grilling` | https://github.com/mattpocock/skills | `a496f551` | `skills/productivity/grilling` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/grilling` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/productivity/grilling` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/grilling` | https://github.com/mattpocock/skills | `d6539114` | `skills/productivity/grilling` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/handoff` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/handoff` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/handoff` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/handoff` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/handoff` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/handoff` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/handoff` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/handoff` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/handoff` | https://github.com/mattpocock/skills | `a496f551` | `skills/productivity/handoff` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/handoff` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/productivity/handoff` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/handoff` | https://github.com/mattpocock/skills | `d6539114` | `skills/productivity/handoff` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/herdr` | https://github.com/herdrdev/herdr | `9eb52145` | `skills/herdr` | copied | Apache-2.0 | 2026-09-05 |
 | `user/shared/skills/herdr` | https://github.com/herdrdev/herdr | `065ef9d6` | `skills/herdr` | copied | Apache-2.0 | 2026-09-17 |
 | `user/shared/skills/herdr` | https://github.com/herdrdev/herdr | `7b116c05` | `skills/herdr` | copied | Apache-2.0 | 2026-10-09 |
@@ -434,12 +474,14 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/implement-spec` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/implement-spec` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/implement-spec` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/implement-spec` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/implement-spec` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/implement-spec` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/implement-spec` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/implement-spec` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/implement` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/implement` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/implement` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/implement` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/implement` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/implement` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/implement` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/implement` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/implement` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/implement` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/implement` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/implement` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/implement` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/implement` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-08-05 |
@@ -449,9 +491,11 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/improve-codebase-architecture` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/improve-codebase-architecture` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/pr` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/pr` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/pr` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/pr` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/pr` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/pr` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/pr` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/pr` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/prototype` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/prototype` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/prototype` | copied | MIT | 2026-08-05 |
@@ -461,15 +505,18 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/prototype` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/prototype` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/prototype` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/prototype` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/prototype` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/research` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/research` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/research` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/research` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/research` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/research` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/research` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/research` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/research` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/research` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/research` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/research` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/research` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/research` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/retro` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/retro` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/retro` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/retro` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/retro` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/retro` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/retro` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/retro` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-08-05 |
@@ -479,6 +526,7 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/setup-matt-pocock-skills` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/setup-matt-pocock-skills` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/tdd` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/tdd` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/tdd` | copied | MIT | 2026-08-05 |
@@ -488,18 +536,21 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/tdd` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/tdd` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/tdd` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/tdd` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/tdd` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/teach` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/teach` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/teach` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/teach` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/teach` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/teach` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/teach` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/teach` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/teach` | https://github.com/mattpocock/skills | `a496f551` | `skills/productivity/teach` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/teach` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/productivity/teach` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/teach` | https://github.com/mattpocock/skills | `d6539114` | `skills/productivity/teach` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/to-questionnaire` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/to-questionnaire` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/to-questionnaire` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/to-questionnaire` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/to-questionnaire` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/to-questionnaire` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/to-questionnaire` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/to-questionnaire` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/to-questionnaire` | https://github.com/mattpocock/skills | `a496f551` | `skills/productivity/to-questionnaire` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/to-questionnaire` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/productivity/to-questionnaire` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/to-questionnaire` | https://github.com/mattpocock/skills | `d6539114` | `skills/productivity/to-questionnaire` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/to-spec` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/to-spec` | copied | MIT | 2026-08-05 |
 | `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/to-spec` | copied | MIT | 2026-09-01 |
@@ -508,6 +559,7 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/to-spec` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/to-spec` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/to-spec` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/to-spec` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/to-spec` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/to-tickets` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/to-tickets` | copied | MIT | 2026-08-05 |
 | `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/to-tickets` | copied | MIT | 2026-09-01 |
@@ -517,6 +569,7 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/to-tickets` | copied | MIT | 2026-10-28 |
 | `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/to-tickets` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/to-tickets` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/to-tickets` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/to-tickets` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/triage` | https://github.com/mattpocock/skills | `b8be62ff` | `skills/engineering/triage` | copied | MIT | 2026-05-25 |
 | `user/shared/skills/triage` | https://github.com/mattpocock/skills | `e9fcdf95` | `skills/engineering/triage` | copied | MIT | 2026-07-16 |
 | `user/shared/skills/triage` | https://github.com/mattpocock/skills | `2ffb184f` | `skills/engineering/triage` | copied | MIT | 2026-08-05 |
@@ -526,30 +579,35 @@ _Last generated: 2026-11-25_
 | `user/shared/skills/triage` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/triage` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/triage` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/triage` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/triage` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/triage` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/triage` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/triage` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/wait-what` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/wait-what` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/wait-what` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/wait-what` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/wait-what` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/wait-what` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/wait-what` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/wait-what` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/wait-what` | https://github.com/mattpocock/skills | `a496f551` | `skills/productivity/wait-what` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/wait-what` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/productivity/wait-what` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/wait-what` | https://github.com/mattpocock/skills | `d6539114` | `skills/productivity/wait-what` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/wayfinder` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/wayfinder` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/wayfinder` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/wayfinder` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/wayfinder` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/wayfinder` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/wayfinder` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/wayfinder` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/wayfinder` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/wayfinder` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/wayfinder` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/wayfinder` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/wayfinder` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/wayfinder` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/wizard` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/engineering/wizard` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/wizard` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/engineering/wizard` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/wizard` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/engineering/wizard` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/wizard` | https://github.com/mattpocock/skills | `49dd158d` | `skills/engineering/wizard` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/wizard` | https://github.com/mattpocock/skills | `a496f551` | `skills/engineering/wizard` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/wizard` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/engineering/wizard` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/wizard` | https://github.com/mattpocock/skills | `d6539114` | `skills/engineering/wizard` | copied | MIT | 2026-11-25 |
 | `user/shared/skills/writing-for-agents` | https://github.com/mattpocock/skills | `6654f6b6` | `skills/productivity/writing-for-agents` | copied | MIT | 2026-09-02 |
 | `user/shared/skills/writing-for-agents` | https://github.com/mattpocock/skills | `3cca18b3` | `skills/productivity/writing-for-agents` | copied | MIT | 2026-09-05 |
 | `user/shared/skills/writing-for-agents` | https://github.com/mattpocock/skills | `959a8e9f` | `skills/productivity/writing-for-agents` | copied | MIT | 2026-09-17 |
 | `user/shared/skills/writing-for-agents` | https://github.com/mattpocock/skills | `49dd158d` | `skills/productivity/writing-for-agents` | copied | MIT | 2026-10-09 |
 | `user/shared/skills/writing-for-agents` | https://github.com/mattpocock/skills | `a496f551` | `skills/productivity/writing-for-agents` | copied | MIT | 2026-10-29 |
 | `user/shared/skills/writing-for-agents` | https://github.com/mattpocock/skills | `4ae2317d` | `skills/productivity/writing-for-agents` | copied | MIT | 2026-11-11 |
+| `user/shared/skills/writing-for-agents` | https://github.com/mattpocock/skills | `d6539114` | `skills/productivity/writing-for-agents` | copied | MIT | 2026-11-25 |
 
 ## By source
 
@@ -559,18 +617,22 @@ _Last generated: 2026-11-25_
 - `project-templates/video/.claude/skills/auto-editor` (copied @ `5ab59aba`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor` (copied @ `44bf4ec3`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor` (copied @ `008228ed`, Unlicense)
+- `project-templates/video/.claude/skills/auto-editor` (copied @ `980a2e6c`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-effects` (copied @ `77962221`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-effects` (copied @ `5ab59aba`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-effects` (copied @ `692cbbee`, Unlicense)
+- `project-templates/video/.claude/skills/auto-editor-effects` (copied @ `980a2e6c`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-export` (copied @ `77962221`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-export` (copied @ `5ab59aba`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-export` (copied @ `44bf4ec3`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-export` (copied @ `008228ed`, Unlicense)
+- `project-templates/video/.claude/skills/auto-editor-export` (copied @ `980a2e6c`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-transcribe` (copied @ `77962221`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-transcribe` (copied @ `5ab59aba`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-transcribe` (copied @ `44bf4ec3`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-transcribe` (copied @ `008228ed`, Unlicense)
 - `project-templates/video/.claude/skills/auto-editor-transcribe` (copied @ `6825c481`, Unlicense)
+- `project-templates/video/.claude/skills/auto-editor-transitions` (copied @ `980a2e6c`, Unlicense)
 
 ### https://github.com/anthropics/claude-plugins-official
 
@@ -579,32 +641,38 @@ _Last generated: 2026-11-25_
 - `user/shared/plugins/clangd-lsp` (inspired-by @ `c2bdb427`, Apache-2.0)
 - `user/shared/plugins/clangd-lsp` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 - `user/shared/plugins/clangd-lsp` (inspired-by @ `43fd1f9d`, Apache-2.0)
+- `user/shared/plugins/clangd-lsp` (inspired-by @ `6985b2d8`, Apache-2.0)
 - `user/shared/plugins/claude-md-management` (inspired-by @ `85cce038`, Apache-2.0)
 - `user/shared/plugins/claude-md-management` (inspired-by @ `ea0a38e1`, Apache-2.0)
 - `user/shared/plugins/claude-md-management` (inspired-by @ `b860d6f2`, Apache-2.0)
 - `user/shared/plugins/claude-md-management` (inspired-by @ `c2bdb427`, Apache-2.0)
 - `user/shared/plugins/claude-md-management` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 - `user/shared/plugins/claude-md-management` (inspired-by @ `43fd1f9d`, Apache-2.0)
+- `user/shared/plugins/claude-md-management` (inspired-by @ `6985b2d8`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `85cce038`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `ea0a38e1`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `b860d6f2`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `c2bdb427`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 - `user/shared/plugins/commit-commands` (inspired-by @ `43fd1f9d`, Apache-2.0)
+- `user/shared/plugins/commit-commands` (inspired-by @ `6985b2d8`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `85cce038`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `ea0a38e1`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `b860d6f2`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `c2bdb427`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 - `user/shared/plugins/hookify` (inspired-by @ `43fd1f9d`, Apache-2.0)
+- `user/shared/plugins/hookify` (inspired-by @ `6985b2d8`, Apache-2.0)
 - `user/shared/plugins/rust-analyzer-lsp` (inspired-by @ `a7ba5b93`, Apache-2.0)
 - `user/shared/plugins/rust-analyzer-lsp` (inspired-by @ `43fd1f9d`, Apache-2.0)
+- `user/shared/plugins/rust-analyzer-lsp` (inspired-by @ `6985b2d8`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `85cce038`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `ea0a38e1`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `b860d6f2`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `c2bdb427`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 - `user/shared/plugins/skill-creator` (inspired-by @ `43fd1f9d`, Apache-2.0)
+- `user/shared/plugins/skill-creator` (inspired-by @ `6985b2d8`, Apache-2.0)
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `1b527e2e`, Apache-2.0)
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `b5eddebc`, Apache-2.0)
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `60f5e338`, Apache-2.0)
@@ -616,6 +684,7 @@ _Last generated: 2026-11-25_
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `c2bdb427`, Apache-2.0)
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `f8c5e7a1`, Apache-2.0)
 - `user/shared/plugins/typescript-lsp` (inspired-by @ `43fd1f9d`, Apache-2.0)
+- `user/shared/plugins/typescript-lsp` (inspired-by @ `6985b2d8`, Apache-2.0)
 
 ### https://github.com/anthropics/claude-plugins-official.git
 
@@ -661,6 +730,7 @@ _Last generated: 2026-11-25_
 - `user/shared/mcp/github` (inspired-by @ `c59e8c19`, MIT)
 - `user/shared/mcp/github` (inspired-by @ `f2a07cd1`, MIT)
 - `user/shared/mcp/github` (inspired-by @ `6fbcd00b`, MIT)
+- `user/shared/mcp/github` (inspired-by @ `c6b62954`, MIT)
 
 ### https://github.com/herdrdev/herdr
 
@@ -681,12 +751,14 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/ask-matt` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/ask-matt` (copied @ `a496f551`, MIT)
 - `user/shared/skills/ask-matt` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/ask-matt` (copied @ `d6539114`, MIT)
 - `user/shared/skills/code-review` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/code-review` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/code-review` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/code-review` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/code-review` (copied @ `a496f551`, MIT)
 - `user/shared/skills/code-review` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/code-review` (copied @ `d6539114`, MIT)
 - `user/shared/skills/codebase-design` (copied @ `8b78b531`, MIT)
 - `user/shared/skills/codebase-design` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/codebase-design` (copied @ `3cca18b3`, MIT)
@@ -694,6 +766,7 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/codebase-design` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/codebase-design` (copied @ `a496f551`, MIT)
 - `user/shared/skills/codebase-design` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/codebase-design` (copied @ `d6539114`, MIT)
 - `user/shared/skills/diagnosing-bugs` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/diagnosing-bugs` (copied @ `2ffb184f`, MIT)
 - `user/shared/skills/diagnosing-bugs` (copied @ `6654f6b6`, MIT)
@@ -702,6 +775,7 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/diagnosing-bugs` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/diagnosing-bugs` (copied @ `a496f551`, MIT)
 - `user/shared/skills/diagnosing-bugs` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/diagnosing-bugs` (copied @ `d6539114`, MIT)
 - `user/shared/skills/domain-modeling` (copied @ `8b78b531`, MIT)
 - `user/shared/skills/domain-modeling` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/domain-modeling` (copied @ `3cca18b3`, MIT)
@@ -709,12 +783,14 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/domain-modeling` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/domain-modeling` (copied @ `a496f551`, MIT)
 - `user/shared/skills/domain-modeling` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/domain-modeling` (copied @ `d6539114`, MIT)
 - `user/shared/skills/grill-me` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/grill-me` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/grill-me` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/grill-me` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/grill-me` (copied @ `a496f551`, MIT)
 - `user/shared/skills/grill-me` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/grill-me` (copied @ `d6539114`, MIT)
 - `user/shared/skills/grill-with-docs` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/grill-with-docs` (copied @ `2bf70051`, MIT)
 - `user/shared/skills/grill-with-docs` (copied @ `e9fcdf95`, MIT)
@@ -725,6 +801,7 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/grill-with-docs` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/grill-with-docs` (copied @ `a496f551`, MIT)
 - `user/shared/skills/grill-with-docs` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/grill-with-docs` (copied @ `d6539114`, MIT)
 - `user/shared/skills/grilling` (copied @ `8b78b531`, MIT)
 - `user/shared/skills/grilling` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/grilling` (copied @ `3cca18b3`, MIT)
@@ -732,21 +809,25 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/grilling` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/grilling` (copied @ `a496f551`, MIT)
 - `user/shared/skills/grilling` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/grilling` (copied @ `d6539114`, MIT)
 - `user/shared/skills/handoff` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/handoff` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/handoff` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/handoff` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/handoff` (copied @ `a496f551`, MIT)
 - `user/shared/skills/handoff` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/handoff` (copied @ `d6539114`, MIT)
 - `user/shared/skills/implement` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/implement` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/implement` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/implement` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/implement` (copied @ `a496f551`, MIT)
 - `user/shared/skills/implement` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/implement` (copied @ `d6539114`, MIT)
 - `user/shared/skills/implement-spec` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/implement-spec` (copied @ `a496f551`, MIT)
 - `user/shared/skills/implement-spec` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/implement-spec` (copied @ `d6539114`, MIT)
 - `user/shared/skills/improve-codebase-architecture` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/improve-codebase-architecture` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/improve-codebase-architecture` (copied @ `2ffb184f`, MIT)
@@ -756,9 +837,11 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/improve-codebase-architecture` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/improve-codebase-architecture` (copied @ `a496f551`, MIT)
 - `user/shared/skills/improve-codebase-architecture` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/improve-codebase-architecture` (copied @ `d6539114`, MIT)
 - `user/shared/skills/pr` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/pr` (copied @ `a496f551`, MIT)
 - `user/shared/skills/pr` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/pr` (copied @ `d6539114`, MIT)
 - `user/shared/skills/prototype` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/prototype` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/prototype` (copied @ `2ffb184f`, MIT)
@@ -768,15 +851,18 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/prototype` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/prototype` (copied @ `a496f551`, MIT)
 - `user/shared/skills/prototype` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/prototype` (copied @ `d6539114`, MIT)
 - `user/shared/skills/research` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/research` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/research` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/research` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/research` (copied @ `a496f551`, MIT)
 - `user/shared/skills/research` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/research` (copied @ `d6539114`, MIT)
 - `user/shared/skills/retro` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/retro` (copied @ `a496f551`, MIT)
 - `user/shared/skills/retro` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/retro` (copied @ `d6539114`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `2ffb184f`, MIT)
@@ -786,6 +872,7 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `a496f551`, MIT)
 - `user/shared/skills/setup-matt-pocock-skills` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/setup-matt-pocock-skills` (copied @ `d6539114`, MIT)
 - `user/shared/skills/tdd` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/tdd` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/tdd` (copied @ `2ffb184f`, MIT)
@@ -795,18 +882,21 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/tdd` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/tdd` (copied @ `a496f551`, MIT)
 - `user/shared/skills/tdd` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/tdd` (copied @ `d6539114`, MIT)
 - `user/shared/skills/teach` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/teach` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/teach` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/teach` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/teach` (copied @ `a496f551`, MIT)
 - `user/shared/skills/teach` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/teach` (copied @ `d6539114`, MIT)
 - `user/shared/skills/to-questionnaire` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/to-questionnaire` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/to-questionnaire` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/to-questionnaire` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/to-questionnaire` (copied @ `a496f551`, MIT)
 - `user/shared/skills/to-questionnaire` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/to-questionnaire` (copied @ `d6539114`, MIT)
 - `user/shared/skills/to-spec` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/to-spec` (copied @ `2ffb184f`, MIT)
 - `user/shared/skills/to-spec` (copied @ `6654f6b6`, MIT)
@@ -815,6 +905,7 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/to-spec` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/to-spec` (copied @ `a496f551`, MIT)
 - `user/shared/skills/to-spec` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/to-spec` (copied @ `d6539114`, MIT)
 - `user/shared/skills/to-tickets` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/to-tickets` (copied @ `2ffb184f`, MIT)
 - `user/shared/skills/to-tickets` (copied @ `6654f6b6`, MIT)
@@ -824,6 +915,7 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/to-tickets` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/to-tickets` (copied @ `a496f551`, MIT)
 - `user/shared/skills/to-tickets` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/to-tickets` (copied @ `d6539114`, MIT)
 - `user/shared/skills/triage` (copied @ `b8be62ff`, MIT)
 - `user/shared/skills/triage` (copied @ `e9fcdf95`, MIT)
 - `user/shared/skills/triage` (copied @ `2ffb184f`, MIT)
@@ -833,30 +925,35 @@ _Last generated: 2026-11-25_
 - `user/shared/skills/triage` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/triage` (copied @ `a496f551`, MIT)
 - `user/shared/skills/triage` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/triage` (copied @ `d6539114`, MIT)
 - `user/shared/skills/wait-what` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/wait-what` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/wait-what` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/wait-what` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/wait-what` (copied @ `a496f551`, MIT)
 - `user/shared/skills/wait-what` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/wait-what` (copied @ `d6539114`, MIT)
 - `user/shared/skills/wayfinder` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/wayfinder` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/wayfinder` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/wayfinder` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/wayfinder` (copied @ `a496f551`, MIT)
 - `user/shared/skills/wayfinder` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/wayfinder` (copied @ `d6539114`, MIT)
 - `user/shared/skills/wizard` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/wizard` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/wizard` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/wizard` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/wizard` (copied @ `a496f551`, MIT)
 - `user/shared/skills/wizard` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/wizard` (copied @ `d6539114`, MIT)
 - `user/shared/skills/writing-for-agents` (copied @ `6654f6b6`, MIT)
 - `user/shared/skills/writing-for-agents` (copied @ `3cca18b3`, MIT)
 - `user/shared/skills/writing-for-agents` (copied @ `959a8e9f`, MIT)
 - `user/shared/skills/writing-for-agents` (copied @ `49dd158d`, MIT)
 - `user/shared/skills/writing-for-agents` (copied @ `a496f551`, MIT)
 - `user/shared/skills/writing-for-agents` (copied @ `4ae2317d`, MIT)
+- `user/shared/skills/writing-for-agents` (copied @ `d6539114`, MIT)
 
 ### https://github.com/modelcontextprotocol/servers
 
@@ -870,6 +967,7 @@ _Last generated: 2026-11-25_
 - `user/shared/mcp/fetch` (inspired-by @ `bbb701e7`, MIT)
 - `user/shared/mcp/fetch` (inspired-by @ `194cc86e`, MIT)
 - `user/shared/mcp/fetch` (inspired-by @ `36380287`, MIT)
+- `user/shared/mcp/fetch` (inspired-by @ `c799c855`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `b1e1eb1a`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `76d64c82`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `579c3903`, MIT)
@@ -879,6 +977,7 @@ _Last generated: 2026-11-25_
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `bbb701e7`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `194cc86e`, MIT)
 - `user/shared/mcp/sequential-thinking` (inspired-by @ `36380287`, MIT)
+- `user/shared/mcp/sequential-thinking` (inspired-by @ `c799c855`, MIT)
 
 ### https://github.com/multica-ai/andrej-karpathy-skills.git
 
@@ -1012,6 +1111,7 @@ _Last generated: 2026-11-25_
 - `user/shared/plugins/remotion` (inspired-by @ `2d5b9c18`, MIT)
 - `user/shared/plugins/remotion` (inspired-by @ `413c6d62`, MIT)
 - `user/shared/plugins/remotion` (inspired-by @ `6ccd1852`, MIT)
+- `user/shared/plugins/remotion` (inspired-by @ `f96c742d`, MIT)
 
 ### https://github.com/upstash/context7
 
@@ -1028,6 +1128,7 @@ _Last generated: 2026-11-25_
 - `user/shared/mcp/context7` (inspired-by @ `ef472a49`, MIT)
 - `user/shared/mcp/context7` (inspired-by @ `eabe3696`, MIT)
 - `user/shared/mcp/context7` (inspired-by @ `c5e34a01`, MIT)
+- `user/shared/mcp/context7` (inspired-by @ `41f538dd`, MIT)
 
 ### https://github.com/vercel-labs/agent-browser
 
@@ -1042,6 +1143,7 @@ _Last generated: 2026-11-25_
 - `project-templates/nextjs/.claude/skills/core` (copied @ `1165952d`, MIT)
 - `project-templates/nextjs/.claude/skills/core` (copied @ `1453dd37`, MIT)
 - `project-templates/nextjs/.claude/skills/core` (copied @ `e7519957`, MIT)
+- `project-templates/nextjs/.claude/skills/core` (copied @ `0a923358`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `4ad28489`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `e40e62d7`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `acbc22bd`, MIT)
@@ -1052,6 +1154,9 @@ _Last generated: 2026-11-25_
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `1165952d`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `1453dd37`, MIT)
 - `project-templates/nextjs/.claude/skills/dogfood` (copied @ `e7519957`, MIT)
+- `project-templates/nextjs/.claude/skills/dogfood` (copied @ `0a923358`, MIT)
+- `project-templates/nextjs/.claude/skills/modern-web-guidance` (copied @ `0a923358`, MIT)
+- `project-templates/nextjs/.claude/skills/vercel` (copied @ `0a923358`, MIT)
 
 ### https://github.com/vercel-labs/agent-skills
 
@@ -1060,32 +1165,38 @@ _Last generated: 2026-11-25_
 - `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `7c180d90`, MIT)
 - `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `063bee94`, MIT)
 - `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `1a2c79d4`, MIT)
+- `project-templates/nextjs/.claude/skills/composition-patterns` (copied @ `5a37a632`, MIT)
 - `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `7c180d90`, MIT)
 - `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `063bee94`, MIT)
 - `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `1a2c79d4`, MIT)
+- `project-templates/nextjs/.claude/skills/deploy-to-vercel` (copied @ `5a37a632`, MIT)
 - `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `7c180d90`, MIT)
 - `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `063bee94`, MIT)
 - `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `1a2c79d4`, MIT)
+- `project-templates/nextjs/.claude/skills/react-best-practices` (copied @ `5a37a632`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `7c180d90`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `063bee94`, MIT)
 - `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `1a2c79d4`, MIT)
+- `project-templates/nextjs/.claude/skills/react-view-transitions` (copied @ `5a37a632`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `18011566`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `7c180d90`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `063bee94`, MIT)
 - `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `1a2c79d4`, MIT)
+- `project-templates/nextjs/.claude/skills/vercel-optimize` (copied @ `5a37a632`, MIT)
 - `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `18a24346`, MIT)
 - `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `f8a72b96`, MIT)
 - `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `7c180d90`, MIT)
 - `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `063bee94`, MIT)
 - `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `1a2c79d4`, MIT)
+- `project-templates/nextjs/.claude/skills/web-design-guidelines` (copied @ `5a37a632`, MIT)
 
 ### https://github.com/vercel/next.js
 
@@ -1100,6 +1211,7 @@ _Last generated: 2026-11-25_
 - `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `0b3693dd`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `4c6a3fa4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `9464bf78`, MIT)
+- `project-templates/nextjs/.claude/skills/next-cache-components-adoption` (copied @ `bd020231`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `ab09c1f4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `1076c474`, MIT)
@@ -1111,6 +1223,7 @@ _Last generated: 2026-11-25_
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `0b3693dd`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `4c6a3fa4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `9464bf78`, MIT)
+- `project-templates/nextjs/.claude/skills/next-cache-components-optimizer` (copied @ `bd020231`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `ab09c1f4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `1076c474`, MIT)
@@ -1122,6 +1235,7 @@ _Last generated: 2026-11-25_
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `0b3693dd`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `4c6a3fa4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `9464bf78`, MIT)
+- `project-templates/nextjs/.claude/skills/next-dev-loop` (copied @ `bd020231`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `50925bb8`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `ab09c1f4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `1076c474`, MIT)
@@ -1133,12 +1247,14 @@ _Last generated: 2026-11-25_
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `0b3693dd`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `4c6a3fa4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `9464bf78`, MIT)
+- `project-templates/nextjs/.claude/skills/next-partial-prefetching-adoption` (copied @ `bd020231`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `bf13ab8a`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `63bb9d6a`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `5da8ef12`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `0b3693dd`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `4c6a3fa4`, MIT)
 - `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `9464bf78`, MIT)
+- `project-templates/nextjs/.claude/skills/next-partial-prefetching-optimizer` (copied @ `bd020231`, MIT)
 
 ### self
 

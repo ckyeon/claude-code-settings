@@ -22,6 +22,7 @@ auto-editor video.mp4 --export premiere    # → video_ALTERED.xml for Premiere 
 | `final-cut-pro` | Final Cut Pro | `.fcpxml` |
 | `shotcut` | ShotCut | `.mlt` |
 | `kdenlive` | Kdenlive | `.kdenlive` |
+| `edl` | CMX 3600 EDL (Premiere, Resolve, Avid) | `.edl` |
 | `clip-sequence` | individual media clips, one per kept segment | media files |
 | `v1` / `v2` / `v3` | auto-editor timeline files | `.v1` / `.v2` / `.v3` |
 | (default) | rendered media file | per container |
@@ -89,13 +90,28 @@ auto-editor example.mp4 -w:0 nil -w:1 nil --export premiere
 auto-editor reads timeline/XML files as inputs and renders them like any media:
 
 ```bash
-auto-editor myFcp7File.xml -o render.mp4    # render an fcp7 xml (experimental)
+auto-editor myFcp7File.xml -o render.mp4    # render a Premiere/Resolve fcp7 xml
+auto-editor project.fcpxmld -o render.mp4   # render a Final Cut Pro export
+auto-editor cut.edl -o render.mp4           # render a CMX 3600 EDL
 auto-editor timeline.v3 -o render.mp4       # render an auto-editor timeline file
 ```
 
-Importers: auto-editor timeline files (`.v1`, `.v2`, `.v3`) and FCP7 XML
-(experimental). The input format is detected by extension. PRs for more importers
-are welcome.
+Importers: auto-editor timeline files (`.v1`, `.v2`, `.v3`), FCP7 XML (Premiere Pro,
+DaVinci Resolve), FCPXML (`.fcpxml` files and the `.fcpxmld` bundles Final Cut Pro
+exports), and CMX 3600 EDLs (`.edl`). The input format is detected by extension.
+
+An EDL names no frame rate: auto-editor reads it from the first video file the
+EDL names, and failing that guesses from the timecodes; pass `--frame-rate` to
+set it. Media is found by the `* SOURCE FILE:` comment, else the clip name
+relative to the EDL. An EDL holds one video track and four audio channels, with
+cuts, dissolves, wipes and `M2` speed changes; `edl` export leaves out the rest.
+
+FCPXML import reads the primary storyline, connected clips (lanes above become video
+layers; lanes below contribute audio only), transitions, speed (including ramps), and
+volume. Compound, synchronized, and multicam clips are left out with a warning.
+
+Which transitions each export and import carries is covered by the
+**auto-editor-transitions** skill.
 
 ## Timeline format notes
 

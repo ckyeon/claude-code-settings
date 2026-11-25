@@ -1,0 +1,13 @@
+{
+  "provenance": [
+    {
+      "source": "https://github.com/WyattBlue/auto-editor",
+      "commit": "980a2e6c4862732ae12d1557477b11be37a645e1",
+      "path": "skills/auto-editor-transitions",
+      "license": "Unlicense",
+      "adopted-as": "copied",
+      "adopted-at": "2026-11-25",
+      "notes": "Needs auto-editor 31.9.0 or newer. auto-editor, auto-editor-effects, and auto-editor-export point to it."
+    }
+  ]
+}

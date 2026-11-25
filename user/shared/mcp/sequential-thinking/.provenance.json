@@ -72,6 +72,14 @@
       "license": "MIT",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-11-11"
+    },
+    {
+      "source": "https://github.com/modelcontextprotocol/servers",
+      "commit": "c799c8552b0f27b7a33a7b9233773da144dddcf5",
+      "path": "src/sequentialthinking",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-11-25"
     }
   ]
 }

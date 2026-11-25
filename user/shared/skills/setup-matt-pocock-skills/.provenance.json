@@ -71,6 +71,14 @@
       "license": "MIT",
       "adopted-as": "copied",
       "adopted-at": "2026-11-11"
+    },
+    {
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "d65391149dbb5fe76478e76fa8d5122b2aa5a70e",
+      "path": "skills/engineering/setup-matt-pocock-skills",
+      "license": "MIT",
+      "adopted-as": "copied",
+      "adopted-at": "2026-11-25"
     }
   ]
 }

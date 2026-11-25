@@ -4,7 +4,7 @@ This directory is a declaration. The remotion plugin is **not** vendored here.
 
 ## What it does
 
-Remotion's official Claude Code plugin: the Remotion Agent Skills for building programmatic videos with React. It ships 13 skills; `remotion-best-practices` routes to the rest (`remotion-create`, `remotion-render`, `remotion-captions`, `remotion-markup`, `remotion-maps`, and others). The same skills are published as `remotion-dev/skills` for `npx skills add`; at plugin version 4.0.529 the two differ only in a few map example `.tsx` assets the plugin leaves out.
+Remotion's official Claude Code plugin: the Remotion Agent Skills for building programmatic videos with React. It ships 14 skills; `remotion-best-practices` routes to the rest (`remotion-create`, `remotion-render`, `remotion-captions`, `remotion-markup`, `remotion-maps`, and others). The same skills are published as `remotion-dev/skills` for `npx skills add`; at plugin version 4.0.529 the two differ only in a few map example `.tsx` assets the plugin leaves out.
 
 In the video template it is the React alternative to HyperFrames for animation overlays. See `project-templates/video/.claude/skills/edit-by-transcript/references/look.md`.
 
@@ -21,7 +21,7 @@ claude plugin marketplace add remotion-dev/claude-code-plugin
 claude plugin install remotion@remotion --scope project
 ```
 
-Remotion's docs (remotion.dev/docs/ai/claude-code-plugin) give these two commands without `--scope`, which installs at user scope and turns the plugin on in every project. The template's `.claude/settings.json` lists the marketplace under `extraKnownMarketplaces`, which lets `install.sh` print the `marketplace add` line, but does not register it on the machine.
+Remotion's docs (remotion.dev/docs/agents/claude-code-plugin) give these two commands without `--scope`, which installs at user scope and turns the plugin on in every project. The template's `.claude/settings.json` lists the marketplace under `extraKnownMarketplaces`, which lets `install.sh` print the `marketplace add` line, but does not register it on the machine.
 
 ### If the install fails with `Host key verification failed`
 

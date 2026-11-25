@@ -25,6 +25,15 @@
       "adopted-as": "copied",
       "adopted-at": "2026-11-11",
       "notes": "Held at 692cbbe, the newest commit on this path that is in a release (31.8.0). It adds value@time timed keyframes and needs auto-editor 31.8.0 or newer. The later commit 5883594 only points to auto-editor-transitions, which waits for 31.8.1."
+    },
+    {
+      "source": "https://github.com/WyattBlue/auto-editor",
+      "commit": "980a2e6c4862732ae12d1557477b11be37a645e1",
+      "path": "skills/auto-editor-effects",
+      "license": "Unlicense",
+      "adopted-as": "copied",
+      "adopted-at": "2026-11-25",
+      "notes": "auto-editor 31.9.0 ships the features these skills now document. They point to auto-editor-transitions, adopted in the same change."
     }
   ]
 }

@@ -80,6 +80,15 @@
       "license": "MIT",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-11-11"
+    },
+    {
+      "source": "https://github.com/modelcontextprotocol/servers",
+      "commit": "c799c8552b0f27b7a33a7b9233773da144dddcf5",
+      "path": "src/fetch",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-11-25",
+      "notes": "mcp-server-fetch 2026.11.18 fixes GHSA-3rxj-6jhw-qfv7 and GHSA-f9hh-cmx9-2f23 and blocks DNS rebinding. Responses over 5 MiB and br or zstd encodings now return an error. Registration command unchanged."
     }
   ]
 }

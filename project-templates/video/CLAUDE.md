@@ -31,7 +31,7 @@ Video editing project. Replace `{{PROJECT_NAME}}` and fill in the sections below
   claude plugin install remotion@remotion --scope project
   ```
   If the install fails with `Host key verification failed` (no github.com key in `~/.ssh/known_hosts`), rerun it prefixed with `CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1` to clone over HTTPS.
-  The skills are MIT. Rendering uses the `remotion` npm packages under the Remotion License: free for individuals, for-profit organizations with up to 3 employees, and non-profits; other companies need a company license (remotion.pro/license).
+  The skills are MIT. Rendering uses the `remotion` npm packages under the Remotion License: free for individuals, for-profit organizations with up to 3 employees, and non-profits; other companies need a company license (remotion.dev/docs/license/pricing).
 - Verify: `bash .claude/skills/ffmpeg-recipes/scripts/check_env.sh`
 
 ## Conventions

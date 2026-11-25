@@ -105,6 +105,15 @@
       "license": "MIT",
       "adopted-as": "inspired-by",
       "adopted-at": "2026-11-11"
+    },
+    {
+      "source": "https://github.com/upstash/context7",
+      "commit": "41f538dd7e1592ad689a03a41f8e90d59f132ae3",
+      "path": ".",
+      "license": "MIT",
+      "adopted-as": "inspired-by",
+      "adopted-at": "2026-11-25",
+      "notes": "@upstash/context7-mcp 4.8.0 gives query-docs an optional version input. Registration command unchanged."
     }
   ]
 }
