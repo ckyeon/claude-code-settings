@@ -1,1 +1,0 @@
-../../../../user/shared/rules/korean-writing.md
