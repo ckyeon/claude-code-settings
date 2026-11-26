@@ -88,7 +88,7 @@ Six failure classes it catches:
 - **Declarations** — every `user/shared/mcp/<name>/` README holds its `claude mcp add` command, and every `user/shared/plugins/<name>/` README its `plugin install` command. It warns when a declared plugin is enabled in no `settings.json`, or a plugin enabled at user scope has no declaration.
 - **Template kinds** — the kinds listed in the `apply-project-template` skill (description and table) and in `README.md` (the `apply-template` comment and the tree) match the directories under `project-templates/`. Adding a template means adding it to all four.
 - **ADR prose** — from ADR 0116 on, an ADR's prose holds no arrow (`→`, `->`, `=>` and the like) and no semicolon. `user/shared/rules/korean-writing.md` asks for the relation in words. Tables, code, block quotes, and quoted text are exempt.
-- **Declared copies** — `claude-ai/copies.json` names each section that copies a file and what the copy trims. With those trims applied, the source must equal the copy. `korean-review` holds the Korean rule this way (ADR 0149).
+- **Declared copies** — `claude-ai/copies.json` names each section that copies a file and where the copy differs, as trimmed or reworded text. With those differences applied, the source must equal the copy. `korean-review` holds the Korean rule this way (ADR 0149).
 
 **When adopting an item, adopt what it delegates to.** Upstream categories don't always match: `grilling` lives under `skills/productivity/` while the skills that call it are in `skills/engineering/`, which is all the original adoption walked. `bin/adopt` now runs this check itself and warns before you commit (suppress with `--no-check`). The rule is enforced by the tool, not by remembering it.
 
