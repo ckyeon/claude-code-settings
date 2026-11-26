@@ -1,0 +1,13 @@
+[
+  {
+    "source": "user/shared/rules/korean-writing.md",
+    "copy": "claude-ai/skills/korean-review/SKILL.md",
+    "section": "한국어 글쓰기 규칙",
+    "drop_sections": ["프로젝트 용어집 컨벤션"],
+    "replace": [
+      [" 영어로 쓸 때는 \"언어 무관 규칙\"만 적용하고 나머지는 무시한다.", ""],
+      ["(전례: llm-wiki 용어 교정 8건, 2026-08-18)", ""],
+      ["범위는 한국어에서 물결표(10~12쪽), 영어에서 en-dash(10–12)로 쓴다.", "범위는 물결표로 쓴다(10~12쪽)."]
+    ]
+  }
+]

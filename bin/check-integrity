@@ -289,6 +289,109 @@ for name in adrs:
         errors.append((rel(path), number, f"prose uses {used}: write the relation in words "
                                           "(user/shared/rules/korean-writing.md)"))
 
+# --- Declared copies: a copy of a file stays equal to it after the declared trims ---
+# korean-review holds a copy of the Korean rule in a section of its SKILL.md,
+# trimmed for reviewing (ADR 0148). Nothing else follows the rule into that copy,
+# so claude-ai/copies.json declares each copy and its trims, and the copy must
+# equal its source with those trims applied (ADR 0149). The source's title stands
+# for the section heading, and its other headings sit under that heading.
+import difflib
+copies_path = os.path.join(repo_root, "claude-ai", "copies.json")
+HEADING = re.compile(r"^(#+) +(.*?)\s*$")
+
+def heading_lines(lines):
+    """(index, level, title) for each heading outside fenced code."""
+    found, fenced = [], False
+    for i, line in enumerate(lines):
+        if line.startswith("```"):
+            fenced = not fenced
+        elif not fenced:
+            m = HEADING.match(line)
+            if m:
+                found.append((i, len(m.group(1)), m.group(2)))
+    return found
+
+def section_span(lines, title):
+    """(heading index, level, end index) of the section titled `title`, or None."""
+    heads = heading_lines(lines)
+    for n, (i, level, t) in enumerate(heads):
+        if t == title:
+            end = next((j for j, lv, _ in heads[n + 1:] if lv <= level), len(lines))
+            return i, level, end
+    return None
+
+def normalized(lines):
+    out = []
+    for line in (l.rstrip() for l in lines):
+        if line or (out and out[-1]):
+            out.append(line)
+    while out and not out[-1]:
+        out.pop()
+    return out
+
+def read_lines(path):
+    with open(path, encoding="utf-8") as f:
+        return f.read().split("\n")
+
+copies = []
+if os.path.isfile(copies_path):
+    try:
+        with open(copies_path, encoding="utf-8") as f:
+            copies = json.load(f)
+        if not isinstance(copies, list):
+            raise ValueError("expected a list of copies")
+    except ValueError as e:
+        errors.append((rel(copies_path), 1, f"invalid: {e}"))
+        copies = []
+for entry in copies:
+    source = os.path.join(repo_root, entry.get("source", ""))
+    copy = os.path.join(repo_root, entry.get("copy", ""))
+    title = entry.get("section", "")
+    if not (os.path.isfile(source) and os.path.isfile(copy) and title):
+        errors.append((rel(copies_path), 1, f"copy entry needs an existing source, copy, and section: {entry!r}"))
+        continue
+    src, dst = read_lines(source), read_lines(copy)
+    span = section_span(dst, title)
+    if span is None:
+        errors.append((rel(copy), 1, f"has no section {title!r}, the declared copy of {rel(source)}"))
+        continue
+    at, level, end = span
+    copied = dst[at + 1:end]
+    heads = heading_lines(src)
+    if heads and heads[0][1] == 1:
+        src = src[heads[0][0] + 1:]
+    for drop in entry.get("drop_sections", []):
+        cut = section_span(src, drop)
+        if cut is None:
+            errors.append((rel(copies_path), 1, f"{rel(source)} has no section {drop!r} to drop"))
+            continue
+        src = src[:cut[0]] + src[cut[2]:]
+    text = "\n".join(src)
+    for old, new in entry.get("replace", []):
+        if text.count(old) != 1:
+            errors.append((rel(copies_path), 1, f"trim {old!r} is not found once in {rel(source)}: "
+                                                "the source changed there, so decide what the copy takes"))
+            continue
+        text = text.replace(old, new)
+    expected = []
+    for line in text.split("\n"):
+        m = HEADING.match(line)
+        expected.append("#" * (level - 1) + line if m else line)
+    want, have = normalized(expected), normalized(copied)
+    if want != have:
+        op = next(o for o in difflib.SequenceMatcher(None, want, have, autojunk=False).get_opcodes()
+                  if o[0] != "equal")
+        theirs = want[op[1]] if op[1] < op[2] else ""
+        ours = have[op[3]] if op[3] < op[4] else ""
+        k = next((i for i, (a, b) in enumerate(zip(theirs, ours)) if a != b), min(len(theirs), len(ours)))
+        start = max(0, k - 20)
+        def excerpt(s):
+            if not s:
+                return "(nothing)"
+            return ("…" if start else "") + repr(s[start:start + 60]) + ("…" if len(s) > start + 60 else "")
+        errors.append((rel(copy), at + 1, f"section {title!r} differs from {rel(source)} after the trims "
+                                          f"in {rel(copies_path)}: source has {excerpt(theirs)}, copy has {excerpt(ours)}"))
+
 # --- Report ---
 def emit(label, items):
     if not items:
@@ -302,6 +405,7 @@ for d, n in checked:
 print(f"Checked {len(declared_plugins)} plugin and {len(declared_mcp)} MCP server declarations")
 print(f"Checked {len(kinds)} template kinds against their lists")
 print(f"Checked {len(adrs)} ADRs from {FIRST_PROSE_ADR:04d} on for arrows and semicolons in prose")
+print(f"Checked {len(copies)} declared copies against their sources")
 emit("ERRORS", errors)
 emit("WARNINGS", warnings)
 

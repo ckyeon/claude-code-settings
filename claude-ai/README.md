@@ -6,7 +6,7 @@ Skills that run on claude.ai and keep their source here. They are declared: this
 |---|---|---|
 | `korean-review` | `SKILL.md` § "한국어 글쓰기 규칙" is a copy of `user/shared/rules/korean-writing.md`, trimmed for reviewing | its `SKILL.md` changes |
 
-A copy does not follow its source. When `user/shared/rules/korean-writing.md` changes, make the same change in the skill's copy, then upload the skill again. No check catches a copy that has drifted from its source.
+A copy does not follow its source. When `user/shared/rules/korean-writing.md` changes, make the same change in the skill's copy, then upload the skill again. `claude-ai/copies.json` declares the copy and what it trims, and `bin/check-integrity` fails when the copy no longer equals its source with those trims applied. To trim more from a copy, add the trim there.
 
 ## Upload a skill
 

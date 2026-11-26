@@ -383,6 +383,72 @@ out="$(run bin/check-integrity --strict)"; rc=$?
 eq "ADRs before the first checked one are skipped" "$rc" "0"
 rm -rf "$REPO/docs"
 
+echo "bin/check-integrity (declared copies)"
+
+mkdir -p "$REPO/rules" "$REPO/claude-ai/skills/s"
+rule() { printf '%s\n' "$1" > "$REPO/rules/r.md"; } # rule <text>
+rule '# Rule
+
+Keep this. Drop this.
+
+## Part
+
+- item
+
+## Gone
+
+text'
+printf '%s\n' '---
+name: s
+---
+# S
+
+## Copied rule
+
+Keep this.
+
+### Part
+
+- item
+
+## After' > "$REPO/claude-ai/skills/s/SKILL.md"
+printf '%s\n' '[{"source": "rules/r.md", "copy": "claude-ai/skills/s/SKILL.md", "section": "Copied rule",
+  "drop_sections": ["Gone"], "replace": [[" Drop this.", ""]]}]' > "$REPO/claude-ai/copies.json"
+out="$(run bin/check-integrity --strict)"; rc=$?
+eq "a copy equal to its source after the trims passes" "$rc" "0"
+
+rule '# Rule
+
+Keep this. Drop this.
+
+## Part
+
+- item
+- new item
+
+## Gone
+
+text'
+out="$(run bin/check-integrity)"; rc=$?
+eq "a source changed without its copy exits 1" "$rc" "1"
+has "the copy and the differing line are named" "$out" "claude-ai/skills/s/SKILL.md:6  section 'Copied rule' differs from rules/r.md"
+
+rule '# Rule
+
+Keep this.
+
+## Part
+
+- item
+
+## Gone
+
+text'
+out="$(run bin/check-integrity)"; rc=$?
+eq "a trim no longer in the source exits 1" "$rc" "1"
+has "the stale trim is named" "$out" "trim ' Drop this.' is not found once in rules/r.md"
+rm -rf "$REPO/rules" "$REPO/claude-ai"
+
 python3 - "$REPO/user/shared/skills/z/.provenance.json" <<'PY'
 import json, sys
 p = sys.argv[1]
